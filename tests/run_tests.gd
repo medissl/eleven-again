@@ -11,6 +11,9 @@ func check(condition: bool, message: String) -> void:
 		push_error(message)
 
 func _initialize() -> void:
+	call_deferred("run")
+
+func run() -> void:
 	var a := Match.new(42)
 	var b := Match.new(42)
 	check(a.players.size() == 22, "two complete fictional elevens")
@@ -61,6 +64,7 @@ func _initialize() -> void:
 	check(settled.completed_passes[0] == 1, "settled pass reception counts exactly once")
 	test_shots()
 	test_clock()
+	await test_view()
 	print("CHECKS ", checks, " FAILURES ", failures.size())
 	quit(0 if failures.is_empty() else 1)
 
@@ -118,6 +122,22 @@ func test_shots() -> void:
 	miss.ball_velocity = miss.ball.direction_to(miss.flight_target) * 32
 	finish_flight(miss)
 	check(miss.scores == [0, 0] and miss.shots_on_target == [0, 0], "off-target trajectory cannot add a goal or on-target stat")
+	var close_weak := 0
+	var close_strong := 0
+	var poor_strong := 0
+	for seed_value in 64:
+		for scenario in 3:
+			var attempt := Match.new(seed_value)
+			attempt.players[9].position = Vector2(96, 34) if scenario < 2 else Vector2(70, 64)
+			attempt.players[9].shooting = 60 if scenario == 0 else 100
+			attempt.take_control(9)
+			attempt.shoot()
+			if attempt.events.back().on_target:
+				if scenario == 0: close_weak += 1
+				elif scenario == 1: close_strong += 1
+				else: poor_strong += 1
+	check(close_strong > close_weak, "better shooting improves the same chance over paired seeds")
+	check(close_weak > poor_strong, "good close chances can outperform stronger bad-angle shots")
 
 func test_clock() -> void:
 	var match_model := Match.new(11027)
@@ -138,6 +158,8 @@ func test_clock() -> void:
 		var fixture := Match.new(seed_value)
 		while not fixture.finished and fixture.ticks < 9000:
 			fixture.step()
+			check((fixture.owner >= 0) == (fixture.ball_state == Match.BallState.CONTROLLED), "full-fixture exclusive ball ownership")
+			check(fixture.ball.is_finite() and fixture.ball.x >= 0 and fixture.ball.x <= 105 and fixture.ball.y >= 0 and fixture.ball.y <= 68, "full-fixture finite ball stays in field or on goal line")
 		check(fixture.finished and fixture.active_ticks == 3600, "fixture finishes without endless stoppages")
 		var goals := [0, 0]
 		for event in fixture.events:
@@ -148,3 +170,68 @@ func test_clock() -> void:
 		if seed_value == 11027 and "--trace" in OS.get_cmdline_user_args():
 			for event in fixture.events:
 				print(event.minute, " ", event.kind, " ", event.actor, " ", event.position)
+
+func key(code: int) -> InputEventKey:
+	var event := InputEventKey.new()
+	event.keycode = code
+	event.pressed = true
+	return event
+
+func test_view() -> void:
+	var view = load("res://match/match_view.tscn").instantiate()
+	root.add_child(view)
+	view.set_physics_process(false)
+	view._physics_process(Match.DT)
+	check(view.sim.ticks == 0, "ready screen does not run the match")
+	view._input(key(KEY_SPACE))
+	view._physics_process(Match.DT)
+	check(not view.paused and view.sim.ticks == 1, "Space begins play even when a button has focus")
+	view._input(key(KEY_SPACE))
+	var frozen: Array = view.sim.signature()
+	for frame in 30:
+		view._physics_process(Match.DT)
+	check(view.sim.signature() == frozen, "paused viewing consumes no ticks or RNG")
+	view._input(key(KEY_RIGHT))
+	check(view.selected == 0 and "Ward" in view.labels.inspection.text, "keyboard player inspection")
+	var click := InputEventMouseButton.new()
+	click.pressed = true
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.position = view._field(view.player_positions[3])
+	view._gui_input(click)
+	check(view.selected == 3 and "Silva" in view.labels.inspection.text, "mouse player inspection")
+	view._input(key(KEY_ESCAPE))
+	check(view.pause_menu.visible and view.paused, "Escape opens a paused help menu")
+	view._input(key(KEY_ESCAPE))
+	check(not view.pause_menu.visible and view.paused, "closing help preserves pause")
+	view.buttons.new.pressed.emit()
+	check(view.sim.match_seed == 11028 and view.sim.ticks == 0 and view.paused, "new fixture creates a fresh seeded match")
+	view.sim = Match.new(42)
+	view.last_event_count = -1
+	view.buttons.pause.pressed.emit()
+	var normal_frames := 0
+	while not view.sim.finished and normal_frames < 9000:
+		view._physics_process(Match.DT)
+		normal_frames += 1
+	var final_state: Array = view.sim.signature()
+	check(view.labels.score.text == "2  –  0" and "FULL TIME" in view.labels.clock.text, "HUD agrees with seeded final result")
+	check(view.feed.text.count("GOAL") == 2 and "Full time" in view.feed.text, "journal goals agree with scoreboard")
+	view.buttons.detail.pressed.emit()
+	check("passes toward" in view.feed.text or "receives the pass" in view.feed.text, "detailed feed exposes lower-value actions")
+	view.buttons.restart.pressed.emit()
+	view.buttons.speed.pressed.emit()
+	view.buttons.pause.pressed.emit()
+	var fast_frames := 0
+	while not view.sim.finished and fast_frames < 9000:
+		randf() # Cosmetic/global RNG cannot affect the independent match stream.
+		view._physics_process(Match.DT)
+		fast_frames += 1
+	check(view.sim.signature() == final_state, "1x and 2x viewing yield identical full state and event log")
+	check(fast_frames == ceili(normal_frames / 2.0), "2x advances two fixed steps per viewing frame")
+	var headless := Match.new(42)
+	while not headless.finished:
+		headless.step()
+	check(headless.signature() == final_state, "headless and presented matches are identical")
+	view.buttons.restart.pressed.emit()
+	check(view.sim.scores == [0, 0] and view.sim.active_ticks == 0 and view.sim.events.size() == 1, "restart clears scores events and clock")
+	view.queue_free()
+	await process_frame

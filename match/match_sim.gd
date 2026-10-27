@@ -103,6 +103,9 @@ func reset_shape(kicking_team: int) -> void:
 	last_touch = owner
 	held_ticks = 0
 	ball_velocity = Vector2.ZERO
+	pass_pending = false
+	flight_source = -1
+	keeper_tested = false
 
 func step() -> void:
 	if finished:
@@ -205,6 +208,7 @@ func nearest(team: int, point: Vector2, include_keeper: bool = true) -> int:
 	return result
 
 func move_players() -> void:
+	# ponytail: pairwise separation is bounded to 22 players; spatial buckets only if that grows.
 	for p in players:
 		var separation := Vector2.ZERO
 		for other in players:
