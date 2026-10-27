@@ -1,6 +1,6 @@
 # Eleven Again — project design direction
 
-Status: provisional direction derived from GDD v0.1, 27 October 2026. No game screens have been implemented or visually validated yet. Read `~/.codex/DESIGN.md` for the standing research, critique, and rendered-output workflow.
+Status: Phase 1 implementation, 27 October 2026. Read `~/.codex/DESIGN.md` for the standing research, critique, and rendered-output workflow.
 
 ## Product and player
 
@@ -13,6 +13,13 @@ The intended personality is a thoughtful football tactics board with the warmth 
 Use the GDD's tactics-board/album direction as the starting hypothesis. Its alternative, a spectacle-first card reveal experience, would place attention on rarity rather than football; retain only a brief skippable recruitment reveal. Revisit the direction if real playtests show a mismatch.
 
 Before the first substantial match HUD or recruitment screen, inspect relevant real references through Game UI Database or Interface In Game and official game material. Record 3–5 useful references across the first HUD and album work, what each teaches, and what to avoid copying. The GDD mentions Super Auto Pets, The Last Flame, and Football, Tactics & Glory as gameplay references; those references have **not** been independently inspected for this plan. Do not treat this file as evidence of completed visual research.
+
+Phase 1 references actually inspected:
+- [Football, Tactics & Glory: tactical view](https://i0.wp.com/creoteam.com/wp-content/uploads/2020/09/FT_Turn-Based.jpg?resize=547%2C308&ssl=1): clear ball/action relationship. Borrow field readability, not its turn-based grid or floating action controls.
+- [Football, Tactics & Glory: whole-pitch view](https://i0.wp.com/creoteam.com/wp-content/uploads/2020/09/FT_Campaign.jpg?resize=547%2C308&ssl=1): complete shape and compact scoreboard. Use a flat camera and keep the score outside the pitch; avoid stadium clutter.
+- [Super Auto Pets, official developer page](https://teamwood.itch.io/super-auto-pets): consulted for preparation-led automatic battles and untimed decisions, not as an inspected visual reference. Album-specific visual research remains for Phase 6. Game UI Database was robots-blocked and the attempted Interface In Game page was inaccessible; official material supplied the match references.
+
+Initial rendered palette: background #101e1a, pitch #184d3b/#1b523f, type/home markers #efecda, away #e88670, selection #e9b65e. Use Godot's bundled readable default font until album typography warrants an additional licensed asset. Team distinction combines numbered cream circles with patterned coral circles.
 
 ## Hierarchy and composition
 
