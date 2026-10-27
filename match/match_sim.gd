@@ -5,6 +5,8 @@ enum BallState { CONTROLLED, FLIGHT, LOOSE, DEAD }
 enum Period { FIRST_HALF, HALF_TIME, SECOND_HALF, FULL_TIME }
 const DT := 1.0 / 60.0
 const FIELD := Vector2(105, 68)
+# The full field is compressed into sixty seconds; tune tempo against visible play.
+const MOVEMENT_TEMPO := 1.35
 const ANCHORS := [Vector2(6, 34), Vector2(25, 9), Vector2(21, 26),
 	Vector2(21, 43), Vector2(25, 59), Vector2(42, 34), Vector2(53, 21),
 	Vector2(53, 47), Vector2(72, 10), Vector2(77, 34), Vector2(72, 58)]
@@ -182,10 +184,29 @@ func choose_targets() -> void:
 		if p.id % 11 == 0:
 			p.target = oriented(Vector2(5.5, clampf(local_ball.y, 27, 41)), p.team)
 		else:
-			p.target = oriented(Vector2(clampf(anchor.x + shift, 12, 95), clampf(anchor.y + (local_ball.y - 34) * 0.15, 4, 64)), p.team)
+			var support := Vector2(clampf(anchor.x + shift, 12, 95), clampf(anchor.y + (local_ball.y - 34) * 0.15, 4, 64))
+			if p.team == team_in_control:
+				match p.id % 11:
+					9:
+						support = Vector2(clampf(local_ball.x + 15, 58, 95), 28 if local_ball.y > 34 else 40)
+					8, 10:
+						support.x = clampf(local_ball.x + 12, 52, 94)
+						if local_ball.x > 60:
+							support.y = (20 if local_ball.y < 34 else 26) if p.id % 11 == 8 else (48 if local_ball.y > 34 else 42)
+					6, 7:
+						support.x = clampf(local_ball.x - 5, 35, 80)
+						support.y = 24 if p.id % 11 == 6 else 44
+			p.target = oriented(support, p.team)
 	if owner >= 0:
 		var carrier := players[owner]
-		carrier.target = (carrier.position + Vector2(direction(carrier.team) * 9, (34 - carrier.position.y) * 0.1)).clamp(Vector2(1, 2), Vector2(104, 66))
+		var local := oriented(carrier.position, carrier.team)
+		var inside := lerpf(local.y, 34, 0.55 if local.x > 60 else 0.15)
+		var carry_target := Vector2(minf(local.x + 9, 101), inside)
+		var ahead := players[nearest(1 - carrier.team, carrier.position)].position
+		if carrier.position.distance_to(ahead) < 5 and (ahead.x - carrier.position.x) * direction(carrier.team) > 0:
+			# Move around the presser instead of repeatedly running into the same duel.
+			carry_target.y = clampf(local.y + (-6 if local.y > 34 else 6), 6, 62)
+		carrier.target = oriented(carry_target, carrier.team)
 		var chaser := nearest(1 - carrier.team, ball, false)
 		players[chaser].target = ball
 	elif ball_state == BallState.LOOSE:
@@ -218,9 +239,9 @@ func move_players() -> void:
 			var distance := offset.length()
 			if distance > 0.01 and distance < 2.5:
 				separation += offset / distance * (2.5 - distance)
-		var movement_speed := 5.2 + 3.0 * p.pace / 120.0
+		var movement_speed := (5.2 + 3.0 * p.pace / 120.0) * MOVEMENT_TEMPO
 		if owner == p.id:
-			movement_speed *= 0.87
+			movement_speed *= 0.96
 		p.position = p.position.move_toward(p.target + separation, movement_speed * DT).clamp(Vector2(1, 1), FIELD - Vector2.ONE)
 
 func take_control(id: int, kind: String = "recovery") -> void:
@@ -240,10 +261,10 @@ func take_control(id: int, kind: String = "recovery") -> void:
 	players[id].cooldown = maxi(players[id].cooldown, 18)
 	emit_event(kind, id)
 
-func lane_risk(from: Vector2, to: Vector2, team: int) -> float:
+func lane_risk(from: Vector2, to: Vector2, team: int, ignore_keeper: bool = false) -> float:
 	var result := 0.0
 	for p in players:
-		if p.team == team:
+		if p.team == team or (ignore_keeper and p.id % 11 == 0):
 			continue
 		var along := segment_fraction(p.position, from, to)
 		if along > 0.08 and along < 0.96:
@@ -255,12 +276,17 @@ func segment_fraction(point: Vector2, from: Vector2, to: Vector2) -> float:
 	var delta := to - from
 	return clampf((point - from).dot(delta) / maxf(delta.length_squared(), 0.00001), 0, 1)
 
+func chance_quality(position: Vector2, team: int) -> float:
+	return clampf(1.05 - position.distance_to(oriented(Vector2(105, 34), team)) / 40 - absf(position.y - 34) / 70, 0, 1)
+
 func choose_action() -> void:
 	var carrier := players[owner]
 	var nearest_defender := nearest(1 - carrier.team, carrier.position)
 	var pressure := clampf(1 - players[nearest_defender].position.distance_to(carrier.position) / 6, 0, 1)
 	var goal := oriented(Vector2(105, 34), carrier.team)
-	if carrier.id % 11 != 0 and carrier.position.distance_to(goal) < 26 and absf(carrier.position.y - 34) < 20:
+	var quality := chance_quality(carrier.position, carrier.team)
+	var take_chance := quality > 0.55 or (quality > 0.35 and pressure > 0.7 and held_ticks > 90)
+	if carrier.id % 11 != 0 and take_chance and absf(carrier.position.y - 34) < 21 and (lane_risk(ball, goal, carrier.team, true) < 0.8 or carrier.position.distance_to(goal) < 17):
 		shoot(pressure)
 		return
 	var best := -1
@@ -273,25 +299,32 @@ func choose_action() -> void:
 			continue
 		var progress := (p.position.x - carrier.position.x) * direction(carrier.team)
 		var space := minf(12, p.position.distance_to(players[nearest(1 - p.team, p.position)].position))
-		var score := progress * 0.6 + space * 0.9 - length * 0.13 - lane_risk(carrier.position, p.position, carrier.team) * 15
+		var threat_gain := chance_quality(p.position, p.team) - quality
+		var score := progress * 0.45 + space * 0.55 + threat_gain * 14 - length * 0.10 - lane_risk(carrier.position, p.position, carrier.team) * 12
 		score += rng.randf_range(-2, 2)
 		if score > best_score:
 			best_score = score
 			best = p.id
-	# ponytail: local lane heuristics; expand only after match outliers show a need.
-	if best >= 0 and (pressure > 0.25 or held_ticks > 100 or best_score > 13):
+	# A safe dribble can be more useful than recycling to the same marked winger.
+	var local := oriented(carrier.position, carrier.team)
+	var forward_space := lane_risk(carrier.position, carrier.target, carrier.team)
+	var carry_score := 6.0 + quality * 5 - pressure * 3
+	if local.x > 58 and forward_space < 0.6:
+		carry_score += 5
+	if best >= 0 and (carrier.id % 11 == 0 or best_score > carry_score or (held_ticks > 150 and pressure > 0.5)):
 		pass_to(best, pressure)
 
 func pass_to(receiver: int, pressure: float = 0) -> void:
 	var passer := players[owner]
-	var aim := players[receiver].position
+	var recipient := players[receiver]
+	var aim := recipient.position + (recipient.target - recipient.position).limit_length(3.5)
 	var length := ball.distance_to(aim)
 	var accuracy := clampf(0.88 + 0.002 * (passer.passing - 80) - 0.10 * pressure - 0.18 * minf(length / 55, 1) - 0.12 * lane_risk(ball, aim, passer.team), 0.25, 0.98)
 	if rng.randf() > accuracy:
 		aim += Vector2(rng.randf_range(-4.5, 4.5), rng.randf_range(-4.5, 4.5))
 	pass_attempts[passer.team] += 1
-	launch_ball(aim, 18 + passer.passing * 0.1, "pass")
-	emit_event("pass", passer.id, {"receiver": receiver})
+	launch_ball(aim, 24 + passer.passing * 0.1, "pass")
+	emit_event("pass", passer.id, {"receiver": receiver, "target": aim})
 
 func launch_ball(aim: Vector2, velocity: float, kind: String) -> void:
 	flight_source = owner
@@ -356,8 +389,8 @@ func advance_flight() -> void:
 func shoot(pressure: float = 0) -> void:
 	var shooter := players[owner]
 	var goal := oriented(Vector2(105, 34), shooter.team)
-	shot_quality = clampf(1.05 - ball.distance_to(goal) / 40 - absf(ball.y - 34) / 70, 0, 1)
-	var accuracy := clampf(0.30 + 0.004 * (shooter.shooting - 60) + 0.32 * shot_quality - 0.16 * pressure, 0.15, 0.95)
+	shot_quality = chance_quality(ball, shooter.team)
+	var accuracy := clampf(0.42 + 0.004 * (shooter.shooting - 60) + 0.42 * shot_quality - 0.16 * pressure, 0.15, 0.95)
 	shots[shooter.team] += 1
 	var target_y := 34 + rng.randf_range(-3.2, 3.2)
 	var on_target := rng.randf() < accuracy

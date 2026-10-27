@@ -62,6 +62,17 @@ func run() -> void:
 	settled.take_control(8)
 	settled.take_control(8)
 	check(settled.completed_passes[0] == 1, "settled pass reception counts exactly once")
+	var wing := Match.new(11027)
+	wing.players[8].position = Vector2(74, 10)
+	wing.take_control(8)
+	wing.choose_targets()
+	check(wing.players[8].target.y > 15, "wide carrier cuts inside rather than repeating the touchline duel")
+	check(wing.players[9].target.x > 80 and wing.players[9].target.y > 20, "striker offers a central forward run")
+	wing.players[9].position = Vector2(84, 30)
+	wing.players[9].target = Vector2(92, 30)
+	wing.players[8].passing = 120
+	wing.pass_to(9)
+	check(wing.flight_target.x > 84, "forward passes lead a moving receiver")
 	test_shots()
 	test_clock()
 	await test_view()
@@ -88,6 +99,7 @@ func finish_flight(match_model) -> void:
 
 func test_shots() -> void:
 	var chance = shot_fixture(3)
+	chance.players[9].position = Vector2(94, 34)
 	chance.take_control(9)
 	chance.held_ticks = 30
 	chance.choose_action()
@@ -213,8 +225,8 @@ func test_view() -> void:
 		view._physics_process(Match.DT)
 		normal_frames += 1
 	var final_state: Array = view.sim.signature()
-	check(view.labels.score.text == "2  –  0" and "FULL TIME" in view.labels.clock.text, "HUD agrees with seeded final result")
-	check(view.feed.text.count("GOAL") == 2 and "Full time" in view.feed.text, "journal goals agree with scoreboard")
+	check(view.labels.score.text == "%d  –  %d" % view.sim.scores and "FULL TIME" in view.labels.clock.text, "HUD agrees with seeded final result")
+	check("Full time · %d – %d" % view.sim.scores in view.feed.text, "journal result agrees with scoreboard")
 	view.buttons.detail.pressed.emit()
 	check("passes toward" in view.feed.text or "receives the pass" in view.feed.text, "detailed feed exposes lower-value actions")
 	view.buttons.restart.pressed.emit()
