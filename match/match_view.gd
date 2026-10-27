@@ -54,7 +54,7 @@ func _ready() -> void:
 	_sync_state()
 
 func _physics_process(_delta: float) -> void:
-	if not paused:
+	if not paused and not sim.finished:
 		for i in speed:
 			sim.step()
 		_sync_state()
@@ -63,6 +63,15 @@ func _sync_state() -> void:
 	for i in 22:
 		player_positions[i] = sim.players[i].position
 	ball = sim.ball
+	labels.score.text = "%d  –  %d" % sim.scores
+	var phase_label: String = ["FIRST HALF", "HALF TIME", "SECOND HALF", "FULL TIME"][sim.period]
+	if paused and not sim.finished:
+		phase_label = "READY" if sim.ticks == 0 else "PAUSED"
+	labels.clock.text = "%02d′  /  %s" % [sim.active_ticks / 40, phase_label]
+	if sim.finished:
+		buttons.pause.text = "Full time"
+		buttons.pause.disabled = true
+		labels.inspection.text = "%s  ·  %d – %d  ·  Restart to watch the same seed again" % ["EXHIBITION DRAW" if sim.scores[0] == sim.scores[1] else ("MEADOW WIN" if sim.scores[0] > sim.scores[1] else "HARBOR WIN"), sim.scores[0], sim.scores[1]]
 	queue_redraw()
 
 func _make_label(id: String, value: String, font_size: int, color: Color) -> void:
@@ -169,9 +178,11 @@ func _draw_player(index: int) -> void:
 	draw_string(font, name_pos, name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, CREAM)
 
 func _toggle_pause() -> void:
+	if sim.finished:
+		return
 	paused = not paused
 	buttons.pause.text = "Resume" if paused else "Pause"
-	labels.clock.text = "00′  /  PAUSED" if paused else "00′  /  FIRST HALF"
+	_sync_state()
 
 func _toggle_speed() -> void:
 	speed = 3 - speed
@@ -182,6 +193,7 @@ func _restart() -> void:
 	paused = true
 	selected = -1
 	buttons.pause.text = "Kick off"
+	buttons.pause.disabled = false
 	labels.clock.text = "00′  /  READY"
 	_sync_state()
 

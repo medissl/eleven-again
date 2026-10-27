@@ -25,6 +25,7 @@ func _initialize() -> void:
 	check(a.signature() == b.signature(), "supported-build repeatability")
 	check(a.pass_attempts[0] + a.pass_attempts[1] > 0, "football includes actual passes")
 	a.owner = -1
+	a.pass_pending = false
 	a.ball_state = Match.BallState.LOOSE
 	a.ball = a.players[5].position
 	a.step()
@@ -52,7 +53,14 @@ func _initialize() -> void:
 	var event_count: int = lane.events.size()
 	lane.challenge_carrier()
 	check(lane.events.size() == event_count, "challenge cooldown prevents per-frame retries")
+	var settled := Match.new(8)
+	settled.launch_ball(settled.players[8].position, 24, "pass")
+	settled.ball_state = Match.BallState.LOOSE
+	settled.take_control(8)
+	settled.take_control(8)
+	check(settled.completed_passes[0] == 1, "settled pass reception counts exactly once")
 	test_shots()
+	test_clock()
 	print("CHECKS ", checks, " FAILURES ", failures.size())
 	quit(0 if failures.is_empty() else 1)
 
@@ -75,6 +83,11 @@ func finish_flight(match_model) -> void:
 		match_model.advance_flight()
 
 func test_shots() -> void:
+	var chance = shot_fixture(3)
+	chance.take_control(9)
+	chance.held_ticks = 30
+	chance.choose_action()
+	check(chance.flight_kind == "shot" and chance.owner == -1, "a good close chance is not starved by early passing")
 	var blocked = shot_fixture(10)
 	blocked.players[12].position = Vector2(90, 34)
 	finish_flight(blocked)
@@ -105,3 +118,33 @@ func test_shots() -> void:
 	miss.ball_velocity = miss.ball.direction_to(miss.flight_target) * 32
 	finish_flight(miss)
 	check(miss.scores == [0, 0] and miss.shots_on_target == [0, 0], "off-target trajectory cannot add a goal or on-target stat")
+
+func test_clock() -> void:
+	var match_model := Match.new(11027)
+	match_model.active_ticks = 1799
+	match_model.step()
+	check(match_model.period == Match.Period.HALF_TIME and match_model.active_ticks == 1800, "halftime after thirty active seconds")
+	for tick in 120:
+		match_model.step()
+	check(match_model.active_ticks == 1800 and match_model.period == Match.Period.SECOND_HALF, "halftime freezes active clock")
+	check(match_model.players[match_model.owner].team == 1 and match_model.direction(0) == -1, "second half changes ends and kickoff team")
+	match_model.active_ticks = 3599
+	match_model.step()
+	check(match_model.finished and match_model.events.back().minute == 90, "full time at sixty active seconds")
+	var final_state: Array = match_model.signature()
+	match_model.step()
+	check(match_model.signature() == final_state, "full time cannot advance or commit twice")
+	for seed_value in [11027, 42, 7, 2026]:
+		var fixture := Match.new(seed_value)
+		while not fixture.finished and fixture.ticks < 9000:
+			fixture.step()
+		check(fixture.finished and fixture.active_ticks == 3600, "fixture finishes without endless stoppages")
+		var goals := [0, 0]
+		for event in fixture.events:
+			if event.kind == "goal":
+				goals[event.team] += 1
+		check(goals == fixture.scores, "scoreboard agrees with authoritative goals")
+		print("FIXTURE ", seed_value, " score=", fixture.scores, " shots=", fixture.shots, " passes=", fixture.completed_passes, " tackles=", fixture.tackles, " wall_seconds=", snappedf(fixture.ticks / 60.0, 0.1))
+		if seed_value == 11027 and "--trace" in OS.get_cmdline_user_args():
+			for event in fixture.events:
+				print(event.minute, " ", event.kind, " ", event.actor, " ", event.position)

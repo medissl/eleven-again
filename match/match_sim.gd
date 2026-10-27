@@ -2,6 +2,7 @@ extends RefCounted
 ## The match owns outcomes. Rendering and commentary only consume this state.
 
 enum BallState { CONTROLLED, FLIGHT, LOOSE, DEAD }
+enum Period { FIRST_HALF, HALF_TIME, SECOND_HALF, FULL_TIME }
 const DT := 1.0 / 60.0
 const FIELD := Vector2(105, 68)
 const ANCHORS := [Vector2(6, 34), Vector2(25, 9), Vector2(21, 26),
@@ -48,6 +49,7 @@ var ball_velocity := Vector2.ZERO
 var flight_target := Vector2.ZERO
 var flight_source := -1
 var flight_kind := "pass"
+var pass_pending := false
 var shots := [0, 0]
 var shots_on_target := [0, 0]
 var saves := [0, 0]
@@ -55,6 +57,10 @@ var shot_quality := 0.0
 var keeper_tested := false
 var dead_ticks := 0
 var restart_team := 0
+var period := Period.FIRST_HALF
+var finished := false
+var restart_kind := "kickoff"
+var restart_position := Vector2(52.5, 34)
 
 func _init(seed_value: int = 11027) -> void:
 	match_seed = seed_value
@@ -75,10 +81,11 @@ func _init(seed_value: int = 11027) -> void:
 	emit_event("kickoff", owner)
 
 func direction(team: int) -> float:
-	return 1.0 if team == 0 else -1.0
+	var first_half := 1.0 if team == 0 else -1.0
+	return -first_half if period == Period.SECOND_HALF or period == Period.FULL_TIME else first_half
 
 func oriented(point: Vector2, team: int) -> Vector2:
-	return point if team == 0 else FIELD - point
+	return point if direction(team) > 0 else FIELD - point
 
 func reset_shape(kicking_team: int) -> void:
 	for p in players:
@@ -88,15 +95,18 @@ func reset_shape(kicking_team: int) -> void:
 		p.target = p.position
 		p.cooldown = 0
 	owner = kicking_team * 11 + 9
-	players[owner].position = Vector2(51.5 if kicking_team == 0 else 53.5, 34)
+	players[owner].position = Vector2(52.5 - direction(kicking_team), 34)
 	players[owner].previous = players[owner].position
 	ball = players[owner].position
 	previous_ball = ball
 	ball_state = BallState.CONTROLLED
 	last_touch = owner
 	held_ticks = 0
+	ball_velocity = Vector2.ZERO
 
 func step() -> void:
+	if finished:
+		return
 	ticks += 1
 	previous_ball = ball
 	for p in players:
@@ -105,8 +115,15 @@ func step() -> void:
 	if ball_state == BallState.DEAD:
 		dead_ticks -= 1
 		if dead_ticks <= 0:
-			reset_shape(restart_team)
-			emit_event("kickoff", owner)
+			if restart_kind == "halftime":
+				period = Period.SECOND_HALF
+			if restart_kind == "kickoff" or restart_kind == "halftime":
+				reset_shape(restart_team)
+				emit_event("kickoff", owner)
+			else:
+				var taker := restart_team * 11 if restart_kind == "goal_kick" else nearest(restart_team, restart_position, false)
+				players[taker].position = restart_position
+				take_control(taker, restart_kind)
 		return
 	active_ticks += 1
 	if ticks % 15 == 1:
@@ -117,7 +134,7 @@ func step() -> void:
 		possession_ticks[players[owner].team] += 1
 		ball = players[owner].position
 		challenge_carrier()
-		if owner >= 0 and ticks % 15 == 1 and held_ticks >= 42:
+		if owner >= 0 and ticks % 15 == 1 and held_ticks >= 24:
 			choose_action()
 	elif ball_state == BallState.FLIGHT:
 		advance_flight()
@@ -129,10 +146,29 @@ func step() -> void:
 				take_control(p.id)
 				break
 	if ball.x < 0 or ball.x > 105 or ball.y < 0 or ball.y > 68:
-		ball = ball.clamp(Vector2(1, 1), FIELD - Vector2.ONE)
-		ball_state = BallState.LOOSE
-		owner = -1
 		emit_event("out", last_touch)
+		start_restart(1 - players[last_touch].team, ball.clamp(Vector2(2, 2), FIELD - Vector2(2, 2)), "restart", 48)
+	if active_ticks == 1800:
+		period = Period.HALF_TIME
+		start_restart(1, Vector2(52.5, 34), "halftime", 120)
+		emit_event("halftime", -1)
+	elif active_ticks >= 3600:
+		period = Period.FULL_TIME
+		finished = true
+		owner = -1
+		ball_state = BallState.DEAD
+		emit_event("full_time", -1, {"score": scores.duplicate()})
+
+func start_restart(team: int, location: Vector2, kind: String, duration: int) -> void:
+	restart_team = team
+	restart_position = location
+	restart_kind = kind
+	dead_ticks = duration
+	owner = -1
+	ball_state = BallState.DEAD
+	ball_velocity = Vector2.ZERO
+	ball = location
+	pass_pending = false
 
 func choose_targets() -> void:
 	var team_in_control := players[owner].team if owner >= 0 else players[last_touch].team
@@ -184,6 +220,13 @@ func move_players() -> void:
 		p.position = p.position.move_toward(p.target + separation, movement_speed * DT).clamp(Vector2(1, 1), FIELD - Vector2.ONE)
 
 func take_control(id: int, kind: String = "recovery") -> void:
+	if pass_pending:
+		if players[id].team == players[flight_source].team and id != flight_source:
+			completed_passes[players[id].team] += 1
+			kind = "received"
+		elif players[id].team != players[flight_source].team:
+			kind = "interception"
+		pass_pending = false
 	owner = id
 	last_touch = id
 	ball_state = BallState.CONTROLLED
@@ -213,7 +256,7 @@ func choose_action() -> void:
 	var nearest_defender := nearest(1 - carrier.team, carrier.position)
 	var pressure := clampf(1 - players[nearest_defender].position.distance_to(carrier.position) / 6, 0, 1)
 	var goal := oriented(Vector2(105, 34), carrier.team)
-	if carrier.id % 11 != 0 and carrier.position.distance_to(goal) < 28 and held_ticks > 42:
+	if carrier.id % 11 != 0 and carrier.position.distance_to(goal) < 26 and absf(carrier.position.y - 34) < 20:
 		shoot(pressure)
 		return
 	var best := -1
@@ -251,6 +294,7 @@ func launch_ball(aim: Vector2, velocity: float, kind: String) -> void:
 	last_touch = owner
 	flight_target = aim
 	flight_kind = kind
+	pass_pending = kind == "pass"
 	ball_velocity = ball.direction_to(aim) * velocity
 	ball_state = BallState.FLIGHT
 	owner = -1
@@ -265,7 +309,10 @@ func advance_flight() -> void:
 			continue
 		if flight_kind == "shot" and (p.team == players[flight_source].team or p.id % 11 == 0):
 			continue
-		var along := segment_fraction(p.position, from, destination)
+		var segment := destination - from
+		var along := (p.position - from).dot(segment) / maxf(segment.length_squared(), 0.00001)
+		if along < 0 or along > 1:
+			continue
 		if p.position.distance_to(from.lerp(destination, along)) < 1.25 and along < first:
 			contact = p.id
 			first = along
@@ -279,8 +326,6 @@ func advance_flight() -> void:
 			emit_event("block", contact, {"shooter": flight_source})
 			return
 		var same_team := players[contact].team == players[flight_source].team
-		if same_team:
-			completed_passes[players[contact].team] += 1
 		take_control(contact, "received" if same_team else "interception")
 		return
 	ball = destination
@@ -297,8 +342,7 @@ func advance_flight() -> void:
 				goal_scored(flight_source)
 			else:
 				emit_event("miss", flight_source)
-				ball = ball.clamp(Vector2(2, 2), FIELD - Vector2(2, 2))
-				take_control(keeper.id, "goal_kick")
+				start_restart(keeper.team, keeper.position, "goal_kick", 48)
 			return
 		return
 	if ball.distance_to(flight_target) <= ball_velocity.length() * DT or (flight_target - ball).dot(ball_velocity) <= 0:
@@ -343,13 +387,9 @@ func goal_scored(shooter_id: int) -> void:
 	var team := players[shooter_id].team
 	scores[team] += 1
 	shots_on_target[team] += 1
-	ball = Vector2(105 if team == 0 else 0, ball.y)
+	ball = Vector2(105 if direction(team) > 0 else 0, ball.y)
 	emit_event("goal", shooter_id, {"score": scores.duplicate()})
-	owner = -1
-	ball_state = BallState.DEAD
-	ball_velocity = Vector2.ZERO
-	dead_ticks = 90
-	restart_team = 1 - team
+	start_restart(1 - team, ball, "kickoff", 90)
 
 func challenge_carrier() -> void:
 	if held_ticks < 18:
@@ -376,10 +416,11 @@ func emit_event(kind: String, actor: int, extra: Dictionary = {}) -> void:
 
 func signature() -> Array:
 	var result: Array = [ticks, active_ticks, ball_state, ball, owner, last_touch, held_ticks,
-		ball_velocity, flight_target, flight_source, flight_kind, rng.state, scores.duplicate(),
+		ball_velocity, flight_target, flight_source, flight_kind, pass_pending, rng.state, scores.duplicate(),
 		possession_ticks.duplicate(), pass_attempts.duplicate(), completed_passes.duplicate(),
 		tackles.duplicate(), events.duplicate(true)]
 	result.append([shots.duplicate(), shots_on_target.duplicate(), saves.duplicate(), shot_quality, keeper_tested, dead_ticks, restart_team])
+	result.append([period, finished, restart_kind, restart_position])
 	for p in players:
 		result.append([p.position, p.target, p.cooldown])
 	return result
