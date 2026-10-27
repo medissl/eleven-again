@@ -38,7 +38,7 @@ Each phase is a milestone containing several focused Codex sessions, not a promi
 
 ## Scope contracts
 
-The user confirmed three active minutes of regulation during Phase 1 iteration: 90-second halves at 1×, 90 active-play wall seconds total at 2×, with stoppages added. This supersedes the early GDD's one-minute proposal for implementation. `MATCH_PACING_AND_EVENTS_v1.md` supplies context; later stamina, substitutions and trait timers must derive from match progress/displayed minutes. Its 55–80-minute mostly-1× and 35–55-minute mostly-2× run allowances remain unmeasured planning estimates.
+The user confirmed three active minutes of regulation during Phase 1 iteration: 90-second halves at 1×, 90 active-play wall seconds total at 2×, with stoppages and time spent in reports added. This supersedes the early GDD's one-minute proposal; other research duration proposals remain unadopted. `MATCH_PACING_AND_EVENTS_v1.md` supplies context; newer `outputs/PHASE_ONE_MATCH_FEEDBACK_v2.md` replaces its automatic halftime with a frozen report/Continue and a visible goal/confetti cue. Later stamina, substitutions and trait timers derive from match progress/displayed minutes. Run allowances remain unmeasured planning estimates.
 
 ### Phase 1 is a football experiment
 
@@ -138,4 +138,4 @@ For a later phase:
 
 ## Current handoff
 
-Phase 1 iteration implements the confirmed three-minute timing, approved native HUD, improved chance creation/keeper contests, stable labels, ball animation and goal presentation. Native regressions pass. Final animation/native interaction review is open after the user stopped Computer Use. See `../reports/phase-one.md`; obtain watchability feedback before Phase 2 task **2.1**. Card design references are saved for later tasks. No push, CI, export or established balance is claimed.
+Phase 1 presentation continuation now includes the on-field goal/scorer/confetti cue, session effects/reduced-motion switches, frozen first-half statistics/events and deliberate Continue, plus persistent full-time results and visible parries in the feed. Three-minute regulation remains unchanged. Behavioral checks, real report renders and native viewport input checks pass; see `../reports/phase-one.md`. Human watchability and longer motion/performance observation remain open before Phase 2 task **2.1**. Card references stay deferred. No push, CI, export or established balance is claimed.

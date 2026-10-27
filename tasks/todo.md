@@ -49,7 +49,18 @@ Each task below has a checkable outcome, verification, dependencies, and likely 
   - Verification: same-seed normal/2×/headless event-log comparison and pause scenario; visible control, feed-volume, name-overlap, and both-resolution review.
   - Dependencies: 1.5. Likely files: `match/match_view.tscn`, `match/match_view.gd`, `ui/match_hud.gd`, `tests/test_match.gd`, `DESIGN.md` (M).
 
-**Gate 1 — native checks passed; final visual/interaction review open:** User feedback prompted better central runs, lead passes, keeper smothers, approved pitch-first HUD, stable labels, rolling football, deeper nets, and confirmed 180-second regulation. Current native suite passed with zero failures, including full-fixture timing and 1×/2×/headless equivalence. New HUD/menu layouts were rendered at both sizes; the final animation/native interaction review was interrupted by the user's Computer Use stop. See [Phase 1 report](../reports/phase-one.md). Get watchability feedback before Phase 2; automated checks cannot establish enjoyment.
+- [x] **1.7 — On-field goal celebration.** Present the actual goal/scorer/minute/score over the dead-ball field, with a capped cosmetic confetti burst and session effects/reduced-motion controls.
+  - Acceptance: no extra restart delay, duplicate goal, hidden live play or gameplay RNG consumption; pause freezes the cue, restart clears it, and static feedback remains with reduced motion.
+  - Verification: native event/lifecycle/cosmetic checks; actual goal/reduced-motion captures at both sizes; native preference-control input.
+  - Dependencies: 1.6. Files: `match/match_view.gd`, `ui/match_hud.gd`, `tests/run_tests.gd`, `tests/capture_match.gd` (M).
+  - Evidence: combined native runner passed 111,209 assertions, zero failures; 1×/2×/headless equality and both-size rendered/input checks pass. Commands and captures in report continuation.
+- [x] **1.8 — Deliberate half/full-time reports.** Replace the original automatic half in 1.5 with a frozen first-half snapshot and Continue; retain a final summary until Continue opens exhibition choices.
+  - Acceptance: no ticks/RNG/cooldowns advance while waiting, including a 2× boundary; duplicate Continue is harmless; score, controlled-ball possession, shots/target/saves/passes and significant events use captured values. Menus/Escape cannot bypass the half.
+  - Verification: native frozen-state/snapshot/duplicate-input/speed checks; report renders and dispatched Tab/Escape/mouse/Enter at both sizes. Update existing headless consumers to acknowledge halftime explicitly.
+  - Dependencies: 1.7. Files: `match/match_sim.gd`, `match/match_view.gd`, `ui/match_hud.gd`, `tests/run_tests.gd`, `tests/capture_match.gd`; one-line acknowledgement in `tests/watchability.gd`.
+  - Evidence: see report continuation. Real reports, zero-control denominator/empty moments and captured scoring events are distinguished; first-half arrays do not alias full-match totals.
+
+**Gate 1 — technical/report visual/input checks passed; human watchability open:** Historical tasks 1.1–1.6 remain recorded above; 1.7–1.8 implement the revised presentation without claiming complete football rules. Reports/goals/menu were rendered at both sizes and native Godot viewport input verified. Longer name/ball-motion observation and final performance are still unmeasured. See [Phase 1 report](../reports/phase-one.md). Automated checks cannot establish enjoyment; obtain watchability feedback before Phase 2.
 
 ## Phase 2 — meaningful preparation
 
@@ -82,7 +93,7 @@ Each task below has a checkable outcome, verification, dependencies, and likely 
 
 ## Phase 3 — four-win run
 
-- [ ] **3.1 — Resolve tied matches.** Add two ten-active-second ET halves and shootouts with early termination and paired sudden death.
+- [ ] **3.1 — Resolve tied matches.** Derive ET from the shared regulation duration: one-third total, split into two halves (30 active seconds each under 180-second regulation); add shootouts with early termination and paired sudden death.
   - Acceptance: ET starts only on a regulation tie; shootout follows only an ET tie; on-field eligible takers/fatigue apply and shootout goals remain separate from match goals/statistics.
   - Verification: regulation winner, ET winner, early clinch, and sudden-death fixtures; visible phase/score labels and timing checks.
   - Dependencies: Gate 2. Likely files: `match/match_sim.gd`, `match/shootout.gd`, `ui/match_hud.gd`, `tests/test_match_rules.gd` (M).

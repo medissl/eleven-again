@@ -75,7 +75,7 @@ func run() -> void:
 	check(wing.flight_target.x > 84, "forward passes lead a moving receiver")
 	test_shots()
 	test_clock()
-	await test_view()
+	if "--model-only" not in OS.get_cmdline_user_args(): await test_view()
 	print("CHECKS ", checks, " FAILURES ", failures.size())
 	quit(0 if failures.is_empty() else 1)
 
@@ -174,9 +174,11 @@ func test_clock() -> void:
 	match_model.active_ticks = match_model.regulation_ticks / 2 - 1
 	match_model.step()
 	check(match_model.period == Match.Period.HALF_TIME and match_model.active_ticks == 5400 and match_model.display_minute() == 45, "halftime after ninety active seconds")
+	var half_state: Array = match_model.signature()
 	for tick in 180:
 		match_model.step()
-	check(match_model.active_ticks == 5400 and match_model.period == Match.Period.SECOND_HALF, "halftime freezes active clock")
+	check(match_model.signature() == half_state, "halftime waits without consuming ticks RNG cooldowns or statistics")
+	check(match_model.acknowledge_halftime() and not match_model.acknowledge_halftime(), "Continue starts the second half exactly once")
 	check(match_model.players[match_model.owner].team == 1 and match_model.direction(0) == -1, "second half changes ends and kickoff team")
 	match_model.active_ticks = match_model.regulation_ticks - 1
 	match_model.step()
@@ -184,9 +186,14 @@ func test_clock() -> void:
 	var final_state: Array = match_model.signature()
 	match_model.step()
 	check(match_model.signature() == final_state, "full time cannot advance or commit twice")
+	check(match_model.halftime_report.minute == 45 and match_model.result_report.minute == 90, "reports retain their own period snapshot")
+	var recorded_shots: Array = match_model.halftime_report.shots.duplicate()
+	match_model.shots[0] += 1
+	check(match_model.halftime_report.shots == recorded_shots, "first-half report never aliases live totals")
 	for seed_value in [11027, 42, 7, 2026]:
 		var fixture := Match.new(seed_value)
 		while not fixture.finished and fixture.ticks < fixture.regulation_ticks + 3600:
+			fixture.acknowledge_halftime()
 			fixture.step()
 			check((fixture.owner >= 0) == (fixture.ball_state == Match.BallState.CONTROLLED), "full-fixture exclusive ball ownership")
 			check(fixture.ball.is_finite() and fixture.ball.x >= 0 and fixture.ball.x <= 105 and fixture.ball.y >= 0 and fixture.ball.y <= 68, "full-fixture finite ball stays in field or on goal line")
@@ -252,14 +259,53 @@ func test_view() -> void:
 	view.sim = Match.new(42)
 	view.hud.event_count = -1
 	view.selected = -1
+	view.sim.active_ticks = view.sim.regulation_ticks / 2 - 1
+	view.speed = 2
+	view._physics_process(Match.DT)
+	check(view.sim.ticks == 1 and view.overlay_mode == "halftime" and view.paused, "2x stops on the exact halftime boundary and opens the report")
+	check("No goals" in view.hud.panel_content.find_child("Moments", true, false).get_parsed_text(), "empty first-half moments are explained")
+	var empty_model := Match.new(42)
+	empty_model.halftime_report = empty_model.snapshot_report()
+	view.hud.show_panel("halftime", empty_model)
+	var stat_grid: GridContainer = view.hud.panel_content.find_children("*", "GridContainer", true, false)[0]
+	var unavailable := 0
+	for label in stat_grid.get_children():
+		if label.text == "—": unavailable += 1
+	check(unavailable == 2, "no controlled possession shows unavailable percentages rather than invented shares")
+	view.hud.show_panel("halftime", view.sim)
+	var half_signature: Array = view.sim.signature()
+	for frame in 10: view._physics_process(Match.DT)
+	view._input(key(KEY_ESCAPE))
+	view._input(key(KEY_SPACE))
+	view._on_command("pause")
+	check(view.sim.signature() == half_signature and view.overlay_mode == "halftime", "Escape Space and toolbar cannot bypass halftime")
+	view._on_command("menu")
+	view._on_command("details")
+	view._on_command("back")
+	view._on_command("resume")
+	check(view.overlay_mode == "halftime" and view.paused, "nested menu returns to required halftime report")
+	view._on_command("continue_half")
+	var resumed: Array = view.sim.signature()
+	view._on_command("continue_half")
+	check(view.sim.signature() == resumed and not view.paused, "duplicate Continue cannot replay kickoff")
+	view._restart()
+	view.speed = 1
 	var normal_frames := 0
 	while not view.sim.finished and normal_frames < view.sim.regulation_ticks + 3600:
 		view._physics_process(Match.DT)
+		if view.sim.period == Match.Period.HALF_TIME: view._on_command("continue_half")
 		normal_frames += 1
 	var final_state: Array = view.sim.signature()
 	check(view.hud.labels.score.text == "%d – %d" % view.sim.scores and "FULL TIME" in view.hud.labels.clock.text, "HUD agrees with seeded final result")
 	check(view.hud.event_list.get_child(0).get_child(2).get_child(0).text == "Full time", "newest event appears first")
-	view.hud.buttons.log.pressed.emit()
+	check(view.overlay_mode == "result" and view.paused, "full time opens a persistent result report")
+	var moments: String = view.hud.panel_content.find_child("Moments", true, false).get_parsed_text()
+	check("Goal" in moments and "No goals" not in moments, "report never appends an empty-state message to actual scoring events")
+	view._input(key(KEY_ESCAPE))
+	check(view.overlay_mode == "result", "Escape cannot discard the final report")
+	view._on_command("continue_result")
+	check(view.overlay_mode == "menu", "result Continue leads to exhibition choices")
+	view._on_command("log")
 	var log_text: String = view.hud.panel_content.get_child(1).get_parsed_text()
 	check("Pass to" in log_text and "%d–%d" % view.sim.scores in log_text, "full log includes passes and authoritative final score")
 	view._on_command("back")
@@ -271,14 +317,37 @@ func test_view() -> void:
 	while not view.sim.finished and fast_frames < view.sim.regulation_ticks + 3600:
 		randf() # Cosmetic/global RNG cannot affect the independent match stream.
 		view._physics_process(Match.DT)
+		if view.sim.period == Match.Period.HALF_TIME: view._on_command("continue_half")
 		fast_frames += 1
 	check(view.sim.signature() == final_state, "1x and 2x viewing yield identical full state and event log")
-	check(fast_frames == ceili(normal_frames / 2.0), "2x advances two fixed steps per viewing frame")
+	check(absi(fast_frames - ceili(normal_frames / 2.0)) <= 1, "2x advances twice as fast with at most one discarded boundary step")
 	var headless := Match.new(42)
 	while not headless.finished:
+		headless.acknowledge_halftime()
 		headless.step()
 	check(headless.signature() == final_state, "headless and presented matches are identical")
 	view._restart()
 	check(view.sim.scores == [0, 0] and view.sim.active_ticks == 0 and view.sim.events.size() == 1, "restart clears scores events and clock")
+	view.sim.goal_scored(9)
+	view._sync_state()
+	check(view.hud.labels.goal_title.visible and "Arden" in view.hud.labels.goal_detail.text and "1–0" in view.hud.labels.goal_detail.text, "goal celebration names the actual scorer and event score")
+	var celebration_state: Array = view.sim.signature()
+	view._on_command("menu")
+	view._on_command("effects")
+	view._on_command("motion")
+	check(not view.hud.effects_enabled and view.hud.reduced_motion and view.sim.signature() == celebration_state, "effect preferences change no gameplay state")
+	view._on_command("resume")
+	view.paused = true
+	for frame in 10: view._physics_process(Match.DT)
+	check(view.sim.signature() == celebration_state and view.hud.labels.goal_title.visible, "pause also freezes the event celebration")
+	view.paused = false
+	for tick in 150: view.sim.step()
+	view._sync_state()
+	check(not view.hud.labels.goal_title.visible and view.sim.ball_state == Match.BallState.CONTROLLED, "celebration expires with the existing restart without a second pause")
+	view.sim.take_control(0, "parry")
+	view._sync_state()
+	check(view.hud.event_list.get_child(0).get_child(2).get_child(1).text == "Live rebound", "keeper parries remain visible in the recent feed")
+	view._restart()
+	check(not view.hud.labels.goal_title.visible and view.hud.goal_event.is_empty(), "restarting clears every celebration cue")
 	view.queue_free()
 	await process_frame

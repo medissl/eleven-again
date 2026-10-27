@@ -6,7 +6,9 @@ An offline PC football squad-building roguelike, built in Godot. Prepare a ficti
 
 Phase 1 implemented, 27 October 2026: a playable fictional eleven-a-side exhibition with physical passes, interceptions, tackles, shots, saves, rebounds, goals, two halves, a live journal, statistics, and pause/speed controls. Godot **4.7.2.stable.official.ed1daf0bf**, GDScript, GL Compatibility; no external dependencies.
 
-Regulation is now **three active minutes at 1× / ninety active-play seconds at 2×**, plus stoppages, as confirmed by the user. The match has the approved pitch-first HUD, stable below-player names, shaded rolling football, improved discs and deeper nets. This prototype permits draws and simplifies restarts. Cards, offside, substitutions, squad preparation, recruitment, runs, saves, audio and complete player Resources arrive later. It is not a balanced or exported release. Final animation/native interaction review remains open after Computer Use was stopped.
+Regulation is **three active minutes at 1× / ninety active-play seconds at 2×**, plus stoppages and time spent in reports. Goals show an on-field scorer/score celebration; halftime freezes until **Continue second half**, with actual statistics and first-half moments. Full time retains its summary until Continue opens exhibition choices. Menu includes celebration-effects and reduced-motion switches for the current session.
+
+The pitch-first HUD, fixed below-player names, rolling football and deeper nets remain. Native checks and rendered report/control verification pass at 720p/1080p; human watchability approval remains open. This prototype permits draws and generic restarts. Complete attributes, genuine set pieces, tactics, cards, recruitment, runs, saves and audio remain future work. It is not a balanced or exported release.
 
 ## Development documents
 

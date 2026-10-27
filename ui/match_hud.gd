@@ -21,6 +21,9 @@ var model: RefCounted
 var status_color := Color("58bd7a")
 var goal_cue_tick := -1000
 var goal_cue_actor := -1
+var goal_event: Dictionary = {}
+var effects_enabled := true
+var reduced_motion := false
 
 class EventIcon:
 	extends Control
@@ -38,7 +41,7 @@ class EventIcon:
 			for i in 5:
 				var point := center + Vector2.from_angle(i * TAU / 5) * 6
 				draw_line(point, center + Vector2.from_angle(i * TAU / 5) * 10, Color("f1eedb"), 1.5, true)
-		elif kind in ["save", "smother"]:
+		elif kind in ["save", "smother", "parry"]:
 			draw_polyline(PackedVector2Array([Vector2(23, 16), Vector2(24, 27), Vector2(38, 27), Vector2(42, 13)]), Color("f1eedb"), 1.8, true)
 			for i in 4: draw_line(Vector2(26 + i * 4, 19), Vector2(25 + i * 4, 5 + i % 2 * 3), Color("f1eedb"), 1.8, true)
 		else:
@@ -52,6 +55,8 @@ func _ready() -> void:
 	_label("score", "0 – 0", 40, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
 	_label("clock", "0′", 17, AMBER, HORIZONTAL_ALIGNMENT_CENTER)
 	_label("live", "LIVE", 16, CREAM)
+	_label("goal_title", "GOAL!", 60, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	_label("goal_detail", "", 20, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
 	_button("pause", "Ⅱ", "Pause / resume (Space)")
 	_button("speed1", "1×", "Normal viewing speed (1)")
 	_button("speed2", "2×", "Double viewing speed (2)")
@@ -124,6 +129,8 @@ func arrange(field_rect: Rect2, divider_x: float) -> void:
 	_put(labels.score, Rect2(center - 80, 5, 160, 50))
 	_put(labels.clock, Rect2(center - 110, 53, 220, 28))
 	_put(labels.live, Rect2(divider + 38, 94, 190, 28))
+	_put(labels.goal_title, Rect2(pitch.get_center() + Vector2(-235, -64), Vector2(470, 80)))
+	_put(labels.goal_detail, Rect2(pitch.get_center() + Vector2(-235, 22), Vector2(470, 32)))
 	var x := divider + 12
 	_put(buttons.pause, Rect2(x, 20, 42, 42))
 	_put(buttons.speed1, Rect2(x + 50, 20, 44, 42))
@@ -149,6 +156,26 @@ func _draw() -> void:
 	draw_line(Vector2(divider + 18, 130), Vector2(size.x - 20, 130), Color("344a36"), 1)
 	draw_line(Vector2(divider + 18, size.y - 73), Vector2(size.x - 20, size.y - 73), Color("344a36"), 1)
 	draw_circle(Vector2(divider + 24, 108), 5, status_color)
+	if labels.goal_title.visible: _draw_celebration()
+
+func _draw_celebration() -> void:
+	var age: int = model.ticks - goal_cue_tick
+	var opacity := clampf((150 - age) / 20.0, 0, 1)
+	var center := pitch.get_center()
+	var color := CREAM if goal_event.team == 0 else CORAL
+	draw_style_box(_box(Color(0.025, 0.07, 0.04, 0.94 * opacity), Color(color, opacity), 0), Rect2(center - Vector2(235, 68), Vector2(470, 135)))
+	if not effects_enabled or reduced_motion: return
+	# Capped analytical particles; no persistent emitter or gameplay RNG.
+	var t := age / 60.0
+	for i in 44:
+		var angle := i * 2.39996 + goal_cue_tick % 11
+		var velocity := Vector2(cos(angle) * (90 + i % 5 * 16), -90 - i % 7 * 16)
+		var point := center + Vector2(0, -25) + velocity * t + Vector2(0, 70 * t * t)
+		if not pitch.grow(-10).has_point(point): continue
+		var piece_color: Color = [color, AMBER, CREAM][i % 3]
+		var edge := Vector2.from_angle(angle + t * 4) * 3
+		var side := edge.orthogonal() * 0.45
+		draw_colored_polygon(PackedVector2Array([point - edge - side, point + edge - side, point + edge + side, point - edge + side]), Color(piece_color, opacity))
 
 func _kit(center: Vector2, color: Color) -> void:
 	var points := PackedVector2Array([Vector2(-7,-12),Vector2(-17,-5),Vector2(-13,3),Vector2(-8,0),Vector2(-8,15),Vector2(8,15),Vector2(8,0),Vector2(13,3),Vector2(17,-5),Vector2(7,-12),Vector2(3,-8),Vector2(-3,-8)])
@@ -161,10 +188,22 @@ func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String)
 	labels.clock.text = "%d′%s" % [sim.display_minute(), " · FT" if sim.finished else (" · HT" if sim.period == 1 else "")]
 	if event_count != sim.events.size():
 		goal_cue_tick = -1000
+		goal_cue_actor = -1
+		goal_event = {}
 		for event in sim.events:
 			if event.kind == "goal":
 				goal_cue_tick = event.tick
 				goal_cue_actor = event.actor
+				goal_event = event
+	var goal_visible: bool = not goal_event.is_empty() and sim.ticks - goal_cue_tick < 150 and sim.period != 1 and not sim.finished
+	labels.goal_title.visible = goal_visible
+	labels.goal_detail.visible = goal_visible
+	if goal_visible:
+		labels.goal_title.add_theme_color_override("font_color", CREAM if goal_event.team == 0 else CORAL)
+		labels.goal_detail.text = "%s · %d′    %d–%d" % [sim.NAMES[goal_event.actor], goal_event.minute, goal_event.score[0], goal_event.score[1]]
+		var opacity := clampf((150 - (sim.ticks - goal_cue_tick)) / 20.0, 0, 1)
+		labels.goal_title.modulate.a = opacity
+		labels.goal_detail.modulate.a = opacity
 	if sim.finished:
 		labels.clock.text = "FULL TIME · %d′" % sim.display_minute()
 	elif sim.period == 1:
@@ -219,7 +258,7 @@ func _refresh_rows() -> void:
 	var limit := int((size.y - 220 - (80 if not inspected.is_empty() else 0)) / 76)
 	for i in range(model.events.size() - 1, -1, -1):
 		var event: Dictionary = model.events[i]
-		if event.kind not in ["goal", "save", "smother", "tackle", "interception", "block", "miss", "kickoff", "halftime", "full_time"]: continue
+		if event.kind not in ["goal", "save", "parry", "smother", "tackle", "interception", "block", "miss", "kickoff", "halftime", "full_time"]: continue
 		var row := HBoxContainer.new()
 		row.custom_minimum_size.y = 64
 		row.add_theme_constant_override("separation", 7)
@@ -260,13 +299,17 @@ func show_panel(mode: String, sim: RefCounted) -> void:
 		panel_content.remove_child(child)
 		child.queue_free()
 	var title := Label.new()
-	title.text = {"menu":"Paused", "details":"Match details", "log":"All events", "restart":"Restart exhibition?", "new":"New exhibition?"}[mode]
+	title.text = {"menu":"Match menu" if sim.finished else "Paused", "details":"Match details", "log":"All events", "restart":"Restart exhibition?", "new":"New exhibition?", "halftime":"HALF TIME", "result":"FULL TIME"}[mode]
 	title.add_theme_font_size_override("font_size", 28)
 	panel_content.add_child(title)
 	if mode == "menu":
-		for entry in [["resume","Resume match"],["details","Match details"],["log","All events"],["restart","Restart this fixture"],["new","New exhibition"],["quit","Quit to desktop"]]:
+		for entry in [["result","Match summary"] if sim.finished else ["resume","Return to halftime" if sim.period == 1 else "Resume match"],["details","Match details"],["log","All events"],["restart","Restart this fixture"],["new","New exhibition"],["quit","Quit to desktop"]]:
 			_panel_button(entry[0], entry[1])
+		_panel_button("effects", "Celebration effects: " + ("On" if effects_enabled else "Off"))
+		_panel_button("motion", "Reduced motion: " + ("On" if reduced_motion else "Off"))
 		_panel_text("Space pauses · 1 / 2 speed · ← / → inspect\nExhibition only: simplified restarts, draws, no cards or offside. Progress is not saved.", 14)
+	elif mode in ["halftime", "result"]:
+		_show_report(sim.halftime_report if mode == "halftime" else sim.result_report, mode)
 	elif mode == "details":
 		_panel_text("MEADOW XI                         HARBOR XI\n\nGoals                 %d : %d\nShots                 %d : %d\nOn target             %d : %d\nCompleted passes      %d : %d\nPass attempts         %d : %d\nSaves                 %d : %d\n\nFixture seed: %d\n%d active seconds · %s" % [sim.scores[0],sim.scores[1],sim.shots[0],sim.shots[1],sim.shots_on_target[0],sim.shots_on_target[1],sim.completed_passes[0],sim.completed_passes[1],sim.pass_attempts[0],sim.pass_attempts[1],sim.saves[0],sim.saves[1],sim.match_seed,sim.regulation_ticks / 60,"exhibition draw" if sim.finished and sim.scores[0] == sim.scores[1] else "fictional squads"], 17)
 		_panel_button("back", "Back")
@@ -285,21 +328,70 @@ func show_panel(mode: String, sim: RefCounted) -> void:
 		_panel_button("confirm_" + mode, "Replay fixture" if mode == "restart" else "Start new fixture")
 		_panel_button("back", "Cancel")
 	var focusable: Array[Control] = []
-	for child in panel_content.get_children():
-		if child is Button: focusable.append(child)
+	for child in panel_content.find_children("*", "Button", true, false):
+		focusable.append(child)
 	for i in focusable.size():
 		focusable[i].focus_next = focusable[(i + 1) % focusable.size()].get_path()
 		focusable[i].focus_previous = focusable[posmod(i - 1, focusable.size())].get_path()
 	if not focusable.is_empty(): focusable[0].grab_focus()
-	panel.size = Vector2(500 if mode == "log" else 430, 0)
+	panel.size = Vector2(600 if mode in ["halftime", "result"] else (500 if mode == "log" else 430), 0)
 	_center_panel.call_deferred()
 
-func _panel_button(id: String, text: String) -> void:
+func _show_report(report: Dictionary, mode: String) -> void:
+	_panel_text("%d  –  %d" % report.scores, 34)
+	var stats := GridContainer.new()
+	stats.columns = 3
+	stats.add_theme_constant_override("h_separation", 20)
+	stats.add_theme_constant_override("v_separation", 5)
+	panel_content.add_child(stats)
+	var total_control: int = report.possession[0] + report.possession[1]
+	var control := ["—", "—"]
+	if total_control > 0:
+		var home := roundi(100.0 * report.possession[0] / total_control)
+		control = ["%d%%" % home, "%d%%" % (100 - home)]
+	var rows := [["MEADOW XI", "", "HARBOR XI"], [control[0], "Controlled-ball possession", control[1]],
+		[str(report.shots[0]), "Shots", str(report.shots[1])],
+		[str(report.on_target[0]), "On target", str(report.on_target[1])],
+		[str(report.saves[0]), "Saves", str(report.saves[1])],
+		["%d / %d" % [report.completed[0], report.attempted[0]], "Passes completed / attempted", "%d / %d" % [report.completed[1], report.attempted[1]]]]
+	for row in rows:
+		for column in 3:
+			var label := Label.new()
+			label.text = row[column]
+			label.add_theme_font_size_override("font_size", 15 if column == 1 else 16)
+			label.add_theme_color_override("font_color", MUTED if column == 1 else CREAM)
+			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			label.size_flags_horizontal = SIZE_EXPAND_FILL
+			stats.add_child(label)
+	_panel_text("Control time counts only a player holding the ball; flight and loose-ball time are excluded.", 13)
+	_panel_text("FIRST-HALF MOMENTS" if mode == "halftime" else "MATCH MOMENTS", 14)
+	var moments := RichTextLabel.new()
+	moments.name = "Moments"
+	moments.custom_minimum_size = Vector2(540, 115)
+	moments.add_theme_font_size_override("normal_font_size", 16)
+	for event in report.events:
+		if event.kind in ["goal", "save", "parry", "smother", "block"]:
+			var copy := event_copy(event)
+			moments.add_text("%d′  %s · %s\n" % [event.minute, copy[0], copy[1]])
+	if moments.get_parsed_text().is_empty(): moments.add_text("No goals or keeper/shot-blocking events this period.")
+	panel_content.add_child(moments)
+	if mode == "result":
+		_panel_text("Exhibition draw" if report.scores[0] == report.scores[1] else ("Meadow XI win" if report.scores[0] > report.scores[1] else "Harbor XI win"), 18)
+	var actions := HBoxContainer.new()
+	actions.add_theme_constant_override("separation", 12)
+	panel_content.add_child(actions)
+	var proceed := _panel_button("continue_half" if mode == "halftime" else "continue_result", "Continue second half" if mode == "halftime" else "Continue")
+	proceed.reparent(actions)
+	proceed.size_flags_horizontal = SIZE_EXPAND_FILL
+	_panel_button("menu", "Match menu").reparent(actions)
+
+func _panel_button(id: String, text: String) -> Button:
 	var button := Button.new()
 	button.text = text
 	button.custom_minimum_size.y = 42
 	button.pressed.connect(func(): command.emit(id))
 	panel_content.add_child(button)
+	return button
 
 func _panel_text(text: String, font_size: int) -> void:
 	var label := Label.new()

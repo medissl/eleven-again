@@ -64,6 +64,8 @@ var finished := false
 var restart_kind := "kickoff"
 var restart_position := Vector2(52.5, 34)
 var regulation_ticks := REGULATION_SECONDS * 60
+var halftime_report: Dictionary = {}
+var result_report: Dictionary = {}
 
 func _init(seed_value: int = 11027, duration_seconds: int = REGULATION_SECONDS) -> void:
 	match_seed = seed_value
@@ -118,7 +120,7 @@ func reset_shape(kicking_team: int) -> void:
 	keeper_tested = false
 
 func step() -> void:
-	if finished:
+	if finished or period == Period.HALF_TIME:
 		return
 	ticks += 1
 	previous_ball = ball
@@ -128,9 +130,7 @@ func step() -> void:
 	if ball_state == BallState.DEAD:
 		dead_ticks -= 1
 		if dead_ticks <= 0:
-			if restart_kind == "halftime":
-				period = Period.SECOND_HALF
-			if restart_kind == "kickoff" or restart_kind == "halftime":
+			if restart_kind == "kickoff":
 				reset_shape(restart_team)
 				emit_event("kickoff", owner)
 			else:
@@ -163,14 +163,30 @@ func step() -> void:
 		start_restart(1 - players[last_touch].team, ball.clamp(Vector2(2, 2), FIELD - Vector2(2, 2)), "restart", 48)
 	if period == Period.FIRST_HALF and active_ticks >= regulation_ticks / 2.0:
 		period = Period.HALF_TIME
-		start_restart(1, Vector2(52.5, 34), "halftime", 180)
+		start_restart(1, Vector2(52.5, 34), "halftime", 0)
 		emit_event("halftime", -1)
+		halftime_report = snapshot_report()
 	elif active_ticks >= regulation_ticks:
 		period = Period.FULL_TIME
 		finished = true
 		owner = -1
 		ball_state = BallState.DEAD
 		emit_event("full_time", -1, {"score": scores.duplicate()})
+		result_report = snapshot_report()
+
+func acknowledge_halftime() -> bool:
+	if period != Period.HALF_TIME: return false
+	period = Period.SECOND_HALF
+	reset_shape(1)
+	emit_event("kickoff", owner)
+	return true
+
+func snapshot_report() -> Dictionary:
+	return {"minute": display_minute(), "scores": scores.duplicate(),
+		"shots": shots.duplicate(), "on_target": shots_on_target.duplicate(),
+		"saves": saves.duplicate(), "completed": completed_passes.duplicate(),
+		"attempted": pass_attempts.duplicate(), "possession": possession_ticks.duplicate(),
+		"events": events.duplicate(true)}
 
 func start_restart(team: int, location: Vector2, kind: String, duration: int) -> void:
 	restart_team = team
@@ -476,7 +492,8 @@ func signature() -> Array:
 		possession_ticks.duplicate(), pass_attempts.duplicate(), completed_passes.duplicate(),
 		tackles.duplicate(), events.duplicate(true)]
 	result.append([shots.duplicate(), shots_on_target.duplicate(), saves.duplicate(), shot_quality, keeper_tested, dead_ticks, restart_team])
-	result.append([period, finished, restart_kind, restart_position, regulation_ticks])
+	result.append([period, finished, restart_kind, restart_position, regulation_ticks,
+		halftime_report.duplicate(true), result_report.duplicate(true)])
 	for p in players:
 		result.append([p.position, p.target, p.cooldown])
 	return result

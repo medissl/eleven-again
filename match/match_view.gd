@@ -25,6 +25,7 @@ var restore_focus: Control
 var label_alpha := PackedFloat32Array()
 var label_dim_until := PackedInt64Array()
 var ball_roll := 0.0
+var result_dismissed := false
 
 func _ready() -> void:
 	var seed_value := fixture_seed if fixture_seed != 0 else int(Time.get_unix_time_from_system()) ^ Time.get_ticks_usec()
@@ -74,6 +75,7 @@ func _physics_process(_delta: float) -> void:
 			sim.step()
 			if sim.ball_state != Match.BallState.DEAD:
 				ball_roll += sim.previous_ball.distance_to(sim.ball) * 0.8
+			if sim.period == Match.Period.HALF_TIME or sim.finished: break
 		_sync_state()
 
 func _sync_state() -> void:
@@ -85,20 +87,42 @@ func _sync_state() -> void:
 	if inspected >= 0:
 		var p = sim.players[inspected]
 		description = "%s · %s\nPAC %d  SHO %d  PAS %d\nDRI %d  DEF %d%s" % [p.name, "Meadow" if p.team == 0 else "Harbor", p.pace, p.shooting, p.passing, p.dribbling, p.defence, "  GK %d" % p.keeping if inspected % 11 == 0 else ""]
+	if overlay_mode.is_empty() and not _required_report().is_empty():
+		_open_overlay(_required_report())
 	hud.refresh(sim, paused, speed, description)
 	queue_redraw()
 
+func _required_report() -> String:
+	if sim.period == Match.Period.HALF_TIME: return "halftime"
+	if sim.finished and not result_dismissed: return "result"
+	return ""
+
 func _on_command(action: String) -> void:
+	if not overlay_mode.is_empty() and action in ["pause", "speed1", "speed2"]: return
 	match action:
 		"pause":
 			if not sim.finished: paused = not paused
 		"speed1": speed = 1
 		"speed2": speed = 2
-		"menu", "details", "log", "restart", "new": _open_overlay(action)
+		"menu", "details", "log", "restart", "new", "result": _open_overlay(action)
+		"effects", "motion":
+			if action == "effects": hud.effects_enabled = not hud.effects_enabled
+			else: hud.reduced_motion = not hud.reduced_motion
+			hud.show_panel("menu", sim)
+		"continue_half":
+			if overlay_mode == "halftime" and sim.acknowledge_halftime():
+				_close_overlay()
+				paused = false
+		"continue_result":
+			if overlay_mode == "result" and sim.finished:
+				result_dismissed = true
+				_open_overlay("menu")
 		"back": _dismiss_overlay()
 		"resume":
-			_close_overlay()
-			paused = false
+			if not _required_report().is_empty(): _open_overlay(_required_report())
+			else:
+				_close_overlay()
+				paused = false
 		"confirm_restart": _restart(false)
 		"confirm_new": _restart(true)
 		"quit": get_tree().quit()
@@ -109,17 +133,21 @@ func _open_overlay(mode: String) -> void:
 		before_overlay_paused = paused
 		restore_focus = get_viewport().gui_get_focus_owner()
 		overlay_parent = ""
-	elif overlay_mode == "menu":
+	elif overlay_mode == "menu" and mode != "menu":
 		overlay_parent = "menu"
+	else: overlay_parent = ""
 	paused = true
 	overlay_mode = mode
 	hud.show_panel(mode, sim)
 
 func _dismiss_overlay() -> void:
+	if overlay_mode in ["halftime", "result"]: return
 	if overlay_parent == "menu":
 		overlay_parent = ""
 		overlay_mode = "menu"
 		hud.show_panel("menu", sim)
+	elif not _required_report().is_empty():
+		_open_overlay(_required_report())
 	else:
 		_close_overlay()
 		paused = before_overlay_paused
@@ -140,6 +168,7 @@ func _restart(new_seed: bool = false) -> void:
 	label_alpha.fill(1.0)
 	label_dim_until.fill(0)
 	ball_roll = 0
+	result_dismissed = false
 	_close_overlay()
 	paused = false
 	hud.event_count = -1
@@ -221,7 +250,7 @@ func _draw_ball() -> void:
 	var ground := _field(ball)
 	var bounce := 0.0
 	var touch := Vector2.ZERO
-	if sim.owner >= 0 and sim.players[sim.owner].position.distance_to(sim.players[sim.owner].previous) > 0.005:
+	if not hud.reduced_motion and sim.owner >= 0 and sim.players[sim.owner].position.distance_to(sim.players[sim.owner].previous) > 0.005:
 		var phase := sim.held_ticks * TAU / 24.0
 		bounce = absf(sin(phase)) * 1.6
 		touch = (sim.players[sim.owner].position - sim.players[sim.owner].previous).normalized() * sin(phase) * 1.8
@@ -248,7 +277,7 @@ func _draw_goal(end: int) -> void:
 	var net := Rect2(net_x, top, depth, bottom - top)
 	var recoil := 0.0
 	var age: int = sim.ticks - hud.goal_cue_tick
-	if hud.goal_cue_actor >= 0 and age >= 0 and age < 90:
+	if hud.effects_enabled and not hud.reduced_motion and hud.goal_cue_actor >= 0 and age >= 0 and age < 90:
 		var scoring_team: int = sim.players[hud.goal_cue_actor].team
 		if (end == 1) == (sim.direction(scoring_team) > 0):
 			recoil = sin(age * 0.3) * exp(-age / 25.0) * 2.0
@@ -271,8 +300,8 @@ func _draw_player(index: int) -> void:
 	var color := CREAM if index < 11 else CORAL
 	if selected == index or sim.owner == index:
 		draw_arc(point, 17.0 if selected == index else 16.0, 0, TAU, 36, AMBER, 2.0 if selected == index else 1.3, true)
-	if index == hud.goal_cue_actor and sim.ticks - hud.goal_cue_tick < 150:
-		draw_arc(point, 18 + sin((sim.ticks - hud.goal_cue_tick) * 0.15), 0, TAU, 36, AMBER, 1.5, true)
+	if hud.effects_enabled and index == hud.goal_cue_actor and sim.ticks - hud.goal_cue_tick < 150:
+		draw_arc(point, 18 + (0 if hud.reduced_motion else sin((sim.ticks - hud.goal_cue_tick) * 0.15)), 0, TAU, 36, AMBER, 1.5, true)
 	draw_circle(point + Vector2(1, 2.5), 13.8, Color(0.02,0.05,0.025,0.85))
 	draw_circle(point, 13.2, Color("102315"))
 	draw_circle(point, 12.3, CREAM)
