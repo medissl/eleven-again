@@ -48,6 +48,13 @@ var ball_velocity := Vector2.ZERO
 var flight_target := Vector2.ZERO
 var flight_source := -1
 var flight_kind := "pass"
+var shots := [0, 0]
+var shots_on_target := [0, 0]
+var saves := [0, 0]
+var shot_quality := 0.0
+var keeper_tested := false
+var dead_ticks := 0
+var restart_team := 0
 
 func _init(seed_value: int = 11027) -> void:
 	match_seed = seed_value
@@ -91,11 +98,17 @@ func reset_shape(kicking_team: int) -> void:
 
 func step() -> void:
 	ticks += 1
-	active_ticks += 1
 	previous_ball = ball
 	for p in players:
 		p.previous = p.position
 		p.cooldown = maxi(0, p.cooldown - 1)
+	if ball_state == BallState.DEAD:
+		dead_ticks -= 1
+		if dead_ticks <= 0:
+			reset_shape(restart_team)
+			emit_event("kickoff", owner)
+		return
+	active_ticks += 1
 	if ticks % 15 == 1:
 		choose_targets()
 	move_players()
@@ -109,6 +122,8 @@ func step() -> void:
 	elif ball_state == BallState.FLIGHT:
 		advance_flight()
 	elif ball_state == BallState.LOOSE:
+		ball += ball_velocity * DT
+		ball_velocity *= 0.96
 		for p in players:
 			if p.position.distance_to(ball) < 1.3:
 				take_control(p.id)
@@ -173,6 +188,7 @@ func take_control(id: int, kind: String = "recovery") -> void:
 	last_touch = id
 	ball_state = BallState.CONTROLLED
 	ball = players[id].position
+	ball_velocity = Vector2.ZERO
 	held_ticks = 0
 	players[id].cooldown = maxi(players[id].cooldown, 18)
 	emit_event(kind, id)
@@ -196,6 +212,10 @@ func choose_action() -> void:
 	var carrier := players[owner]
 	var nearest_defender := nearest(1 - carrier.team, carrier.position)
 	var pressure := clampf(1 - players[nearest_defender].position.distance_to(carrier.position) / 6, 0, 1)
+	var goal := oriented(Vector2(105, 34), carrier.team)
+	if carrier.id % 11 != 0 and carrier.position.distance_to(goal) < 28 and held_ticks > 42:
+		shoot(pressure)
+		return
 	var best := -1
 	var best_score := -INF
 	for p in players:
@@ -243,20 +263,93 @@ func advance_flight() -> void:
 	for p in players:
 		if p.id == flight_source:
 			continue
+		if flight_kind == "shot" and (p.team == players[flight_source].team or p.id % 11 == 0):
+			continue
 		var along := segment_fraction(p.position, from, destination)
 		if p.position.distance_to(from.lerp(destination, along)) < 1.25 and along < first:
 			contact = p.id
 			first = along
 	if contact >= 0:
+		if flight_kind == "shot":
+			ball = from.lerp(destination, first)
+			last_touch = contact
+			owner = -1
+			ball_state = BallState.LOOSE
+			ball_velocity = Vector2(-ball_velocity.x * 0.35, rng.randf_range(-8, 8))
+			emit_event("block", contact, {"shooter": flight_source})
+			return
 		var same_team := players[contact].team == players[flight_source].team
 		if same_team:
 			completed_passes[players[contact].team] += 1
 		take_control(contact, "received" if same_team else "interception")
 		return
 	ball = destination
+	if flight_kind == "shot":
+		var shooter := players[flight_source]
+		var keeper := players[(1 - shooter.team) * 11]
+		var crosses_keeper := (from.x - keeper.position.x) * (ball.x - keeper.position.x) <= 0
+		if not keeper_tested and crosses_keeper and absf(flight_target.y - 34) <= 3.66:
+			keeper_tested = true
+			if absf(ball.y - keeper.position.y) <= 5.5 and keeper_save(keeper.id):
+				return
+		if ball.x <= 0 or ball.x >= 105:
+			if absf(ball.y - 34) <= 3.66:
+				goal_scored(flight_source)
+			else:
+				emit_event("miss", flight_source)
+				ball = ball.clamp(Vector2(2, 2), FIELD - Vector2(2, 2))
+				take_control(keeper.id, "goal_kick")
+			return
+		return
 	if ball.distance_to(flight_target) <= ball_velocity.length() * DT or (flight_target - ball).dot(ball_velocity) <= 0:
 		ball_state = BallState.LOOSE
 		ball_velocity = Vector2.ZERO
+
+func shoot(pressure: float = 0) -> void:
+	var shooter := players[owner]
+	var goal := oriented(Vector2(105, 34), shooter.team)
+	shot_quality = clampf(1.05 - ball.distance_to(goal) / 40 - absf(ball.y - 34) / 70, 0, 1)
+	var accuracy := clampf(0.30 + 0.004 * (shooter.shooting - 60) + 0.32 * shot_quality - 0.16 * pressure, 0.15, 0.95)
+	shots[shooter.team] += 1
+	var target_y := 34 + rng.randf_range(-3.2, 3.2)
+	var on_target := rng.randf() < accuracy
+	if not on_target:
+		target_y = 34 + (-1 if rng.randf() < 0.5 else 1) * rng.randf_range(5.5, 10)
+	keeper_tested = false
+	launch_ball(Vector2(goal.x, target_y), 28 + shooter.shooting * 0.08, "shot")
+	emit_event("shot", shooter.id, {"on_target": on_target, "quality": shot_quality})
+
+func keeper_save(keeper_id: int) -> bool:
+	var shooter := players[flight_source]
+	var keeper := players[keeper_id]
+	var chance := clampf(0.90 - 0.65 * shot_quality + 0.003 * (keeper.keeping - 80) - 0.002 * (shooter.shooting - 80), 0.10, 0.95)
+	if rng.randf() >= chance:
+		return false
+	shots_on_target[shooter.team] += 1
+	saves[keeper.team] += 1
+	last_touch = keeper_id
+	emit_event("save", keeper_id, {"shooter": flight_source})
+	if rng.randf() < 0.72:
+		take_control(keeper_id, "hold")
+	else:
+		owner = -1
+		ball_state = BallState.LOOSE
+		ball = keeper.position + Vector2(-direction(shooter.team) * 1.5, 0)
+		ball_velocity = Vector2(-direction(shooter.team) * 12, rng.randf_range(-8, 8))
+		emit_event("parry", keeper_id)
+	return true
+
+func goal_scored(shooter_id: int) -> void:
+	var team := players[shooter_id].team
+	scores[team] += 1
+	shots_on_target[team] += 1
+	ball = Vector2(105 if team == 0 else 0, ball.y)
+	emit_event("goal", shooter_id, {"score": scores.duplicate()})
+	owner = -1
+	ball_state = BallState.DEAD
+	ball_velocity = Vector2.ZERO
+	dead_ticks = 90
+	restart_team = 1 - team
 
 func challenge_carrier() -> void:
 	if held_ticks < 18:
@@ -286,6 +379,7 @@ func signature() -> Array:
 		ball_velocity, flight_target, flight_source, flight_kind, rng.state, scores.duplicate(),
 		possession_ticks.duplicate(), pass_attempts.duplicate(), completed_passes.duplicate(),
 		tackles.duplicate(), events.duplicate(true)]
+	result.append([shots.duplicate(), shots_on_target.duplicate(), saves.duplicate(), shot_quality, keeper_tested, dead_ticks, restart_team])
 	for p in players:
 		result.append([p.position, p.target, p.cooldown])
 	return result
