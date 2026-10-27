@@ -11,6 +11,7 @@
 - Before later card/recruitment/index work read `CARD_DESIGN_HANDOFF.md` and its assets under `outputs/card-design-reference-v1/`. The user supplied these for future phases; do not implement the card system as part of Phase 1.
 - Current user terminology is **Eleven Again**, despite the older GDD calling the title unchosen.
 - The user accepted the current UI on 28 October 2026 and requested a local checkpoint. Follow `outputs/ui-refresh-reference-v3/CODEX_PROMPT.md` and its halftime-led typography/hierarchy for future polish. Preserve compact score/team alignment, drawn icons, no default yellow focus boxes or trailing Resume arrow, and natural confetti. Continue with planned gameplay; defer further UI work until reported or needed by a gameplay feature.
+- Gameplay task 1.13 now uses a stationary `KICKOFF` ball state before the actual pass. `kickoff_setup` resets the rendered shape; `kickoff` marks the real kick. Setup consumes no active regulation time. The taker is excluded from ball recovery/pursuit until another player touches it. See `reports/kickoffs.md`; next is boundary restarts (1.14).
 
 ## Working method
 

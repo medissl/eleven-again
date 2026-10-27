@@ -1,6 +1,6 @@
 # Eleven Again — development tasks
 
-Task source of truth. Read `plan.md` for phase boundaries, GDD authority, architecture, checks, and prompts. Status on 27 October 2026: Phase 1 implemented and technically verified; **human watchability feedback pending, then 2.1**. See [Phase 1 evidence](../reports/phase-one.md).
+Task source of truth. Read `plan.md` for phase boundaries, GDD authority, architecture, checks, and prompts. Status on 28 October 2026: presentation accepted, proper kickoff (1.13) implemented and verified; **next: genuine boundary restarts (1.14)**. See [Phase 1 evidence](../reports/phase-one.md) and [kickoff evidence](../reports/kickoffs.md).
 
 Each task below has a checkable outcome, verification, dependencies, and likely files. Paths are suggestions; inspect existing code before choosing them. S ≈ 1–2 files, M ≈ 3–5; split a task that grows beyond that. Update a completed task with concise evidence (actual command/result, seeds/screenshots where relevant, limits, and local commit). Checkpoints review the preceding work and do not automatically authorize a new phase.
 
@@ -83,12 +83,13 @@ Each task below has a checkable outcome, verification, dependencies, and likely 
 
 UI acceptance: user tested and accepted the current UI on 28 October 2026; stop UI work and save locally. Combined native checks: 111,224 assertions, zero failures. See `../reports/ui-refresh.md` for capture/input evidence and limits. Further UI defects are deferred to polish.
 
-### Football follow-ups requested during the presentation pass (not implemented)
+### Football follow-ups requested during the presentation pass
 
-- [ ] **1.13 — Proper kickoff and opening touch.** Replace starting with an already-controlled striker dribble with a stationary centre-mark ball, legal setup and an actual opening kick/pass, including after goals and halftime.
+- [x] **1.13 — Proper kickoff and opening touch.** Replace starting with an already-controlled striker dribble with a stationary centre-mark ball, legal setup and an actual opening kick/pass, including after goals and halftime.
   - Acceptance: correct restarting team, other players in their own halves, opponents outside 9.15 m until the kick; ball physically moves and the kicker cannot touch twice before another player. A backward opening pass is an ordinary available pattern, not a mandatory law. Source: [IFAB Law 8](https://www.theifab.com/laws/latest/the-start-and-restart-of-play/).
   - Verification: initial/goal/second-half kickoff scenarios, legal placements and physical first reception at both speeds; seeded outcome equivalence after rule changes.
   - Dependencies: 1.12. Likely files: match model/restarts, existing native rule checks (M).
+  - Evidence (28 October): dedicated stationary kickoff state, legal shape, 12-tick opening countdown, real short backward pass using ordinary passing/reception, second-touch eligibility and eligible ball pursuit. First/goal/second-half scenarios and full-view 1×/2× equivalence pass; native runner: 111,192 assertions, zero failures. Import clean. Native 720p/1080p frame sequences reviewed; see `../reports/kickoffs.md`. One authored opening pattern; illegal second touches are prevented, rather than awarding indirect free kicks. Next: 1.14.
 - [ ] **1.14 — Genuine boundary restarts.** Classify the earliest whole-ball boundary crossing using actual last touch; distinguish throw, corner, goal kick and goal, including defensive blocks/keeper deflections.
   - Acceptance: no periodic awards or double award near a corner; keeper holds remain controlled, parries create one live ball, and awarded restarts have a bounded legal setup and real delivery. Declare any missing height rules.
   - Verification: authored last-touch/crossing/near-corner/deflection cases, ordinary fixture event rates and visible ball/feed agreement.
@@ -98,7 +99,7 @@ UI acceptance: user tested and accepted the current UI on 28 October 2026; stop 
   - Verification: clean/failed/foul challenge scenarios and natural fixture observation; no repeated award or restart soft lock.
   - Dependencies: 1.14. Likely files: challenge/restart rules and focused native checks (M).
 
-Follow-up priorities: complete attribute execution in **2.1**, coordinated/contextual football AI in **2.6**, selectable tactics in **2.3**, and real automatic card traits in **6.1**. The current prototype has basic heuristics, five outfield attributes and generic keeping only; it does not implement the complete AI/attribute/tactic/trait design. The current UI/motion request does not authorize silently building all these systems in the same patch.
+Follow-up priorities after restart/foul slices: complete attribute execution in **2.1**, coordinated/contextual football AI in **2.6**, selectable tactics in **2.3**, and real automatic card traits in **6.1**. The current prototype has basic heuristics, five outfield attributes and generic keeping only; it does not implement the complete AI/attribute/tactic/trait design. Continue in coherent, separately verified gameplay slices.
 
 ## Phase 2 — meaningful preparation
 

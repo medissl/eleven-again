@@ -118,7 +118,7 @@ func snap_presentation() -> void:
 func _consume_presentation_events() -> void:
 	for index in range(presentation_events,sim.events.size()):
 		var event: Dictionary = sim.events[index]
-		if event.kind == "kickoff" and event.tick > 0:
+		if event.kind == "kickoff_setup" and event.tick > 0:
 			# Briefly reveal the real reset shape; never draw a fictional flight to centre.
 			for i in 22: player_positions[i] = sim.players[i].position
 			ball = sim.ball

@@ -57,6 +57,7 @@ func run() -> void:
 	lane.challenge_carrier()
 	check(lane.events.size() == event_count, "challenge cooldown prevents per-frame retries")
 	var settled := Match.new(8)
+	settled.take_control(9)
 	settled.launch_ball(settled.players[8].position, 24, "pass")
 	settled.ball_state = Match.BallState.LOOSE
 	settled.take_control(8)
@@ -74,6 +75,7 @@ func run() -> void:
 	wing.pass_to(9)
 	check(wing.flight_target.x > 84, "forward passes lead a moving receiver")
 	test_shots()
+	test_kickoffs()
 	test_clock()
 	if "--model-only" not in OS.get_cmdline_user_args(): await test_view()
 	print("CHECKS ", checks, " FAILURES ", failures.size())
@@ -163,6 +165,63 @@ func test_shots() -> void:
 		check(keeper_chance.events.size() == count, "keeper smother cooldown prevents retry spam")
 	check(smothers > 0 and smothers < 32, "reachable keeper can contest a dribble without guaranteed possession")
 
+func verify_kickoff(model, team: int) -> void:
+	check(model.ball_state == Match.BallState.KICKOFF and model.owner == -1, "kickoff setup has a stationary unowned ball")
+	var positions: Array[Vector2] = []
+	for p in model.players:
+		positions.append(p.position)
+		check(model.oriented(p.position, p.team).x <= 52.5, "kickoff players start in their own halves")
+		if p.team != team: check(p.position.distance_to(Match.CENTRE) >= 9.15 - 0.0001, "kickoff opponents respect centre circle")
+	var active_before: int = model.active_ticks
+	var rng_before: int = model.rng.state
+	var attempts: Array = model.pass_attempts.duplicate()
+	for tick in Match.KICKOFF_SETUP_TICKS - 1:
+		model.step()
+		check(model.ball == Match.CENTRE and model.active_ticks == active_before and model.rng.state == rng_before, "setup consumes no active time or action RNG")
+		for p in model.players: check(p.position == positions[p.id], "players hold legal positions until opening kick")
+	model.step()
+	check(model.owner == -1 and model.ball_state == Match.BallState.FLIGHT, "kickoff launches a physical pass rather than a dribble")
+	check(model.ball.distance_to(Match.CENTRE) > 0 and model.ball.distance_to(Match.CENTRE) < 0.6, "first live tick clearly moves the ball without teleporting")
+	check(model.last_touch == team * 11 + 9 and model.kickoff_kicker == model.last_touch, "actual taker makes the first touch")
+	check(model.active_ticks == active_before + 1 and model.pass_attempts[team] == attempts[team] + 1, "opening kick counts once as active play and an attempted pass")
+	var launch: Array = model.signature()
+	model.take_control(model.kickoff_kicker)
+	check(model.signature() == launch, "kicker cannot take a second touch before anyone else")
+	for tick in 120:
+		if model.owner >= 0: break
+		model.step()
+	check(model.owner >= 0 and model.owner != team * 11 + 9 and model.kickoff_kicker == -1, "another player physically receives before kicker becomes eligible")
+	check(model.completed_passes[team] == 1, "kickoff reception completes exactly one pass")
+
+func test_kickoffs() -> void:
+	verify_kickoff(Match.new(42), 0)
+	var goal := Match.new(42)
+	goal.take_control(9)
+	goal.goal_scored(9)
+	for tick in 150: goal.step()
+	check(goal.scores == [1, 0], "goal stoppage retains the actual score")
+	verify_kickoff(goal, 1)
+	var half := Match.new(42)
+	half.period = Match.Period.HALF_TIME
+	check(half.acknowledge_halftime() and not half.acknowledge_halftime(), "second half setup starts exactly once")
+	check(half.direction(1) == 1, "second half changes attacking direction")
+	verify_kickoff(half, 1)
+	# A missed opening ball stays live; the taker cannot recover it as a loose ball either.
+	var loose := Match.new(42)
+	for tick in Match.KICKOFF_SETUP_TICKS: loose.step()
+	loose.ball_state = Match.BallState.LOOSE
+	loose.ball_velocity = Vector2.ZERO
+	loose.ball = loose.players[9].position
+	loose.choose_targets()
+	check(loose.players[9].target != loose.ball, "ineligible kickoff taker offers support instead of chasing their own pass")
+	loose.step()
+	check(loose.owner == -1 and loose.kickoff_kicker == 9, "loose-ball recovery also excludes the kickoff taker")
+	loose.take_control(6)
+	loose.take_control(9)
+	check(loose.owner == 9, "another player's touch releases kickoff restriction")
+	loose.reset_shape(1)
+	check(loose.kickoff_kicker == -1 and loose.kickoff_taker == 20, "fresh kickoff resets the prior restriction")
+
 func test_clock() -> void:
 	for seconds in [60, 120, 180]:
 		var calibrated := Match.new(42, seconds)
@@ -171,6 +230,7 @@ func test_clock() -> void:
 		calibrated.active_ticks = calibrated.regulation_ticks
 		check(calibrated.display_minute() == 90, "full-time clock derives from duration")
 	var match_model := Match.new(11027)
+	for tick in Match.KICKOFF_SETUP_TICKS: match_model.step()
 	match_model.active_ticks = match_model.regulation_ticks / 2 - 1
 	match_model.step()
 	check(match_model.period == Match.Period.HALF_TIME and match_model.active_ticks == 5400 and match_model.display_minute() == 45, "halftime after ninety active seconds")
@@ -179,7 +239,8 @@ func test_clock() -> void:
 		match_model.step()
 	check(match_model.signature() == half_state, "halftime waits without consuming ticks RNG cooldowns or statistics")
 	check(match_model.acknowledge_halftime() and not match_model.acknowledge_halftime(), "Continue starts the second half exactly once")
-	check(match_model.players[match_model.owner].team == 1 and match_model.direction(0) == -1, "second half changes ends and kickoff team")
+	check(match_model.restart_team == 1 and match_model.direction(0) == -1, "second half changes ends and kickoff team")
+	for tick in Match.KICKOFF_SETUP_TICKS: match_model.step()
 	match_model.active_ticks = match_model.regulation_ticks - 1
 	match_model.step()
 	check(match_model.finished and match_model.events.back().minute == 90, "full time at three active minutes")
@@ -226,6 +287,7 @@ func test_view() -> void:
 	view.set_physics_process(false)
 	check(not view.paused, "exhibition enters play without a second kickoff button")
 	check(root.gui_get_focus_owner() == null, "live view does not start with an unwanted focused pause box")
+	check(view.hud.event_copy(view.sim.events[0])[1] == "Preparing kickoff", "kickoff setup is described honestly in the event log")
 	var score_font: Font = view.theme.get_font("font","Score")
 	check(absf(score_font.get_string_size("1111",HORIZONTAL_ALIGNMENT_LEFT,-1,46).x-score_font.get_string_size("8888",HORIZONTAL_ALIGNMENT_LEFT,-1,46).x) < 0.1, "score numerals have stable advances")
 	for glyph in [0x00d7,0x2013,0x2032,0x2192,0x00c9]:
@@ -267,6 +329,7 @@ func test_view() -> void:
 	view._on_command("confirm_new")
 	check(view.sim.match_seed == 11028 and view.sim.ticks == 0 and not view.paused, "confirmed new exhibition starts the next seed")
 	view.sim = Match.new(42)
+	view.sim.kickoff_ticks = 1 # Authored clock boundary begins on the actual opening kick.
 	view.hud.event_count = -1
 	view.selected = -1
 	view.sim.active_ticks = view.sim.regulation_ticks / 2 - 1
@@ -354,7 +417,7 @@ func test_view() -> void:
 	view.paused = false
 	for tick in 150: view.sim.step()
 	view._sync_state()
-	check(not view.hud.labels.goal_title.visible and view.sim.ball_state == Match.BallState.CONTROLLED, "celebration expires with the existing restart without a second pause")
+	check(not view.hud.labels.goal_title.visible and view.sim.ball_state == Match.BallState.KICKOFF, "celebration expires into legal kickoff setup without a second button")
 	view.sim.take_control(0, "parry")
 	view._sync_state()
 	check(view.hud.event_list.get_child(0).get_child(2).get_child(1).text == "Live rebound", "keeper parries remain visible in the recent feed")

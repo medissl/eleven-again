@@ -76,7 +76,7 @@ class EventIcon:
 		elif kind == "block":
 			draw_polyline(PackedVector2Array([Vector2(6,7),Vector2(17,3),Vector2(28,7),Vector2(26,20),Vector2(17,29),Vector2(8,20),Vector2(6,7)]),color,1.8,true)
 			draw_line(Vector2(11,11),Vector2(23,23),color,1.8,true)
-		elif kind == "kickoff":
+		elif kind in ["kickoff", "kickoff_setup"]:
 			draw_arc(center,10,0,TAU,24,color,1.5,true)
 			draw_line(Vector2(17,3),Vector2(17,31),color,1.5,true)
 			draw_circle(center,2.5,color)
@@ -284,6 +284,7 @@ func event_copy(event: Dictionary) -> Array[String]:
 		"miss": return [actor, "Shot wide"]
 		"shot": return [actor, "Shot"]
 		"kickoff": return ["Meadow XI" if event.team == 0 else "Harbor XI", "Kickoff"]
+		"kickoff_setup": return ["Meadow XI" if event.team == 0 else "Harbor XI", "Preparing kickoff"]
 		"halftime": return ["Half time", "Teams change ends"]
 		"full_time": return ["Full time", "%d–%d · Exhibition draw" % event.score if event.score[0] == event.score[1] else "%d–%d · Final score" % event.score]
 		"pass": return [actor, "Pass to %s" % model.players[event.receiver].name]

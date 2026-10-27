@@ -4,7 +4,7 @@ An offline PC football squad-building roguelike, built in Godot. Prepare a ficti
 
 ## Current state
 
-UI refresh accepted by the user on **28 October 2026**. Shared packaged typography, fullscreen menus/reports, distinct icons and renderer-only transition polish are checkpointed locally. See [UI checkpoint evidence](reports/ui-refresh.md). Further UI work is deferred to polish; proper kickoff/rules, full attributes, coordinated AI, tactics and traits remain planned gameplay work.
+UI refresh accepted by the user on **28 October 2026**. Shared packaged typography, fullscreen menus/reports, distinct icons and renderer-only transition polish are checkpointed locally. See [UI checkpoint evidence](reports/ui-refresh.md). Further UI work is deferred to polish. Proper kickoffs now set a stationary centre ball, legal spacing and an actual opening pass, including after goals and halftime; see [kickoff verification](reports/kickoffs.md). Boundary rules, full attributes, coordinated AI, tactics and traits remain planned gameplay work.
 
 Phase 1 implemented, 27 October 2026: a playable fictional eleven-a-side exhibition with physical passes, interceptions, tackles, shots, saves, rebounds, goals, two halves, a live journal, statistics, and pause/speed controls. Godot **4.7.2.stable.official.ed1daf0bf**, GDScript, GL Compatibility; no external dependencies.
 
@@ -41,4 +41,4 @@ See [Phase 1 verification](reports/phase-one.md) for exact checks, seeds, render
 
 GitHub repository: [medissl/eleven-again](https://github.com/medissl/eleven-again). Local Git is initialized with this `origin`. Local checkpoints do not imply files have been pushed; publishing requires user authorization.
 
-Next milestone after watchability feedback: **Phase 2 — meaningful preparation**. Development is on `codex/phase-one`; nothing has been pushed.
+Next gameplay slice: **1.14 — genuine boundary restarts**, before meaningful preparation in Phase 2. Kickoff development is on `codex/proper-kickoffs`; nothing has been pushed.

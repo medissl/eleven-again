@@ -171,7 +171,7 @@ func verify_controls(viewport: SubViewport, scene: Control) -> void:
 
 func capture_motion(kind: String) -> void:
 	var viewport := SubViewport.new()
-	viewport.size = Vector2i(1280,720)
+	viewport.size = Vector2i(1920,1080) if "--motion-1080p" in OS.get_cmdline_user_args() else Vector2i(1280,720)
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	var view: Control = load("res://match/match_view.tscn").instantiate()
@@ -180,22 +180,23 @@ func capture_motion(kind: String) -> void:
 	view.set_physics_process(false)
 	view.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	view.size = Vector2(1280,720)
-	var wanted: String = {"goal":"goal","goal2x":"goal","goalpause":"goal","halftime":"halftime","fulltime":"full_time","passes":"pass","rebound":"parry","recovery":"tackle","menu":"pass"}[kind]
+	view.scale = Vector2(viewport.size) / view.size
+	var wanted: String = {"kickoff":"kickoff", "kickoff2x":"kickoff", "goal":"goal","goal2x":"goal","goalpause":"goal","halftime":"halftime","fulltime":"full_time","passes":"pass","rebound":"parry","recovery":"tackle","menu":"pass"}[kind]
 	while not view.sim.events.any(func(event): return event.kind == wanted) and not view.sim.finished:
 		if wanted != "halftime": view.sim.acknowledge_halftime()
 		view.sim.step()
 	assert(view.sim.events.any(func(event): return event.kind == wanted))
-	if kind in ["passes","rebound","recovery","goal","goal2x","goalpause"]:
+	if kind in ["kickoff","kickoff2x","passes","rebound","recovery","goal","goal2x","goalpause"]:
 		var lead_in: int = maxi(0,view.sim.ticks-12)
 		view.sim = load("res://match/match_sim.gd").new(11027)
 		while view.sim.ticks < lead_in:
 			view.sim.acknowledge_halftime()
 			view.sim.step()
 	view.paused = false
-	view.speed = 2 if kind == "goal2x" else 1
+	view.speed = 2 if kind in ["kickoff2x", "goal2x"] else 1
 	view._sync_state()
 	if view.has_method("snap_presentation"): view.call("snap_presentation")
-	var directory := "res://.godot/presentation-frames/" + kind
+	var directory := "res://.godot/presentation-frames/%s-%d" % [kind, viewport.size.y]
 	DirAccess.make_dir_recursive_absolute(directory)
 	var frames := 210
 	for frame in frames:
