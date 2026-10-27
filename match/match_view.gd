@@ -1,16 +1,13 @@
 extends Control
 
+const Match = preload("res://match/match_sim.gd")
+
 const CREAM := Color("efecda")
 const MUTED := Color("9aa99e")
 const AMBER := Color("e9b65e")
 const CORAL := Color("e88670")
 const GREEN := Color("184d3b")
-const ANCHORS := [Vector2(6, 34), Vector2(25, 9), Vector2(21, 26),
-	Vector2(21, 43), Vector2(25, 59), Vector2(42, 34), Vector2(53, 21),
-	Vector2(53, 47), Vector2(72, 10), Vector2(77, 34), Vector2(72, 58)]
-const NAMES := ["Ward", "Hart", "Okoro", "Silva", "Sato", "Reed", "Costa",
-	"Idris", "Bima", "Arden", "Noor", "Novak", "Park", "Dube", "Bauer",
-	"Chen", "Vega", "Musa", "Leone", "Ilyas", "Moreau", "Rossi"]
+const NAMES = Match.NAMES
 
 var pitch := Rect2()
 var player_positions: Array[Vector2] = []
@@ -22,13 +19,12 @@ var labels: Dictionary = {}
 var buttons: Dictionary = {}
 var feed: RichTextLabel
 var font: Font
+var sim := Match.new()
 
 func _ready() -> void:
 	font = ThemeDB.fallback_font
-	for team in 2:
-		for anchor in ANCHORS:
-			var kickoff_anchor := Vector2(anchor.x * 0.6, anchor.y)
-			player_positions.append(kickoff_anchor if team == 0 else Vector2(105 - kickoff_anchor.x, 68 - kickoff_anchor.y))
+	for p in sim.players:
+		player_positions.append(p.position)
 	_make_label("brand", "ELEVEN AGAIN", 23, CREAM)
 	_make_label("edition", "EXHIBITION  /  MATCH LAB", 12, MUTED)
 	_make_label("home", "MEADOW XI", 22, CREAM)
@@ -55,6 +51,19 @@ func _ready() -> void:
 	feed.text = "[color=#e9b65e]PRE-MATCH[/color]\nTwo ordinary elevens. One open pitch.\n\nSelect Kick off to begin."
 	resized.connect(_layout)
 	_layout()
+	_sync_state()
+
+func _physics_process(_delta: float) -> void:
+	if not paused:
+		for i in speed:
+			sim.step()
+		_sync_state()
+
+func _sync_state() -> void:
+	for i in 22:
+		player_positions[i] = sim.players[i].position
+	ball = sim.ball
+	queue_redraw()
 
 func _make_label(id: String, value: String, font_size: int, color: Color) -> void:
 	var label := Label.new()
@@ -169,10 +178,12 @@ func _toggle_speed() -> void:
 	buttons.speed.text = "%d× speed" % speed
 
 func _restart() -> void:
+	sim = Match.new(sim.match_seed)
 	paused = true
 	selected = -1
 	buttons.pause.text = "Kick off"
 	labels.clock.text = "00′  /  READY"
+	_sync_state()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
