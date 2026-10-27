@@ -214,12 +214,22 @@ func key(code: int) -> InputEventKey:
 	event.pressed = true
 	return event
 
+func label_texts(node: Node) -> String:
+	var lines: Array[String] = []
+	for label in node.find_children("*","Label",true,false): lines.append(label.text)
+	return "\n".join(lines)
+
 func test_view() -> void:
 	var view = load("res://match/match_view.tscn").instantiate()
 	view.fixture_seed = 11027
 	root.add_child(view)
 	view.set_physics_process(false)
 	check(not view.paused, "exhibition enters play without a second kickoff button")
+	check(root.gui_get_focus_owner() == null, "live view does not start with an unwanted focused pause box")
+	var score_font: Font = view.theme.get_font("font","Score")
+	check(absf(score_font.get_string_size("1111",HORIZONTAL_ALIGNMENT_LEFT,-1,46).x-score_font.get_string_size("8888",HORIZONTAL_ALIGNMENT_LEFT,-1,46).x) < 0.1, "score numerals have stable advances")
+	for glyph in [0x00d7,0x2013,0x2032,0x2192,0x00c9]:
+		check(view.theme.default_font.has_char(glyph), "packaged body font covers required controls minute and Latin glyphs")
 	view._physics_process(Match.DT)
 	check(view.sim.ticks == 1, "live view advances the authoritative match")
 	view._input(key(KEY_SPACE))
@@ -242,7 +252,7 @@ func test_view() -> void:
 	view._input(key(KEY_ESCAPE))
 	check(view.overlay_mode == "menu" and view.paused, "nested details returns to the paused menu")
 	view._input(key(KEY_ESCAPE))
-	check(not view.hud.overlay.visible and view.paused, "closing menu restores prior paused state")
+	check(not view.hud.overlay.is_active() and view.paused, "closing menu restores prior paused state")
 	view.hud.buttons.pause.pressed.emit()
 	view.hud.buttons.menu.pressed.emit()
 	view._input(key(KEY_ESCAPE))
@@ -263,15 +273,11 @@ func test_view() -> void:
 	view.speed = 2
 	view._physics_process(Match.DT)
 	check(view.sim.ticks == 1 and view.overlay_mode == "halftime" and view.paused, "2x stops on the exact halftime boundary and opens the report")
-	check("No goals" in view.hud.panel_content.find_child("Moments", true, false).get_parsed_text(), "empty first-half moments are explained")
+	check("No goals" in label_texts(view.hud.panel_content.find_child("Moments", true, false)), "empty first-half moments are explained")
 	var empty_model := Match.new(42)
 	empty_model.halftime_report = empty_model.snapshot_report()
 	view.hud.show_panel("halftime", empty_model)
-	var stat_grid: GridContainer = view.hud.panel_content.find_children("*", "GridContainer", true, false)[0]
-	var unavailable := 0
-	for label in stat_grid.get_children():
-		if label.text == "—": unavailable += 1
-	check(unavailable == 2, "no controlled possession shows unavailable percentages rather than invented shares")
+	check(view.hud.panel_content.find_child("PossessionHome",true,false).text == "—" and view.hud.panel_content.find_child("PossessionAway",true,false).text == "—", "no controlled possession shows unavailable percentages rather than invented shares")
 	view.hud.show_panel("halftime", view.sim)
 	var half_signature: Array = view.sim.signature()
 	for frame in 10: view._physics_process(Match.DT)
@@ -299,14 +305,14 @@ func test_view() -> void:
 	check(view.hud.labels.score.text == "%d – %d" % view.sim.scores and "FULL TIME" in view.hud.labels.clock.text, "HUD agrees with seeded final result")
 	check(view.hud.event_list.get_child(0).get_child(2).get_child(0).text == "Full time", "newest event appears first")
 	check(view.overlay_mode == "result" and view.paused, "full time opens a persistent result report")
-	var moments: String = view.hud.panel_content.find_child("Moments", true, false).get_parsed_text()
+	var moments: String = label_texts(view.hud.panel_content.find_child("Moments", true, false))
 	check("Goal" in moments and "No goals" not in moments, "report never appends an empty-state message to actual scoring events")
 	view._input(key(KEY_ESCAPE))
 	check(view.overlay_mode == "result", "Escape cannot discard the final report")
 	view._on_command("continue_result")
 	check(view.overlay_mode == "menu", "result Continue leads to exhibition choices")
 	view._on_command("log")
-	var log_text: String = view.hud.panel_content.get_child(1).get_parsed_text()
+	var log_text: String = label_texts(view.hud.panel_content.find_child("EventLog",true,false))
 	check("Pass to" in log_text and "%d–%d" % view.sim.scores in log_text, "full log includes passes and authoritative final score")
 	view._on_command("back")
 	view._on_command("menu")
@@ -330,12 +336,17 @@ func test_view() -> void:
 	check(view.sim.scores == [0, 0] and view.sim.active_ticks == 0 and view.sim.events.size() == 1, "restart clears scores events and clock")
 	view.sim.goal_scored(9)
 	view._sync_state()
-	check(view.hud.labels.goal_title.visible and "Arden" in view.hud.labels.goal_detail.text and "1–0" in view.hud.labels.goal_detail.text, "goal celebration names the actual scorer and event score")
+	check(view.hud.labels.goal_title.visible and "ARDEN" in view.hud.labels.goal_detail.text and view.hud.goal_event.score == [1,0], "goal celebration names the actual scorer and event score")
+	var activations: int = view.hud.celebration.activation_count
+	for repeat_refresh in 10: view._sync_state()
+	check(view.hud.celebration.activation_count == activations, "HUD refresh never replays the goal entrance")
 	var celebration_state: Array = view.sim.signature()
 	view._on_command("menu")
+	view._on_command("settings")
 	view._on_command("effects")
 	view._on_command("motion")
 	check(not view.hud.effects_enabled and view.hud.reduced_motion and view.sim.signature() == celebration_state, "effect preferences change no gameplay state")
+	view._on_command("back")
 	view._on_command("resume")
 	view.paused = true
 	for frame in 10: view._physics_process(Match.DT)
@@ -349,5 +360,29 @@ func test_view() -> void:
 	check(view.hud.event_list.get_child(0).get_child(2).get_child(1).text == "Live rebound", "keeper parries remain visible in the recent feed")
 	view._restart()
 	check(not view.hud.labels.goal_title.visible and view.hud.goal_event.is_empty(), "restarting clears every celebration cue")
+	check(view.hud.celebration.particles.is_empty(), "restart releases all cosmetic confetti state")
+	var origin: Vector2 = view.player_positions[5]
+	view.sim.players[5].position = origin + Vector2(1,0)
+	var unchanged_model: Array = view.sim.signature()
+	view._process(Match.DT/2)
+	check(view.player_positions[5].x > origin.x and view.player_positions[5].x < view.sim.players[5].position.x, "render settling moves toward the actual player without overshoot")
+	check(view.sim.signature() == unchanged_model, "render easing never advances or writes authoritative football")
+	view.paused = true
+	var frozen_pose: Array = view.player_positions.duplicate()
+	for frame in 10: view._process(Match.DT)
+	check(view.player_positions == frozen_pose and view.sim.signature() == unchanged_model, "pause freezes visible field settling as well as simulation")
+	view.sim.take_control(5,"recovery")
+	view._sync_state()
+	var contact_tick: int = view.impact_tick
+	var recovered: Array = view.sim.signature()
+	for refresh in 10: view._sync_state()
+	check(view.impact_tick == contact_tick and view.sim.signature() == recovered, "refresh cannot replay a recovery or change its ownership")
+	view._on_command("menu")
+	view._on_command("resume")
+	var closing_tween = view.hud.overlay.transition
+	view._on_command("menu")
+	check(view.hud.overlay.is_active() and (closing_tween == null or not closing_tween.is_running()), "rapid reopening cancels the obsolete closing transition")
+	view._restart()
+	check(view.ball_trail.is_empty() and view.impact_tick < 0 and view.hud.overlay.transition == null, "restart clears contact trails and pending menu transitions")
 	view.queue_free()
 	await process_frame

@@ -62,11 +62,49 @@ Each task below has a checkable outcome, verification, dependencies, and likely 
 
 **Gate 1 — technical/report visual/input checks passed; human watchability open:** Historical tasks 1.1–1.6 remain recorded above; 1.7–1.8 implement the revised presentation without claiming complete football rules. Reports/goals/menu were rendered at both sizes and native Godot viewport input verified. Longer name/ball-motion observation and final performance are still unmeasured. See [Phase 1 report](../reports/phase-one.md). Automated checks cannot establish enjoyment; obtain watchability feedback before Phase 2.
 
+### Approved presentation refresh and subsequent motion pass
+
+- [x] **1.9 — Shared broadcast theme and live HUD.** Package licensed Barlow Condensed/Inter locally; unify font, palette, score/clock, controls and real event rows against `outputs/ui-refresh-reference-v3/`.
+  - Acceptance: true field aspect, ivory selected controls, clear focus, truthful events and readable long-name fallbacks; no football-model changes.
+  - Verification: import/parse, both-size live renders, glyph/contrast and input checks.
+  - Dependencies: 1.8. Likely files: theme/fonts, `ui/match_hud.gd`, `match/match_view.gd` (M plus vendored assets).
+- [x] **1.10 — Coherent fullscreen menus and reports.** Use the approved halftime hierarchy for half/final reports, pause, details, log, settings and confirmations; expose only supported actions.
+  - Acceptance: snapshot statistics/scorers, possession tooltip, clear primary action, correct nested Back/Escape/focus, supported accessibility settings and 720p/enlarged fit.
+  - Verification: real renders and native input at both sizes; frozen-state and continuation regressions.
+  - Dependencies: 1.9. Likely files: `ui/match_overlay.gd`, `ui/match_hud.gd`, `match/match_view.gd`, existing tests (M).
+- [x] **1.11 — Broadcast goal and presentation transitions.** Replace the bordered goal dialog with condensed italic type, a team-colour diagonal sweep and capped confetti; short calm menu/summary entrances.
+  - Acceptance: stable event identity; pause/speed/restart cannot duplicate or extend outcomes; reduced motion retains static information; no lingering effects.
+  - Verification: actual entrance/hold/exit motion artifacts, still captures, native lifecycle/equivalence checks.
+  - Dependencies: 1.10. Likely files: `ui/goal_celebration.gd`, overlay/HUD, capture checks (M).
+- [x] **1.12 — Subsequent football transition polish.** Smooth visible possession/recovery, pass/save/rebound, restart/kickoff and period transitions, after the coherent UI refresh.
+  - Acceptance: renderer-only easing, fixed camera, stable names and readable ball; genuine fast actions stay fast; authoritative ownership/timing/RNG unchanged under pause, speed, rapid input and restart.
+  - Verification: watch real motion for the affected sequences, inspect transition artifacts, run native determinism/pause and presentation reset checks.
+  - Dependencies: 1.11. Likely files: `match/match_view.gd`, presentation modules and focused checks (M).
+
+UI acceptance: user tested and accepted the current UI on 28 October 2026; stop UI work and save locally. Combined native checks: 111,224 assertions, zero failures. See `../reports/ui-refresh.md` for capture/input evidence and limits. Further UI defects are deferred to polish.
+
+### Football follow-ups requested during the presentation pass (not implemented)
+
+- [ ] **1.13 — Proper kickoff and opening touch.** Replace starting with an already-controlled striker dribble with a stationary centre-mark ball, legal setup and an actual opening kick/pass, including after goals and halftime.
+  - Acceptance: correct restarting team, other players in their own halves, opponents outside 9.15 m until the kick; ball physically moves and the kicker cannot touch twice before another player. A backward opening pass is an ordinary available pattern, not a mandatory law. Source: [IFAB Law 8](https://www.theifab.com/laws/latest/the-start-and-restart-of-play/).
+  - Verification: initial/goal/second-half kickoff scenarios, legal placements and physical first reception at both speeds; seeded outcome equivalence after rule changes.
+  - Dependencies: 1.12. Likely files: match model/restarts, existing native rule checks (M).
+- [ ] **1.14 — Genuine boundary restarts.** Classify the earliest whole-ball boundary crossing using actual last touch; distinguish throw, corner, goal kick and goal, including defensive blocks/keeper deflections.
+  - Acceptance: no periodic awards or double award near a corner; keeper holds remain controlled, parries create one live ball, and awarded restarts have a bounded legal setup and real delivery. Declare any missing height rules.
+  - Verification: authored last-touch/crossing/near-corner/deflection cases, ordinary fixture event rates and visible ball/feed agreement.
+  - Dependencies: 1.13. Likely files: match model, ball rules/restarts, focused rule checks (M).
+- [ ] **1.15 — Genuine fouls and basic free kicks.** Add fouls from real late/illegal challenge context and bounded free-kick setup/delivery; keep clean and failed challenges distinct.
+  - Acceptance: no random stoppage lottery, no animation-awarded offences, correct location/team/taker and one restart per incident. Full discipline/penalty edge cases remain 5.1–5.3.
+  - Verification: clean/failed/foul challenge scenarios and natural fixture observation; no repeated award or restart soft lock.
+  - Dependencies: 1.14. Likely files: challenge/restart rules and focused native checks (M).
+
+Follow-up priorities: complete attribute execution in **2.1**, coordinated/contextual football AI in **2.6**, selectable tactics in **2.3**, and real automatic card traits in **6.1**. The current prototype has basic heuristics, five outfield attributes and generic keeping only; it does not implement the complete AI/attribute/tactic/trait design. The current UI/motion request does not authorize silently building all these systems in the same patch.
+
 ## Phase 2 — meaningful preparation
 
 - [ ] **2.1 — Data-backed cards and role ratings.** Replace prototype constants with validated card Resources and the GDD's role weights, familiarity penalties, and goalkeeper fields.
-  - Acceptance: 1–120 bounds, weights, stable IDs, primary/slot OVR, and emergency keeping are correct; match execution uses attributes without a second OVR multiplier.
-  - Verification: table-driven rating/bound/identity validation and same-card different-role scenarios; fictional exhibition still runs.
+  - Acceptance: full PAC/SHO/PAS/DRI/DEF/PHY and REF/HAN/POS/DIV/KIC values, 1–120 bounds, stable IDs, role weights/OVR and emergency keeping are correct. Relevant attributes visibly affect their actual execution domain through one effective-value path; OVR adds no hidden multiplier. Split data and execution domains into focused increments before coding.
+  - Verification: rating/identity/role cases plus paired 60-versus-100 scenarios for movement, finishing, passing/first touch, defending/strength/endurance and keeper domains; fictional exhibition and playback equality remain intact.
   - Dependencies: Gate 1. Likely files: `content/player_card.gd`, `content/prototype_roster.tres`, `squad/squad_rules.gd`, `match/match_sim.gd`, `tests/test_squad.gd` (M).
 - [ ] **2.2 — Build and commit a legal XI.** Add preparation with comparison, bench, and 4-3-3/4-4-2/4-2-3-1 assignments.
   - Acceptance: eleven distinct owned available players and one assigned GK are required; penalties, captain, takers, and penalty order are editable/previewed; kickoff locks submitted decisions against live edits.
@@ -75,7 +113,7 @@ Each task below has a checkable outcome, verification, dependencies, and likely 
 - [ ] **2.3 — Tactical identity on the pitch.** Connect three attacking and three defensive approaches to positioning and action preferences.
   - Acceptance: all nine combinations are selectable and previewed; controlled possession/direct/counter and press/block examples visibly differ without a hidden matchup bonus.
   - Verification: seeded context scenarios and event/position comparisons; inspect representative matches and unchanged playback equivalence.
-  - Dependencies: 2.2. Likely files: `content/tactics.tres`, `match/decisions.gd`, `ui/preparation.gd`, `tests/test_tactics.gd` (M).
+  - Dependencies: 2.2 and 2.6. Likely files: `content/tactics.tres`, `match/decisions.gd`, `ui/preparation.gd`, `tests/test_tactics.gd` (M).
 
 **Checkpoint 2A:** Role-adjusted selection is legal and tactics affect observed play; baseline match invariants still pass.
 
@@ -88,6 +126,11 @@ Each task below has a checkable outcome, verification, dependencies, and likely 
   - Acceptance: max five substitutions/three windows excluding halftime; eligible players enter at full stamina, no re-entry, and harmful or impossible swaps are skipped with an explanation.
   - Verification: template thresholds, used/unavailable bench, window cap, and trailing/leading cases; inspect pre-match preview and actual substitution events.
   - Dependencies: 2.4. Likely files: `match/substitutions.gd`, `match/match_sim.gd`, `ui/preparation.gd`, `ui/match_hud.gd`, `tests/test_substitutions.gd` (M).
+
+- [ ] **2.6 — Coordinated, context-aware football AI.** Build on the prototype with support triangles, elected pressure with cover, useful runs/recycling and comparable legal pass/carry/shoot choices informed by real player strengths. These foundations run before 2.3's tactic presets.
+  - Acceptance: ordinary untraited football produces observable coordinated patterns; no swarm, scripted score, guaranteed combination or tactic matchup multiplier. Commit intentions long enough to avoid oscillation. Split patterns/action choices into focused increments before coding.
+  - Verification: authored support/cover/chance-choice cases and paired seeded geometry/action comparisons, then observed match motion at both speeds; keep authoritative equality.
+  - Dependencies: 2.1 and 2.2. Likely files: match decisions/team intents, player execution, native AI checks (M per increment).
 
 **Gate 2:** Lineup/tactical/substitution decisions are understandable and reproducible. Review gameplay and preparation at both sizes; retain the Phase 1 regression suite.
 
@@ -183,7 +226,7 @@ Each task below has a checkable outcome, verification, dependencies, and likely 
 
 Card/album reference saved by the user: read `../CARD_DESIGN_HANDOFF.md` and the linked project references before tasks 6.3–6.4. Apply its archive-card direction to earlier recruitment/squad UI tasks when they begin, with gameplay rules still governed by the GDD.
 
-- [ ] **6.1 — Signature identities.** Add eight conditional trait types to shared effective attributes, with six coaching principles composed under the same cap.
+- [ ] **6.1 — Real automatic signature traits.** Implement the single trait printed on a card as a bounded enhancement of an actual legal action, with above-player identity and honest activation/success/partial/failure feedback. Ordinary football works without traits. Catalogue counts and balance remain provisional.
   - Acceptance: maximum one trait per card; conditional +3/+4 effects and +6 cap precede role/fatigue penalties; timers and applicability survive save/resume without double counting.
   - Verification: boundary/stack/timer cases for every trait and principle, substitute timing, and equivalent visible/headless runs.
   - Dependencies: Gate 5. Likely files: `content/traits.tres`, `match/effective_attributes.gd`, `match/match_sim.gd`, `persistence/state_codec.gd`, `tests/test_traits.gd` (M).

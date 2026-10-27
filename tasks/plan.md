@@ -138,4 +138,6 @@ For a later phase:
 
 ## Current handoff
 
+**28 October update:** The user tested and accepted the reference-led UI refresh and requested stopping UI work at a local checkpoint. Tasks 1.9–1.12 are complete; evidence and verification limits are in `../reports/ui-refresh.md`. Preserve three-minute timing. Next gameplay follow-ups are proper kickoff (1.13), genuine restarts/fouls (1.14–1.15), full attributes (2.1), coordinated AI (2.6), tactics (2.3) and traits (6.1). Do not continue UI polish without a reported defect or gameplay need. The paragraph below records the earlier checkpoint.
+
 Phase 1 presentation continuation now includes the on-field goal/scorer/confetti cue, session effects/reduced-motion switches, frozen first-half statistics/events and deliberate Continue, plus persistent full-time results and visible parries in the feed. Three-minute regulation remains unchanged. Behavioral checks, real report renders and native viewport input checks pass; see `../reports/phase-one.md`. Human watchability and longer motion/performance observation remain open before Phase 2 task **2.1**. Card references stay deferred. No push, CI, export or established balance is claimed.

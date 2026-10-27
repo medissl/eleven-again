@@ -1,53 +1,142 @@
-[gd_resource type="Theme" load_steps=5 format=3]
+[gd_resource type="Theme" load_steps=18 format=3]
 
-[sub_resource type="StyleBoxFlat" id="Button"]
-bg_color = Color(0.055, 0.095, 0.065, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.20, 0.28, 0.20, 1)
-content_margin_left = 8.0
-content_margin_right = 8.0
-content_margin_top = 7.0
-content_margin_bottom = 7.0
+[ext_resource type="FontFile" path="res://assets/fonts/Inter-Variable.ttf" id="1"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-Bold.ttf" id="2"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-SemiBold.ttf" id="3"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-BoldItalic.ttf" id="4"]
 
-[sub_resource type="StyleBoxFlat" id="Selected"]
-bg_color = Color(0.12, 0.16, 0.075, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
+[sub_resource type="FontVariation" id="Body"]
+base_font = ExtResource("1")
+variation_opentype = {"wght": 450.0, "opsz": 18.0}
+opentype_features = {"tnum": 1}
+
+[sub_resource type="FontVariation" id="Strong"]
+base_font = ExtResource("1")
+variation_opentype = {"wght": 600.0, "opsz": 18.0}
+opentype_features = {"tnum": 1}
+
+[sub_resource type="FontVariation" id="Score"]
+base_font = ExtResource("2")
+opentype_features = {"tnum": 1}
+
+[sub_resource type="FontVariation" id="Section"]
+base_font = ExtResource("1")
+spacing_glyph = 4
+
+[sub_resource type="StyleBoxFlat" id="Quiet"]
+bg_color = Color(0, 0, 0, 0)
 border_width_bottom = 1
-border_color = Color(0.925, 0.757, 0.31, 1)
+border_color = Color(0.36, 0.43, 0.37, 0.6)
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxFlat" id="Hover"]
-bg_color = Color(0.14, 0.20, 0.14, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.5, 0.6, 0.4, 1)
-content_margin_left = 8.0
-content_margin_right = 8.0
-content_margin_top = 7.0
-content_margin_bottom = 7.0
+bg_color = Color(0.18, 0.27, 0.21, 0.6)
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="Ivory"]
+bg_color = Color(0.937, 0.914, 0.851, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="IvoryHover"]
+bg_color = Color(1, 0.974, 0.91, 1)
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxFlat" id="Focus"]
 bg_color = Color(0, 0, 0, 0)
 border_width_left = 2
-border_width_top = 2
 border_width_right = 2
+border_width_top = 2
 border_width_bottom = 2
-border_color = Color(0.91, 0.71, 0.37, 1)
+border_color = Color(0.937, 0.914, 0.851, 1)
+expand_margin_left = 3.0
+expand_margin_right = 3.0
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id="Empty"]
+
+[sub_resource type="StyleBoxFlat" id="Tooltip"]
+bg_color = Color(0.06, 0.12, 0.1, 1)
+content_margin_left = 14.0
+content_margin_right = 14.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxLine" id="Rule"]
+color = Color(0.70, 0.73, 0.65, 0.55)
+thickness = 1
+
+[sub_resource type="StyleBoxLine" id="VerticalRule"]
+color = Color(0.70, 0.73, 0.65, 0.55)
+thickness = 1
+vertical = true
 
 [resource]
-default_font_size = 16
-Label/colors/font_color = Color(0.93, 0.925, 0.85, 1)
-Button/colors/font_color = Color(0.93, 0.925, 0.85, 1)
-Button/colors/font_hover_color = Color(1, 0.79, 0.4, 1)
-Button/colors/font_focus_color = Color(1, 0.79, 0.4, 1)
-Button/styles/focus = SubResource("Focus")
-Button/colors/font_pressed_color = Color(0.925, 0.757, 0.31, 1)
-Button/styles/normal = SubResource("Button")
+default_font = SubResource("Body")
+default_font_size = 17
+Palette/colors/forest = Color(0.063, 0.118, 0.102, 1)
+Palette/colors/ivory = Color(0.937, 0.914, 0.851, 1)
+Palette/colors/coral = Color(0.929, 0.471, 0.392, 1)
+Palette/colors/muted = Color(0.70, 0.76, 0.71, 1)
+Palette/colors/amber = Color(0.91, 0.72, 0.39, 1)
+Palette/constants/gutter = 32
+Palette/constants/row_height = 52
+Heading/base_type = &"Label"
+Heading/fonts/font = ExtResource("2")
+Heading/font_sizes/font_size = 30
+Team/base_type = &"Label"
+Team/fonts/font = ExtResource("3")
+Team/font_sizes/font_size = 26
+Score/base_type = &"Label"
+Score/fonts/font = SubResource("Score")
+Score/font_sizes/font_size = 46
+Section/base_type = &"Label"
+Section/fonts/font = SubResource("Section")
+Section/font_sizes/font_size = 15
+BodyStrong/base_type = &"Label"
+BodyStrong/fonts/font = SubResource("Strong")
+Goal/base_type = &"Label"
+Goal/fonts/font = ExtResource("4")
+Label/colors/font_color = Color(0.937, 0.914, 0.851, 1)
+RichTextLabel/fonts/normal_font = SubResource("Body")
+RichTextLabel/font_sizes/normal_font_size = 17
+Button/fonts/font = SubResource("Body")
+Button/font_sizes/font_size = 17
+Button/colors/font_color = Color(0.937, 0.914, 0.851, 1)
+Button/colors/font_hover_color = Color(1, 0.974, 0.91, 1)
+Button/colors/font_focus_color = Color(0.937, 0.914, 0.851, 1)
+Button/colors/font_pressed_color = Color(0.04, 0.12, 0.085, 1)
+Button/styles/normal = SubResource("Quiet")
 Button/styles/hover = SubResource("Hover")
-Button/styles/pressed = SubResource("Selected")
+Button/styles/pressed = SubResource("Ivory")
+Button/styles/focus = SubResource("Focus")
+Primary/base_type = &"Button"
+Primary/fonts/font = SubResource("Strong")
+Primary/colors/font_color = Color(0.04, 0.12, 0.085, 1)
+Primary/colors/font_focus_color = Color(0.04, 0.12, 0.085, 1)
+Primary/colors/font_hover_color = Color(0.04, 0.12, 0.085, 1)
+Primary/styles/normal = SubResource("Ivory")
+Primary/styles/hover = SubResource("IvoryHover")
+Primary/styles/pressed = SubResource("IvoryHover")
+PanelContainer/styles/panel = SubResource("Empty")
+HSeparator/colors/separator_color = Color(0.40, 0.48, 0.41, 0.6)
+HSeparator/styles/separator = SubResource("Rule")
+VSeparator/styles/separator = SubResource("VerticalRule")
+TooltipPanel/styles/panel = SubResource("Tooltip")
+TooltipLabel/font_sizes/font_size = 15

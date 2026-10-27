@@ -2,9 +2,10 @@ extends Control
 
 const Match = preload("res://match/match_sim.gd")
 const Hud = preload("res://ui/match_hud.gd")
-const CREAM := Color("f1eedb")
-const CORAL := Color("ed7864")
-const AMBER := Color("ecc14f")
+const MatchTheme = preload("res://ui/game_theme.tres")
+var CREAM: Color = MatchTheme.get_color("ivory", "Palette")
+var CORAL: Color = MatchTheme.get_color("coral", "Palette")
+var AMBER: Color = MatchTheme.get_color("amber", "Palette")
 @export var fixture_seed: int = 0
 var sim := Match.new()
 var paused := false
@@ -22,15 +23,24 @@ var overlay_mode := ""
 var overlay_parent := ""
 var before_overlay_paused := false
 var restore_focus: Control
+var overlay_return_focus := ""
 var label_alpha := PackedFloat32Array()
 var label_dim_until := PackedInt64Array()
 var ball_roll := 0.0
 var result_dismissed := false
+var presentation_fixture := 0
+var presentation_events := 0
+var formation_tick := -1000
+var owner_tick := -1000
+var presented_owner := -1
+var impact_tick := -1000
+var impact_position := Vector2.ZERO
+var ball_trail: Array[Vector2] = []
 
 func _ready() -> void:
 	var seed_value := fixture_seed if fixture_seed != 0 else int(Time.get_unix_time_from_system()) ^ Time.get_ticks_usec()
 	sim = Match.new(seed_value)
-	font = ThemeDB.fallback_font
+	font = MatchTheme.default_font
 	for p in sim.players: player_positions.append(p.position)
 	label_alpha.resize(22)
 	label_alpha.fill(1.0)
@@ -46,7 +56,7 @@ func _ready() -> void:
 		_sync_state())
 	_layout()
 	_sync_state()
-	hud.buttons.pause.grab_focus()
+	hud.apply_focus_style()
 
 func _make_turf() -> void:
 	# One reusable texture; fixed surface noise never consumes match randomness.
@@ -63,7 +73,8 @@ func _make_turf() -> void:
 func _layout() -> void:
 	if not is_instance_valid(hud): return
 	var divider := size.x - 270
-	var available := Rect2(24, 86, divider - 48, size.y - 108)
+	var top: float = 86 + (hud.ui_scale - 1) * 50
+	var available := Rect2(24, top, divider - 48, size.y - top - 22)
 	var factor := minf(available.size.x / 105, available.size.y / 68)
 	pitch = Rect2(available.get_center() - Vector2(105, 68) * factor / 2, Vector2(105, 68) * factor)
 	hud.arrange(pitch, divider)
@@ -80,8 +91,8 @@ func _physics_process(_delta: float) -> void:
 
 func _sync_state() -> void:
 	if not is_instance_valid(hud): return
-	for i in 22: player_positions[i] = sim.players[i].position
-	ball = sim.ball
+	if presentation_fixture != sim.get_instance_id(): snap_presentation()
+	_consume_presentation_events()
 	var inspected := hovered if hovered >= 0 else selected
 	var description := ""
 	if inspected >= 0:
@@ -91,6 +102,56 @@ func _sync_state() -> void:
 		_open_overlay(_required_report())
 	hud.refresh(sim, paused, speed, description)
 	queue_redraw()
+
+func snap_presentation() -> void:
+	# Discontinuous fixture loading is not a pass or a long-distance ball flight.
+	presentation_fixture = sim.get_instance_id()
+	presentation_events = sim.events.size()
+	for i in 22: player_positions[i] = sim.players[i].position
+	ball = sim.ball
+	ball_trail.clear()
+	formation_tick = -1000
+	impact_tick = -1000
+	owner_tick = -1000
+	presented_owner = sim.owner
+
+func _consume_presentation_events() -> void:
+	for index in range(presentation_events,sim.events.size()):
+		var event: Dictionary = sim.events[index]
+		if event.kind == "kickoff" and event.tick > 0:
+			# Briefly reveal the real reset shape; never draw a fictional flight to centre.
+			for i in 22: player_positions[i] = sim.players[i].position
+			ball = sim.ball
+			formation_tick = sim.ticks
+			ball_trail.clear()
+		elif event.kind == "goal":
+			ball = sim.ball # The crossing and score stay visually aligned.
+			ball_trail.clear()
+		elif event.kind in ["received","recovery","tackle","interception","save","block"]:
+			impact_tick = event.tick
+			impact_position = event.position
+	presentation_events = sim.events.size()
+	if sim.owner != presented_owner:
+		presented_owner = sim.owner
+		if presented_owner >= 0: owner_tick = sim.ticks
+
+func _process(delta: float) -> void:
+	if not is_instance_valid(hud) or paused: return
+	# A few milliseconds of render-only settling, with no anticipation or overshoot.
+	for i in 22: player_positions[i] = player_positions[i].lerp(sim.players[i].position,1-exp(-delta*65))
+	ball = ball.lerp(sim.ball,1-exp(-delta*100))
+	if sim.ball_state == Match.BallState.FLIGHT and not hud.reduced_motion:
+		if ball_trail.is_empty() or ball_trail.back().distance_to(ball) > 0.02: ball_trail.append(ball)
+		while ball_trail.size() > 4: ball_trail.pop_front()
+	else: ball_trail.clear()
+	queue_redraw()
+
+func _formation_opacity() -> float:
+	if hud.reduced_motion: return 1.0
+	if not sim.finished and sim.ball_state == Match.BallState.DEAD and sim.restart_kind == "kickoff":
+		return clampf(sim.dead_ticks/12.0,0,1)
+	var progress := clampf((sim.ticks-formation_tick)/10.0,0,1)
+	return progress*progress*(3-2*progress)
 
 func _required_report() -> String:
 	if sim.period == Match.Period.HALF_TIME: return "halftime"
@@ -104,11 +165,15 @@ func _on_command(action: String) -> void:
 			if not sim.finished: paused = not paused
 		"speed1": speed = 1
 		"speed2": speed = 2
-		"menu", "details", "log", "restart", "new", "result": _open_overlay(action)
+		"menu", "details", "log", "settings", "restart", "new", "result": _open_overlay(action)
 		"effects", "motion":
 			if action == "effects": hud.effects_enabled = not hud.effects_enabled
 			else: hud.reduced_motion = not hud.reduced_motion
-			hud.show_panel("menu", sim)
+			hud.show_panel(overlay_mode, sim)
+		"scale100", "scale115", "scale125":
+			hud.set_ui_scale(float(action.trim_prefix("scale")) / 100.0)
+			_layout()
+			hud.show_panel(overlay_mode, sim)
 		"continue_half":
 			if overlay_mode == "halftime" and sim.acknowledge_halftime():
 				_close_overlay()
@@ -135,6 +200,7 @@ func _open_overlay(mode: String) -> void:
 		overlay_parent = ""
 	elif overlay_mode == "menu" and mode != "menu":
 		overlay_parent = "menu"
+		overlay_return_focus = mode
 	else: overlay_parent = ""
 	paused = true
 	overlay_mode = mode
@@ -146,17 +212,20 @@ func _dismiss_overlay() -> void:
 		overlay_parent = ""
 		overlay_mode = "menu"
 		hud.show_panel("menu", sim)
+		hud.focus_action(overlay_return_focus)
 	elif not _required_report().is_empty():
 		_open_overlay(_required_report())
 	else:
 		_close_overlay()
 		paused = before_overlay_paused
 
-func _close_overlay() -> void:
+func _close_overlay(animate: bool = true) -> void:
 	overlay_mode = ""
 	overlay_parent = ""
-	hud.close_panel()
-	if is_instance_valid(restore_focus) and restore_focus is BaseButton and not restore_focus.disabled:
+	hud.close_panel(animate)
+	if not hud.keyboard_focus:
+		get_viewport().gui_release_focus()
+	elif is_instance_valid(restore_focus) and restore_focus is BaseButton and not restore_focus.disabled:
 		restore_focus.grab_focus()
 	else:
 		hud.buttons.menu.grab_focus()
@@ -169,16 +238,23 @@ func _restart(new_seed: bool = false) -> void:
 	label_dim_until.fill(0)
 	ball_roll = 0
 	result_dismissed = false
-	_close_overlay()
+	_close_overlay(false)
 	paused = false
 	hud.event_count = -1
 	_sync_state()
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		hud.keyboard_focus = false
+		hud.apply_focus_style()
+		return
 	if not (event is InputEventKey and event.pressed and not event.echo): return
+	if event.keycode in [KEY_TAB,KEY_ESCAPE,KEY_ENTER]:
+		hud.keyboard_focus = true
+		hud.apply_focus_style()
 	if event.keycode == KEY_ESCAPE:
 		if overlay_mode.is_empty(): _open_overlay("menu")
-		else: _dismiss_overlay()
+		elif not hud.overlay.dismiss_help(): _dismiss_overlay()
 	elif not overlay_mode.is_empty(): return
 	elif event.keycode == KEY_SPACE:
 		if not sim.finished: paused = not paused
@@ -233,6 +309,12 @@ func _draw() -> void:
 	for point in [Vector2(0,0),Vector2(105,0),Vector2(105,68),Vector2(0,68)]:
 		var start := 0.0 if point == Vector2.ZERO else (PI / 2 if point.y == 0 else (PI if point.x > 0 else PI * 1.5))
 		draw_arc(_field(point), _scale(), start, start + PI / 2, 12, line, 1.1, true)
+	if not hud.reduced_motion and sim.ticks-impact_tick >= 0 and sim.ticks-impact_tick < 10:
+		var phase := (sim.ticks-impact_tick)/10.0
+		draw_arc(_field(impact_position),7+phase*9,0,TAU,24,Color(CREAM,0.3*(1-phase)),1.2,true)
+	if sim.ball_state == Match.BallState.FLIGHT and not hud.reduced_motion:
+		for index in range(1,ball_trail.size()):
+			draw_line(_field(ball_trail[index-1]),_field(ball_trail[index]),Color(CREAM,0.08+index*0.035),1.4,true)
 	for i in 22:
 		if i != sim.owner and i != selected: _draw_player(i)
 	if sim.owner >= 0 and sim.owner != selected: _draw_player(sim.owner)
@@ -247,6 +329,7 @@ func _draw() -> void:
 	_draw_ball()
 
 func _draw_ball() -> void:
+	var opacity := _formation_opacity()
 	var ground := _field(ball)
 	var bounce := 0.0
 	var touch := Vector2.ZERO
@@ -256,17 +339,17 @@ func _draw_ball() -> void:
 		touch = (sim.players[sim.owner].position - sim.players[sim.owner].previous).normalized() * sin(phase) * 1.8
 	var center := ground + touch - Vector2(0, bounce)
 	draw_set_transform(ground + Vector2(0, 4), 0, Vector2(1.35, 0.5))
-	draw_circle(Vector2.ZERO, 4.7, Color(0.01,0.03,0.02,0.75))
+	draw_circle(Vector2.ZERO, 4.7, Color(0.01,0.03,0.02,0.75*opacity))
 	draw_set_transform(Vector2.ZERO)
-	draw_circle(center, 6.2, Color("102118"))
-	draw_circle(center, 5.1, Color("e5e8df"))
+	draw_circle(center, 6.2, Color(Color("102118"),opacity))
+	draw_circle(center, 5.1, Color(Color("e5e8df"),opacity))
 	var patch := PackedVector2Array()
 	for i in 5: patch.append(center + Vector2.from_angle(ball_roll + i * TAU / 5) * 2.0)
-	draw_colored_polygon(patch, Color("203c2a"))
+	draw_colored_polygon(patch, Color(Color("203c2a"),opacity))
 	for i in 3:
 		var angle := ball_roll + i * TAU / 3
-		draw_colored_polygon(PackedVector2Array([center + Vector2.from_angle(angle) * 3.2, center + Vector2.from_angle(angle - 0.3) * 4.8, center + Vector2.from_angle(angle + 0.3) * 4.8]), Color("203c2a"))
-	draw_circle(center + Vector2(-1.6, -2.0), 0.9, Color(1,1,1,0.8))
+		draw_colored_polygon(PackedVector2Array([center + Vector2.from_angle(angle) * 3.2, center + Vector2.from_angle(angle - 0.3) * 4.8, center + Vector2.from_angle(angle + 0.3) * 4.8]), Color(Color("203c2a"),opacity))
+	draw_circle(center + Vector2(-1.6, -2.0), 0.9, Color(1,1,1,0.8*opacity))
 
 func _draw_goal(end: int) -> void:
 	var depth := 2.5 * _scale()
@@ -297,30 +380,35 @@ func _draw_goal(end: int) -> void:
 
 func _draw_player(index: int) -> void:
 	var point := _field(player_positions[index])
-	var color := CREAM if index < 11 else CORAL
+	var opacity := _formation_opacity()
+	var color := Color(CREAM if index < 11 else CORAL,opacity)
 	if selected == index or sim.owner == index:
-		draw_arc(point, 17.0 if selected == index else 16.0, 0, TAU, 36, AMBER, 2.0 if selected == index else 1.3, true)
+		var transfer := 0.0 if hud.reduced_motion else 3*clampf(1-(sim.ticks-owner_tick)/10.0,0,1)
+		draw_arc(point, 17.0 if selected == index else 16.0+transfer, 0, TAU, 36, Color(AMBER,opacity), 2.0 if selected == index else 1.3, true)
 	if hud.effects_enabled and index == hud.goal_cue_actor and sim.ticks - hud.goal_cue_tick < 150:
-		draw_arc(point, 18 + (0 if hud.reduced_motion else sin((sim.ticks - hud.goal_cue_tick) * 0.15)), 0, TAU, 36, AMBER, 1.5, true)
-	draw_circle(point + Vector2(1, 2.5), 13.8, Color(0.02,0.05,0.025,0.85))
-	draw_circle(point, 13.2, Color("102315"))
-	draw_circle(point, 12.3, CREAM)
+		draw_arc(point, 18 + (0 if hud.reduced_motion else sin((sim.ticks - hud.goal_cue_tick) * 0.15)), 0, TAU, 36, Color(AMBER,opacity), 1.5, true)
+	draw_circle(point + Vector2(1, 2.5), 13.8, Color(0.02,0.05,0.025,0.85*opacity))
+	draw_circle(point, 13.2, Color(Color("102315"),opacity))
+	draw_circle(point, 12.3, Color(CREAM,opacity))
 	draw_circle(point, 11.1, color)
 	if index % 11 == 0:
-		draw_circle(point, 10.3, Color("247f53"))
+		draw_circle(point, 10.3, Color(Color("247f53"),opacity))
 	if index >= 11:
-		draw_arc(point, 9, PI * 0.10, PI * 0.90, 14, Color("9d4937"), 1.2, true)
+		draw_arc(point, 9, PI * 0.10, PI * 0.90, 14, Color(Color("9d4937"),opacity), 1.2, true)
 	var number := str(index % 11 + 1)
 	var number_pos := point + Vector2(-font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x / 2, 5)
 	if index >= 11 or index % 11 == 0:
 		for offset in [Vector2(-0.7,0),Vector2(0.7,0),Vector2(0,-0.7),Vector2(0,0.7)]:
-			draw_string(font, number_pos + offset, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("27432d"))
-	draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, CREAM if index % 11 == 0 or index >= 11 else Color("102315"))
+			draw_string(font, number_pos + offset, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(Color("27432d"),opacity))
+	draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM if index % 11 == 0 or index >= 11 else Color("102315"),opacity))
 
 func _draw_name(index: int) -> void:
 	var point := _field(player_positions[index])
-	var player_name: String = Match.NAMES[index]
-	var width := font.get_string_size(player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+	var player_name: String = sim.players[index].name
+	var pixels: int = roundi(14 * hud.ui_scale)
+	while font.get_string_size(player_name,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x > 120 * hud.ui_scale and player_name.length() > 2:
+		player_name = player_name.left(player_name.length()-2) + "…"
+	var width := font.get_string_size(player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels).x
 	# A fixed below-token anchor prevents the old above/below flipping in duels.
 	var pos := point + Vector2(-width / 2, 29)
 	pos.x = clampf(pos.x, 4, size.x - 276 - width)
@@ -333,6 +421,7 @@ func _draw_name(index: int) -> void:
 	var target := 0.2 if sim.ticks < label_dim_until[index] and not important else 1.0
 	label_alpha[index] = 1.0 if important else lerpf(label_alpha[index], target, minf(get_process_delta_time() * 8, 1))
 	if not blocked or important: name_rects.append(rect)
+	var opacity := label_alpha[index]*_formation_opacity()
 	for halo in [Vector2(-1,0),Vector2(1,0),Vector2(0,-1),Vector2(0,1)]:
-		draw_string(font, pos + halo, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.04,0.08,0.04,label_alpha[index]))
-	draw_string(font, pos, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM, label_alpha[index]))
+		draw_string(font, pos + halo, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels, Color(0.04,0.08,0.04,opacity))
+	draw_string(font, pos, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels, Color(CREAM, opacity))
