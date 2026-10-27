@@ -1,5 +1,6 @@
 extends RefCounted
 ## The match owns outcomes. Rendering and commentary only consume this state.
+const BallRules = preload("res://match/ball_rules.gd")
 
 enum BallState { CONTROLLED, FLIGHT, LOOSE, DEAD, KICKOFF }
 enum Period { FIRST_HALF, HALF_TIME, SECOND_HALF, FULL_TIME }
@@ -71,6 +72,10 @@ var result_report: Dictionary = {}
 var kickoff_taker := -1
 var kickoff_ticks := 0
 var kickoff_kicker := -1
+var ball_height := 0.0
+var restart_taker := -1
+var restart_counts := {"throw_in": [0,0], "corner": [0,0], "goal_kick": [0,0], "free_kick": [0,0]}
+var fouls := [0,0]
 
 func _init(seed_value: int = 11027, duration_seconds: int = REGULATION_SECONDS) -> void:
 	match_seed = seed_value
@@ -155,9 +160,7 @@ func step() -> void:
 			if restart_kind == "kickoff":
 				reset_shape(restart_team)
 			else:
-				var taker := restart_team * 11 if restart_kind == "goal_kick" else nearest(restart_team, restart_position, false)
-				players[taker].position = restart_position
-				take_control(taker, restart_kind)
+				deliver_restart()
 		return
 	active_ticks += 1
 	if ticks % 15 == 1:
@@ -180,9 +183,8 @@ func step() -> void:
 			if p.position.distance_to(ball) < 1.3:
 				take_control(p.id)
 				break
-	if ball.x < 0 or ball.x > 105 or ball.y < 0 or ball.y > 68:
-		emit_event("out", last_touch)
-		start_restart(1 - players[last_touch].team, ball.clamp(Vector2(2, 2), FIELD - Vector2(2, 2)), "restart", 48)
+	if ball_state not in [BallState.DEAD, BallState.KICKOFF]:
+		BallRules.resolve(self, previous_ball, ball)
 	if period == Period.FIRST_HALF and active_ticks >= regulation_ticks / 2.0:
 		period = Period.HALF_TIME
 		start_restart(1, Vector2(52.5, 34), "halftime", 0)
@@ -221,6 +223,48 @@ func start_restart(team: int, location: Vector2, kind: String, duration: int) ->
 	pass_pending = false
 	kickoff_kicker = -1
 	kickoff_ticks = 0
+	ball_height = 0
+
+func award_restart(team: int, location: Vector2, kind: String, actor: int = -1) -> void:
+	start_restart(team, location, kind, 54)
+	if restart_counts.has(kind): restart_counts[kind][team] += 1
+	restart_taker = team * 11 if kind == "goal_kick" else nearest(team, location, false)
+	for p in players:
+		if p.id == restart_taker: continue
+		var distance := 2.0 if kind == "throw_in" else 9.15
+		if p.team != team and p.position.distance_to(location) < distance:
+			var away := (p.position-location).normalized()
+			if away == Vector2.ZERO: away = Vector2(direction(team),0)
+			p.position = (location+away*distance).clamp(Vector2.ONE,FIELD-Vector2.ONE)
+		if kind == "goal_kick" and p.team != team:
+			var local := oriented(p.position,team)
+			if local.x < 16.5 and absf(local.y-34) < 20.16: p.position = oriented(Vector2(18,local.y),team)
+		p.previous = p.position
+		p.target = p.position
+	players[restart_taker].position = (location-Vector2(direction(team)*1.7,0)).clamp(Vector2.ONE,FIELD-Vector2.ONE)
+	players[restart_taker].previous = players[restart_taker].position
+	players[restart_taker].target = players[restart_taker].position
+	emit_event(kind+"_awarded", restart_taker, {"team":team, "last_touch":actor})
+
+func deliver_restart() -> void:
+	owner = restart_taker
+	ball = restart_position
+	var receiver := -1
+	var value := -INF
+	for p in players:
+		if p.team != restart_team or p.id == owner: continue
+		var length := ball.distance_to(p.position)
+		if length < 4 or length > (32 if restart_kind == "throw_in" else 55): continue
+		var rating := -length*0.15-lane_risk(ball,p.position,restart_team)*14
+		rating += (p.position.x-ball.x)*direction(restart_team)*0.2
+		if rating > value:
+			value = rating
+			receiver = p.id
+	emit_event(restart_kind,owner)
+	if receiver >= 0: pass_to(receiver)
+	else: launch_ball((ball+Vector2(direction(restart_team)*18,0)).clamp(Vector2(2,2),FIELD-Vector2(2,2)),24,"pass")
+	kickoff_kicker = restart_taker
+	choose_targets()
 
 func choose_targets() -> void:
 	var team_in_control := players[owner].team if owner >= 0 else players[last_touch].team
@@ -428,13 +472,7 @@ func advance_flight() -> void:
 			keeper_tested = true
 			if absf(ball.y - keeper.position.y) <= 5.5 and keeper_save(keeper.id):
 				return
-		if ball.x <= 0 or ball.x >= 105:
-			if absf(ball.y - 34) <= 3.66:
-				goal_scored(flight_source)
-			else:
-				emit_event("miss", flight_source)
-				start_restart(keeper.team, keeper.position, "goal_kick", 48)
-			return
+		BallRules.resolve(self, from, ball)
 		return
 	if ball.distance_to(flight_target) <= ball_velocity.length() * DT or (flight_target - ball).dot(ball_velocity) <= 0:
 		ball_state = BallState.LOOSE
@@ -475,12 +513,12 @@ func keeper_save(keeper_id: int) -> bool:
 		emit_event("parry", keeper_id)
 	return true
 
-func goal_scored(shooter_id: int) -> void:
-	var team := players[shooter_id].team
+func goal_scored(shooter_id: int, scoring_team: int = -1) -> void:
+	var team: int = players[shooter_id].team if scoring_team < 0 else scoring_team
 	scores[team] += 1
 	shots_on_target[team] += 1
 	ball = Vector2(105 if direction(team) > 0 else 0, ball.y)
-	emit_event("goal", shooter_id, {"score": scores.duplicate()})
+	emit_event("goal", shooter_id, {"score": scores.duplicate(), "team":team, "own_goal":players[shooter_id].team != team})
 	start_restart(1 - team, ball, "kickoff", 150)
 
 func challenge_carrier() -> void:
@@ -506,7 +544,12 @@ func challenge_carrier() -> void:
 		tackles[defender.team] += 1
 		take_control(defender.id, "tackle")
 	else:
-		emit_event("challenge", defender.id)
+		# Contact from behind can be a foul; a failed legal challenge remains ordinary play.
+		if angle > 0.45 and rng.randf() < clampf(0.08 + (80-defender.defence)*0.001,0.02,0.14):
+			fouls[defender.team] += 1
+			emit_event("foul",defender.id,{"victim":attacker.id})
+			award_restart(attacker.team,ball,"free_kick",defender.id)
+		else: emit_event("challenge", defender.id)
 
 func emit_event(kind: String, actor: int, extra: Dictionary = {}) -> void:
 	var event := {"kind": kind, "actor": actor, "team": players[actor].team if actor >= 0 else -1,
@@ -523,6 +566,7 @@ func signature() -> Array:
 	result.append([period, finished, restart_kind, restart_position, regulation_ticks,
 		halftime_report.duplicate(true), result_report.duplicate(true)])
 	result.append([kickoff_taker, kickoff_ticks, kickoff_kicker])
+	result.append([ball_height, restart_taker, restart_counts.duplicate(true), fouls.duplicate()])
 	for p in players:
 		result.append([p.position, p.target, p.cooldown])
 	return result

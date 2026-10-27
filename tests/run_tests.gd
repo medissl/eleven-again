@@ -76,6 +76,7 @@ func run() -> void:
 	check(wing.flight_target.x > 84, "forward passes lead a moving receiver")
 	test_shots()
 	test_kickoffs()
+	test_boundaries()
 	test_clock()
 	if "--model-only" not in OS.get_cmdline_user_args(): await test_view()
 	print("CHECKS ", checks, " FAILURES ", failures.size())
@@ -222,6 +223,26 @@ func test_kickoffs() -> void:
 	loose.reset_shape(1)
 	check(loose.kickoff_kicker == -1 and loose.kickoff_taker == 20, "fresh kickoff resets the prior restriction")
 
+func test_boundaries() -> void:
+	var rules = load("res://match/ball_rules.gd")
+	check(rules.crossing(Vector2(100,20),Vector2(105.05,20)).is_empty(), "ball must wholly cross the line")
+	var hit: Dictionary = rules.crossing(Vector2(104,67),Vector2(106,70))
+	check(hit.axis == 1, "earliest near-corner crossing wins")
+	for scenario in [{"touch":9,"to":Vector2(106,44),"kind":"goal_kick","team":1}, {"touch":12,"to":Vector2(106,44),"kind":"corner","team":0}, {"touch":9,"to":Vector2(50,69),"kind":"throw_in","team":1}]:
+		var model := Match.new(42)
+		model.last_touch = scenario.touch
+		model.ball = scenario.to
+		check(rules.resolve(model,scenario.to-Vector2(2,2),scenario.to), "boundary crossing awards a restart")
+		check(model.restart_kind == scenario.kind and model.restart_team == scenario.team, "last touch determines correct restart team and kind")
+		var active_before: int = model.active_ticks
+		for tick in 54: model.step()
+		check(model.ball_state == Match.BallState.FLIGHT and model.active_ticks == active_before, "restart makes a physical delivery without consuming dead-ball active time")
+	var own_goal := Match.new(42)
+	own_goal.last_touch = 12
+	own_goal.ball = Vector2(106,34)
+	rules.resolve(own_goal,Vector2(104,34),own_goal.ball)
+	check(own_goal.scores == [1,0] and own_goal.events.back().own_goal, "defender's own goal credits attacking side")
+
 func test_clock() -> void:
 	for seconds in [60, 120, 180]:
 		var calibrated := Match.new(42, seconds)
@@ -257,7 +278,7 @@ func test_clock() -> void:
 			fixture.acknowledge_halftime()
 			fixture.step()
 			check((fixture.owner >= 0) == (fixture.ball_state == Match.BallState.CONTROLLED), "full-fixture exclusive ball ownership")
-			check(fixture.ball.is_finite() and fixture.ball.x >= 0 and fixture.ball.x <= 105 and fixture.ball.y >= 0 and fixture.ball.y <= 68, "full-fixture finite ball stays in field or on goal line")
+			check(fixture.ball.is_finite() and Rect2(Vector2.ONE * -0.111, Match.FIELD + Vector2.ONE * 0.222).has_point(fixture.ball), "ball centre stays within field plus whole-ball boundary margin")
 		check(fixture.finished and fixture.active_ticks == fixture.regulation_ticks, "fixture finishes without endless stoppages")
 		var goals := [0, 0]
 		for event in fixture.events:

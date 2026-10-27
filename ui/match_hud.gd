@@ -294,6 +294,9 @@ func event_copy(event: Dictionary) -> Array[String]:
 		"challenge": return [actor, "Challenge"]
 		"goal_kick": return [actor, "Goal kick"]
 		"restart": return [actor, "Restart"]
+		"throw_in", "corner", "free_kick": return [actor, event.kind.replace("_"," ").capitalize()]
+		"throw_in_awarded", "corner_awarded", "free_kick_awarded", "goal_kick_awarded": return [actor, event.kind.replace("_"," ").capitalize()]
+		"foul": return [actor, "Foul on %s" % model.players[event.victim].name]
 		"recovery": return [actor, "Loose ball recovered"]
 		_: return [actor, "Ball out"]
 
