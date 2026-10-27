@@ -41,6 +41,13 @@ var held_ticks := 0
 var scores := [0, 0]
 var events: Array[Dictionary] = []
 var possession_ticks := [0, 0]
+var pass_attempts := [0, 0]
+var completed_passes := [0, 0]
+var tackles := [0, 0]
+var ball_velocity := Vector2.ZERO
+var flight_target := Vector2.ZERO
+var flight_source := -1
+var flight_kind := "pass"
 
 func _init(seed_value: int = 11027) -> void:
 	match_seed = seed_value
@@ -96,11 +103,21 @@ func step() -> void:
 		held_ticks += 1
 		possession_ticks[players[owner].team] += 1
 		ball = players[owner].position
+		challenge_carrier()
+		if owner >= 0 and ticks % 15 == 1 and held_ticks >= 42:
+			choose_action()
+	elif ball_state == BallState.FLIGHT:
+		advance_flight()
 	elif ball_state == BallState.LOOSE:
 		for p in players:
 			if p.position.distance_to(ball) < 1.3:
 				take_control(p.id)
 				break
+	if ball.x < 0 or ball.x > 105 or ball.y < 0 or ball.y > 68:
+		ball = ball.clamp(Vector2(1, 1), FIELD - Vector2.ONE)
+		ball_state = BallState.LOOSE
+		owner = -1
+		emit_event("out", last_touch)
 
 func choose_targets() -> void:
 	var team_in_control := players[owner].team if owner >= 0 else players[last_touch].team
@@ -117,9 +134,12 @@ func choose_targets() -> void:
 		carrier.target = (carrier.position + Vector2(direction(carrier.team) * 9, (34 - carrier.position.y) * 0.1)).clamp(Vector2(1, 2), Vector2(104, 66))
 		var chaser := nearest(1 - carrier.team, ball, false)
 		players[chaser].target = ball
-	else:
+	elif ball_state == BallState.LOOSE:
 		for team in 2:
 			players[nearest(team, ball, false)].target = ball
+	elif ball_state == BallState.FLIGHT:
+		for team in 2:
+			players[nearest(team, flight_target, false)].target = flight_target
 
 func nearest(team: int, point: Vector2, include_keeper: bool = true) -> int:
 	var result := team * 11 + 1
@@ -157,6 +177,104 @@ func take_control(id: int, kind: String = "recovery") -> void:
 	players[id].cooldown = maxi(players[id].cooldown, 18)
 	emit_event(kind, id)
 
+func lane_risk(from: Vector2, to: Vector2, team: int) -> float:
+	var result := 0.0
+	for p in players:
+		if p.team == team:
+			continue
+		var along := segment_fraction(p.position, from, to)
+		if along > 0.08 and along < 0.96:
+			var distance := p.position.distance_to(from.lerp(to, along))
+			result = maxf(result, clampf(1 - distance / 4.5, 0, 1))
+	return result
+
+func segment_fraction(point: Vector2, from: Vector2, to: Vector2) -> float:
+	var delta := to - from
+	return clampf((point - from).dot(delta) / maxf(delta.length_squared(), 0.00001), 0, 1)
+
+func choose_action() -> void:
+	var carrier := players[owner]
+	var nearest_defender := nearest(1 - carrier.team, carrier.position)
+	var pressure := clampf(1 - players[nearest_defender].position.distance_to(carrier.position) / 6, 0, 1)
+	var best := -1
+	var best_score := -INF
+	for p in players:
+		if p.team != carrier.team or p.id == owner:
+			continue
+		var length := p.position.distance_to(carrier.position)
+		if length < 5 or length > 43:
+			continue
+		var progress := (p.position.x - carrier.position.x) * direction(carrier.team)
+		var space := minf(12, p.position.distance_to(players[nearest(1 - p.team, p.position)].position))
+		var score := progress * 0.6 + space * 0.9 - length * 0.13 - lane_risk(carrier.position, p.position, carrier.team) * 15
+		score += rng.randf_range(-2, 2)
+		if score > best_score:
+			best_score = score
+			best = p.id
+	# ponytail: local lane heuristics; expand only after match outliers show a need.
+	if best >= 0 and (pressure > 0.25 or held_ticks > 100 or best_score > 13):
+		pass_to(best, pressure)
+
+func pass_to(receiver: int, pressure: float = 0) -> void:
+	var passer := players[owner]
+	var aim := players[receiver].position
+	var length := ball.distance_to(aim)
+	var accuracy := clampf(0.88 + 0.002 * (passer.passing - 80) - 0.10 * pressure - 0.18 * minf(length / 55, 1) - 0.12 * lane_risk(ball, aim, passer.team), 0.25, 0.98)
+	if rng.randf() > accuracy:
+		aim += Vector2(rng.randf_range(-4.5, 4.5), rng.randf_range(-4.5, 4.5))
+	pass_attempts[passer.team] += 1
+	launch_ball(aim, 18 + passer.passing * 0.1, "pass")
+	emit_event("pass", passer.id, {"receiver": receiver})
+
+func launch_ball(aim: Vector2, velocity: float, kind: String) -> void:
+	flight_source = owner
+	last_touch = owner
+	flight_target = aim
+	flight_kind = kind
+	ball_velocity = ball.direction_to(aim) * velocity
+	ball_state = BallState.FLIGHT
+	owner = -1
+
+func advance_flight() -> void:
+	var from := ball
+	var destination := ball + ball_velocity * DT
+	var contact := -1
+	var first := INF
+	for p in players:
+		if p.id == flight_source:
+			continue
+		var along := segment_fraction(p.position, from, destination)
+		if p.position.distance_to(from.lerp(destination, along)) < 1.25 and along < first:
+			contact = p.id
+			first = along
+	if contact >= 0:
+		var same_team := players[contact].team == players[flight_source].team
+		if same_team:
+			completed_passes[players[contact].team] += 1
+		take_control(contact, "received" if same_team else "interception")
+		return
+	ball = destination
+	if ball.distance_to(flight_target) <= ball_velocity.length() * DT or (flight_target - ball).dot(ball_velocity) <= 0:
+		ball_state = BallState.LOOSE
+		ball_velocity = Vector2.ZERO
+
+func challenge_carrier() -> void:
+	if held_ticks < 18:
+		return
+	var attacker := players[owner]
+	var defender := players[nearest(1 - attacker.team, ball, false)]
+	if defender.cooldown > 0 or defender.position.distance_to(ball) > 1.8:
+		return
+	defender.cooldown = 48
+	var angle := (attacker.position - defender.position).normalized().dot(Vector2(direction(attacker.team), 0))
+	var clean_win := clampf(0.48 + 0.004 * (defender.defence - attacker.dribbling) + 0.10 * angle, 0.12, 0.85)
+	if rng.randf() < clean_win:
+		attacker.cooldown = 60
+		tackles[defender.team] += 1
+		take_control(defender.id, "tackle")
+	else:
+		emit_event("challenge", defender.id)
+
 func emit_event(kind: String, actor: int, extra: Dictionary = {}) -> void:
 	var event := {"kind": kind, "actor": actor, "team": players[actor].team if actor >= 0 else -1,
 		"tick": ticks, "minute": int(active_ticks / 40), "position": ball}
@@ -164,7 +282,10 @@ func emit_event(kind: String, actor: int, extra: Dictionary = {}) -> void:
 	events.append(event)
 
 func signature() -> Array:
-	var result: Array = [ticks, active_ticks, ball_state, ball, owner, rng.state, scores.duplicate(), events.duplicate(true)]
+	var result: Array = [ticks, active_ticks, ball_state, ball, owner, last_touch, held_ticks,
+		ball_velocity, flight_target, flight_source, flight_kind, rng.state, scores.duplicate(),
+		possession_ticks.duplicate(), pass_attempts.duplicate(), completed_passes.duplicate(),
+		tackles.duplicate(), events.duplicate(true)]
 	for p in players:
 		result.append([p.position, p.target, p.cooldown])
 	return result
