@@ -26,7 +26,7 @@ Each phase is a milestone containing several focused Codex sessions, not a promi
 | Phase | Playable/result milestone | Includes | Exit gate |
 |---|---|---|---|
 | 0. Project contract | Repeatable development context | Agent/design instructions, roadmap, task list, local Git baseline and GitHub remote | Documents agree, original project preserved, local checkpoint exists |
-| 1. Watchable football | Run one fictional exhibition | Full pitch, 22 players, ball, passing, carrying, reachable tackles, shots, saves, goals, 60-second clock, truthful feed, pause/speed, native checks | Visible match is understandable; invariants and supported-build speed equivalence pass; no persistent swarming or phantom goals |
+| 1. Watchable football | Run one fictional exhibition | Full pitch, 22 players, ball, passing, carrying, reachable tackles, shots, saves, goals, user-confirmed 180-second regulation, truthful feed, pause/speed, native checks | Visible match is understandable; invariants and supported-build speed equivalence pass; no persistent swarming or phantom goals |
 | 2. Meaningful preparation | Make a plan and observe its effect | Player resources/OVR, three formations, role penalties, nine tactics, fatigue, preplanned automatic substitutions | Legal XI enforced; controlled scenarios show behavior changes; no live management required |
 | 3. Four-win run | Play a small complete roguelike | One country, opening recruit, three later offers, one market, three defeats, scouting, final, ET/shootout | Country → recruitment → prep → matches/rewards → ending works; no reward duplication, soft lock, or roster/economy exploit |
 | 4. Reliable continuation | Close the game and return safely | Atomic versioned saves/backups, exact match resume, separate profile, basic silhouettes/index/records, settings persistence | Interruption/recovery checks pass at each transaction; completed run clears only run progress |
@@ -37,6 +37,8 @@ Each phase is a milestone containing several focused Codex sessions, not a promi
 **Critical path:** 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7. Do not invest in a large historical roster while Phase 1 is failing. The four-win slice is intentionally useful before the full design is built.
 
 ## Scope contracts
+
+The user confirmed three active minutes of regulation during Phase 1 iteration: 90-second halves at 1×, 90 active-play wall seconds total at 2×, with stoppages added. This supersedes the early GDD's one-minute proposal for implementation. `MATCH_PACING_AND_EVENTS_v1.md` supplies context; later stamina, substitutions and trait timers must derive from match progress/displayed minutes. Its 55–80-minute mostly-1× and 35–55-minute mostly-2× run allowances remain unmeasured planning estimates.
 
 ### Phase 1 is a football experiment
 
@@ -136,4 +138,4 @@ For a later phase:
 
 ## Current handoff
 
-Completed scope: Phase 0 planning and local version-control setup. Gameplay remains unimplemented. Next task: **1.1, first runnable match board**. Task evidence, not this narrative, is the source of implementation status. No pushed branch, CI run, gameplay test, render review, export, or human playtest is implied by this plan.
+Phase 1 iteration implements the confirmed three-minute timing, approved native HUD, improved chance creation/keeper contests, stable labels, ball animation and goal presentation. Native regressions pass. Final animation/native interaction review is open after the user stopped Computer Use. See `../reports/phase-one.md`; obtain watchability feedback before Phase 2 task **2.1**. Card design references are saved for later tasks. No push, CI, export or established balance is claimed.

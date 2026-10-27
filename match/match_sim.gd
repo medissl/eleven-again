@@ -5,8 +5,8 @@ enum BallState { CONTROLLED, FLIGHT, LOOSE, DEAD }
 enum Period { FIRST_HALF, HALF_TIME, SECOND_HALF, FULL_TIME }
 const DT := 1.0 / 60.0
 const FIELD := Vector2(105, 68)
-# The full field is compressed into sixty seconds; tune tempo against visible play.
-const MOVEMENT_TEMPO := 1.35
+const REGULATION_SECONDS := 180
+const MOVEMENT_TEMPO := 1.0
 const ANCHORS := [Vector2(6, 34), Vector2(25, 9), Vector2(21, 26),
 	Vector2(21, 43), Vector2(25, 59), Vector2(42, 34), Vector2(53, 21),
 	Vector2(53, 47), Vector2(72, 10), Vector2(77, 34), Vector2(72, 58)]
@@ -63,14 +63,16 @@ var period := Period.FIRST_HALF
 var finished := false
 var restart_kind := "kickoff"
 var restart_position := Vector2(52.5, 34)
+var regulation_ticks := REGULATION_SECONDS * 60
 
-func _init(seed_value: int = 11027) -> void:
+func _init(seed_value: int = 11027, duration_seconds: int = REGULATION_SECONDS) -> void:
 	match_seed = seed_value
+	regulation_ticks = maxi(2, duration_seconds) * 60
 	rng.seed = seed_value
 	for id in 22:
 		var p := Footballer.new()
 		p.id = id
-		p.team = id / 11
+		p.team = int(id / 11.0)
 		p.name = NAMES[id]
 		p.pace = rng.randi_range(58, 82)
 		p.passing = rng.randi_range(58, 82)
@@ -89,6 +91,12 @@ func direction(team: int) -> float:
 func oriented(point: Vector2, team: int) -> Vector2:
 	return point if direction(team) > 0 else FIELD - point
 
+func controlled_ball_position(id: int) -> Vector2:
+	return players[id].position + Vector2(direction(players[id].team) * 1.7, 0)
+
+func display_minute() -> int:
+	return mini(90, int(active_ticks * 90.0 / regulation_ticks))
+
 func reset_shape(kicking_team: int) -> void:
 	for p in players:
 		var anchor: Vector2 = ANCHORS[p.id % 11]
@@ -97,9 +105,9 @@ func reset_shape(kicking_team: int) -> void:
 		p.target = p.position
 		p.cooldown = 0
 	owner = kicking_team * 11 + 9
-	players[owner].position = Vector2(52.5 - direction(kicking_team), 34)
+	players[owner].position = Vector2(52.5 - direction(kicking_team) * 1.7, 34)
 	players[owner].previous = players[owner].position
-	ball = players[owner].position
+	ball = controlled_ball_position(owner)
 	previous_ball = ball
 	ball_state = BallState.CONTROLLED
 	last_touch = owner
@@ -137,7 +145,7 @@ func step() -> void:
 	if ball_state == BallState.CONTROLLED:
 		held_ticks += 1
 		possession_ticks[players[owner].team] += 1
-		ball = players[owner].position
+		ball = controlled_ball_position(owner)
 		challenge_carrier()
 		if owner >= 0 and ticks % 15 == 1 and held_ticks >= 24:
 			choose_action()
@@ -153,11 +161,11 @@ func step() -> void:
 	if ball.x < 0 or ball.x > 105 or ball.y < 0 or ball.y > 68:
 		emit_event("out", last_touch)
 		start_restart(1 - players[last_touch].team, ball.clamp(Vector2(2, 2), FIELD - Vector2(2, 2)), "restart", 48)
-	if active_ticks == 1800:
+	if period == Period.FIRST_HALF and active_ticks >= regulation_ticks / 2.0:
 		period = Period.HALF_TIME
-		start_restart(1, Vector2(52.5, 34), "halftime", 120)
+		start_restart(1, Vector2(52.5, 34), "halftime", 180)
 		emit_event("halftime", -1)
-	elif active_ticks >= 3600:
+	elif active_ticks >= regulation_ticks:
 		period = Period.FULL_TIME
 		finished = true
 		owner = -1
@@ -182,7 +190,10 @@ func choose_targets() -> void:
 		var anchor: Vector2 = ANCHORS[p.id % 11]
 		var shift := (local_ball.x - 52.5) * 0.4 + (8 if p.team == team_in_control else -10)
 		if p.id % 11 == 0:
-			p.target = oriented(Vector2(5.5, clampf(local_ball.y, 27, 41)), p.team)
+			var keeper_x := 5.5
+			if p.team != team_in_control and local_ball.x < 18 and absf(local_ball.y - 34) < 18:
+				keeper_x = clampf(local_ball.x - 1.5, 3, 10)
+			p.target = oriented(Vector2(keeper_x, clampf(local_ball.y, 27, 41)), p.team)
 		else:
 			var support := Vector2(clampf(anchor.x + shift, 12, 95), clampf(anchor.y + (local_ball.y - 34) * 0.15, 4, 64))
 			if p.team == team_in_control:
@@ -255,7 +266,7 @@ func take_control(id: int, kind: String = "recovery") -> void:
 	owner = id
 	last_touch = id
 	ball_state = BallState.CONTROLLED
-	ball = players[id].position
+	ball = controlled_ball_position(id)
 	ball_velocity = Vector2.ZERO
 	held_ticks = 0
 	players[id].cooldown = maxi(players[id].cooldown, 18)
@@ -390,7 +401,7 @@ func shoot(pressure: float = 0) -> void:
 	var shooter := players[owner]
 	var goal := oriented(Vector2(105, 34), shooter.team)
 	shot_quality = chance_quality(ball, shooter.team)
-	var accuracy := clampf(0.42 + 0.004 * (shooter.shooting - 60) + 0.42 * shot_quality - 0.16 * pressure, 0.15, 0.95)
+	var accuracy := clampf(0.30 + 0.004 * (shooter.shooting - 60) + 0.32 * shot_quality - 0.16 * pressure, 0.15, 0.95)
 	shots[shooter.team] += 1
 	var target_y := 34 + rng.randf_range(-3.2, 3.2)
 	var on_target := rng.randf() < accuracy
@@ -426,12 +437,20 @@ func goal_scored(shooter_id: int) -> void:
 	shots_on_target[team] += 1
 	ball = Vector2(105 if direction(team) > 0 else 0, ball.y)
 	emit_event("goal", shooter_id, {"score": scores.duplicate()})
-	start_restart(1 - team, ball, "kickoff", 90)
+	start_restart(1 - team, ball, "kickoff", 150)
 
 func challenge_carrier() -> void:
 	if held_ticks < 18:
 		return
 	var attacker := players[owner]
+	var keeper := players[(1 - attacker.team) * 11]
+	var keeper_ball := oriented(ball, keeper.team)
+	if keeper.cooldown == 0 and keeper_ball.x < 16.5 and absf(keeper_ball.y - 34) < 20.16 and keeper.position.distance_to(ball) < 2.4:
+		keeper.cooldown = 75
+		if rng.randf() < clampf(0.50 + 0.004 * (keeper.keeping - attacker.dribbling), 0.20, 0.78):
+			attacker.cooldown = 60
+			take_control(keeper.id, "smother")
+			return
 	var defender := players[nearest(1 - attacker.team, ball, false)]
 	if defender.cooldown > 0 or defender.position.distance_to(ball) > 1.8:
 		return
@@ -447,7 +466,7 @@ func challenge_carrier() -> void:
 
 func emit_event(kind: String, actor: int, extra: Dictionary = {}) -> void:
 	var event := {"kind": kind, "actor": actor, "team": players[actor].team if actor >= 0 else -1,
-		"tick": ticks, "minute": int(active_ticks / 40), "position": ball}
+		"tick": ticks, "minute": display_minute(), "position": ball}
 	event.merge(extra)
 	events.append(event)
 
@@ -457,7 +476,7 @@ func signature() -> Array:
 		possession_ticks.duplicate(), pass_attempts.duplicate(), completed_passes.duplicate(),
 		tackles.duplicate(), events.duplicate(true)]
 	result.append([shots.duplicate(), shots_on_target.duplicate(), saves.duplicate(), shot_quality, keeper_tested, dead_ticks, restart_team])
-	result.append([period, finished, restart_kind, restart_position])
+	result.append([period, finished, restart_kind, restart_position, regulation_ticks])
 	for p in players:
 		result.append([p.position, p.target, p.cooldown])
 	return result

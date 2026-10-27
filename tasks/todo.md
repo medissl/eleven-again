@@ -1,6 +1,6 @@
 # Eleven Again — development tasks
 
-Task source of truth. Read `plan.md` for phase boundaries, GDD authority, architecture, checks, and prompts. Status on 27 October 2026: planning baseline only; **next: 1.1**.
+Task source of truth. Read `plan.md` for phase boundaries, GDD authority, architecture, checks, and prompts. Status on 27 October 2026: Phase 1 implemented and technically verified; **human watchability feedback pending, then 2.1**. See [Phase 1 evidence](../reports/phase-one.md).
 
 Each task below has a checkable outcome, verification, dependencies, and likely files. Paths are suggestions; inspect existing code before choosing them. S ≈ 1–2 files, M ≈ 3–5; split a task that grows beyond that. Update a completed task with concise evidence (actual command/result, seeds/screenshots where relevant, limits, and local commit). Checkpoints review the preceding work and do not automatically authorize a new phase.
 
@@ -21,35 +21,35 @@ Each task below has a checkable outcome, verification, dependencies, and likely 
 
 ## Phase 1 — watchable football
 
-- [ ] **1.1 — First runnable match board.** Boot into a full-pitch scene with two labelled fictional XIs and a clear ball; establish the initial native theme from real references.
+- [x] **1.1 — First runnable match board.** Boot into a full-pitch scene with two labelled fictional XIs and a clear ball; establish the initial native theme from real references.
   - Acceptance: main scene runs, all 22 players and pitch bounds fit both target resolutions, and ball/team/name cues are legible with keyboard-accessible exit/pause controls.
   - Verification: Godot import/run; inspect reference notes and actual 720p/1080p captures; interact with controls. No match behavior claimed yet.
   - Dependencies: Gate 0. Likely files: `project.godot`, `match/match_view.tscn`, `match/match_view.gd`, `ui/game_theme.tres`, `DESIGN.md` (M).
-- [ ] **1.2 — Authoritative simulation step.** Drive formation movement and an exclusive ball state from a seeded fixed-step model; add the smallest native regression runner.
+- [x] **1.2 — Authoritative simulation step.** Drive formation movement and an exclusive ball state from a seeded fixed-step model; add the smallest native regression runner.
   - Acceptance: controlled/in-flight/loose/dead transitions have one owner at most; repeated inputs/seed yield equal supported-build state; the renderer only reads the simulation.
   - Verification: native runner checks ownership, fixed-step repeatability, and finite/in-bounds state; import/parse and visible movement smoke.
   - Dependencies: 1.1. Likely files: `match/match_sim.gd`, `match/match_state.gd`, `match/match_view.gd`, `tests/run_tests.gd`, `tests/test_match.gd` (M).
-- [ ] **1.3 — Pass, carry, recover.** Add ball travel, support/defensive roles, reachable tackles and interceptions with bounded action frequency.
+- [x] **1.3 — Pass, carry, recover.** Add ball travel, support/defensive roles, reachable tackles and interceptions with bounded action frequency.
   - Acceptance: players pass through actual lanes, possession changes through field events, and nearest-presser/support limits keep the rest of the team in readable shape.
   - Verification: seeded lane-block/recovery/cooldown scenarios; watch several seeds for swarm, teleport, aimless passing, and action-spam defects.
   - Dependencies: 1.2. Likely files: `match/match_sim.gd`, `match/decisions.gd`, `match/ball_rules.gd`, `tests/test_match.gd` (M).
 
-**Checkpoint 1A:** Board renders correctly; pass/recovery invariants pass; no unresolved invalid-state or swarming defect before shooting work.
+**Checkpoint 1A — passed:** Real board captures reviewed at both sizes; ownership/bounds/repeatability and actual-lane interception scenarios pass. Only the nearest defender presses while other players retain anchors. Checkpoints: `27f0e1f`, `fe01ded`, `8609772`.
 
-- [ ] **1.4 — Chances and keeper outcomes.** Add shots, physical blocks, keeper saves/holds/parries, playable rebounds, and goal-line events.
+- [x] **1.4 — Chances and keeper outcomes.** Add shots, physical blocks, keeper saves/holds/parries, playable rebounds, and goal-line events.
   - Acceptance: every score comes from a goal event; blocks precede keeper resolution; parries create a loose ball; attributes and chance context both influence execution.
   - Verification: authored goal/block/hold/parry scenarios plus good/bad chance comparisons; observe seeded chances and inspect ball/score agreement.
   - Dependencies: 1.3. Likely files: `match/match_sim.gd`, `match/ball_rules.gd`, `match/keeper_rules.gd`, `tests/test_match.gd` (M).
-- [ ] **1.5 — Complete a timed exhibition.** Add two 30-active-second halves, automated halftime, goals/kickoff resets, simple dead-ball recovery, and result/restart.
-  - Acceptance: displayed 0–90 minutes maps correctly to 60 active seconds; stoppages freeze active time; a finished match can restart cleanly; exhibition ties and simplified rules are explicitly labelled.
+- [x] **1.5 — Complete a timed exhibition.** Add the user-confirmed two 90-active-second halves, automated halftime, goals/kickoff resets, simple dead-ball recovery, and result/restart.
+  - Acceptance: displayed 0–90 minutes maps correctly to 180 active seconds; stoppages freeze active time; a finished match can restart cleanly; exhibition ties and simplified rules are explained in the menu/details.
   - Verification: clock/halftime/goal/restart regression checks; complete ordinary and tied exhibition runs without stale players or duplicate scores.
   - Dependencies: 1.4. Likely files: `match/match_sim.gd`, `match/match_state.gd`, `match/match_view.gd`, `ui/exhibition_result.tscn`, `tests/test_match.gd` (M).
-- [ ] **1.6 — Trustworthy match HUD and viewing controls.** Show score, clock, event feed, basic statistics, pause and 1×/2× playback from the simulation.
+- [x] **1.6 — Trustworthy match HUD and viewing controls.** Show score, clock, event feed, basic statistics, pause and 1×/2× playback from the simulation.
   - Acceptance: feed/stats/score agree, events identify actors/time, pause consumes no ticks, and viewing/render/cosmetic differences leave the committed match result unchanged.
   - Verification: same-seed normal/2×/headless event-log comparison and pause scenario; visible control, feed-volume, name-overlap, and both-resolution review.
   - Dependencies: 1.5. Likely files: `match/match_view.tscn`, `match/match_view.gd`, `ui/match_hud.gd`, `tests/test_match.gd`, `DESIGN.md` (M).
 
-**Gate 1:** One complete fictional match is watchable and truthful. Run focused regressions/import, inspect several seeds and both sizes, and document omissions. Get human watchability feedback before broadening the game; automated checks cannot establish enjoyment.
+**Gate 1 — native checks passed; final visual/interaction review open:** User feedback prompted better central runs, lead passes, keeper smothers, approved pitch-first HUD, stable labels, rolling football, deeper nets, and confirmed 180-second regulation. Current native suite passed with zero failures, including full-fixture timing and 1×/2×/headless equivalence. New HUD/menu layouts were rendered at both sizes; the final animation/native interaction review was interrupted by the user's Computer Use stop. See [Phase 1 report](../reports/phase-one.md). Get watchability feedback before Phase 2; automated checks cannot establish enjoyment.
 
 ## Phase 2 — meaningful preparation
 
@@ -69,6 +69,7 @@ Each task below has a checkable outcome, verification, dependencies, and likely 
 **Checkpoint 2A:** Role-adjusted selection is legal and tactics affect observed play; baseline match invariants still pass.
 
 - [ ] **2.4 — Match-only stamina.** Deplete/recover effective movement/execution from PHY, activity, and pressing, with capped fatigue penalties.
+  - Timing: normalize base drain to regulation progress under the confirmed three-minute duration; do not triple the old per-fixture fatigue budget. Derive automatic substitution thresholds from displayed minutes in task 2.5.
   - Acceptance: all fixtures start at 100, zero stamina reduces affected attributes by at most 12%, bonuses/fatigue are applied once, and UI explains tired players.
   - Verification: boundary and tactic-depletion scenarios plus fresh-fixture reset; record observed calibration separately from GDD targets.
   - Dependencies: 2.3. Likely files: `match/match_state.gd`, `match/match_sim.gd`, `ui/match_hud.gd`, `tests/test_tactics.gd` (M).
@@ -168,6 +169,8 @@ Each task below has a checkable outcome, verification, dependencies, and likely 
 **Gate 5:** Full candidate rules/schedule and interruption scenarios pass. All core matches remain visible and readable; balance claims remain provisional.
 
 ## Phase 6 — identity and content
+
+Card/album reference saved by the user: read `../CARD_DESIGN_HANDOFF.md` and the linked project references before tasks 6.3–6.4. Apply its archive-card direction to earlier recruitment/squad UI tasks when they begin, with gameplay rules still governed by the GDD.
 
 - [ ] **6.1 — Signature identities.** Add eight conditional trait types to shared effective attributes, with six coaching principles composed under the same cap.
   - Acceptance: maximum one trait per card; conditional +3/+4 effects and +6 cap precede role/fatigue penalties; timers and applicability survive save/resume without double counting.

@@ -1,236 +1,177 @@
 extends Control
 
 const Match = preload("res://match/match_sim.gd")
-
-const CREAM := Color("efecda")
-const MUTED := Color("9aa99e")
-const AMBER := Color("e9b65e")
-const CORAL := Color("e88670")
-const GREEN := Color("184d3b")
-const NAMES = Match.NAMES
-
-var pitch := Rect2()
-var player_positions: Array[Vector2] = []
-var ball := Vector2(52.5, 34)
-var paused := true
+const Hud = preload("res://ui/match_hud.gd")
+const CREAM := Color("f1eedb")
+const CORAL := Color("ed7864")
+const AMBER := Color("ecc14f")
+@export var fixture_seed: int = 0
+var sim := Match.new()
+var paused := false
 var speed := 1
 var selected := -1
-var labels: Dictionary = {}
-var buttons: Dictionary = {}
-var feed: RichTextLabel
-var font: Font
-var sim := Match.new()
-var detailed := false
-var last_event_count := -1
 var hovered := -1
-var pause_menu: AcceptDialog
+var pitch := Rect2()
+var player_positions: Array[Vector2] = []
+var ball := Vector2.ZERO
+var hud
+var font: Font
+var turf: Texture2D
 var name_rects: Array[Rect2] = []
+var overlay_mode := ""
+var overlay_parent := ""
+var before_overlay_paused := false
+var restore_focus: Control
+var label_alpha := PackedFloat32Array()
+var label_dim_until := PackedInt64Array()
+var ball_roll := 0.0
 
 func _ready() -> void:
+	var seed_value := fixture_seed if fixture_seed != 0 else int(Time.get_unix_time_from_system()) ^ Time.get_ticks_usec()
+	sim = Match.new(seed_value)
 	font = ThemeDB.fallback_font
-	for p in sim.players:
-		player_positions.append(p.position)
-	_make_label("brand", "ELEVEN AGAIN", 23, CREAM)
-	_make_label("edition", "EXHIBITION  /  MATCH LAB", 12, MUTED)
-	_make_label("home", "MEADOW XI", 22, CREAM)
-	_make_label("away", "HARBOR XI", 22, CORAL)
-	_make_label("score", "0  –  0", 35, CREAM)
-	_make_label("clock", "00′  /  READY", 14, AMBER)
-	_make_label("pitch_title", "THE MATCH", 12, MUTED)
-	_make_label("pitch_note", "4–3–3  ·  Fictional squads", 12, MUTED)
-	_make_label("live", "MATCH JOURNAL", 15, CREAM)
-	_make_label("live_note", "The story, as it happens.", 13, MUTED)
-	_make_label("stats", "MEADOW                         HARBOR\n\nShots                 0  :  0\nOn target           0  :  0\nPasses                0  :  0", 14, CREAM)
-	_make_label("inspection", "Select / ← → inspect  ·  Space pause  ·  Esc menu", 13, MUTED)
-	_make_label("scope", "PHASE 1  /  Exhibition draws · Simplified restarts · No cards, offside or substitutions", 12, MUTED)
-	_make_button("pause", "Kick off", _toggle_pause)
-	_make_button("speed", "1× speed", _toggle_speed)
-	_make_button("restart", "Restart", _restart)
-	_make_button("new", "New match", func(): _restart(true))
-	_make_button("exit", "Quit", func(): get_tree().quit())
-	_make_button("detail", "Detailed feed: off", _toggle_detail)
-	pause_menu = AcceptDialog.new()
-	pause_menu.title = "Match paused"
-	pause_menu.dialog_text = "Space: pause / resume\nLeft / Right: inspect players\n1 / 2: viewing speed\n\nViewing controls do not change the submitted team.\nThis exhibition uses simplified restarts and permits draws.\nCards, offside and substitutions arrive in later phases."
-	pause_menu.ok_button_text = "Resume match"
-	pause_menu.confirmed.connect(func():
-		paused = false
-		_sync_controls())
-	add_child(pause_menu)
-	feed = RichTextLabel.new()
-	feed.bbcode_enabled = true
-	feed.scroll_following = true
-	feed.mouse_filter = Control.MOUSE_FILTER_STOP
-	feed.add_theme_font_size_override("normal_font_size", 15)
-	add_child(feed)
-	feed.text = "[color=#e9b65e]PRE-MATCH[/color]\nTwo ordinary elevens. One open pitch.\n\nSelect Kick off to begin."
+	for p in sim.players: player_positions.append(p.position)
+	label_alpha.resize(22)
+	label_alpha.fill(1.0)
+	label_dim_until.resize(22)
+	_make_turf()
+	hud = Hud.new()
+	hud.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(hud)
+	hud.command.connect(_on_command)
 	resized.connect(_layout)
 	mouse_exited.connect(func():
 		hovered = -1
-		_update_inspection())
+		_sync_state())
 	_layout()
 	_sync_state()
-	buttons.pause.grab_focus()
+	hud.buttons.pause.grab_focus()
+
+func _make_turf() -> void:
+	# One reusable texture; fixed surface noise never consumes match randomness.
+	var noise := FastNoiseLite.new()
+	noise.seed = 71
+	noise.frequency = 0.24
+	var image := Image.create(384, 256, false, Image.FORMAT_RGB8)
+	for y in 256:
+		for x in 384:
+			var grain := noise.get_noise_2d(x, y)
+			image.set_pixel(x, y, Color(0.10 + grain * 0.035, 0.245 + grain * 0.055, 0.075 + grain * 0.025))
+	turf = ImageTexture.create_from_image(image)
+
+func _layout() -> void:
+	if not is_instance_valid(hud): return
+	var divider := size.x - 270
+	var available := Rect2(24, 86, divider - 48, size.y - 108)
+	var factor := minf(available.size.x / 105, available.size.y / 68)
+	pitch = Rect2(available.get_center() - Vector2(105, 68) * factor / 2, Vector2(105, 68) * factor)
+	hud.arrange(pitch, divider)
+	queue_redraw()
 
 func _physics_process(_delta: float) -> void:
 	if not paused and not sim.finished:
-		for i in speed:
+		for step_index in speed:
 			sim.step()
+			if sim.ball_state != Match.BallState.DEAD:
+				ball_roll += sim.previous_ball.distance_to(sim.ball) * 0.8
 		_sync_state()
 
 func _sync_state() -> void:
-	for i in 22:
-		player_positions[i] = sim.players[i].position
+	if not is_instance_valid(hud): return
+	for i in 22: player_positions[i] = sim.players[i].position
 	ball = sim.ball
-	labels.score.text = "%d  –  %d" % sim.scores
-	var phase_label: String = ["FIRST HALF", "HALF TIME", "SECOND HALF", "FULL TIME"][sim.period]
-	if paused and not sim.finished:
-		phase_label = "READY" if sim.ticks == 0 else "PAUSED"
-	labels.clock.text = "%02d′  /  %s" % [sim.active_ticks / 40, phase_label]
-	labels.pitch_note.text = "4–3–3  ·  Seed %d  ·  Meadow %s" % [sim.match_seed, "→" if sim.direction(0) > 0 else "←"]
-	var controlled: int = sim.possession_ticks[0] + sim.possession_ticks[1]
-	var share := roundi(100.0 * sim.possession_ticks[0] / controlled) if controlled > 0 else 50
-	labels.stats.text = "MEADOW                     HARBOR\n\nShots               %d  :  %d\nOn target         %d  :  %d\nPasses          %d/%d : %d/%d\nControl            %d%% : %d%%" % [sim.shots[0], sim.shots[1], sim.shots_on_target[0], sim.shots_on_target[1], sim.completed_passes[0], sim.pass_attempts[0], sim.completed_passes[1], sim.pass_attempts[1], share, 100 - share]
-	_refresh_feed()
-	if sim.finished:
-		buttons.pause.text = "Full time"
-		buttons.pause.disabled = true
-		labels.inspection.text = "%s  ·  %d – %d  ·  Restart to watch the same seed again" % ["EXHIBITION DRAW" if sim.scores[0] == sim.scores[1] else ("MEADOW WIN" if sim.scores[0] > sim.scores[1] else "HARBOR WIN"), sim.scores[0], sim.scores[1]]
+	var inspected := hovered if hovered >= 0 else selected
+	var description := ""
+	if inspected >= 0:
+		var p = sim.players[inspected]
+		description = "%s · %s\nPAC %d  SHO %d  PAS %d\nDRI %d  DEF %d%s" % [p.name, "Meadow" if p.team == 0 else "Harbor", p.pace, p.shooting, p.passing, p.dribbling, p.defence, "  GK %d" % p.keeping if inspected % 11 == 0 else ""]
+	hud.refresh(sim, paused, speed, description)
 	queue_redraw()
 
-func _refresh_feed() -> void:
-	if sim.events.size() == last_event_count and sim.ticks != 1:
-		return
-	last_event_count = sim.events.size()
-	if sim.ticks == 0:
-		feed.text = "[color=#e9b65e]PRE-MATCH[/color]\nTwo ordinary elevens. One open pitch.\n\nKick off to watch a 60-second match.\n\nRestart replays seed %d. New match tries the next seed." % sim.match_seed
-		return
-	var entries: Array[String] = []
-	for event in sim.events:
-		if not detailed and event.kind in ["pass", "received", "challenge", "hold", "recovery"]:
-			continue
-		var actor: String = NAMES[event.actor] if event.actor >= 0 else ""
-		var message := ""
-		match event.kind:
-			"kickoff": message = "%s kick off." % ("Meadow" if event.team == 0 else "Harbor")
-			"pass": message = "%s passes toward %s." % [actor, NAMES[event.receiver]]
-			"received": message = "%s receives the pass." % actor
-			"recovery": message = "%s gathers the loose ball." % actor
-			"interception": message = "%s cuts out the pass." % actor
-			"tackle": message = "%s wins the challenge." % actor
-			"challenge": message = "%s challenges; the carrier keeps it." % actor
-			"shot": message = "%s takes a shot." % actor
-			"block": message = "%s blocks the shot." % actor
-			"save": message = "%s makes the save." % actor
-			"hold": message = "%s holds the ball." % actor
-			"parry": message = "%s parries. The rebound is live." % actor
-			"goal": message = "[b]GOAL · %s[/b]\nMeadow %d – %d Harbor" % [actor, event.score[0], event.score[1]]
-			"miss": message = "%s sends it wide." % actor
-			"out": message = "Ball out. A brief restart."
-			"restart": message = "%s restarts play." % actor
-			"goal_kick": message = "%s takes the goal kick." % actor
-			"halftime": message = "[b]Half time.[/b] The teams change ends."
-			"full_time": message = "[b]Full time · %d – %d[/b]\n%s" % [event.score[0], event.score[1], "Exhibition drawn." if event.score[0] == event.score[1] else "A result to build on."]
-		if not message.is_empty():
-			entries.append("[color=#e9b65e]%02d′[/color]  %s" % [event.minute, message])
-	feed.text = "\n\n".join(entries.slice(maxi(0, entries.size() - 24)))
+func _on_command(action: String) -> void:
+	match action:
+		"pause":
+			if not sim.finished: paused = not paused
+		"speed1": speed = 1
+		"speed2": speed = 2
+		"menu", "details", "log", "restart", "new": _open_overlay(action)
+		"back": _dismiss_overlay()
+		"resume":
+			_close_overlay()
+			paused = false
+		"confirm_restart": _restart(false)
+		"confirm_new": _restart(true)
+		"quit": get_tree().quit()
+	_sync_state()
 
-func _toggle_detail() -> void:
-	detailed = not detailed
-	buttons.detail.text = "Detailed feed: on" if detailed else "Detailed feed: off"
-	last_event_count = -1
-	_refresh_feed()
+func _open_overlay(mode: String) -> void:
+	if overlay_mode.is_empty():
+		before_overlay_paused = paused
+		restore_focus = get_viewport().gui_get_focus_owner()
+		overlay_parent = ""
+	elif overlay_mode == "menu":
+		overlay_parent = "menu"
+	paused = true
+	overlay_mode = mode
+	hud.show_panel(mode, sim)
 
-func _make_label(id: String, value: String, font_size: int, color: Color) -> void:
-	var label := Label.new()
-	label.text = value
-	label.add_theme_font_size_override("font_size", font_size)
-	label.add_theme_color_override("font_color", color)
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(label)
-	labels[id] = label
+func _dismiss_overlay() -> void:
+	if overlay_parent == "menu":
+		overlay_parent = ""
+		overlay_mode = "menu"
+		hud.show_panel("menu", sim)
+	else:
+		_close_overlay()
+		paused = before_overlay_paused
 
-func _make_button(id: String, value: String, action: Callable) -> void:
-	var button := Button.new()
-	button.text = value
-	button.custom_minimum_size = Vector2(88, 38)
-	button.pressed.connect(action)
-	add_child(button)
-	buttons[id] = button
+func _close_overlay() -> void:
+	overlay_mode = ""
+	overlay_parent = ""
+	hud.close_panel()
+	if is_instance_valid(restore_focus) and restore_focus is BaseButton and not restore_focus.disabled:
+		restore_focus.grab_focus()
+	else:
+		hud.buttons.menu.grab_focus()
 
-func _place(id: String, x: float, y: float, width: float, height: float = 30) -> void:
-	labels[id].position = Vector2(x, y)
-	labels[id].size = Vector2(width, height)
+func _restart(new_seed: bool = false) -> void:
+	sim = Match.new(sim.match_seed + (1 if new_seed else 0))
+	selected = -1
+	hovered = -1
+	label_alpha.fill(1.0)
+	label_dim_until.fill(0)
+	ball_roll = 0
+	_close_overlay()
+	paused = false
+	hud.event_count = -1
+	_sync_state()
 
-func _layout() -> void:
-	var side := 288.0
-	var right := size.x - side - 28
-	var available := Vector2(right - 56, size.y - 236)
-	var scale_factor := minf(available.x / 105, available.y / 68)
-	pitch = Rect2(Vector2(28 + (available.x - 105 * scale_factor) / 2, 174), Vector2(105, 68) * scale_factor)
-	_place("brand", 28, 18, 280)
-	_place("edition", 28, 50, 300)
-	_place("home", 74, 91, 270)
-	_place("score", right / 2 - 62, 77, 140, 52)
-	_place("away", right - 286, 91, 250)
-	labels.away.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_place("clock", right / 2 - 68, 126, 200)
-	_place("pitch_title", 28, 142, 200)
-	_place("pitch_note", right - 300, 142, 290)
-	_place("live", right + 26, 89, 240)
-	_place("live_note", right + 26, 115, 250)
-	_place("stats", right + 26, size.y - 222, 255, 155)
-	_place("inspection", 28, size.y - 60, right - 40)
-	_place("scope", 28, size.y - 30, size.x - 56)
-	feed.position = Vector2(right + 26, 186)
-	feed.size = Vector2(side - 26, size.y - 431)
-	buttons.detail.position = Vector2(right + 26, 146)
-	buttons.detail.size = Vector2(176, 30)
-	for i in 5:
-		var id: String = ["pause", "speed", "restart", "new", "exit"][i]
-		buttons[id].position = Vector2(size.x - 520 + i * 98, 24)
-		buttons[id].size = Vector2(90, 38)
-	queue_redraw()
+func _input(event: InputEvent) -> void:
+	if not (event is InputEventKey and event.pressed and not event.echo): return
+	if event.keycode == KEY_ESCAPE:
+		if overlay_mode.is_empty(): _open_overlay("menu")
+		else: _dismiss_overlay()
+	elif not overlay_mode.is_empty(): return
+	elif event.keycode == KEY_SPACE:
+		if not sim.finished: paused = not paused
+	elif event.keycode in [KEY_1, KEY_2]:
+		speed = 1 if event.keycode == KEY_1 else 2
+	elif event.keycode in [KEY_LEFT, KEY_RIGHT]:
+		selected = posmod(selected + (-1 if event.keycode == KEY_LEFT else 1), 22)
+		hovered = -1
+	else: return
+	get_viewport().set_input_as_handled()
+	_sync_state()
 
-func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), Color("101e1a"))
-	var side_x := size.x - 316
-	draw_line(Vector2(28, 74), Vector2(size.x - 28, 74), Color("34463b"), 1)
-	draw_line(Vector2(side_x, 88), Vector2(side_x, size.y - 70), Color("34463b"), 1)
-	if pitch.size.x == 0:
-		return
-	draw_rect(pitch.grow(10), Color("122f26"))
-	for i in 10:
-		var stripe := Rect2(pitch.position + Vector2(pitch.size.x * i / 10, 0), Vector2(pitch.size.x / 10, pitch.size.y))
-		draw_rect(stripe, GREEN if i % 2 == 0 else Color("1b523f"))
-	var line := Color("7ca58b")
-	draw_rect(pitch, line, false, 1.4)
-	draw_line(_field(Vector2(52.5, 0)), _field(Vector2(52.5, 68)), line, 1.4)
-	draw_arc(_field(Vector2(52.5, 34)), 9.15 * _scale(), 0, TAU, 64, line, 1.4, true)
-	draw_circle(_field(Vector2(52.5, 34)), 2, line)
-	for end in 2:
-		var x := 0.0 if end == 0 else 88.5
-		draw_rect(Rect2(_field(Vector2(x, 13.84)), Vector2(16.5, 40.32) * _scale()), line, false, 1.4)
-		x = 0.0 if end == 0 else 99.5
-		draw_rect(Rect2(_field(Vector2(x, 24.84)), Vector2(5.5, 18.32) * _scale()), line, false, 1.4)
-		var goal_x := pitch.position.x - 9 if end == 0 else pitch.end.x
-		draw_rect(Rect2(Vector2(goal_x, _field(Vector2(0, 30.34)).y), Vector2(9, 7.32 * _scale())), CREAM, false, 2)
-		draw_circle(_field(Vector2(11 if end == 0 else 94, 34)), 2, line)
-	for i in player_positions.size():
-		_draw_player(i)
-	name_rects.clear()
-	var priorities: Array[int] = []
-	for index in [sim.owner, selected]:
-		if index >= 0 and not priorities.has(index):
-			priorities.append(index)
-	for i in 22:
-		if not priorities.has(i):
-			priorities.append(i)
-	for index in priorities:
-		_draw_name(index)
-	draw_circle(_field(ball) + Vector2(1, 2), 5.5, Color("081510"))
-	draw_circle(_field(ball), 4.5, Color.WHITE)
-	draw_circle(_field(ball), 1.5, Color("34463b"))
+func _gui_input(event: InputEvent) -> void:
+	if not overlay_mode.is_empty(): return
+	if event is InputEventMouseMotion or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
+		hovered = -1
+		for i in 22:
+			if _field(player_positions[i]).distance_to(event.position) < 17:
+				hovered = i
+				if event is InputEventMouseButton: selected = i
+				break
+		_sync_state()
 
 func _field(point: Vector2) -> Vector2:
 	return pitch.position + point * _scale()
@@ -238,106 +179,131 @@ func _field(point: Vector2) -> Vector2:
 func _scale() -> float:
 	return pitch.size.x / 105
 
+func _draw() -> void:
+	draw_rect(Rect2(Vector2.ZERO, size), Color("0c1711"))
+	if pitch.size.x <= 0: return
+	draw_rect(pitch.grow(9), Color("1c351b"))
+	draw_texture_rect(turf, pitch, true)
+	for stripe in 10:
+		if stripe % 2 == 0:
+			draw_rect(Rect2(pitch.position + Vector2(pitch.size.x * stripe / 10, 0), Vector2(pitch.size.x / 10, pitch.size.y)), Color(0.6, 0.7, 0.35, 0.065))
+	var line := Color("c0c8a8")
+	draw_rect(pitch, line, false, 1.4)
+	draw_line(_field(Vector2(52.5, 0)), _field(Vector2(52.5, 68)), line, 1.4)
+	draw_arc(_field(Vector2(52.5, 34)), 9.15 * _scale(), 0, TAU, 64, line, 1.4, true)
+	draw_circle(_field(Vector2(52.5, 34)), 2.2, line)
+	for end in 2:
+		var x := 0.0 if end == 0 else 88.5
+		draw_rect(Rect2(_field(Vector2(x, 13.84)), Vector2(16.5, 40.32) * _scale()), line, false, 1.4)
+		x = 0.0 if end == 0 else 99.5
+		draw_rect(Rect2(_field(Vector2(x, 24.84)), Vector2(5.5, 18.32) * _scale()), line, false, 1.4)
+		var spot := Vector2(11 if end == 0 else 94, 34)
+		draw_circle(_field(spot), 2, line)
+		draw_arc(_field(spot), 9.15 * _scale(), -0.93 if end == 0 else PI - 0.93, 0.93 if end == 0 else PI + 0.93, 32, line, 1.4, true)
+		_draw_goal(end)
+	for point in [Vector2(0,0),Vector2(105,0),Vector2(105,68),Vector2(0,68)]:
+		var start := 0.0 if point == Vector2.ZERO else (PI / 2 if point.y == 0 else (PI if point.x > 0 else PI * 1.5))
+		draw_arc(_field(point), _scale(), start, start + PI / 2, 12, line, 1.1, true)
+	for i in 22:
+		if i != sim.owner and i != selected: _draw_player(i)
+	if sim.owner >= 0 and sim.owner != selected: _draw_player(sim.owner)
+	if selected >= 0: _draw_player(selected)
+	name_rects.clear()
+	var priorities: Array[int] = []
+	for index in [sim.owner, selected]:
+		if index >= 0 and not priorities.has(index): priorities.append(index)
+	for i in 22:
+		if not priorities.has(i): priorities.append(i)
+	for index in priorities: _draw_name(index)
+	_draw_ball()
+
+func _draw_ball() -> void:
+	var ground := _field(ball)
+	var bounce := 0.0
+	var touch := Vector2.ZERO
+	if sim.owner >= 0 and sim.players[sim.owner].position.distance_to(sim.players[sim.owner].previous) > 0.005:
+		var phase := sim.held_ticks * TAU / 24.0
+		bounce = absf(sin(phase)) * 1.6
+		touch = (sim.players[sim.owner].position - sim.players[sim.owner].previous).normalized() * sin(phase) * 1.8
+	var center := ground + touch - Vector2(0, bounce)
+	draw_set_transform(ground + Vector2(0, 4), 0, Vector2(1.35, 0.5))
+	draw_circle(Vector2.ZERO, 4.7, Color(0.01,0.03,0.02,0.75))
+	draw_set_transform(Vector2.ZERO)
+	draw_circle(center, 6.2, Color("102118"))
+	draw_circle(center, 5.1, Color("e5e8df"))
+	var patch := PackedVector2Array()
+	for i in 5: patch.append(center + Vector2.from_angle(ball_roll + i * TAU / 5) * 2.0)
+	draw_colored_polygon(patch, Color("203c2a"))
+	for i in 3:
+		var angle := ball_roll + i * TAU / 3
+		draw_colored_polygon(PackedVector2Array([center + Vector2.from_angle(angle) * 3.2, center + Vector2.from_angle(angle - 0.3) * 4.8, center + Vector2.from_angle(angle + 0.3) * 4.8]), Color("203c2a"))
+	draw_circle(center + Vector2(-1.6, -2.0), 0.9, Color(1,1,1,0.8))
+
+func _draw_goal(end: int) -> void:
+	var depth := 2.5 * _scale()
+	var mouth_x := pitch.position.x if end == 0 else pitch.end.x
+	var net_x := mouth_x - depth if end == 0 else mouth_x
+	var top := _field(Vector2(0, 30.34)).y
+	var bottom := _field(Vector2(0, 37.66)).y
+	var net := Rect2(net_x, top, depth, bottom - top)
+	var recoil := 0.0
+	var age: int = sim.ticks - hud.goal_cue_tick
+	if hud.goal_cue_actor >= 0 and age >= 0 and age < 90:
+		var scoring_team: int = sim.players[hud.goal_cue_actor].team
+		if (end == 1) == (sim.direction(scoring_team) > 0):
+			recoil = sin(age * 0.3) * exp(-age / 25.0) * 2.0
+	draw_rect(Rect2(net.position + Vector2(1, 3), net.size), Color(0.01,0.035,0.02,0.8))
+	draw_rect(net, Color("203328"))
+	var mesh := Color(0.77,0.83,0.75,0.52)
+	for y in range(0, int(net.size.y) + 1, 5):
+		draw_line(net.position + Vector2(recoil if end == 0 else 0.0, y), Vector2(net.end.x + (recoil if end == 1 else 0.0), net.position.y + y), mesh, 0.8, true)
+	for x in range(0, int(depth) + 1, 5):
+		draw_line(net.position + Vector2(x, 0), Vector2(net.position.x + x, net.end.y), mesh, 0.8, true)
+	draw_rect(net, Color("a8b4a4"), false, 1.3)
+	# The bright mouth posts sit on the actual goal line; net depth is purely presentation.
+	for y in [top, bottom]:
+		draw_line(Vector2(net.position.x, y), Vector2(net.end.x, y), CREAM, 2.5, true)
+		draw_circle(Vector2(mouth_x, y), 2.3, Color.WHITE)
+	draw_line(Vector2(mouth_x, top), Vector2(mouth_x, bottom), Color(0.96,0.97,0.9,0.7), 2, true)
+
 func _draw_player(index: int) -> void:
 	var point := _field(player_positions[index])
-	var radius := 10.0
-	var home := index < 11
-	if selected == index:
-		draw_arc(point, 15, 0, TAU, 28, AMBER, 2, true)
-	elif sim.owner == index:
-		draw_arc(point, 14, 0, TAU, 28, CREAM, 1, true)
-	draw_circle(point + Vector2(1, 2), radius + 1, Color("10291f"))
-	draw_circle(point, radius, CREAM if home else CORAL)
-	if not home:
-		draw_arc(point, 7, PI * 0.15, PI * 0.85, 12, Color("642d29"), 2, true)
+	var color := CREAM if index < 11 else CORAL
+	if selected == index or sim.owner == index:
+		draw_arc(point, 17.0 if selected == index else 16.0, 0, TAU, 36, AMBER, 2.0 if selected == index else 1.3, true)
+	if index == hud.goal_cue_actor and sim.ticks - hud.goal_cue_tick < 150:
+		draw_arc(point, 18 + sin((sim.ticks - hud.goal_cue_tick) * 0.15), 0, TAU, 36, AMBER, 1.5, true)
+	draw_circle(point + Vector2(1, 2.5), 13.8, Color(0.02,0.05,0.025,0.85))
+	draw_circle(point, 13.2, Color("102315"))
+	draw_circle(point, 12.3, CREAM)
+	draw_circle(point, 11.1, color)
+	if index % 11 == 0:
+		draw_circle(point, 10.3, Color("247f53"))
+	if index >= 11:
+		draw_arc(point, 9, PI * 0.10, PI * 0.90, 14, Color("9d4937"), 1.2, true)
 	var number := str(index % 11 + 1)
-	draw_string(font, point + Vector2(-font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x / 2, 4), number, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("17291f"))
+	var number_pos := point + Vector2(-font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x / 2, 5)
+	if index >= 11 or index % 11 == 0:
+		for offset in [Vector2(-0.7,0),Vector2(0.7,0),Vector2(0,-0.7),Vector2(0,0.7)]:
+			draw_string(font, number_pos + offset, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("27432d"))
+	draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, CREAM if index % 11 == 0 or index >= 11 else Color("102315"))
 
 func _draw_name(index: int) -> void:
 	var point := _field(player_positions[index])
-	var name: String = NAMES[index]
-	var width := font.get_string_size(name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-	for offset in [Vector2(-width / 2, 24), Vector2(-width / 2, -17), Vector2(15, 4), Vector2(-width - 15, 4)]:
-		var name_pos: Vector2 = point + offset
-		var rect := Rect2(name_pos + Vector2(-3, -13), Vector2(width + 6, 17))
-		var blocked := not pitch.grow(7).encloses(rect)
-		for existing in name_rects:
-			blocked = blocked or existing.intersects(rect)
-		for player_pos in player_positions:
-			blocked = blocked or rect.intersects(Rect2(_field(player_pos) - Vector2(10, 10), Vector2(20, 20)))
-		if not blocked:
-			name_rects.append(rect)
-			draw_rect(rect, Color("123126"))
-			draw_string(font, name_pos, name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, CREAM)
-			return
-
-func _toggle_pause() -> void:
-	if sim.finished:
-		return
-	paused = not paused
-	_sync_controls()
-
-func _sync_controls() -> void:
-	buttons.pause.text = ("Kick off" if sim.ticks == 0 else "Resume") if paused else "Pause"
-	_sync_state()
-
-func _toggle_speed() -> void:
-	speed = 3 - speed
-	buttons.speed.text = "%d× speed" % speed
-
-func _restart(new_seed: bool = false) -> void:
-	sim = Match.new(sim.match_seed + (1 if new_seed else 0))
-	paused = true
-	selected = -1
-	hovered = -1
-	last_event_count = -1
-	pause_menu.hide()
-	buttons.pause.text = "Kick off"
-	buttons.pause.disabled = false
-	labels.clock.text = "00′  /  READY"
-	_update_inspection()
-	_sync_state()
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_ESCAPE:
-			paused = true
-			_sync_controls()
-			if pause_menu.visible:
-				pause_menu.hide()
-			else:
-				pause_menu.popup_centered()
-			get_viewport().set_input_as_handled()
-		elif event.keycode == KEY_SPACE and not pause_menu.visible:
-			_toggle_pause()
-			get_viewport().set_input_as_handled()
-		elif event.keycode in [KEY_1, KEY_2] and not pause_menu.visible:
-			speed = 1 if event.keycode == KEY_1 else 2
-			buttons.speed.text = "%d× speed" % speed
-			get_viewport().set_input_as_handled()
-		elif event.keycode in [KEY_LEFT, KEY_RIGHT] and not pause_menu.visible:
-			selected = posmod(selected + (-1 if event.keycode == KEY_LEFT else 1), 22)
-			hovered = -1
-			_update_inspection()
-			queue_redraw()
-			get_viewport().set_input_as_handled()
-
-func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
-		hovered = -1
-		for i in player_positions.size():
-			if _field(player_positions[i]).distance_to(event.position) < 17:
-				hovered = i
-				if event is InputEventMouseButton:
-					selected = i
-				break
-		_update_inspection()
-		queue_redraw()
-
-func _update_inspection() -> void:
-	var index := hovered if hovered >= 0 else selected
-	if index < 0:
-		labels.inspection.text = "Select / ← → inspect  ·  Space pause  ·  Esc menu"
-		return
-	var p = sim.players[index]
-	labels.inspection.text = "%s · %s · PAC %d  PAS %d  SHO %d  DRI %d  DEF %d%s" % [p.name, "Meadow" if p.team == 0 else "Harbor", p.pace, p.passing, p.shooting, p.dribbling, p.defence, "  GK %d" % p.keeping if index % 11 == 0 else ""]
+	var player_name: String = Match.NAMES[index]
+	var width := font.get_string_size(player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+	# A fixed below-token anchor prevents the old above/below flipping in duels.
+	var pos := point + Vector2(-width / 2, 29)
+	pos.x = clampf(pos.x, 4, size.x - 276 - width)
+	pos.y = minf(pos.y, size.y - 4)
+	var rect := Rect2(pos + Vector2(-2, -15), Vector2(width + 4, 19))
+	var blocked := false
+	for existing in name_rects: blocked = blocked or existing.intersects(rect)
+	var important := index == sim.owner or index == selected
+	if blocked and not important: label_dim_until[index] = sim.ticks + 30
+	var target := 0.2 if sim.ticks < label_dim_until[index] and not important else 1.0
+	label_alpha[index] = 1.0 if important else lerpf(label_alpha[index], target, minf(get_process_delta_time() * 8, 1))
+	if not blocked or important: name_rects.append(rect)
+	for halo in [Vector2(-1,0),Vector2(1,0),Vector2(0,-1),Vector2(0,1)]:
+		draw_string(font, pos + halo, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.04,0.08,0.04,label_alpha[index]))
+	draw_string(font, pos, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM, label_alpha[index]))

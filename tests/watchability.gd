@@ -11,7 +11,7 @@ func _initialize() -> void:
 	for index in 20:
 		var seed_value: int = [11027, 42, 7, 2026][index] if index < 4 else 11024 + index
 		var sim := Match.new(seed_value)
-		while not sim.finished and sim.ticks < 9000:
+		while not sim.finished and sim.ticks < sim.regulation_ticks + 3600:
 			sim.step()
 		var goals: int = sim.scores[0] + sim.scores[1]
 		var shots: int = sim.shots[0] + sim.shots[1]

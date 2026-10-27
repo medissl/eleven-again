@@ -1,4 +1,36 @@
-[gd_resource type="Theme" load_steps=2 format=3]
+[gd_resource type="Theme" load_steps=5 format=3]
+
+[sub_resource type="StyleBoxFlat" id="Button"]
+bg_color = Color(0.055, 0.095, 0.065, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.20, 0.28, 0.20, 1)
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 7.0
+content_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxFlat" id="Selected"]
+bg_color = Color(0.12, 0.16, 0.075, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.925, 0.757, 0.31, 1)
+
+[sub_resource type="StyleBoxFlat" id="Hover"]
+bg_color = Color(0.14, 0.20, 0.14, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5, 0.6, 0.4, 1)
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 7.0
+content_margin_bottom = 7.0
 
 [sub_resource type="StyleBoxFlat" id="Focus"]
 bg_color = Color(0, 0, 0, 0)
@@ -15,3 +47,7 @@ Button/colors/font_color = Color(0.93, 0.925, 0.85, 1)
 Button/colors/font_hover_color = Color(1, 0.79, 0.4, 1)
 Button/colors/font_focus_color = Color(1, 0.79, 0.4, 1)
 Button/styles/focus = SubResource("Focus")
+Button/colors/font_pressed_color = Color(0.925, 0.757, 0.31, 1)
+Button/styles/normal = SubResource("Button")
+Button/styles/hover = SubResource("Hover")
+Button/styles/pressed = SubResource("Selected")

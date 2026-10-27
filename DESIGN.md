@@ -21,6 +21,10 @@ Phase 1 references actually inspected:
 
 Initial rendered palette: background #101e1a, pitch #184d3b/#1b523f, type/home markers #efecda, away #e88670, selection #e9b65e. Use Godot's bundled readable default font until album typography warrants an additional licensed asset. Team distinction combines numbered cream circles with patterned coral circles.
 
+The user approved `MATCH_UI_HANDOFF.md` as the current match target: pitch first, compact team/score/clock, pause/1×/2×/Menu, concise newest-first events, and secondary information behind a modal. The current HUD uses native Godot Controls with generated turf, larger team-patterned discs, green keepers with team rings, and deeper goal frames/netting. Labels now retain a fixed below-player anchor with gentle de-emphasis for crowded secondary names. The football has panel shading, rolling and a small cosmetic touch/bounce, tied to authoritative state. Goal/halftime/full-time header cues and net reactions consume real events.
+
+Current pacing: the user explicitly confirmed three active minutes at 1× and ninety active-play seconds at 2×, plus stoppages. Read `MATCH_PACING_AND_EVENTS_v1.md` for event direction and later timing dependencies. No spectators/stadium extras are part of this view. New HUD and modal layouts were rendered at 720p/1080p; final animation/native interaction review was interrupted when the user stopped Computer Use with Escape. See `reports/phase-one.md` for the precise verification boundary. Audio, larger UI scale and reduced-motion settings remain later work.
+
 ## Hierarchy and composition
 
 1. Ball and immediate contest.
@@ -35,6 +39,11 @@ Resolve overlapping names by abbreviation and priority; keep the ball carrier an
 Management screens prioritise the next decision: weak position, comparison, funds, consequence, confirmation. A recruitment row of five comparable candidates is justified by the choice; unrelated decorative cards are not. Show roster replacement before commitment and retain funds/squad when inspection is cancelled.
 
 ## Visual materials
+
+### Saved card direction for later phases
+
+The user supplied `CARD_DESIGN_HANDOFF.md` and the references under `outputs/card-design-reference-v1/` for future card/album work, not implementation in Phase 1. Read the actual handoff when starting card Resources, recruitment/market cards, squad cards, or the index. Use a flat reusable native 5:7 archive card: clipped corner, album spine, era stamp, separate photographic cutout, prominent OVR/role, surname, country text/flag, band text/pattern, optional trait, and PAC/SHO/PAS then DRI/DEF/PHY. Keep three-digit values readable. Ivory/brass Legends, forest ordinary cards, and anonymous undiscovered silhouettes share one shape and equal size. Concept ratings are illustrative, and portraits retain their source/permission records. Preserve hidden identity and missing-portrait fallbacks. Assets and the original handoff remain user-owned references; do not replace them with generated whole-card images.
+
 
 Use deep grass greens for the field, charcoal for supporting panels, warm off-white for readable type, and restrained amber for decisions and milestones. Exact colour tokens and fonts will be selected against real rendered contrast checks during Phase 1, then reused through a Godot Theme. Keep semantic state colours distinct from team kits.
 
