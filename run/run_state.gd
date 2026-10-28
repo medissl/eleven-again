@@ -3,7 +3,8 @@ extends RefCounted
 const Campaign = preload("res://content/campaign.gd")
 const Lineup = preload("res://squad/lineup.gd")
 const Snapshot = preload("res://match/match_snapshot.gd")
-const STEPS := ["opening_recruit","prepare","match","result","recruit","market","coaching","won","lost"]
+const Records = preload("res://run/records.gd")
+const STEPS := ["opening_recruit","prepare","match","result","recruit","market","coaching","won","lost","abandoned"]
 
 static func error(data: Variant, content: RefCounted) -> String:
 	if data is not Dictionary: return "Run is not a dictionary."
@@ -14,9 +15,9 @@ static func error(data: Variant, content: RefCounted) -> String:
 		if data.get(key) is not String: return "Invalid run text: "+key
 	for key in ["fixtures","ledger","released","acquisitions","principles","coaching","queue"]:
 		if data.get(key) is not Array: return "Invalid run list: "+key
-	for key in ["plan","offer","market","current_attempt","match_snapshot"]:
+	for key in ["plan","offer","market","current_attempt","match_snapshot","peak_xi","discipline","abandoned_attempt"]:
 		if data.get(key) is not Dictionary: return "Invalid run state: "+key
-	if data.schema != 1 or data.content_version != Campaign.VERSION: return "Unsupported campaign version."
+	if data.schema != 2 or data.content_version != Campaign.VERSION: return "Unsupported campaign version."
 	if not content.errors.is_empty() or not content.countries.has(data.origin) or data.run_id.is_empty(): return "Missing origin/content."
 	if data.step not in STEPS or data.revision < 1 or data.wins < 0 or data.wins > 12 or data.defeats < 0 or data.defeats > 3 or data.cash < 0: return "Invalid progress."
 	if (data.step == "won") != (data.wins == 12) or (data.step == "lost") != (data.defeats == 3): return "Invalid terminal state."
@@ -53,6 +54,9 @@ static func error(data: Variant, content: RefCounted) -> String:
 	for id in available:
 		if not owned.has(id): return "Ownership ledger mismatch."
 	if data.released != released: return "Release ledger mismatch."
+	var ever_owned: Array = content.countries[data.origin].cards.duplicate()
+	for acquisition in data.acquisitions: ever_owned.append(acquisition.card_id)
+	if not Records.valid(data.peak_xi,content,ever_owned): return "Invalid achieved XI record."
 	var wins := 0
 	var defeats := 0
 	var earnings := 0
@@ -100,6 +104,9 @@ static func error(data: Variant, content: RefCounted) -> String:
 				var base = player.card.attributes.get(key,player.card.keeper_attributes.get(key))
 				if player.get(model.ATTRIBUTE_FIELDS[key]) != base: return "Changed base match attribute."
 	elif not data.match_snapshot.is_empty(): return "Unexpected match snapshot."
+	if not data.abandoned_attempt.is_empty():
+		var attempt: Dictionary = data.abandoned_attempt
+		if data.step != "abandoned" or attempt.get("id") != data.run_id+"/attempt/"+str(data.ledger.size()+1) or attempt.get("fixture") != data.fixtures[wins] or attempt.get("seed") != rng.randi_range(1,2147483646): return "Invalid abandoned attempt."
 	if str(rng.state) != data.attempts_rng: return "Attempt RNG mismatch."
 	return ""
 

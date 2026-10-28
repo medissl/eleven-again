@@ -19,10 +19,10 @@ static func digest(bytes: PackedByteArray) -> String:
 func read_file(file: String, kind: String, validate: Callable) -> Dictionary:
 	if not FileAccess.file_exists(file): return {"ok":false,"status":"missing"}
 	var input := FileAccess.open(file,FileAccess.READ)
-	if input == null or input.get_length() > LIMIT: return {"ok":false,"status":"unreadable"}
+	if input == null or input.get_length() < 4 or input.get_length() > LIMIT: return {"ok":false,"status":"unreadable"}
 	var envelope = bytes_to_var(input.get_buffer(input.get_length()))
 	if envelope is not Dictionary or envelope.get("magic") != "ELEVEN_AGAIN" or envelope.get("schema") != 1 or envelope.get("kind") != kind or envelope.get("payload") is not PackedByteArray or envelope.get("hash") is not String: return {"ok":false,"status":"incompatible_or_corrupt"}
-	if digest(envelope.payload) != envelope.hash: return {"ok":false,"status":"checksum_failed"}
+	if envelope.payload.size() < 4 or digest(envelope.payload) != envelope.hash: return {"ok":false,"status":"checksum_failed"}
 	var data = bytes_to_var(envelope.payload)
 	if not validate.call(data): return {"ok":false,"status":"invalid_state"}
 	return {"ok":true,"data":data}

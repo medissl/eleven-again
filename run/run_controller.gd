@@ -7,6 +7,7 @@ const Card = preload("res://content/player_card.gd")
 const Match = preload("res://match/match_sim.gd")
 const Snapshot = preload("res://match/match_snapshot.gd")
 const State = preload("res://run/run_state.gd")
+const Records = preload("res://run/records.gd")
 const PRINCIPLES := ["short_combinations","wide_service","counter_runners","first_pressure","set_piece_preparation","bench_impact"]
 var content: RefCounted
 var model: RefCounted
@@ -34,7 +35,7 @@ func start(origin: String, seed_value: int, run_id: String) -> Dictionary:
 	if not _state.is_empty(): return failure("This controller already holds a run.")
 	if not content.errors.is_empty() or not content.countries.has(origin) or run_id.is_empty(): return failure("Invalid origin or campaign content.")
 	var plan: Resource = content.country_plan(origin)
-	var data := {"schema":1,"content_version":Campaign.VERSION,"run_id":run_id,"seed":seed_value,"origin":origin,"revision":0,"wins":0,"defeats":0,"cash":int(content.rules.starting_cash),"earnings":0,"step":"opening_recruit","fixtures":content.itinerary(seed_value),"ledger":[],"plan":plan.to_data(),"released":[],"acquisitions":[],"principles":[],"offer":{},"market":{},"coaching":[],"queue":[],"current_attempt":{},"match_snapshot":{}}
+	var data := {"schema":2,"content_version":Campaign.VERSION,"run_id":run_id,"seed":seed_value,"origin":origin,"revision":0,"wins":0,"defeats":0,"cash":int(content.rules.starting_cash),"earnings":0,"step":"opening_recruit","fixtures":content.itinerary(seed_value),"ledger":[],"plan":plan.to_data(),"released":[],"acquisitions":[],"principles":[],"offer":{},"market":{},"coaching":[],"queue":[],"current_attempt":{},"match_snapshot":{},"peak_xi":Records.capture(plan),"discipline":{},"abandoned_attempt":{}}
 	for stream in ["offers","markets","attempts","coaching"]:
 		var rng := RandomNumberGenerator.new()
 		rng.seed = seed_value ^ {"offers":11027,"markets":21027,"attempts":31027,"coaching":41027}[stream]
@@ -92,12 +93,26 @@ func guard(expected: int, steps: Array) -> String:
 	return ""
 
 func commit(data: Dictionary) -> Dictionary:
+	var unavailable: Array = data.discipline.keys().filter(func(id): return data.discipline[id].get("ban",0) > 0)
+	var record := Records.capture(Lineup.from_data(data.plan),unavailable)
+	if not record.is_empty() and record.total > data.peak_xi.total: data.peak_xi = record
 	data.revision = revision()+1
 	_state = data
 	return {"ok":true,"revision":revision()}
 
 func failure(message: String) -> Dictionary:
 	return {"ok":false,"error":message,"revision":revision()}
+
+func abandon(expected: int) -> Dictionary:
+	var error := guard(expected,["opening_recruit","prepare","match","result","recruit","market","coaching"])
+	if not error.is_empty(): return failure(error)
+	var data := _state.duplicate(true)
+	if data.step == "match": data.abandoned_attempt = data.current_attempt.duplicate(true)
+	data.step = "abandoned"
+	data.queue.clear()
+	data.match_snapshot = {}
+	model = null
+	return commit(data)
 
 func commit_match(plan: Resource, expected: int) -> Dictionary:
 	var error := guard(expected,["prepare"])
