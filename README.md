@@ -40,4 +40,4 @@ Use `-- --batch-only` for focused match-batch checks. Inspect the output for scr
 - [Original GDD](Football_Roguelike_GDD_v0.1.md), preserved with its proposals and unmeasured targets.
 - [Fixture sources/tuning](content/SOURCES.md).
 
-GitHub: [medissl/eleven-again](https://github.com/medissl/eleven-again). Current local work is on `codex/player-cards`; nothing has been pushed. Next coherent milestone: **3.2–3.6, the session-playable four-win run**, after feedback on the match batch.
+GitHub: [medissl/eleven-again](https://github.com/medissl/eleven-again). Current local work is on `codex/player-cards`; nothing has been pushed. Next coherent milestone: **the complete twelve-win management addition**, through the existing run, acquisition, save/profile and discipline/coaching tasks. Read `outputs/run-design-inscryption-v1/CODEX_PROMPT.md`; native campaign implementation remains pending.

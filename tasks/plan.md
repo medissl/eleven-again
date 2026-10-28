@@ -28,13 +28,13 @@ Each phase is a milestone containing several focused Codex sessions, not a promi
 | 0. Project contract | Repeatable development context | Agent/design instructions, roadmap, task list, local Git baseline and GitHub remote | Documents agree, original project preserved, local checkpoint exists |
 | 1. Watchable football | Run one fictional exhibition | Full pitch, 22 players, ball, passing, carrying, reachable tackles, shots, saves, goals, user-confirmed 180-second regulation, truthful feed, pause/speed, native checks | Visible match is understandable; invariants and supported-build speed equivalence pass; no persistent swarming or phantom goals |
 | 2. Meaningful preparation | Make a plan and observe its effect | Player resources/OVR, three formations, role penalties, nine tactics, fatigue, preplanned automatic substitutions | Legal XI enforced; controlled scenarios show behavior changes; no live management required |
-| 3. Four-win run | Play a small complete roguelike | One country, opening recruit, three later offers, one market, three defeats, scouting, final, ET/shootout | Country → recruitment → prep → matches/rewards → ending works; no reward duplication, soft lock, or roster/economy exploit |
+| 3. Twelve-win foundation | Complete session progression and decisions | Six origins, twelve saved fixtures, opening/nine victory offers, three markets, three defeats, scouting and finals | Complete schedule and terminal flows work; durable continuation and remaining campaign gates follow below |
 | 4. Reliable continuation | Close the game and return safely | Atomic versioned saves/backups, exact match resume, separate profile, basic silhouettes/index/records, settings persistence | Interruption/recovery checks pass at each transaction; completed run clears only run progress |
 | 5. Complete football and run | Twelve-win candidate version | Restarts/set pieces, offside, discipline/suspensions/emergency roles, full opponents/reward schedule, three markets, two principles, evidence-based results | All complete-version rule scenarios work; full run can resume at every checkpoint |
 | 6. Identity and content | Personal game with its intended collection | Six origin rosters, historical versions by coverage, researched signature traits, complete album, authored rivals, HUD/menu/audio refinement | Content validator passes under exclusions; all screens/flows reviewed at both resolutions with accessible input |
 | 7. Calibration and personal build | Tested Windows build | Statistical match/run reports, observed playtests, measured performance, targeted tuning, export smoke test | Major pacing/exploit/readability issues addressed; packaged game runs and saves on user's PC; limits documented |
 
-**Critical path:** 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7. Do not invest in a large historical roster while Phase 1 is failing. The four-win slice is intentionally useful before the full design is built.
+**Critical path:** 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7. Do not invest in a large historical roster while Phase 1 is failing. Small test fixtures remain useful for verification; they are not the requested final campaign.
 
 ## Scope contracts
 
@@ -46,11 +46,9 @@ Use two fictional squads and a single default formation. Show actual ball travel
 
 Never replace visible play with a separately rolled hidden score. Keep passes and shots in authoritative field state. A match with attractive moving circles but unrelated outcomes fails the phase.
 
-### Four-win slice is a separate content configuration
+### Complete campaign target
 
-Provisional slice: 16 fictional starters, $8m, one opening 75–79 recruit, 18-player cap, wins 1–4, three-defeat limit. Free offers follow wins 1, 2, and 3; Market I follows win 3. The slice ends after victory 4 and omits coaching because no further match can use it. Phase 5 introduces coaching after wins 4 and 8 in the full twelve-win schedule. This is an explicit prototype omission, not a change to the GDD's full-run rules.
-
-Target about 48 fictional collectible versions only if coverage validation proves them sufficient. Include the short run's final opponent, scouting, lineup, subs, and a summary. Phase 3 is session-playable; Phase 4 completes the GDD's resumable short-run slice with basic index/profile. Always label incomplete football rules in development builds.
+The latest user direction supersedes the earlier four-win product configuration. Use the complete authored package under `outputs/run-design-inscryption-v1/`: six origins, twelve saved fixtures, all acquisition/coaching checkpoints and three defeats. Implement in testable native slices, but complete the run/save/profile/discipline gates before calling the management addition finished. Frozen opponent identities, stable decisions and no duplicate grants apply from the first controller increment.
 
 ### Full candidate version
 
@@ -138,10 +136,12 @@ For a later phase:
 
 ## Current handoff
 
+**Latest full-run design handoff:** `outputs/run-design-inscryption-v1/` supersedes the earlier four-win product target. Read its `CODEX_PROMPT.md`, full design/data and final reference review. The deliverable is the complete twelve-win management addition, with real disk Continue/profile, all recruitment/markets/coaching/discipline and endings; implement coherent verified slices through the existing task IDs. Keep the full native cards and three defeat pips. Main-menu cards and paper are actual valid-save data, not staged illustrations. The package’s 181 listed file hashes and schedule/prize arithmetic were checked locally; reported native content validation is separate from future game implementation tests. No campaign functionality is claimed yet. The history below records earlier milestones.
+
 **28 October card continuation:** user explicitly reprioritized the complete card layer. Tasks 6.3a/6.4a integrate 200 native definitions/portraits, preserved metadata, one reusable four-tier card, public archive, full inspection/comparison and preparation entry. See `../reports/player-cards.md`; browsing is separate from recruitment and permanent discovery. Native content/UI checks and both-size normal/125% GL/input checks pass; the existing match suite still passes 109,763 assertions. The card layer is complete within this boundary. Next remains run progression/recruitment/market work; acquisition/index persistence follows its own tasks.
 
 **28 October match batch:** The user confirmed completing match systems first. Tasks 1.14–1.15, 2.1–2.6, 3.1 and match-side 5.1–5.3/6.1 are implemented. Later match-rule/trait tasks were deliberately pulled forward for this request; their disk/run dependencies remain open. Read `../reports/gameplay-batch.md` for evidence, provisional tuning and basic-rule limitations. Regulation remains 180 active seconds; optional extra time adds two 30-second halves. F5 opens native preparation; Standard/Specialists fixture squads collectively cover all 36 researched traits.
 
 Full native runner: 109,763 assertions, zero failures, including presented/headless 1×/2× equality and shootout equivalence. Native GL captures and keyboard/Continue checks cover both target resolutions; human enjoyment, tactical balance and final performance remain unmeasured. Plain-data match snapshots preserve future state, but no atomic disk/run save or main-menu Continue is implemented.
 
-Next coherent development milestone: **3.2–3.6 — session-playable four-win run**, beginning with explicit progression/result/reward states, then recruitment/market/scouting. Keep disk persistence/index separate until their tasks. The accepted UI, packaged fonts, drawn icons, stable camera, goal/confetti and deliberate halftime remain the presentation baseline. No push, release or export is authorized.
+Next coherent development milestone: **3.2–3.6 — complete twelve-win run foundation**, beginning with explicit progression/result/reward states, then recruitment/market/scouting. Keep disk persistence/index separate until their tasks. The accepted UI, packaged fonts, drawn icons, stable camera, goal/confetti and deliberate halftime remain the presentation baseline. No push, release or export is authorized.

@@ -17,6 +17,8 @@
 
 - The user reprioritized the complete card layer on 28 October. Runtime definitions/metadata and 200 baked portraits are now integrated through `content/catalogue.gd`; `ui/player_card.gd` is the shared native 5:7 template, with `ui/player_archive.gd` and `ui/card_inspector.gd` for browsing/comparison. Open Player archive or a lineup Card from preparation. This is a read-only catalogue, separate from future acquired-version discovery, recruitment, prices and campaign eligibility. See `reports/player-cards.md` and tasks 6.3a/6.4a. Preserve the original fictional fixture squads and existing match behavior.
 
+- Latest run handoff: read `outputs/run-design-inscryption-v1/CODEX_PROMPT.md`, `RUN_DESIGN.md`, `VISUAL_REVIEW.md` and the linked data before management work. The target is the complete twelve-win campaign, implemented in verified slices; the older four-win product boundary is superseded. Preserve the full native CardView and three defeat pips, simplify surrounding UI and remove text middle-dot separators there. Continue preview must derive its top-two base-OVR owned cards (card-ID tie-break), chapter ledger, next opponent and pending step from the actual valid disk save. Enemy-only rosters stay outside acquisition/archive pools. This handoff is prepared content/design, not installed campaign functionality; do not mark run/save gates complete from it.
+
 ## Working method
 
 Use EngineeringSuite's relevant installed workflow and Ponytail for implementation simplicity. Read their actual skill files when applying them; use one primary workflow and only necessary support. If unavailable, report that and continue with ordinary local tools where possible.

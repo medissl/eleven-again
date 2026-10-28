@@ -1,6 +1,6 @@
 # Eleven Again — development tasks
 
-Task source of truth. Read `plan.md` for phase boundaries, GDD authority, architecture, checks, and prompts. Status on 28 October 2026: match-system batch implemented through preparation, attributes, coordinated AI/tactics, stamina/substitutions, set pieces/basic offside/discipline, ET/shootouts and all 36 researched traits. User confirmed **complete match systems first**; run/economy/disk saves/index remain pending. **Next: 3.2 — four-win run progression**, after playtesting this match batch. See [gameplay evidence](../reports/gameplay-batch.md). See [Phase 1 evidence](../reports/phase-one.md) and [kickoff evidence](../reports/kickoffs.md).
+Task source of truth. Read `plan.md` for phase boundaries, GDD authority, architecture, checks, and prompts. Status on 28 October 2026: match-system batch implemented through preparation, attributes, coordinated AI/tactics, stamina/substitutions, set pieces/basic offside/discipline, ET/shootouts and all 36 researched traits. User confirmed **complete match systems first**; run/economy/disk saves/index remain pending. **Next: full twelve-win management foundation (3.2)** using the latest run-design handoff. See [gameplay evidence](../reports/gameplay-batch.md). See [Phase 1 evidence](../reports/phase-one.md) and [kickoff evidence](../reports/kickoffs.md).
 
 Each task below has a checkable outcome, verification, dependencies, and likely files. Paths are suggestions; inspect existing code before choosing them. S ≈ 1–2 files, M ≈ 3–5; split a task that grows beyond that. Update a completed task with concise evidence (actual command/result, seeds/screenshots where relevant, limits, and local commit). Checkpoints review the preceding work and do not automatically authorize a new phase.
 
@@ -143,38 +143,40 @@ Follow-up priorities after restart/foul slices: complete attribute execution in 
 
 **Gate 2 — technical checks and rendered preparation passed; human tactical/watchability review open:** legal plans, effective stats, coordinated behavior and substitution limits have native regression coverage. Both-size enlarged preparation and 1×/2× frame sequences were reviewed; the Phase 1 suite still passes. These do not establish enjoyment or tactical balance.
 
-## Phase 3 — four-win run
+## Phase 3 — complete twelve-win run foundation
+
+Latest target supersedes the earlier four-win product: use `../outputs/run-design-inscryption-v1/CODEX_PROMPT.md`, `RUN_DESIGN.md`, `VISUAL_REVIEW.md`, `data/run_rules.json` and `data/acquisition_weights.json`. Deliver the complete twelve-win addition across the existing run/save/discipline/coaching/profile tasks; small verified increments remain appropriate. The pack supplies six countries/96 starters, 24 clubs/60 stage rosters/960 enemy-only definitions, and 100 fictional recruits/portraits. Prepared assets and reported package checks are not runtime implementation evidence. Main-menu preview, full cards, defeat pips and concise surrounding UI follow the final four references. No competing task tracker is introduced.
 
 - [x] **3.1 — Resolve tied matches.** Derive ET from the shared regulation duration: one-third total, split into two halves (30 active seconds each under 180-second regulation); add shootouts with early termination and paired sudden death.
   - Acceptance: ET starts only on a regulation tie; shootout follows only an ET tie; on-field eligible takers/fatigue apply and shootout goals remain separate from match goals/statistics.
   - Verification: regulation winner, ET winner, early clinch, and sudden-death fixtures; visible phase/score labels and timing checks.
   - Dependencies: Gate 2. Likely files: `match/match_sim.gd`, `match/shootout.gd`, `ui/match_hud.gd`, `tests/test_match_rules.gd` (M).
   - Evidence (28 October match batch): Optional knockout preparation profile: two 30-active-second ET halves, physical penalties, early clinch and paired sudden death. Separate score/stat tallies, exact in-flight resume, winner/phase tests and native result/Continue checks at both sizes pass.
-- [ ] **3.2 — Country setup and stage progression.** Start one country with 16 fictional starters/$8m and progress through four victories or three defeats using explicit result/reward states.
+- [ ] **3.2 — Country setup and stage progression.** Integrate the six authored origins with 16 starters/$8m and all twelve saved fixture assignments; progress through twelve victories or three defeats using explicit result/reward states.
   - Acceptance: losses retain roster/cash and retry the saved opponent with a new attempt seed; result/prize application is idempotent; final win/loss ends exactly once.
   - Verification: forced win/loss sequences, repeated result delivery, max-fixture bound, and restart from summary; inspect setup/run overview.
-  - Dependencies: 3.1. Likely files: `run/run_state.gd`, `run/run_controller.gd`, `content/short_run.tres`, `ui/run_overview.tscn`, `tests/test_run.gd` (M).
-- [ ] **3.3 — Recruit one of five.** Add opening and wins-1/2/3 offers, identity exclusions, role coverage, and atomic squad replacement.
+  - Dependencies: 3.1. Likely files: `run/run_state.gd`, `run/run_controller.gd`, `content/full_run.tres`, `ui/run_overview.tscn`, `tests/test_run.gd` (M).
+- [ ] **3.3 — Recruit one of five.** Add the opening and all nine scheduled victory offers, four-tier eligibility/depletion rules, identity exclusions, role coverage and atomic squad replacement.
   - Acceptance: five distinct eligible people, opening 75–79, one choice/decline, 18-player cap, owned/released exclusions, and cancelled replacement leaves the squad untouched.
   - Verification: seeded offers, exhausted category/band fallback, duplicate versions, full-squad cancel/confirm; keyboard comparison/selection flow.
   - Dependencies: 3.2. Likely files: `run/recruitment.gd`, `squad/squad_rules.gd`, `ui/recruitment.tscn`, `ui/recruitment.gd`, `tests/test_recruitment.gd` (M).
 
-**Checkpoint 3A:** A short run advances with actual resolved matches and non-repeatable rewards; recruitment never violates identity/squad rules.
+**Checkpoint 3A:** The twelve-stage controller advances with actual resolved matches and non-repeatable rewards; recruitment never violates identity/squad rules.
 
-- [ ] **3.4 — Market I with real spending consequences.** Add eight curated offers after win 3, price interpolation, affordability safeguards, and a two-purchase limit.
+- [ ] **3.4 — All three markets with real spending consequences.** Add eight saved candidates after wins 3/7/11, price interpolation, affordability safeguards and a two-purchase limit per visit. Use the documented 115–120 peak price revision ($70–80m); lower anchors are unchanged.
   - Acceptance: recruit precedes market, insufficient funds/third purchase are rejected, release/payment/acquisition commit together, and previews/cancels cannot spend or release anything.
   - Verification: exact funds, negative balance prevention, monotonic prices, full-squad purchase rollback, and no refresh after reopening; inspect next-opponent/funds preview.
   - Dependencies: 3.3. Likely files: `run/market.gd`, `run/run_controller.gd`, `ui/market.tscn`, `ui/market.gd`, `tests/test_market.gd` (M).
-- [ ] **3.5 — Scout and understand the short-run final.** Author stage opponents with visible style, frozen rosters, and factual result feedback.
+- [ ] **3.5 — Scout authored opposition and chapter finals.** Integrate 24 clubs/badges and stage-specific rosters with visible style, three distinct regular clubs plus one final per chapter, frozen run assignments and factual result feedback. Enemy definitions remain outside acquisition/archive pools.
   - Acceptance: opponent previews show formation/strength/threat before preparation and market; defeat preserves that opponent; result observations agree with logged shots, passes, and turnovers.
   - Verification: fixed-roster retry plus known-event statistic totals; play different tactical responses and inspect result/scouting layout.
-  - Dependencies: 3.4. Likely files: `content/short_opponents.tres`, `run/opponents.gd`, `ui/scouting.tscn`, `ui/result.gd`, `tests/test_run.gd` (M).
-- [ ] **3.6 — Short-run completion flow.** Connect new run, reward ordering, win/loss summary, and fresh-start cleanup.
-  - Acceptance: country → opening offer → prep → match → scheduled rewards → summary works for four wins or three defeats; no useless final rewards, leftover roster, or administrative dead end.
+  - Dependencies: 3.4. Likely files: `content/enemy_clubs.json`, `run/opponents.gd`, `ui/scouting.tscn`, `ui/result.gd`, `tests/test_run.gd` (M).
+- [ ] **3.6 — Twelve-win completion flow.** Connect new run, every scheduled reward, both coaching checkpoints, three chapter finals, win/loss summary and fresh-start cleanup.
+  - Acceptance: country → opening offer → prep → match → scheduled rewards → summary works for twelve wins or three defeats; no useless final rewards, leftover roster, or administrative dead end.
   - Verification: complete a normal run plus forced terminal/reward-cancel cases; review mouse/keyboard flows. Label saves/index and remaining rules as pending until later phases.
   - Dependencies: 3.5. Likely files: `ui/main_menu.tscn`, `ui/run_summary.tscn`, `run/run_controller.gd`, `tests/test_run.gd` (M).
 
-**Gate 3:** Session-playable short run works end to end. Review economy and choices; do not claim persistence or complete football rules yet. Coaching is explicitly omitted from this terminal four-win slice.
+**Gate 3:** The twelve-stage session loop and complete reward schedule work end to end. Final campaign completion also requires durable continuation/profile and discipline/coaching tasks below; a four-fixture test harness is not the finished product. Record unimplemented boundaries explicitly.
 
 ## Phase 4 — reliable continuation
 
@@ -187,20 +189,20 @@ Follow-up priorities after restart/foul slices: complete attribute execution in 
   - Verification: uninterrupted versus resumed state/event comparison during possession, ball flight, dead ball, subs, ET, and shootout; test safe recovery after forced interruption.
   - Dependencies: 4.1. Likely files: `match/match_state.gd`, `match/match_sim.gd`, `persistence/state_codec.gd`, `run/run_controller.gd`, `tests/test_save.gd` (M).
 - [ ] **4.3 — Persistent index and valid records.** Record acquired card versions, anonymous silhouettes, run history, and exact peak legal XI.
-  - Acceptance: opponents/unchosen candidates never discover cards; index has no power effect; records exclude bench/buffs/emergency players and use GDD ordering with content/balance version labels.
+  - Acceptance: opponents/unchosen candidates never discover cards; index has no power effect; records exclude bench/buffs/emergency players and use GDD ordering with content/balance version labels. Main menu selects the actual saved owned squad’s two highest immutable primary-role OVR cards, stable ascending card-ID ties, and derives its clipped progression/pending-step preview from the saved ledger.
   - Verification: discovered/hidden tooltip cases, duplicate discovery/reward calls, valid-XI rating/ranking checks, and run cleanup preserving profile; inspect index/records navigation.
   - Dependencies: 4.2. Likely files: `persistence/profile.gd`, `ui/player_index.tscn`, `ui/records.tscn`, `run/run_controller.gd`, `tests/test_profile.gd` (M).
 
-**Checkpoint 4A:** Short run now resumes safely and keeps profile discoveries/records separate. Regress reward and purchase interruption paths before expanding UI settings.
+**Checkpoint 4A:** The full run now resumes safely and keeps profile discoveries/records separate. Regress reward and purchase interruption paths before expanding UI settings.
 
 - [ ] **4.4 — Persistent settings and safe abandonment.** Add UI scale, remapping, reduced motion, sound levels, display settings, and deliberate abandon/new-run confirmation.
   - Acceptance: settings survive restart independently of a run; abandoning clears only active progress; cancelling new-run confirmation preserves it; important feed/input remain accessible.
   - Verification: change/reopen settings, remap controls, cancel/confirm abandonment, and inspect both resolutions with enlarged UI/reduced motion; verify hidden match state does not advance while paused.
   - Dependencies: 4.3. Likely files: `persistence/settings.gd`, `ui/settings.tscn`, `ui/settings.gd`, `ui/main_menu.gd`, `tests/test_save.gd` (M).
 
-**Gate 4:** First complete resumable short-run slice, including basic index/records. Exercise every save boundary and record actual recovery evidence; manual file inspection alone is insufficient.
+**Gate 4:** Complete resumable twelve-win campaign, including basic index/records. Exercise every save boundary and record actual recovery evidence; manual file inspection alone is insufficient.
 
-## Phase 5 — complete football and twelve-win run
+## Phase 5 — full-campaign discipline, coaching and opposition integration
 
 - [x] **5.1 — Football restarts and set pieces.** Replace prototype dead-ball handling with throw-ins, corners, goal kicks, free kicks, penalties, aerial outcomes, and preassigned takers.
   - Acceptance: correct team/location/ball state resumes after each restart; keeper handling bounds apply; set pieces use physical ball travel and ordinary attributes rather than an unrelated scoring roll.
@@ -224,9 +226,9 @@ Follow-up priorities after restart/foul slices: complete attribute execution in 
   - Acceptance: only the next completed attempt serves a suspension/clears tally, second-yellow red does not stack, emergency players cannot persist/discover/set peak-XI records, and kickoff cannot soft-lock.
   - Verification: repeated prep, loss/win service, multiple missing roles, emergency GK, and interrupted fixture completion; preview unavailable players clearly.
   - Dependencies: 5.3. Likely files: `squad/squad_rules.gd`, `run/run_controller.gd`, `persistence/profile.gd`, `ui/preparation.gd`, `tests/test_discipline.gd` (M).
-- [ ] **5.5 — Full reward schedule and coaching.** Add the twelve-stage configuration, three markets, nine victory offers, and two principles chosen from three options out of six.
+- [ ] **5.5 — Full reward schedule and coaching.** Complete the twelve-stage decision chain from 3.2–3.6, including all three markets, nine victory offers and two principles chosen from three options out of six; retain the shared +6 cap.
   - Acceptance: $92m total potential income including start/final prize; correct reward order and chapter odds; no duplicate principles, shared +6 bonus cap, no post-final recruit/market/coaching screen.
-  - Verification: static schedule/weight checks and forced complete win/loss paths; resume at every reward step; compare full configuration against short-slice boundaries.
+  - Verification: static schedule/weight checks and forced complete win/loss paths; resume at every reward step; verify no intermediate test configuration is exposed as the finished campaign.
   - Dependencies: 5.4. Likely files: `content/full_run.tres`, `content/coaching.tres`, `run/run_controller.gd`, `ui/coaching.tscn`, `tests/test_run.gd` (M).
 - [ ] **5.6 — Full opposition and result evidence.** Author at least two stage styles and two chapter-final identities per GDD coverage, with chapter-start boss reveal.
   - Acceptance: difficulty follows stage budgets, never current player power; saved opponent identities persist on retries; shot locations/turnover zones support factual result observations.
@@ -246,7 +248,7 @@ Card/album reference saved by the user: read `../CARD_DESIGN_HANDOFF.md` and the
   - Verification: boundary/stack/timer cases for every trait and principle, substitute timing, and equivalent visible/headless runs.
   - Dependencies: Gate 5. Likely files: `content/traits.tres`, `match/effective_attributes.gd`, `match/match_sim.gd`, `persistence/state_codec.gd`, `tests/test_traits.gd` (M).
   - Evidence (28 October match batch): All 36 researched automatic trait contracts are implemented on actual actions, with bounded uses/cooldowns/costs, shared +6 cap, role applicability, real curves/speeds/windup and aura/action feedback. All positive/negative eligibility/use contracts pass; two fictional squad options expose all traits. Coaching choices remain 5.5; standalone match snapshots work, disk save integration remains 4.2.
-- [ ] **6.2 — Six country-origin squads.** Author sixteen fictional starters per country with comparable strength, viable formations, origin/kit identity, and equal starting access.
+- [ ] **6.2 — Six country-origin squads.** Integrate the supplied sixteen fictional starters per country with comparable strength, viable formations, origin/kit identity, and equal starting access.
   - Acceptance: all six pass legal-role/attribute/starting-XI checks and remain selectable from the first run; nationality adds no hidden bonus or signing restriction.
   - Verification: validate and launch every origin in all formations; compare actual initial strength bands and distinguish team patterns. Split authored data batches as needed.
   - Dependencies: 6.1. Likely files: `content/countries.tres`, `content/starters.tres`, `ui/country_select.tscn`, `tests/test_content.gd` (M).
