@@ -747,7 +747,10 @@ func shoot(pressure: float = 0, prepared: bool = false) -> void:
 	keeper_tested = false
 	flight_curve = base_curve*Traits.parameter(shooter,"curve_capacity_multiplier")*(-1 if ball.y > 34 else 1)
 	flight_peak = 0.8 if shot_context.get("aerial",false) else 0.0
+	var previous_restart := current_restart
+	if prepared: current_restart = context.restart
 	launch_ball(Vector2(goal.x, target_y), minf(36,(26 + shooting * 0.08)*Traits.parameter(shooter,"ball_speed_multiplier")), "shot")
+	current_restart = previous_restart
 	if not enhancement.is_empty():
 		flight_trait_actor = shooter.id
 		flight_trait_action = enhancement.action

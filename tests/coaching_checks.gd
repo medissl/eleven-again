@@ -82,3 +82,20 @@ func actual_actions() -> void:
 	model.shoot()
 	assert(is_equal_approx(model.ball_velocity.length(),minf(36,26+effective*0.08)),"Actual free-kick speed uses contextual SHO")
 	assert(model.rng.state != 0)
+	var charged := Match.new(4)
+	charged.players[9].card.trait_id = "power_strike"
+	charged.players[9].position = Vector2(86,34)
+	charged.principles[0] = ["set_piece_preparation"]
+	charged.take_control(9)
+	charged.current_restart = "free_kick"
+	charged.shoot()
+	assert(not charged.pending_shot.is_empty() and charged.shot_context.restart == "free_kick")
+	charged.current_restart = ""
+	var resumed: RefCounted = Snapshot.restore(Snapshot.capture(charged))
+	assert(resumed != null)
+	charged.pending_shot.clear()
+	resumed.pending_shot.clear()
+	charged.shoot(0,true)
+	resumed.shoot(0,true)
+	assert(charged.restart_delivery == "free_kick" and charged.restart_untouched,"A delayed kick keeps its real restart restrictions")
+	assert(charged.signature() == resumed.signature(),"Saved windup retains coaching and physical delivery context")
