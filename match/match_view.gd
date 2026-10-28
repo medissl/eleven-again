@@ -70,6 +70,7 @@ func open_preparation() -> void:
 	preparation.plans[1] = sim.plans[1].duplicate(true)
 	preparation.ui_scale = hud.ui_scale
 	preparation.knockout = sim.knockout
+	preparation.reduced_motion = hud.reduced_motion
 	add_child(preparation)
 	preparation.submitted.connect(func(home,away,resolve_ties):
 		sim = Match.new(next_seed,Match.REGULATION_SECONDS,home,away,resolve_ties)

@@ -138,6 +138,8 @@ For a later phase:
 
 ## Current handoff
 
+**28 October card continuation:** user explicitly reprioritized the complete card layer. Tasks 6.3a/6.4a integrate 200 native definitions/portraits, preserved metadata, one reusable four-tier card, public archive, full inspection/comparison and preparation entry. See `../reports/player-cards.md`; browsing is separate from recruitment and permanent discovery. Native content/UI checks and both-size normal/125% GL/input checks pass; the existing match suite still passes 109,763 assertions. The card layer is complete within this boundary. Next remains run progression/recruitment/market work; acquisition/index persistence follows its own tasks.
+
 **28 October match batch:** The user confirmed completing match systems first. Tasks 1.14–1.15, 2.1–2.6, 3.1 and match-side 5.1–5.3/6.1 are implemented. Later match-rule/trait tasks were deliberately pulled forward for this request; their disk/run dependencies remain open. Read `../reports/gameplay-batch.md` for evidence, provisional tuning and basic-rule limitations. Regulation remains 180 active seconds; optional extra time adds two 30-second halves. F5 opens native preparation; Standard/Specialists fixture squads collectively cover all 36 researched traits.
 
 Full native runner: 109,763 assertions, zero failures, including presented/headless 1×/2× equality and shootout equivalence. Native GL captures and keyboard/Continue checks cover both target resolutions; human enjoyment, tactical balance and final performance remain unmeasured. Plain-data match snapshots preserve future state, but no atomic disk/run save or main-menu Continue is implemented.

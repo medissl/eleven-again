@@ -15,6 +15,8 @@
 
 - On 28 October the user confirmed **complete match systems first**. The match batch adds native preparation, authored player Resources, all effective stat domains, coordinated AI/tactics, stamina/substitutions, physical restarts/basic offside/discipline, optional ET/shootouts and all 36 researched signature traits. `content/SOURCES.md` records provisional tuning and the four-tier v2 arithmetic. F5 opens preparation; Standard/Specialists squads are test content. Preserve fixed-tick/render separation and exact plain-data match snapshots. Recruitment/markets/run progression, disk saves, coaching, index and historical content remain pending; next coherent task is 3.2. Do not mistake in-memory snapshots for a disk Continue feature.
 
+- The user reprioritized the complete card layer on 28 October. Runtime definitions/metadata and 200 baked portraits are now integrated through `content/catalogue.gd`; `ui/player_card.gd` is the shared native 5:7 template, with `ui/player_archive.gd` and `ui/card_inspector.gd` for browsing/comparison. Open Player archive or a lineup Card from preparation. This is a read-only catalogue, separate from future acquired-version discovery, recruitment, prices and campaign eligibility. See `reports/player-cards.md` and tasks 6.3a/6.4a. Preserve the original fictional fixture squads and existing match behavior.
+
 ## Working method
 
 Use EngineeringSuite's relevant installed workflow and Ponytail for implementation simplicity. Read their actual skill files when applying them; use one primary workflow and only necessary support. If unavailable, report that and continue with ordinary local tools where possible.

@@ -4,13 +4,15 @@ An offline PC football squad-building roguelike in Godot. The current playable m
 
 ## Current state
 
+The complete native card layer is available: **200 authored world-player editions and portraits**, a shared four-tier archive card, searchable/filterable browsing, full player files and pinned stat comparisons. In preparation, open **Player archive**, or use a lineup row’s **Card** button. The archive is a read-only catalogue; browsing does not recruit players or unlock permanent discoveries. See [card verification](reports/player-cards.md). Ratings and modular likenesses remain provisional.
+
 The user requested a large gameplay batch and confirmed **complete match systems first** on 28 October 2026. Native preparation now commits a legal XI, bench, formation, attack/defence tactics, width, route, captain/takers, penalty order and automatic substitution plan. Authored fictional card Resources supply six outfield and five keeper attributes, role familiarity/OVR, fatigue and one signature trait. OVR and tier add no hidden match multiplier.
 
 The fixed-step full-pitch simulation includes coordinated support/pressure/cover, interruptible combinations, finite movement/turning, physical passes/curves/crosses/headers, first touches, tackles, shots, saves/rebounds and whole-ball boundary restarts. Basic offside, contextual fouls/cards, reduced-team cover, keeper dismissals and forfeits are implemented. All 36 researched traits enhance actual actions, with bounded use/cooldown and local aura/action feedback. Standard and Specialists fixture squads collectively expose them; these squads are unbalanced test content.
 
 Regulation remains **three active minutes at 1× / ninety active-play seconds at 2×**, plus stoppages and deliberate halftime. Exhibition may end in a draw. The optional knockout profile adds two 30-active-second extra-time halves and physical penalties if still tied. Shootout tallies stay separate from match goals/statistics. Native plain-data snapshots reproduce future match state/RNG, but disk saves and main-menu Continue are not implemented.
 
-The accepted forest/ivory presentation, Barlow/Inter typography, stable camera, goal/confetti and calm reports remain. Read [gameplay evidence and limits](reports/gameplay-batch.md), [UI checkpoint](reports/ui-refresh.md) and [task status](tasks/todo.md). Recruitment, markets, run progression, coaching, disk persistence, player index, historical content, audio, calibration and export remain pending. This is not a balanced or exported release.
+The accepted forest/ivory presentation, Barlow/Inter typography, stable camera, goal/confetti and calm reports remain. Read [gameplay evidence and limits](reports/gameplay-batch.md), [UI checkpoint](reports/ui-refresh.md) and [task status](tasks/todo.md). Recruitment, markets, run progression, coaching, disk persistence, persistent player index, campaign content/eligibility, audio, calibration and export remain pending. This is not a balanced or exported release.
 
 ## Play in Godot
 
@@ -38,4 +40,4 @@ Use `-- --batch-only` for focused match-batch checks. Inspect the output for scr
 - [Original GDD](Football_Roguelike_GDD_v0.1.md), preserved with its proposals and unmeasured targets.
 - [Fixture sources/tuning](content/SOURCES.md).
 
-GitHub: [medissl/eleven-again](https://github.com/medissl/eleven-again). Current local work is on `codex/gameplay-batch`; nothing has been pushed. Next coherent milestone: **3.2–3.6, the session-playable four-win run**, after feedback on the match batch.
+GitHub: [medissl/eleven-again](https://github.com/medissl/eleven-again). Current local work is on `codex/player-cards`; nothing has been pushed. Next coherent milestone: **3.2–3.6, the session-playable four-win run**, after feedback on the match batch.

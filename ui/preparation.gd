@@ -13,6 +13,8 @@ var start_button: Button
 var inspection: Label
 var ui_scale := 1.0
 var knockout := false
+var card_panel: Control
+var reduced_motion := false
 
 func _ready() -> void:
 	theme = ThemeData
@@ -90,6 +92,11 @@ func rebuild() -> void:
 		button.theme_type_variation = "Primary" if page == section else "Button"
 		button.pressed.connect(func(): page=section; rebuild())
 		tabs.add_child(button)
+	var catalogue_button := Button.new()
+	catalogue_button.name = "OpenPlayerArchive"
+	catalogue_button.text = "Player archive"
+	catalogue_button.pressed.connect(open_archive)
+	tabs.add_child(catalogue_button)
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -184,6 +191,12 @@ func lineup_row(parent: Node, slot: int) -> void:
 	select.focus_entered.connect(func(): inspect(slot))
 	select.mouse_entered.connect(func(): inspect(slot))
 	row.add_child(select)
+	var inspect_button := Button.new()
+	inspect_button.name = "OpenCardSlot%d" % slot
+	inspect_button.text = "Card"
+	inspect_button.tooltip_text = "Open player file"
+	inspect_button.pressed.connect(func(): open_card(plan.cards[plan.starters[slot]]))
+	row.add_child(inspect_button)
 	var card = plan.cards[plan.starters[slot]]
 	text(row,"%d  →  %d" % [card.rating(),card.rating(role,true)],16).custom_minimum_size.x = 90
 
@@ -205,7 +218,31 @@ func update_validation() -> void:
 	validation.text = "Legal XI · tactics and substitutions lock at kickoff" if errors.is_empty() else "; ".join(errors)
 	start_button.disabled = not errors.is_empty()
 
+func open_card(card: Resource) -> void:
+	if is_instance_valid(card_panel): return
+	var inspector = load("res://ui/card_inspector.gd").new()
+	inspector.definition = card
+	inspector.owned = true
+	inspector.ui_scale = ui_scale
+	open_card_panel(inspector)
+
+func open_archive() -> void:
+	if is_instance_valid(card_panel): return
+	var archive = load("res://ui/player_archive.gd").new()
+	archive.ui_scale = ui_scale
+	open_card_panel(archive)
+
+func open_card_panel(panel: Control) -> void:
+	var focused := get_viewport().gui_get_focus_owner()
+	card_panel = panel
+	panel.reduced_motion = reduced_motion
+	add_child(panel)
+	panel.closed.connect(func():
+		card_panel = null
+		if is_instance_valid(focused): focused.grab_focus())
+
 func _unhandled_key_input(event: InputEvent) -> void:
+	if is_instance_valid(card_panel): return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
 		cancelled.emit()
