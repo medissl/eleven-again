@@ -132,6 +132,7 @@ func commit_match(plan: Resource, expected: int) -> Dictionary:
 	if not data.market.is_empty(): data.market.open = false
 	var away: Resource = content.opponent_plan(data.current_attempt.fixture.variant_id)
 	model = Match.new(attempt_seed,Match.REGULATION_SECONDS,plan,away,true)
+	model.principles = [data.principles.duplicate(),[]]
 	data.match_snapshot = Snapshot.capture(model)
 	data.step = "match"
 	return commit(data)

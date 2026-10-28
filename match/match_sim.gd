@@ -10,6 +10,7 @@ const Offside = preload("res://match/offside.gd")
 const Discipline = preload("res://match/discipline.gd")
 const Shootout = preload("res://match/shootout.gd")
 const Restarts = preload("res://match/restarts.gd")
+const Coaching = preload("res://match/coaching.gd")
 const ATTRIBUTE_FIELDS := {"PAC":"pace","SHO":"shooting","PAS":"passing","DRI":"dribbling","DEF":"defence","PHY":"physical","REF":"reflexes","HAN":"handling","POS":"positioning","DIV":"diving","KIC":"kicking"}
 
 enum BallState { CONTROLLED, FLIGHT, LOOSE, DEAD, KICKOFF }
@@ -144,6 +145,7 @@ var last_control_team := -1
 var flight_serial := 0
 var period_extension := false
 var period_extension_contact := false
+var principles: Array = [[],[]]
 
 func _init(seed_value: int = 11027, duration_seconds: int = REGULATION_SECONDS, home: Resource = null, away: Resource = null, resolve_ties: bool = false) -> void:
 	match_seed = seed_value
@@ -175,12 +177,12 @@ func load_card(player: Footballer, card: Resource) -> void:
 	player.trait_ready = 0
 	player.facing = Vector2(direction(player.team),0)
 
-func attribute(id: int, key: String, bonus: float = 0) -> float:
+func attribute(id: int, key: String, bonus: float = 0, context: Dictionary = {}) -> float:
 	var p := players[id]
 	var base: float = p.get(ATTRIBUTE_FIELDS[key])
 	if key in ["REF","HAN","POS","DIV","KIC"] and "GK" not in p.card.natural_roles: base = 35
 	var role_factor: float = p.card.familiarity(p.role) if p.role != "GK" else 1.0
-	return clampf((base+clampf(bonus+Traits.bonus(p,key),0,6))*role_factor*(0.88+0.12*clampf(p.stamina/100.0,0,1)),1,120)
+	return clampf((base+clampf(bonus+Traits.bonus(p,key)+Coaching.bonus(self,id,key,context),0,6))*role_factor*(0.88+0.12*clampf(p.stamina/100.0,0,1)),1,120)
 
 func control_team() -> int:
 	return players[owner].team if owner >= 0 else (last_control_team if last_control_team >= 0 else restart_team)
@@ -574,7 +576,8 @@ func pass_to(receiver: int, pressure: float = 0, delivery_kind: String = "pass")
 	var length := ball.distance_to(aim)
 	var enhancement := Traits.activate(self,passer.id,{"kind":"pass","length":length,"progress":(aim.x-ball.x)*direction(passer.team),"lateral":absf(aim.y-ball.y),"risk":lane_risk(ball,aim,passer.team),"delivery":delivery_kind,"restart":current_restart,"hand_control":keeper_hand_owner == passer.id})
 	if enhancement.is_empty() and passer.trait_state.get("state","") == "active" and passer.trait_state.get("trait","") in ["wall_pass","tempo_setter"]: enhancement = passer.trait_state
-	var delivery := attribute(passer.id,"KIC") if passer.role == "GK" and oriented(passer.position,passer.team).x < 16.5 else attribute(passer.id,"PAS")
+	var pass_context := {"kind":"pass","delivery":delivery_kind,"ground":delivery_kind not in ["cross","keeper_throw"] and current_restart != "throw_in" and not (plans[passer.team].attack == "direct" and length > 32)}
+	var delivery := attribute(passer.id,"KIC") if passer.role == "GK" and oriented(passer.position,passer.team).x < 16.5 else attribute(passer.id,"PAS",0,pass_context)
 	var accuracy := clampf(0.88 + 0.002 * (delivery - 80) - 0.10 * pressure - 0.18 * minf(length / 55, 1) - 0.12 * lane_risk(ball, aim, passer.team), 0.25, 0.98)
 	if rng.randf() > accuracy:
 		aim += Vector2(rng.randf_range(-4.5, 4.5), rng.randf_range(-4.5, 4.5))*Traits.parameter(passer,"aim_dispersion_multiplier")
@@ -687,7 +690,7 @@ func advance_flight() -> void:
 			if owner != contact: return
 			Traits.resolve(self,contact,players[contact].trait_state.get("action",-1),"success","aerial contact won")
 			if chance_quality(ball,players[contact].team) > 0.45:
-				shot_context = {"aerial":progress > 0.5,"first_time":true}
+				shot_context = {"aerial":progress > 0.5,"first_time":true,"from_corner":players[contact].team == players[flight_source].team and restart_delivery == "corner" and flight_kind == "pass"}
 				shoot(pressure)
 			else: emit_event("header",contact)
 			return
@@ -727,12 +730,14 @@ func shoot(pressure: float = 0, prepared: bool = false) -> void:
 	var goal := oriented(Vector2(105, 34), shooter.team)
 	shot_quality = chance_quality(ball, shooter.team)
 	var base_curve := minf(1.6,ball.distance_to(goal)*0.09) if absf(ball.y-34) > 5 and shot_quality > 0.35 else 0.0
-	var context := {"kind":"shot","curve":base_curve,"first_time":shot_context.get("first_time",false),"aerial":shot_context.get("aerial",false),"pressure":pressure,"prepared":prepared,"restart":current_restart}
+	var context := {"kind":"shot","curve":base_curve,"first_time":shot_context.get("first_time",false),"aerial":shot_context.get("aerial",false),"from_corner":shot_context.get("from_corner",false),"pressure":pressure,"prepared":prepared,"restart":shot_context.get("restart",current_restart)}
 	var enhancement := Traits.activate(self,shooter.id,context) if not prepared else shooter.trait_state
 	if not prepared and not enhancement.is_empty() and enhancement.trait == "power_strike":
+		shot_context = context.duplicate(true)
 		pending_shot = {"actor":shooter.id,"action":enhancement.action,"release":active_ticks+9,"pressure":pressure}
 		return
-	var accuracy := clampf(0.30 + 0.004 * (attribute(shooter.id,"SHO") - 60) + 0.32 * shot_quality - 0.16 * pressure, 0.15, 0.95)
+	var shooting := attribute(shooter.id,"SHO",0,context)
+	var accuracy := clampf(0.30 + 0.004 * (shooting - 60) + 0.32 * shot_quality - 0.16 * pressure, 0.15, 0.95)
 	if period != Period.SHOOTOUT: shots[shooter.team] += 1
 	var target_y := 34 + rng.randf_range(-3.2, 3.2)*Traits.parameter(shooter,"aim_dispersion_multiplier")
 	var on_target := rng.randf() < accuracy
@@ -741,7 +746,7 @@ func shoot(pressure: float = 0, prepared: bool = false) -> void:
 	keeper_tested = false
 	flight_curve = base_curve*Traits.parameter(shooter,"curve_capacity_multiplier")*(-1 if ball.y > 34 else 1)
 	flight_peak = 0.8 if shot_context.get("aerial",false) else 0.0
-	launch_ball(Vector2(goal.x, target_y), minf(36,(26 + attribute(shooter.id,"SHO") * 0.08)*Traits.parameter(shooter,"ball_speed_multiplier")), "shot")
+	launch_ball(Vector2(goal.x, target_y), minf(36,(26 + shooting * 0.08)*Traits.parameter(shooter,"ball_speed_multiplier")), "shot")
 	if not enhancement.is_empty():
 		flight_trait_actor = shooter.id
 		flight_trait_action = enhancement.action
@@ -836,7 +841,7 @@ func challenge_carrier() -> void:
 	var angle := (attacker.position - defender.position).normalized().dot(Vector2(direction(attacker.team), 0))
 	var enhancement := Traits.activate(self,defender.id,{"kind":"tackle","legal_angle":angle <= 0.45})
 	Traits.activate(self,attacker.id,{"kind":"shield","pressure":1.0,"opponents":close_opponents(attacker.id,5)})
-	var clean_win := clampf(0.48 + 0.004 * (attribute(defender.id,"DEF") - attribute(attacker.id,"DRI")) + 0.0015*(attribute(defender.id,"PHY")-attribute(attacker.id,"PHY")) + 0.10 * angle, 0.12, 0.85)
+	var clean_win := clampf(0.48 + 0.004 * (attribute(defender.id,"DEF",0,{"kind":"standing_tackle"}) - attribute(attacker.id,"DRI")) + 0.0015*(attribute(defender.id,"PHY")-attribute(attacker.id,"PHY")) + 0.10 * angle, 0.12, 0.85)
 	if rng.randf() < clean_win:
 		attacker.cooldown = 60
 		tackles[defender.team] += 1
@@ -877,6 +882,7 @@ func signature() -> Array:
 	result.append([offside_context.duplicate(true),restart_untouched,restart_delivery,restart_kick_team,forfeit_team])
 	result.append([knockout,trait_allowance,shootout.duplicate(true),flight_on_target_recorded])
 	result.append([last_control_team,flight_serial,period_extension,period_extension_contact])
+	result.append(principles.duplicate(true))
 	for p in players:
 		result.append([p.position, p.target, p.cooldown, p.card.card_id, p.role, p.stamina, p.velocity, p.facing, p.ready_tick,p.trait_state.duplicate(true),p.trait_uses,p.trait_ready,p.response_delay,p.run_ready_tick,p.entered_tick,p.active,p.yellows,p.shootout_trait_used,p.anchor_override])
 	return result

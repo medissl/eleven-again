@@ -98,6 +98,7 @@ static func error(data: Variant, content: RefCounted) -> String:
 		var model: RefCounted = Snapshot.restore(data.match_snapshot)
 		if model == null or model.match_seed != attempt.seed or not model.knockout or model.regulation_ticks != model.REGULATION_SECONDS*60 or model.plans[0].to_data() != data.plan or model.plans[1].to_data() != content.opponent_plan(attempt.fixture.variant_id).to_data(): return "Invalid match snapshot."
 		if model.period not in model.Period.values() or model.ball_state not in model.BallState.values() or model.ticks < 0 or model.active_ticks < 0: return "Invalid football state."
+		if model.principles != [data.principles,[]]: return "Changed coaching principles."
 		for player in model.players:
 			if not content.cards.has(player.card.card_id) or content.cards[player.card.card_id].to_data() != player.card.to_data(): return "Changed match player definition."
 			for key in model.ATTRIBUTE_FIELDS:

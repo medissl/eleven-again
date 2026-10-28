@@ -1,10 +1,10 @@
 extends RefCounted
 ## Plain data only: no serialized executable objects or runtime UI state.
-const FIELDS := ["match_seed","ticks","active_ticks","ball_state","ball","previous_ball","owner","last_touch","held_ticks","scores","events","possession_ticks","pass_attempts","completed_passes","tackles","ball_velocity","flight_target","flight_source","flight_kind","pass_pending","shots","shots_on_target","saves","shot_quality","keeper_tested","dead_ticks","restart_team","period","finished","restart_kind","restart_position","regulation_ticks","halftime_report","result_report","kickoff_taker","kickoff_ticks","kickoff_kicker","ball_height","restart_taker","restart_counts","fouls","combination","transition_tick","flight_delivery","flight_receiver","substitution_counts","substitution_windows","substitution_stages","used_cards","action_id","flight_trait_actor","flight_trait_action","flight_ticks","flight_origin","flight_control","flight_duration","flight_curve","flight_peak","shot_context","pending_shot","current_restart","keeper_hand_owner","offside_context","restart_untouched","restart_delivery","restart_kick_team","forfeit_team","flight_on_target_recorded","knockout","trait_allowance","shootout","last_control_team","flight_serial","period_extension","period_extension_contact"]
+const FIELDS := ["match_seed","ticks","active_ticks","ball_state","ball","previous_ball","owner","last_touch","held_ticks","scores","events","possession_ticks","pass_attempts","completed_passes","tackles","ball_velocity","flight_target","flight_source","flight_kind","pass_pending","shots","shots_on_target","saves","shot_quality","keeper_tested","dead_ticks","restart_team","period","finished","restart_kind","restart_position","regulation_ticks","halftime_report","result_report","kickoff_taker","kickoff_ticks","kickoff_kicker","ball_height","restart_taker","restart_counts","fouls","combination","transition_tick","flight_delivery","flight_receiver","substitution_counts","substitution_windows","substitution_stages","used_cards","action_id","flight_trait_actor","flight_trait_action","flight_ticks","flight_origin","flight_control","flight_duration","flight_curve","flight_peak","shot_context","pending_shot","current_restart","keeper_hand_owner","offside_context","restart_untouched","restart_delivery","restart_kick_team","forfeit_team","flight_on_target_recorded","knockout","trait_allowance","shootout","last_control_team","flight_serial","period_extension","period_extension_contact","principles"]
 const PLAYER_FIELDS := ["id","team","name","position","previous","target","pace","passing","shooting","defence","dribbling","keeping","physical","reflexes","handling","positioning","diving","kicking","role","stamina","velocity","facing","ready_tick","job","entered_tick","trait_state","trait_uses","trait_ready","response_delay","run_ready_tick","cooldown","active","yellows","shootout_trait_used","anchor_override"]
 
 static func capture(m) -> Dictionary:
-	var data := {"schema":1,"engine":Engine.get_version_info().string,"rng":m.rng.state,"plans":m.plans.map(func(plan): return plan.to_data()),"players":[],"state":{}}
+	var data := {"schema":2,"engine":Engine.get_version_info().string,"rng":m.rng.state,"plans":m.plans.map(func(plan): return plan.to_data()),"players":[],"state":{}}
 	for key in FIELDS:
 		var value = m.get(key)
 		data.state[key] = value.duplicate(true) if value is Array or value is Dictionary else value
@@ -17,7 +17,7 @@ static func capture(m) -> Dictionary:
 	return data
 
 static func restore(data: Dictionary) -> RefCounted:
-	if data.get("schema") != 1 or data.get("engine") != Engine.get_version_info().string: return null
+	if data.get("schema") not in [1,2] or data.get("engine") != Engine.get_version_info().string: return null
 	if data.get("state") is not Dictionary or data.get("plans") is not Array or data.plans.size() != 2 or data.get("players") is not Array or data.players.size() != 22 or data.get("rng") is not int: return null
 	if data.plans[0] is not Dictionary or data.plans[1] is not Dictionary: return null
 	var Lineup = load("res://squad/lineup.gd")
@@ -25,10 +25,13 @@ static func restore(data: Dictionary) -> RefCounted:
 	var away = Lineup.from_data(data.plans[1])
 	if home == null or away == null: return null
 	for key in FIELDS:
+		if key == "principles" and data.schema == 1: continue
 		if not data.state.has(key): return null
+	if data.schema == 2 and not load("res://match/coaching.gd").valid(data.state.principles): return null
 	if data.state.regulation_ticks is not int or data.state.regulation_ticks < 120 or data.state.regulation_ticks > 43200 or data.state.match_seed is not int: return null
 	var model = load("res://match/match_sim.gd").new(data.state.match_seed,roundi(data.state.regulation_ticks/60.0),home,away)
 	for key in FIELDS:
+		if key == "principles" and data.schema == 1: continue
 		if typeof(data.state[key]) != typeof(model.get(key)): return null
 		if key == "events": model.events.assign(data.state.events.duplicate(true))
 		else: model.set(key,data.state[key].duplicate(true) if data.state[key] is Array or data.state[key] is Dictionary else data.state[key])
