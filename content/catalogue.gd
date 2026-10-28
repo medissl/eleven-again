@@ -82,7 +82,7 @@ func eligible(minimum: int, maximum: int, excluded_people: Array = []) -> Array[
 	return cards.filter(func(card): return card.rating() >= minimum and card.rating() <= maximum and card.person_id not in excluded_people)
 
 static func portrait(card: Resource, info: Dictionary) -> Texture2D:
-	if card == null or card.portrait_id.is_empty(): return null
+	if card == null or not card.portrait_id.is_valid_identifier(): return null
 	var path: String = info.get("target_asset_path","")
-	if path != "res://assets/portraits/catalogue_200/"+card.portrait_id+".png": return null
+	if path not in ["res://assets/portraits/catalogue_200/"+card.portrait_id+".png","res://assets/portraits/run_recruits/"+card.portrait_id+".png"]: return null
 	return load(path) as Texture2D if ResourceLoader.exists(path) else null

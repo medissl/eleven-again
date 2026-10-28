@@ -1,0 +1,3111 @@
+{
+  "schema_version": 1,
+  "countries": [
+    {
+      "id": "ENG",
+      "name": "England",
+      "home_kit": "#EFE9D9",
+      "away_kit": "#C7574D",
+      "starting_cash": 8000000,
+      "cards": [
+        "starter_eng_00_run_v1",
+        "starter_eng_01_run_v1",
+        "starter_eng_02_run_v1",
+        "starter_eng_03_run_v1",
+        "starter_eng_04_run_v1",
+        "starter_eng_05_run_v1",
+        "starter_eng_06_run_v1",
+        "starter_eng_07_run_v1",
+        "starter_eng_08_run_v1",
+        "starter_eng_09_run_v1",
+        "starter_eng_10_run_v1",
+        "starter_eng_11_run_v1",
+        "starter_eng_12_run_v1",
+        "starter_eng_13_run_v1",
+        "starter_eng_14_run_v1",
+        "starter_eng_15_run_v1"
+      ],
+      "starters": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "bench_order": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "formation": "4-3-3",
+      "xi_ovr": 62.81818181818182
+    },
+    {
+      "id": "BRA",
+      "name": "Brazil",
+      "home_kit": "#E5CA61",
+      "away_kit": "#295D4B",
+      "starting_cash": 8000000,
+      "cards": [
+        "starter_bra_00_run_v1",
+        "starter_bra_01_run_v1",
+        "starter_bra_02_run_v1",
+        "starter_bra_03_run_v1",
+        "starter_bra_04_run_v1",
+        "starter_bra_05_run_v1",
+        "starter_bra_06_run_v1",
+        "starter_bra_07_run_v1",
+        "starter_bra_08_run_v1",
+        "starter_bra_09_run_v1",
+        "starter_bra_10_run_v1",
+        "starter_bra_11_run_v1",
+        "starter_bra_12_run_v1",
+        "starter_bra_13_run_v1",
+        "starter_bra_14_run_v1",
+        "starter_bra_15_run_v1"
+      ],
+      "starters": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "bench_order": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "formation": "4-3-3",
+      "xi_ovr": 62.81818181818182
+    },
+    {
+      "id": "FRA",
+      "name": "France",
+      "home_kit": "#35558A",
+      "away_kit": "#EFE9D9",
+      "starting_cash": 8000000,
+      "cards": [
+        "starter_fra_00_run_v1",
+        "starter_fra_01_run_v1",
+        "starter_fra_02_run_v1",
+        "starter_fra_03_run_v1",
+        "starter_fra_04_run_v1",
+        "starter_fra_05_run_v1",
+        "starter_fra_06_run_v1",
+        "starter_fra_07_run_v1",
+        "starter_fra_08_run_v1",
+        "starter_fra_09_run_v1",
+        "starter_fra_10_run_v1",
+        "starter_fra_11_run_v1",
+        "starter_fra_12_run_v1",
+        "starter_fra_13_run_v1",
+        "starter_fra_14_run_v1",
+        "starter_fra_15_run_v1"
+      ],
+      "starters": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "bench_order": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "formation": "4-3-3",
+      "xi_ovr": 62.81818181818182
+    },
+    {
+      "id": "JPN",
+      "name": "Japan",
+      "home_kit": "#334F82",
+      "away_kit": "#EFE9D9",
+      "starting_cash": 8000000,
+      "cards": [
+        "starter_jpn_00_run_v1",
+        "starter_jpn_01_run_v1",
+        "starter_jpn_02_run_v1",
+        "starter_jpn_03_run_v1",
+        "starter_jpn_04_run_v1",
+        "starter_jpn_05_run_v1",
+        "starter_jpn_06_run_v1",
+        "starter_jpn_07_run_v1",
+        "starter_jpn_08_run_v1",
+        "starter_jpn_09_run_v1",
+        "starter_jpn_10_run_v1",
+        "starter_jpn_11_run_v1",
+        "starter_jpn_12_run_v1",
+        "starter_jpn_13_run_v1",
+        "starter_jpn_14_run_v1",
+        "starter_jpn_15_run_v1"
+      ],
+      "starters": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "bench_order": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "formation": "4-3-3",
+      "xi_ovr": 62.81818181818182
+    },
+    {
+      "id": "IDN",
+      "name": "Indonesia",
+      "home_kit": "#BD514A",
+      "away_kit": "#EFE9D9",
+      "starting_cash": 8000000,
+      "cards": [
+        "starter_idn_00_run_v1",
+        "starter_idn_01_run_v1",
+        "starter_idn_02_run_v1",
+        "starter_idn_03_run_v1",
+        "starter_idn_04_run_v1",
+        "starter_idn_05_run_v1",
+        "starter_idn_06_run_v1",
+        "starter_idn_07_run_v1",
+        "starter_idn_08_run_v1",
+        "starter_idn_09_run_v1",
+        "starter_idn_10_run_v1",
+        "starter_idn_11_run_v1",
+        "starter_idn_12_run_v1",
+        "starter_idn_13_run_v1",
+        "starter_idn_14_run_v1",
+        "starter_idn_15_run_v1"
+      ],
+      "starters": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "bench_order": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "formation": "4-3-3",
+      "xi_ovr": 62.81818181818182
+    },
+    {
+      "id": "ARG",
+      "name": "Argentina",
+      "home_kit": "#8DBECF",
+      "away_kit": "#EFE9D9",
+      "starting_cash": 8000000,
+      "cards": [
+        "starter_arg_00_run_v1",
+        "starter_arg_01_run_v1",
+        "starter_arg_02_run_v1",
+        "starter_arg_03_run_v1",
+        "starter_arg_04_run_v1",
+        "starter_arg_05_run_v1",
+        "starter_arg_06_run_v1",
+        "starter_arg_07_run_v1",
+        "starter_arg_08_run_v1",
+        "starter_arg_09_run_v1",
+        "starter_arg_10_run_v1",
+        "starter_arg_11_run_v1",
+        "starter_arg_12_run_v1",
+        "starter_arg_13_run_v1",
+        "starter_arg_14_run_v1",
+        "starter_arg_15_run_v1"
+      ],
+      "starters": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "bench_order": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "formation": "4-3-3",
+      "xi_ovr": 62.81818181818182
+    }
+  ],
+  "cards": [
+    {
+      "person_id": "starter_eng_00",
+      "card_id": "starter_eng_00_run_v1",
+      "display_name": "Oliver Ellis",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 52,
+        "SHO": 16,
+        "PAS": 56,
+        "DRI": 42,
+        "DEF": 35,
+        "PHY": 69
+      },
+      "keeper_attributes": {
+        "REF": 66,
+        "HAN": 63,
+        "POS": 65,
+        "DIV": 64,
+        "KIC": 54
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_000"
+    },
+    {
+      "person_id": "starter_eng_01",
+      "card_id": "starter_eng_01_run_v1",
+      "display_name": "Jack Bennett",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 71,
+        "SHO": 37,
+        "PAS": 65,
+        "DRI": 59,
+        "DEF": 58,
+        "PHY": 57
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_001"
+    },
+    {
+      "person_id": "starter_eng_02",
+      "card_id": "starter_eng_02_run_v1",
+      "display_name": "George Hayes",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 50,
+        "SHO": 23,
+        "PAS": 48,
+        "DRI": 43,
+        "DEF": 67,
+        "PHY": 68
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_002"
+    },
+    {
+      "person_id": "starter_eng_03",
+      "card_id": "starter_eng_03_run_v1",
+      "display_name": "Charlie Brooks",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 61,
+        "SHO": 29,
+        "PAS": 52,
+        "DRI": 47,
+        "DEF": 68,
+        "PHY": 65
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_003"
+    },
+    {
+      "person_id": "starter_eng_04",
+      "card_id": "starter_eng_04_run_v1",
+      "display_name": "Harry Turner",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 38,
+        "PAS": 68,
+        "DRI": 65,
+        "DEF": 59,
+        "PHY": 58
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_004"
+    },
+    {
+      "person_id": "starter_eng_05",
+      "card_id": "starter_eng_05_run_v1",
+      "display_name": "Alfie Collins",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 55,
+        "SHO": 44,
+        "PAS": 64,
+        "DRI": 55,
+        "DEF": 66,
+        "PHY": 71
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_005"
+    },
+    {
+      "person_id": "starter_eng_06",
+      "card_id": "starter_eng_06_run_v1",
+      "display_name": "Freddie Morgan",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 60,
+        "SHO": 58,
+        "PAS": 71,
+        "DRI": 65,
+        "DEF": 56,
+        "PHY": 64
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_006"
+    },
+    {
+      "person_id": "starter_eng_07",
+      "card_id": "starter_eng_07_run_v1",
+      "display_name": "Oscar Fletcher",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 57,
+        "SHO": 51,
+        "PAS": 73,
+        "DRI": 62,
+        "DEF": 56,
+        "PHY": 55
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_007"
+    },
+    {
+      "person_id": "starter_eng_08",
+      "card_id": "starter_eng_08_run_v1",
+      "display_name": "Henry Walsh",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 58,
+        "PAS": 59,
+        "DRI": 65,
+        "DEF": 34,
+        "PHY": 52
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_008"
+    },
+    {
+      "person_id": "starter_eng_09",
+      "card_id": "starter_eng_09_run_v1",
+      "display_name": "Archie Mason",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 69,
+        "SHO": 68,
+        "PAS": 51,
+        "DRI": 61,
+        "DEF": 28,
+        "PHY": 57
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_009"
+    },
+    {
+      "person_id": "starter_eng_10",
+      "card_id": "starter_eng_10_run_v1",
+      "display_name": "Arthur Blake",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 58,
+        "PAS": 59,
+        "DRI": 65,
+        "DEF": 31,
+        "PHY": 55
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_010"
+    },
+    {
+      "person_id": "starter_eng_11",
+      "card_id": "starter_eng_11_run_v1",
+      "display_name": "Thomas Wells",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 54,
+        "SHO": 13,
+        "PAS": 51,
+        "DRI": 37,
+        "DEF": 24,
+        "PHY": 60
+      },
+      "keeper_attributes": {
+        "REF": 61,
+        "HAN": 58,
+        "POS": 60,
+        "DIV": 59,
+        "KIC": 49
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_011"
+    },
+    {
+      "person_id": "starter_eng_12",
+      "card_id": "starter_eng_12_run_v1",
+      "display_name": "Leo Warren",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM",
+        "CB"
+      ],
+      "familiar_roles": [
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 51,
+        "SHO": 37,
+        "PAS": 67,
+        "DRI": 56,
+        "DEF": 62,
+        "PHY": 59
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_012"
+    },
+    {
+      "person_id": "starter_eng_13",
+      "card_id": "starter_eng_13_run_v1",
+      "display_name": "James Porter",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 54,
+        "SHO": 60,
+        "PAS": 63,
+        "DRI": 60,
+        "DEF": 26,
+        "PHY": 52
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_013"
+    },
+    {
+      "person_id": "starter_eng_14",
+      "card_id": "starter_eng_14_run_v1",
+      "display_name": "Daniel Cole",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 64,
+        "SHO": 59,
+        "PAS": 56,
+        "DRI": 62,
+        "DEF": 25,
+        "PHY": 51
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_014"
+    },
+    {
+      "person_id": "starter_eng_15",
+      "card_id": "starter_eng_15_run_v1",
+      "display_name": "William Sutton",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 60,
+        "SHO": 64,
+        "PAS": 47,
+        "DRI": 57,
+        "DEF": 27,
+        "PHY": 53
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_015"
+    },
+    {
+      "person_id": "starter_bra_00",
+      "card_id": "starter_bra_00_run_v1",
+      "display_name": "Caio Mendes",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 57,
+        "SHO": 16,
+        "PAS": 61,
+        "DRI": 42,
+        "DEF": 29,
+        "PHY": 65
+      },
+      "keeper_attributes": {
+        "REF": 66,
+        "HAN": 63,
+        "POS": 65,
+        "DIV": 64,
+        "KIC": 54
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_016"
+    },
+    {
+      "person_id": "starter_bra_01",
+      "card_id": "starter_bra_01_run_v1",
+      "display_name": "Iago Ribeiro",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 38,
+        "PAS": 61,
+        "DRI": 60,
+        "DEF": 62,
+        "PHY": 65
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_017"
+    },
+    {
+      "person_id": "starter_bra_02",
+      "card_id": "starter_bra_02_run_v1",
+      "display_name": "Bruno Farias",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 60,
+        "SHO": 28,
+        "PAS": 51,
+        "DRI": 46,
+        "DEF": 67,
+        "PHY": 64
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_018"
+    },
+    {
+      "person_id": "starter_bra_03",
+      "card_id": "starter_bra_03_run_v1",
+      "display_name": "Diego Nunes",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 54,
+        "SHO": 27,
+        "PAS": 59,
+        "DRI": 52,
+        "DEF": 68,
+        "PHY": 65
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_019"
+    },
+    {
+      "person_id": "starter_bra_04",
+      "card_id": "starter_bra_04_run_v1",
+      "display_name": "Luan Freitas",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 41,
+        "PAS": 61,
+        "DRI": 60,
+        "DEF": 59,
+        "PHY": 66
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_020"
+    },
+    {
+      "person_id": "starter_bra_05",
+      "card_id": "starter_bra_05_run_v1",
+      "display_name": "Andre Barbosa",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 55,
+        "SHO": 45,
+        "PAS": 64,
+        "DRI": 55,
+        "DEF": 66,
+        "PHY": 69
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_021"
+    },
+    {
+      "person_id": "starter_bra_06",
+      "card_id": "starter_bra_06_run_v1",
+      "display_name": "Pedro Ramos",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 58,
+        "SHO": 52,
+        "PAS": 74,
+        "DRI": 63,
+        "DEF": 57,
+        "PHY": 56
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_022"
+    },
+    {
+      "person_id": "starter_bra_07",
+      "card_id": "starter_bra_07_run_v1",
+      "display_name": "Enzo Azevedo",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 58,
+        "SHO": 52,
+        "PAS": 69,
+        "DRI": 63,
+        "DEF": 60,
+        "PHY": 60
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_023"
+    },
+    {
+      "person_id": "starter_bra_08",
+      "card_id": "starter_bra_08_run_v1",
+      "display_name": "Vitor Lopes",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 71,
+        "SHO": 57,
+        "PAS": 63,
+        "DRI": 64,
+        "DEF": 27,
+        "PHY": 47
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_024"
+    },
+    {
+      "person_id": "starter_bra_09",
+      "card_id": "starter_bra_09_run_v1",
+      "display_name": "Davi Costa",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 64,
+        "SHO": 68,
+        "PAS": 46,
+        "DRI": 61,
+        "DEF": 31,
+        "PHY": 64
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_025"
+    },
+    {
+      "person_id": "starter_bra_10",
+      "card_id": "starter_bra_10_run_v1",
+      "display_name": "Tiago Martins",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 73,
+        "SHO": 59,
+        "PAS": 58,
+        "DRI": 64,
+        "DEF": 27,
+        "PHY": 47
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_026"
+    },
+    {
+      "person_id": "starter_bra_11",
+      "card_id": "starter_bra_11_run_v1",
+      "display_name": "Bento Carvalho",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 47,
+        "SHO": 11,
+        "PAS": 58,
+        "DRI": 42,
+        "DEF": 24,
+        "PHY": 60
+      },
+      "keeper_attributes": {
+        "REF": 61,
+        "HAN": 58,
+        "POS": 60,
+        "DIV": 59,
+        "KIC": 49
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_027"
+    },
+    {
+      "person_id": "starter_bra_12",
+      "card_id": "starter_bra_12_run_v1",
+      "display_name": "Hugo Rocha",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM",
+        "CB"
+      ],
+      "familiar_roles": [
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 52,
+        "SHO": 41,
+        "PAS": 61,
+        "DRI": 52,
+        "DEF": 63,
+        "PHY": 68
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_028"
+    },
+    {
+      "person_id": "starter_bra_13",
+      "card_id": "starter_bra_13_run_v1",
+      "display_name": "Danilo Alves",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 54,
+        "SHO": 61,
+        "PAS": 63,
+        "DRI": 60,
+        "DEF": 26,
+        "PHY": 50
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_029"
+    },
+    {
+      "person_id": "starter_bra_14",
+      "card_id": "starter_bra_14_run_v1",
+      "display_name": "Renan Santos",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 65,
+        "SHO": 56,
+        "PAS": 62,
+        "DRI": 63,
+        "DEF": 29,
+        "PHY": 46
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_030"
+    },
+    {
+      "person_id": "starter_bra_15",
+      "card_id": "starter_bra_15_run_v1",
+      "display_name": "Otavio Pinto",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 59,
+        "SHO": 63,
+        "PAS": 41,
+        "DRI": 56,
+        "DEF": 29,
+        "PHY": 56
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_031"
+    },
+    {
+      "person_id": "starter_fra_00",
+      "card_id": "starter_fra_00_run_v1",
+      "display_name": "Hugo Morel",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 52,
+        "SHO": 16,
+        "PAS": 56,
+        "DRI": 42,
+        "DEF": 32,
+        "PHY": 72
+      },
+      "keeper_attributes": {
+        "REF": 66,
+        "HAN": 63,
+        "POS": 65,
+        "DIV": 64,
+        "KIC": 54
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_032"
+    },
+    {
+      "person_id": "starter_fra_01",
+      "card_id": "starter_fra_01_run_v1",
+      "display_name": "Lucas Garnier",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 74,
+        "SHO": 40,
+        "PAS": 61,
+        "DRI": 60,
+        "DEF": 59,
+        "PHY": 58
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_033"
+    },
+    {
+      "person_id": "starter_fra_02",
+      "card_id": "starter_fra_02_run_v1",
+      "display_name": "Theo Laurent",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 53,
+        "SHO": 26,
+        "PAS": 58,
+        "DRI": 51,
+        "DEF": 67,
+        "PHY": 64
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_034"
+    },
+    {
+      "person_id": "starter_fra_03",
+      "card_id": "starter_fra_03_run_v1",
+      "display_name": "Louis Aubert",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 52,
+        "SHO": 28,
+        "PAS": 50,
+        "DRI": 45,
+        "DEF": 66,
+        "PHY": 71
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_035"
+    },
+    {
+      "person_id": "starter_fra_04",
+      "card_id": "starter_fra_04_run_v1",
+      "display_name": "Arthur Petit",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 68,
+        "SHO": 43,
+        "PAS": 62,
+        "DRI": 61,
+        "DEF": 60,
+        "PHY": 65
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_036"
+    },
+    {
+      "person_id": "starter_fra_05",
+      "card_id": "starter_fra_05_run_v1",
+      "display_name": "Enzo Faure",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 54,
+        "SHO": 40,
+        "PAS": 68,
+        "DRI": 54,
+        "DEF": 68,
+        "PHY": 62
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_037"
+    },
+    {
+      "person_id": "starter_fra_06",
+      "card_id": "starter_fra_06_run_v1",
+      "display_name": "Gabriel Roux",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 59,
+        "SHO": 53,
+        "PAS": 70,
+        "DRI": 64,
+        "DEF": 61,
+        "PHY": 61
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_038"
+    },
+    {
+      "person_id": "starter_fra_07",
+      "card_id": "starter_fra_07_run_v1",
+      "display_name": "Adam Chevalier",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 62,
+        "SHO": 51,
+        "PAS": 73,
+        "DRI": 62,
+        "DEF": 53,
+        "PHY": 55
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_039"
+    },
+    {
+      "person_id": "starter_fra_08",
+      "card_id": "starter_fra_08_run_v1",
+      "display_name": "Leo Perrin",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 58,
+        "PAS": 59,
+        "DRI": 65,
+        "DEF": 31,
+        "PHY": 55
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_040"
+    },
+    {
+      "person_id": "starter_fra_09",
+      "card_id": "starter_fra_09_run_v1",
+      "display_name": "Nathan Clement",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 70,
+        "SHO": 69,
+        "PAS": 45,
+        "DRI": 60,
+        "DEF": 27,
+        "PHY": 56
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_041"
+    },
+    {
+      "person_id": "starter_fra_10",
+      "card_id": "starter_fra_10_run_v1",
+      "display_name": "Jules Girard",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 65,
+        "SHO": 56,
+        "PAS": 64,
+        "DRI": 68,
+        "DEF": 26,
+        "PHY": 46
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_042"
+    },
+    {
+      "person_id": "starter_fra_11",
+      "card_id": "starter_fra_11_run_v1",
+      "display_name": "Romain Noel",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 47,
+        "SHO": 14,
+        "PAS": 51,
+        "DRI": 37,
+        "DEF": 24,
+        "PHY": 68
+      },
+      "keeper_attributes": {
+        "REF": 61,
+        "HAN": 58,
+        "POS": 60,
+        "DIV": 59,
+        "KIC": 49
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_043"
+    },
+    {
+      "person_id": "starter_fra_12",
+      "card_id": "starter_fra_12_run_v1",
+      "display_name": "Axel Dubois",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM",
+        "CB"
+      ],
+      "familiar_roles": [
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 52,
+        "SHO": 42,
+        "PAS": 61,
+        "DRI": 52,
+        "DEF": 63,
+        "PHY": 66
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_044"
+    },
+    {
+      "person_id": "starter_fra_13",
+      "card_id": "starter_fra_13_run_v1",
+      "display_name": "Yanis Leclerc",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 55,
+        "SHO": 58,
+        "PAS": 69,
+        "DRI": 61,
+        "DEF": 30,
+        "PHY": 45
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_045"
+    },
+    {
+      "person_id": "starter_fra_14",
+      "card_id": "starter_fra_14_run_v1",
+      "display_name": "Maxime Colin",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 65,
+        "SHO": 56,
+        "PAS": 57,
+        "DRI": 63,
+        "DEF": 32,
+        "PHY": 50
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_046"
+    },
+    {
+      "person_id": "starter_fra_15",
+      "card_id": "starter_fra_15_run_v1",
+      "display_name": "Victor Marchand",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 64,
+        "SHO": 63,
+        "PAS": 46,
+        "DRI": 56,
+        "DEF": 23,
+        "PHY": 52
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_047"
+    },
+    {
+      "person_id": "starter_jpn_00",
+      "card_id": "starter_jpn_00_run_v1",
+      "display_name": "Ren Aoki",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 59,
+        "SHO": 18,
+        "PAS": 56,
+        "DRI": 42,
+        "DEF": 29,
+        "PHY": 65
+      },
+      "keeper_attributes": {
+        "REF": 66,
+        "HAN": 63,
+        "POS": 65,
+        "DIV": 64,
+        "KIC": 54
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_048"
+    },
+    {
+      "person_id": "starter_jpn_01",
+      "card_id": "starter_jpn_01_run_v1",
+      "display_name": "Yuto Hayashi",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 38,
+        "PAS": 68,
+        "DRI": 65,
+        "DEF": 59,
+        "PHY": 58
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_049"
+    },
+    {
+      "person_id": "starter_jpn_02",
+      "card_id": "starter_jpn_02_run_v1",
+      "display_name": "Haruto Ishikawa",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 51,
+        "SHO": 27,
+        "PAS": 49,
+        "DRI": 44,
+        "DEF": 65,
+        "PHY": 70
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_050"
+    },
+    {
+      "person_id": "starter_jpn_03",
+      "card_id": "starter_jpn_03_run_v1",
+      "display_name": "Sota Shimizu",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 53,
+        "SHO": 30,
+        "PAS": 51,
+        "DRI": 46,
+        "DEF": 67,
+        "PHY": 70
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_051"
+    },
+    {
+      "person_id": "starter_jpn_04",
+      "card_id": "starter_jpn_04_run_v1",
+      "display_name": "Daichi Kondo",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 38,
+        "PAS": 66,
+        "DRI": 60,
+        "DEF": 62,
+        "PHY": 58
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_052"
+    },
+    {
+      "person_id": "starter_jpn_05",
+      "card_id": "starter_jpn_05_run_v1",
+      "display_name": "Kaito Mori",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 54,
+        "SHO": 40,
+        "PAS": 63,
+        "DRI": 54,
+        "DEF": 71,
+        "PHY": 66
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_053"
+    },
+    {
+      "person_id": "starter_jpn_06",
+      "card_id": "starter_jpn_06_run_v1",
+      "display_name": "Riku Watanabe",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 63,
+        "SHO": 52,
+        "PAS": 74,
+        "DRI": 63,
+        "DEF": 54,
+        "PHY": 56
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_054"
+    },
+    {
+      "person_id": "starter_jpn_07",
+      "card_id": "starter_jpn_07_run_v1",
+      "display_name": "Shun Takeda",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 58,
+        "SHO": 52,
+        "PAS": 69,
+        "DRI": 63,
+        "DEF": 57,
+        "PHY": 63
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_055"
+    },
+    {
+      "person_id": "starter_jpn_08",
+      "card_id": "starter_jpn_08_run_v1",
+      "display_name": "Kei Matsuda",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 73,
+        "SHO": 59,
+        "PAS": 58,
+        "DRI": 64,
+        "DEF": 27,
+        "PHY": 47
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_056"
+    },
+    {
+      "person_id": "starter_jpn_09",
+      "card_id": "starter_jpn_09_run_v1",
+      "display_name": "Hayato Ogawa",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 64,
+        "SHO": 68,
+        "PAS": 53,
+        "DRI": 66,
+        "DEF": 28,
+        "PHY": 57
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_057"
+    },
+    {
+      "person_id": "starter_jpn_10",
+      "card_id": "starter_jpn_10_run_v1",
+      "display_name": "Yuma Fujita",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 66,
+        "SHO": 60,
+        "PAS": 58,
+        "DRI": 64,
+        "DEF": 27,
+        "PHY": 55
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_058"
+    },
+    {
+      "person_id": "starter_jpn_11",
+      "card_id": "starter_jpn_11_run_v1",
+      "display_name": "Itsuki Honda",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 47,
+        "SHO": 15,
+        "PAS": 51,
+        "DRI": 37,
+        "DEF": 24,
+        "PHY": 66
+      },
+      "keeper_attributes": {
+        "REF": 61,
+        "HAN": 58,
+        "POS": 60,
+        "DIV": 59,
+        "KIC": 49
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_059"
+    },
+    {
+      "person_id": "starter_jpn_12",
+      "card_id": "starter_jpn_12_run_v1",
+      "display_name": "Naoki Endo",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM",
+        "CB"
+      ],
+      "familiar_roles": [
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 51,
+        "SHO": 37,
+        "PAS": 65,
+        "DRI": 51,
+        "DEF": 65,
+        "PHY": 59
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_060"
+    },
+    {
+      "person_id": "starter_jpn_13",
+      "card_id": "starter_jpn_13_run_v1",
+      "display_name": "Takumi Abe",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 56,
+        "SHO": 59,
+        "PAS": 65,
+        "DRI": 62,
+        "DEF": 34,
+        "PHY": 50
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_061"
+    },
+    {
+      "person_id": "starter_jpn_14",
+      "card_id": "starter_jpn_14_run_v1",
+      "display_name": "Haru Okada",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 69,
+        "SHO": 55,
+        "PAS": 61,
+        "DRI": 62,
+        "DEF": 25,
+        "PHY": 45
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_062"
+    },
+    {
+      "person_id": "starter_jpn_15",
+      "card_id": "starter_jpn_15_run_v1",
+      "display_name": "Minato Saito",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 59,
+        "SHO": 63,
+        "PAS": 41,
+        "DRI": 56,
+        "DEF": 26,
+        "PHY": 59
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_063"
+    },
+    {
+      "person_id": "starter_idn_00",
+      "card_id": "starter_idn_00_run_v1",
+      "display_name": "Arga Pratama",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 52,
+        "SHO": 16,
+        "PAS": 63,
+        "DRI": 47,
+        "DEF": 29,
+        "PHY": 65
+      },
+      "keeper_attributes": {
+        "REF": 66,
+        "HAN": 63,
+        "POS": 65,
+        "DIV": 64,
+        "KIC": 54
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_064"
+    },
+    {
+      "person_id": "starter_idn_01",
+      "card_id": "starter_idn_01_run_v1",
+      "display_name": "Bima Santoso",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 41,
+        "PAS": 61,
+        "DRI": 60,
+        "DEF": 59,
+        "PHY": 66
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_065"
+    },
+    {
+      "person_id": "starter_idn_02",
+      "card_id": "starter_idn_02_run_v1",
+      "display_name": "Dimas Wijaya",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 52,
+        "SHO": 29,
+        "PAS": 50,
+        "DRI": 45,
+        "DEF": 66,
+        "PHY": 69
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_066"
+    },
+    {
+      "person_id": "starter_idn_03",
+      "card_id": "starter_idn_03_run_v1",
+      "display_name": "Fajar Saputra",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 53,
+        "SHO": 26,
+        "PAS": 56,
+        "DRI": 46,
+        "DEF": 70,
+        "PHY": 64
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_067"
+    },
+    {
+      "person_id": "starter_idn_04",
+      "card_id": "starter_idn_04_run_v1",
+      "display_name": "Galih Nugroho",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 38,
+        "PAS": 61,
+        "DRI": 60,
+        "DEF": 65,
+        "PHY": 62
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_068"
+    },
+    {
+      "person_id": "starter_idn_05",
+      "card_id": "starter_idn_05_run_v1",
+      "display_name": "Raka Wibowo",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 60,
+        "SHO": 41,
+        "PAS": 69,
+        "DRI": 55,
+        "DEF": 66,
+        "PHY": 63
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_069"
+    },
+    {
+      "person_id": "starter_idn_06",
+      "card_id": "starter_idn_06_run_v1",
+      "display_name": "Ilham Maulana",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 59,
+        "SHO": 53,
+        "PAS": 70,
+        "DRI": 64,
+        "DEF": 58,
+        "PHY": 64
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_070"
+    },
+    {
+      "person_id": "starter_idn_07",
+      "card_id": "starter_idn_07_run_v1",
+      "display_name": "Reza Hidayat",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 66,
+        "SHO": 55,
+        "PAS": 70,
+        "DRI": 64,
+        "DEF": 55,
+        "PHY": 57
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_071"
+    },
+    {
+      "person_id": "starter_idn_08",
+      "card_id": "starter_idn_08_run_v1",
+      "display_name": "Bayu Setiawan",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 65,
+        "SHO": 56,
+        "PAS": 64,
+        "DRI": 68,
+        "DEF": 26,
+        "PHY": 46
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_072"
+    },
+    {
+      "person_id": "starter_idn_09",
+      "card_id": "starter_idn_09_run_v1",
+      "display_name": "Farhan Putra",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 62,
+        "SHO": 69,
+        "PAS": 44,
+        "DRI": 59,
+        "DEF": 26,
+        "PHY": 63
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_073"
+    },
+    {
+      "person_id": "starter_idn_10",
+      "card_id": "starter_idn_10_run_v1",
+      "display_name": "Rizky Firmansyah",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 66,
+        "SHO": 61,
+        "PAS": 58,
+        "DRI": 64,
+        "DEF": 27,
+        "PHY": 53
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_074"
+    },
+    {
+      "person_id": "starter_idn_11",
+      "card_id": "starter_idn_11_run_v1",
+      "display_name": "Adit Permana",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 47,
+        "SHO": 11,
+        "PAS": 56,
+        "DRI": 37,
+        "DEF": 27,
+        "PHY": 60
+      },
+      "keeper_attributes": {
+        "REF": 61,
+        "HAN": 58,
+        "POS": 60,
+        "DIV": 59,
+        "KIC": 49
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_075"
+    },
+    {
+      "person_id": "starter_idn_12",
+      "card_id": "starter_idn_12_run_v1",
+      "display_name": "Hafiz Ramadhan",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM",
+        "CB"
+      ],
+      "familiar_roles": [
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 51,
+        "SHO": 37,
+        "PAS": 60,
+        "DRI": 51,
+        "DEF": 68,
+        "PHY": 63
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_076"
+    },
+    {
+      "person_id": "starter_idn_13",
+      "card_id": "starter_idn_13_run_v1",
+      "display_name": "Yoga Kurniawan",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 59,
+        "SHO": 57,
+        "PAS": 68,
+        "DRI": 60,
+        "DEF": 26,
+        "PHY": 44
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_077"
+    },
+    {
+      "person_id": "starter_idn_14",
+      "card_id": "starter_idn_14_run_v1",
+      "display_name": "Naufal Hakim",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 65,
+        "SHO": 56,
+        "PAS": 57,
+        "DRI": 63,
+        "DEF": 29,
+        "PHY": 53
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_078"
+    },
+    {
+      "person_id": "starter_idn_15",
+      "card_id": "starter_idn_15_run_v1",
+      "display_name": "Andi Saputra",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 65,
+        "SHO": 64,
+        "PAS": 40,
+        "DRI": 55,
+        "DEF": 22,
+        "PHY": 51
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_079"
+    },
+    {
+      "person_id": "starter_arg_00",
+      "card_id": "starter_arg_00_run_v1",
+      "display_name": "Mateo Acosta",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 52,
+        "SHO": 19,
+        "PAS": 56,
+        "DRI": 42,
+        "DEF": 29,
+        "PHY": 73
+      },
+      "keeper_attributes": {
+        "REF": 66,
+        "HAN": 63,
+        "POS": 65,
+        "DIV": 64,
+        "KIC": 54
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_080"
+    },
+    {
+      "person_id": "starter_arg_01",
+      "card_id": "starter_arg_01_run_v1",
+      "display_name": "Santiago Molina",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 68,
+        "SHO": 43,
+        "PAS": 62,
+        "DRI": 61,
+        "DEF": 60,
+        "PHY": 65
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_081"
+    },
+    {
+      "person_id": "starter_arg_02",
+      "card_id": "starter_arg_02_run_v1",
+      "display_name": "Tomas Rivas",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 52,
+        "SHO": 25,
+        "PAS": 55,
+        "DRI": 45,
+        "DEF": 69,
+        "PHY": 63
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_082"
+    },
+    {
+      "person_id": "starter_arg_03",
+      "card_id": "starter_arg_03_run_v1",
+      "display_name": "Facundo Ibarra",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 51,
+        "SHO": 24,
+        "PAS": 49,
+        "DRI": 44,
+        "DEF": 71,
+        "PHY": 66
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_083"
+    },
+    {
+      "person_id": "starter_arg_04",
+      "card_id": "starter_arg_04_run_v1",
+      "display_name": "Julian Medina",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 71,
+        "SHO": 37,
+        "PAS": 65,
+        "DRI": 59,
+        "DEF": 58,
+        "PHY": 57
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_084"
+    },
+    {
+      "person_id": "starter_arg_05",
+      "card_id": "starter_arg_05_run_v1",
+      "display_name": "Nicolas Pereyra",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 54,
+        "SHO": 40,
+        "PAS": 63,
+        "DRI": 54,
+        "DEF": 68,
+        "PHY": 69
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_085"
+    },
+    {
+      "person_id": "starter_arg_06",
+      "card_id": "starter_arg_06_run_v1",
+      "display_name": "Agustin Sosa",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 56,
+        "PAS": 71,
+        "DRI": 65,
+        "DEF": 56,
+        "PHY": 58
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_086"
+    },
+    {
+      "person_id": "starter_arg_07",
+      "card_id": "starter_arg_07_run_v1",
+      "display_name": "Franco Cabrera",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 56,
+        "SHO": 50,
+        "PAS": 74,
+        "DRI": 66,
+        "DEF": 52,
+        "PHY": 54
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_087"
+    },
+    {
+      "person_id": "starter_arg_08",
+      "card_id": "starter_arg_08_run_v1",
+      "display_name": "Valentin Benitez",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 66,
+        "SHO": 60,
+        "PAS": 58,
+        "DRI": 64,
+        "DEF": 27,
+        "PHY": 55
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_088"
+    },
+    {
+      "person_id": "starter_arg_09",
+      "card_id": "starter_arg_09_run_v1",
+      "display_name": "Ignacio Duarte",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 62,
+        "SHO": 70,
+        "PAS": 44,
+        "DRI": 59,
+        "DEF": 26,
+        "PHY": 61
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_089"
+    },
+    {
+      "person_id": "starter_arg_10",
+      "card_id": "starter_arg_10_run_v1",
+      "display_name": "Luciano Vega",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 58,
+        "PAS": 64,
+        "DRI": 65,
+        "DEF": 31,
+        "PHY": 48
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_090"
+    },
+    {
+      "person_id": "starter_arg_11",
+      "card_id": "starter_arg_11_run_v1",
+      "display_name": "Bruno Godoy",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 47,
+        "SHO": 11,
+        "PAS": 51,
+        "DRI": 37,
+        "DEF": 30,
+        "PHY": 64
+      },
+      "keeper_attributes": {
+        "REF": 61,
+        "HAN": 58,
+        "POS": 60,
+        "DIV": 59,
+        "KIC": 49
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_091"
+    },
+    {
+      "person_id": "starter_arg_12",
+      "card_id": "starter_arg_12_run_v1",
+      "display_name": "Emiliano Castro",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM",
+        "CB"
+      ],
+      "familiar_roles": [
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 57,
+        "SHO": 38,
+        "PAS": 66,
+        "DRI": 52,
+        "DEF": 63,
+        "PHY": 60
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_092"
+    },
+    {
+      "person_id": "starter_arg_13",
+      "card_id": "starter_arg_13_run_v1",
+      "display_name": "Martin Rosales",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 55,
+        "SHO": 58,
+        "PAS": 64,
+        "DRI": 61,
+        "DEF": 30,
+        "PHY": 52
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_093"
+    },
+    {
+      "person_id": "starter_arg_14",
+      "card_id": "starter_arg_14_run_v1",
+      "display_name": "Lautaro Ponce",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 71,
+        "SHO": 57,
+        "PAS": 56,
+        "DRI": 62,
+        "DEF": 25,
+        "PHY": 45
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_094"
+    },
+    {
+      "person_id": "starter_arg_15",
+      "card_id": "starter_arg_15_run_v1",
+      "display_name": "Matias Ferreyra",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 59,
+        "SHO": 63,
+        "PAS": 48,
+        "DRI": 61,
+        "DEF": 23,
+        "PHY": 52
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "",
+      "portrait_id": "run_portrait_095"
+    }
+  ],
+  "acquirable": false,
+  "archive_visible": false
+}

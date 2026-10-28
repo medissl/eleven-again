@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "status": "unmeasured_four_tier_migration",
+  "opening": {
+    "min_ovr": 75,
+    "max_ovr": 79
+  },
+  "free": {
+    "grassroots": [
+      {
+        "tier": "bronze",
+        "min": 65,
+        "max": 69,
+        "weight": 15
+      },
+      {
+        "tier": "silver",
+        "min": 70,
+        "max": 84,
+        "weight": 80
+      },
+      {
+        "tier": "gold",
+        "min": 85,
+        "max": 87,
+        "weight": 5
+      }
+    ],
+    "elite": [
+      {
+        "tier": "silver",
+        "min": 78,
+        "max": 84,
+        "weight": 25
+      },
+      {
+        "tier": "gold",
+        "min": 85,
+        "max": 99,
+        "weight": 65
+      },
+      {
+        "tier": "legend",
+        "min": 100,
+        "max": 104,
+        "weight": 10
+      }
+    ],
+    "world": [
+      {
+        "tier": "gold",
+        "min": 90,
+        "max": 99,
+        "weight": 65
+      },
+      {
+        "tier": "legend",
+        "min": 100,
+        "max": 114,
+        "weight": 34
+      },
+      {
+        "tier": "legend",
+        "min": 115,
+        "max": 120,
+        "weight": 1
+      }
+    ]
+  },
+  "market": {
+    "1": [
+      {
+        "tier": "bronze",
+        "min": 65,
+        "max": 69,
+        "weight": 15
+      },
+      {
+        "tier": "silver",
+        "min": 70,
+        "max": 84,
+        "weight": 75
+      },
+      {
+        "tier": "gold",
+        "min": 85,
+        "max": 94,
+        "weight": 10
+      }
+    ],
+    "2": [
+      {
+        "tier": "silver",
+        "min": 78,
+        "max": 84,
+        "weight": 25
+      },
+      {
+        "tier": "gold",
+        "min": 85,
+        "max": 99,
+        "weight": 60
+      },
+      {
+        "tier": "legend",
+        "min": 100,
+        "max": 104,
+        "weight": 15
+      }
+    ],
+    "3": [
+      {
+        "tier": "gold",
+        "min": 90,
+        "max": 99,
+        "weight": 60
+      },
+      {
+        "tier": "legend",
+        "min": 100,
+        "max": 114,
+        "weight": 39
+      },
+      {
+        "tier": "legend",
+        "min": 115,
+        "max": 120,
+        "weight": 1
+      }
+    ]
+  },
+  "market_low_band_guarantee": 2,
+  "free_slots": [
+    "GK",
+    "DEF",
+    "MID",
+    "ATT",
+    "WILD"
+  ],
+  "market_slots": [
+    "GK",
+    "DEF",
+    "DEF",
+    "MID",
+    "MID",
+    "ATT",
+    "ATT",
+    "WILD"
+  ]
+}

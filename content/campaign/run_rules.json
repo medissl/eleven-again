@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "content_status": "complete_authored_design_baseline_not_runtime_calibrated",
+  "target_wins": 12,
+  "defeat_limit": 3,
+  "starting_cash": 8000000,
+  "starting_squad": 16,
+  "squad_cap": 18,
+  "opening_recruit_ovr": [
+    75,
+    79
+  ],
+  "regulation_active_seconds": 180,
+  "extra_time_active_seconds": 60,
+  "stages": [
+    {
+      "stage": 1,
+      "chapter": 1,
+      "enemy_xi_ovr_min": 61,
+      "enemy_xi_ovr_max": 63,
+      "win_prize": 4000000,
+      "recruit": true,
+      "market": null,
+      "coaching": false,
+      "boss": false,
+      "terminal": false
+    },
+    {
+      "stage": 2,
+      "chapter": 1,
+      "enemy_xi_ovr_min": 63,
+      "enemy_xi_ovr_max": 65,
+      "win_prize": 4000000,
+      "recruit": true,
+      "market": null,
+      "coaching": false,
+      "boss": false,
+      "terminal": false
+    },
+    {
+      "stage": 3,
+      "chapter": 1,
+      "enemy_xi_ovr_min": 65,
+      "enemy_xi_ovr_max": 67,
+      "win_prize": 4000000,
+      "recruit": true,
+      "market": 1,
+      "coaching": false,
+      "boss": false,
+      "terminal": false
+    },
+    {
+      "stage": 4,
+      "chapter": 1,
+      "enemy_xi_ovr_min": 68,
+      "enemy_xi_ovr_max": 70,
+      "win_prize": 4000000,
+      "recruit": false,
+      "market": null,
+      "coaching": true,
+      "boss": true,
+      "terminal": false
+    },
+    {
+      "stage": 5,
+      "chapter": 2,
+      "enemy_xi_ovr_min": 71,
+      "enemy_xi_ovr_max": 73,
+      "win_prize": 7000000,
+      "recruit": true,
+      "market": null,
+      "coaching": false,
+      "boss": false,
+      "terminal": false
+    },
+    {
+      "stage": 6,
+      "chapter": 2,
+      "enemy_xi_ovr_min": 74,
+      "enemy_xi_ovr_max": 76,
+      "win_prize": 7000000,
+      "recruit": true,
+      "market": null,
+      "coaching": false,
+      "boss": false,
+      "terminal": false
+    },
+    {
+      "stage": 7,
+      "chapter": 2,
+      "enemy_xi_ovr_min": 77,
+      "enemy_xi_ovr_max": 79,
+      "win_prize": 7000000,
+      "recruit": true,
+      "market": 2,
+      "coaching": false,
+      "boss": false,
+      "terminal": false
+    },
+    {
+      "stage": 8,
+      "chapter": 2,
+      "enemy_xi_ovr_min": 80,
+      "enemy_xi_ovr_max": 82,
+      "win_prize": 7000000,
+      "recruit": false,
+      "market": null,
+      "coaching": true,
+      "boss": true,
+      "terminal": false
+    },
+    {
+      "stage": 9,
+      "chapter": 3,
+      "enemy_xi_ovr_min": 83,
+      "enemy_xi_ovr_max": 85,
+      "win_prize": 10000000,
+      "recruit": true,
+      "market": null,
+      "coaching": false,
+      "boss": false,
+      "terminal": false
+    },
+    {
+      "stage": 10,
+      "chapter": 3,
+      "enemy_xi_ovr_min": 85,
+      "enemy_xi_ovr_max": 87,
+      "win_prize": 10000000,
+      "recruit": true,
+      "market": null,
+      "coaching": false,
+      "boss": false,
+      "terminal": false
+    },
+    {
+      "stage": 11,
+      "chapter": 3,
+      "enemy_xi_ovr_min": 88,
+      "enemy_xi_ovr_max": 90,
+      "win_prize": 10000000,
+      "recruit": true,
+      "market": 3,
+      "coaching": false,
+      "boss": false,
+      "terminal": false
+    },
+    {
+      "stage": 12,
+      "chapter": 3,
+      "enemy_xi_ovr_min": 91,
+      "enemy_xi_ovr_max": 93,
+      "win_prize": 10000000,
+      "recruit": false,
+      "market": null,
+      "coaching": false,
+      "boss": true,
+      "terminal": true
+    }
+  ],
+  "price_anchors_millions": [
+    [
+      65,
+      3
+    ],
+    [
+      74,
+      5
+    ],
+    [
+      75,
+      6
+    ],
+    [
+      84,
+      10
+    ],
+    [
+      85,
+      12
+    ],
+    [
+      94,
+      20
+    ],
+    [
+      95,
+      24
+    ],
+    [
+      104,
+      38
+    ],
+    [
+      105,
+      45
+    ],
+    [
+      114,
+      65
+    ],
+    [
+      115,
+      70
+    ],
+    [
+      120,
+      80
+    ]
+  ],
+  "peak_price_revision": "115-120 now 70-80m; max pre-final cash is 82m",
+  "reward_order": [
+    "apply_result",
+    "prize",
+    "recruit",
+    "market",
+    "coaching",
+    "prepare"
+  ],
+  "permanent_power_carryover": false
+}

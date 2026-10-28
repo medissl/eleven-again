@@ -1,0 +1,4057 @@
+{
+  "schema_version": 1,
+  "cards": [
+    {
+      "person_id": "fictional_recruit_gk_00",
+      "card_id": "fictional_recruit_gk_00_run_v1",
+      "display_name": "Isaac Mercer",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 53,
+        "SHO": 17,
+        "PAS": 57,
+        "DRI": 43,
+        "DEF": 36,
+        "PHY": 70
+      },
+      "keeper_attributes": {
+        "REF": 66,
+        "HAN": 69,
+        "POS": 65,
+        "DIV": 64,
+        "KIC": 54
+      },
+      "trait_id": "safe_hands",
+      "portrait_id": "run_portrait_000"
+    },
+    {
+      "person_id": "fictional_recruit_gk_01",
+      "card_id": "fictional_recruit_gk_01_run_v1",
+      "display_name": "Noah Vale",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 61,
+        "SHO": 20,
+        "PAS": 65,
+        "DRI": 46,
+        "DEF": 33,
+        "PHY": 69
+      },
+      "keeper_attributes": {
+        "REF": 70,
+        "HAN": 67,
+        "POS": 69,
+        "DIV": 72,
+        "KIC": 58
+      },
+      "trait_id": "deflector",
+      "portrait_id": "run_portrait_001"
+    },
+    {
+      "person_id": "fictional_recruit_gk_02",
+      "card_id": "fictional_recruit_gk_02_run_v1",
+      "display_name": "Adrian Reed",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 58,
+        "SHO": 22,
+        "PAS": 62,
+        "DRI": 48,
+        "DEF": 38,
+        "PHY": 78
+      },
+      "keeper_attributes": {
+        "REF": 77,
+        "HAN": 68,
+        "POS": 70,
+        "DIV": 69,
+        "KIC": 59
+      },
+      "trait_id": "cat_reflexes",
+      "portrait_id": "run_portrait_002"
+    },
+    {
+      "person_id": "fictional_recruit_gk_03",
+      "card_id": "fictional_recruit_gk_03_run_v1",
+      "display_name": "Tomas Quinn",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 69,
+        "SHO": 28,
+        "PAS": 66,
+        "DRI": 52,
+        "DEF": 39,
+        "PHY": 75
+      },
+      "keeper_attributes": {
+        "REF": 75,
+        "HAN": 78,
+        "POS": 74,
+        "DIV": 73,
+        "KIC": 63
+      },
+      "trait_id": "safe_hands",
+      "portrait_id": "run_portrait_003"
+    },
+    {
+      "person_id": "fictional_recruit_gk_04",
+      "card_id": "fictional_recruit_gk_04_run_v1",
+      "display_name": "Luca Senda",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 65,
+        "SHO": 29,
+        "PAS": 76,
+        "DRI": 60,
+        "DEF": 42,
+        "PHY": 78
+      },
+      "keeper_attributes": {
+        "REF": 79,
+        "HAN": 76,
+        "POS": 78,
+        "DIV": 81,
+        "KIC": 67
+      },
+      "trait_id": "deflector",
+      "portrait_id": "run_portrait_004"
+    },
+    {
+      "person_id": "fictional_recruit_gk_05",
+      "card_id": "fictional_recruit_gk_05_run_v1",
+      "display_name": "Elias Bernard",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 34,
+        "PAS": 71,
+        "DRI": 57,
+        "DEF": 44,
+        "PHY": 88
+      },
+      "keeper_attributes": {
+        "REF": 86,
+        "HAN": 77,
+        "POS": 79,
+        "DIV": 78,
+        "KIC": 68
+      },
+      "trait_id": "cat_reflexes",
+      "portrait_id": "run_portrait_005"
+    },
+    {
+      "person_id": "fictional_recruit_gk_06",
+      "card_id": "fictional_recruit_gk_06_run_v1",
+      "display_name": "Owen Mercer",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 64,
+        "SHO": 10,
+        "PAS": 72,
+        "DRI": 45,
+        "DEF": 28,
+        "PHY": 80
+      },
+      "keeper_attributes": {
+        "REF": 84,
+        "HAN": 82,
+        "POS": 81,
+        "DIV": 82,
+        "KIC": 78
+      },
+      "trait_id": "safe_hands",
+      "portrait_id": "run_portrait_006"
+    },
+    {
+      "person_id": "fictional_recruit_gk_07",
+      "card_id": "fictional_recruit_gk_07_run_v1",
+      "display_name": "Mateo Mori",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 72,
+        "SHO": 36,
+        "PAS": 81,
+        "DRI": 62,
+        "DEF": 52,
+        "PHY": 85
+      },
+      "keeper_attributes": {
+        "REF": 86,
+        "HAN": 83,
+        "POS": 85,
+        "DIV": 88,
+        "KIC": 74
+      },
+      "trait_id": "deflector",
+      "portrait_id": "run_portrait_007"
+    },
+    {
+      "person_id": "fictional_recruit_gk_08",
+      "card_id": "fictional_recruit_gk_08_run_v1",
+      "display_name": "Mateo Lima",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 63,
+        "SHO": 10,
+        "PAS": 70,
+        "DRI": 40,
+        "DEF": 25,
+        "PHY": 80
+      },
+      "keeper_attributes": {
+        "REF": 88,
+        "HAN": 85,
+        "POS": 85,
+        "DIV": 89,
+        "KIC": 76
+      },
+      "trait_id": "safe_hands",
+      "portrait_id": "run_portrait_008"
+    },
+    {
+      "person_id": "fictional_recruit_gk_09",
+      "card_id": "fictional_recruit_gk_09_run_v1",
+      "display_name": "Rafael Hart",
+      "primary_role": "GK",
+      "natural_roles": [
+        "GK"
+      ],
+      "familiar_roles": [],
+      "attributes": {
+        "PAC": 85,
+        "SHO": 44,
+        "PAS": 89,
+        "DRI": 70,
+        "DEF": 57,
+        "PHY": 93
+      },
+      "keeper_attributes": {
+        "REF": 93,
+        "HAN": 96,
+        "POS": 92,
+        "DIV": 91,
+        "KIC": 81
+      },
+      "trait_id": "safe_hands",
+      "portrait_id": "run_portrait_009"
+    },
+    {
+      "person_id": "fictional_recruit_cb_00",
+      "card_id": "fictional_recruit_cb_00_run_v1",
+      "display_name": "Isaac Vale",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 53,
+        "SHO": 26,
+        "PAS": 51,
+        "DRI": 46,
+        "DEF": 70,
+        "PHY": 71
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "anticipator",
+      "portrait_id": "run_portrait_010"
+    },
+    {
+      "person_id": "fictional_recruit_cb_01",
+      "card_id": "fictional_recruit_cb_01_run_v1",
+      "display_name": "Noah Reed",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 62,
+        "SHO": 30,
+        "PAS": 53,
+        "DRI": 48,
+        "DEF": 74,
+        "PHY": 70
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "body_block",
+      "portrait_id": "run_portrait_011"
+    },
+    {
+      "person_id": "fictional_recruit_cb_02",
+      "card_id": "fictional_recruit_cb_02_run_v1",
+      "display_name": "Adrian Quinn",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 57,
+        "SHO": 30,
+        "PAS": 62,
+        "DRI": 55,
+        "DEF": 75,
+        "PHY": 76
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "aerial_fortress",
+      "portrait_id": "run_portrait_012"
+    },
+    {
+      "person_id": "fictional_recruit_cb_03",
+      "card_id": "fictional_recruit_cb_03_run_v1",
+      "display_name": "Tomas Senda",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 63,
+        "SHO": 39,
+        "PAS": 61,
+        "DRI": 56,
+        "DEF": 77,
+        "PHY": 82
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "anticipator",
+      "portrait_id": "run_portrait_013"
+    },
+    {
+      "person_id": "fictional_recruit_cb_04",
+      "card_id": "fictional_recruit_cb_04_run_v1",
+      "display_name": "Luca Bernard",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 64,
+        "SHO": 41,
+        "PAS": 62,
+        "DRI": 57,
+        "DEF": 83,
+        "PHY": 85
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "body_block",
+      "portrait_id": "run_portrait_014"
+    },
+    {
+      "person_id": "fictional_recruit_cb_05",
+      "card_id": "fictional_recruit_cb_05_run_v1",
+      "display_name": "Elias Duarte",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 65,
+        "SHO": 38,
+        "PAS": 68,
+        "DRI": 58,
+        "DEF": 86,
+        "PHY": 84
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "aerial_fortress",
+      "portrait_id": "run_portrait_015"
+    },
+    {
+      "person_id": "fictional_recruit_cb_06",
+      "card_id": "fictional_recruit_cb_06_run_v1",
+      "display_name": "Felix Mori",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 69,
+        "SHO": 42,
+        "PAS": 67,
+        "DRI": 62,
+        "DEF": 89,
+        "PHY": 84
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "anticipator",
+      "portrait_id": "run_portrait_016"
+    },
+    {
+      "person_id": "fictional_recruit_cb_07",
+      "card_id": "fictional_recruit_cb_07_run_v1",
+      "display_name": "Ruben Lima",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 76,
+        "SHO": 44,
+        "PAS": 74,
+        "DRI": 64,
+        "DEF": 90,
+        "PHY": 86
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "body_block",
+      "portrait_id": "run_portrait_017"
+    },
+    {
+      "person_id": "fictional_recruit_cb_08",
+      "card_id": "fictional_recruit_cb_08_run_v1",
+      "display_name": "Julian Hart",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 71,
+        "SHO": 44,
+        "PAS": 69,
+        "DRI": 64,
+        "DEF": 92,
+        "PHY": 97
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "aerial_fortress",
+      "portrait_id": "run_portrait_018"
+    },
+    {
+      "person_id": "fictional_recruit_cb_09",
+      "card_id": "fictional_recruit_cb_09_run_v1",
+      "display_name": "Rafael Mercer",
+      "primary_role": "CB",
+      "natural_roles": [
+        "CB"
+      ],
+      "familiar_roles": [
+        "DM"
+      ],
+      "attributes": {
+        "PAC": 90,
+        "SHO": 58,
+        "PAS": 81,
+        "DRI": 76,
+        "DEF": 97,
+        "PHY": 94
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "anticipator",
+      "portrait_id": "run_portrait_019"
+    },
+    {
+      "person_id": "fictional_recruit_lb_00",
+      "card_id": "fictional_recruit_lb_00_run_v1",
+      "display_name": "Isaac Reed",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 76,
+        "SHO": 39,
+        "PAS": 69,
+        "DRI": 66,
+        "DEF": 60,
+        "PHY": 59
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "accelerator",
+      "portrait_id": "run_portrait_020"
+    },
+    {
+      "person_id": "fictional_recruit_lb_01",
+      "card_id": "fictional_recruit_lb_01_run_v1",
+      "display_name": "Noah Quinn",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 72,
+        "SHO": 46,
+        "PAS": 72,
+        "DRI": 65,
+        "DEF": 64,
+        "PHY": 71
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "whipped_cross",
+      "portrait_id": "run_portrait_021"
+    },
+    {
+      "person_id": "fictional_recruit_lb_02",
+      "card_id": "fictional_recruit_lb_02_run_v1",
+      "display_name": "Adrian Senda",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 76,
+        "SHO": 51,
+        "PAS": 70,
+        "DRI": 69,
+        "DEF": 68,
+        "PHY": 73
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "overlap_engine",
+      "portrait_id": "run_portrait_022"
+    },
+    {
+      "person_id": "fictional_recruit_lb_03",
+      "card_id": "fictional_recruit_lb_03_run_v1",
+      "display_name": "Tomas Bernard",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 85,
+        "SHO": 48,
+        "PAS": 76,
+        "DRI": 70,
+        "DEF": 72,
+        "PHY": 68
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "accelerator",
+      "portrait_id": "run_portrait_023"
+    },
+    {
+      "person_id": "fictional_recruit_lb_04",
+      "card_id": "fictional_recruit_lb_04_run_v1",
+      "display_name": "Owen Hart",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 85,
+        "SHO": 35,
+        "PAS": 75,
+        "DRI": 72,
+        "DEF": 78,
+        "PHY": 87
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "recovery_sprint",
+      "portrait_id": "run_portrait_024"
+    },
+    {
+      "person_id": "fictional_recruit_lb_05",
+      "card_id": "fictional_recruit_lb_05_run_v1",
+      "display_name": "Elias Mori",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 88,
+        "SHO": 54,
+        "PAS": 82,
+        "DRI": 76,
+        "DEF": 75,
+        "PHY": 74
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "overlap_engine",
+      "portrait_id": "run_portrait_025"
+    },
+    {
+      "person_id": "fictional_recruit_lb_06",
+      "card_id": "fictional_recruit_lb_06_run_v1",
+      "display_name": "Felix Lima",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 92,
+        "SHO": 55,
+        "PAS": 78,
+        "DRI": 77,
+        "DEF": 79,
+        "PHY": 82
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "accelerator",
+      "portrait_id": "run_portrait_026"
+    },
+    {
+      "person_id": "fictional_recruit_lb_07",
+      "card_id": "fictional_recruit_lb_07_run_v1",
+      "display_name": "Mateo Hart",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 95,
+        "SHO": 61,
+        "PAS": 88,
+        "DRI": 81,
+        "DEF": 80,
+        "PHY": 79
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "whipped_cross",
+      "portrait_id": "run_portrait_027"
+    },
+    {
+      "person_id": "fictional_recruit_lb_08",
+      "card_id": "fictional_recruit_lb_08_run_v1",
+      "display_name": "Julian Mercer",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 92,
+        "SHO": 63,
+        "PAS": 93,
+        "DRI": 90,
+        "DEF": 84,
+        "PHY": 83
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "overlap_engine",
+      "portrait_id": "run_portrait_028"
+    },
+    {
+      "person_id": "fictional_recruit_lb_09",
+      "card_id": "fictional_recruit_lb_09_run_v1",
+      "display_name": "Rafael Vale",
+      "primary_role": "LB",
+      "natural_roles": [
+        "LB"
+      ],
+      "familiar_roles": [
+        "RB",
+        "LW"
+      ],
+      "attributes": {
+        "PAC": 103,
+        "SHO": 69,
+        "PAS": 89,
+        "DRI": 88,
+        "DEF": 87,
+        "PHY": 94
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "accelerator",
+      "portrait_id": "run_portrait_029"
+    },
+    {
+      "person_id": "fictional_recruit_rb_00",
+      "card_id": "fictional_recruit_rb_00_run_v1",
+      "display_name": "Isaac Quinn",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 75,
+        "SHO": 44,
+        "PAS": 63,
+        "DRI": 62,
+        "DEF": 61,
+        "PHY": 66
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "recovery_sprint",
+      "portrait_id": "run_portrait_030"
+    },
+    {
+      "person_id": "fictional_recruit_rb_01",
+      "card_id": "fictional_recruit_rb_01_run_v1",
+      "display_name": "Noah Senda",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 72,
+        "SHO": 43,
+        "PAS": 77,
+        "DRI": 65,
+        "DEF": 67,
+        "PHY": 63
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "whipped_cross",
+      "portrait_id": "run_portrait_031"
+    },
+    {
+      "person_id": "fictional_recruit_rb_02",
+      "card_id": "fictional_recruit_rb_02_run_v1",
+      "display_name": "Adrian Bernard",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 75,
+        "SHO": 46,
+        "PAS": 69,
+        "DRI": 68,
+        "DEF": 73,
+        "PHY": 70
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "overlap_engine",
+      "portrait_id": "run_portrait_032"
+    },
+    {
+      "person_id": "fictional_recruit_rb_03",
+      "card_id": "fictional_recruit_rb_03_run_v1",
+      "display_name": "Tomas Duarte",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 88,
+        "SHO": 48,
+        "PAS": 76,
+        "DRI": 70,
+        "DEF": 69,
+        "PHY": 68
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "recovery_sprint",
+      "portrait_id": "run_portrait_033"
+    },
+    {
+      "person_id": "fictional_recruit_rb_04",
+      "card_id": "fictional_recruit_rb_04_run_v1",
+      "display_name": "Luca Mori",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 81,
+        "SHO": 52,
+        "PAS": 81,
+        "DRI": 74,
+        "DEF": 76,
+        "PHY": 79
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "whipped_cross",
+      "portrait_id": "run_portrait_034"
+    },
+    {
+      "person_id": "fictional_recruit_rb_05",
+      "card_id": "fictional_recruit_rb_05_run_v1",
+      "display_name": "Elias Lima",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 91,
+        "SHO": 57,
+        "PAS": 78,
+        "DRI": 77,
+        "DEF": 76,
+        "PHY": 75
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "overlap_engine",
+      "portrait_id": "run_portrait_035"
+    },
+    {
+      "person_id": "fictional_recruit_rb_06",
+      "card_id": "fictional_recruit_rb_06_run_v1",
+      "display_name": "Felix Hart",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 90,
+        "SHO": 55,
+        "PAS": 85,
+        "DRI": 82,
+        "DEF": 76,
+        "PHY": 75
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "recovery_sprint",
+      "portrait_id": "run_portrait_036"
+    },
+    {
+      "person_id": "fictional_recruit_rb_07",
+      "card_id": "fictional_recruit_rb_07_run_v1",
+      "display_name": "Mateo Mercer",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 88,
+        "SHO": 62,
+        "PAS": 88,
+        "DRI": 81,
+        "DEF": 80,
+        "PHY": 87
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "whipped_cross",
+      "portrait_id": "run_portrait_037"
+    },
+    {
+      "person_id": "fictional_recruit_rb_08",
+      "card_id": "fictional_recruit_rb_08_run_v1",
+      "display_name": "Julian Vale",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 93,
+        "SHO": 68,
+        "PAS": 87,
+        "DRI": 86,
+        "DEF": 85,
+        "PHY": 90
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "overlap_engine",
+      "portrait_id": "run_portrait_038"
+    },
+    {
+      "person_id": "fictional_recruit_rb_09",
+      "card_id": "fictional_recruit_rb_09_run_v1",
+      "display_name": "Rafael Reed",
+      "primary_role": "RB",
+      "natural_roles": [
+        "RB"
+      ],
+      "familiar_roles": [
+        "LB",
+        "RW"
+      ],
+      "attributes": {
+        "PAC": 101,
+        "SHO": 66,
+        "PAS": 94,
+        "DRI": 88,
+        "DEF": 90,
+        "PHY": 86
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "recovery_sprint",
+      "portrait_id": "run_portrait_039"
+    },
+    {
+      "person_id": "fictional_recruit_dm_00",
+      "card_id": "fictional_recruit_dm_00_run_v1",
+      "display_name": "Isaac Senda",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 56,
+        "SHO": 42,
+        "PAS": 65,
+        "DRI": 56,
+        "DEF": 73,
+        "PHY": 68
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "screen",
+      "portrait_id": "run_portrait_040"
+    },
+    {
+      "person_id": "fictional_recruit_dm_01",
+      "card_id": "fictional_recruit_dm_01_run_v1",
+      "display_name": "Noah Bernard",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 65,
+        "SHO": 46,
+        "PAS": 74,
+        "DRI": 60,
+        "DEF": 71,
+        "PHY": 68
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "anchor",
+      "portrait_id": "run_portrait_041"
+    },
+    {
+      "person_id": "fictional_recruit_dm_02",
+      "card_id": "fictional_recruit_dm_02_run_v1",
+      "display_name": "Adrian Duarte",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 61,
+        "SHO": 47,
+        "PAS": 70,
+        "DRI": 61,
+        "DEF": 75,
+        "PHY": 76
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "switch_play",
+      "portrait_id": "run_portrait_042"
+    },
+    {
+      "person_id": "fictional_recruit_dm_03",
+      "card_id": "fictional_recruit_dm_03_run_v1",
+      "display_name": "Tomas Mori",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 74,
+        "SHO": 55,
+        "PAS": 76,
+        "DRI": 67,
+        "DEF": 78,
+        "PHY": 75
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "screen",
+      "portrait_id": "run_portrait_043"
+    },
+    {
+      "person_id": "fictional_recruit_dm_04",
+      "card_id": "fictional_recruit_dm_04_run_v1",
+      "display_name": "Luca Lima",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 68,
+        "SHO": 54,
+        "PAS": 84,
+        "DRI": 73,
+        "DEF": 79,
+        "PHY": 76
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "anchor",
+      "portrait_id": "run_portrait_044"
+    },
+    {
+      "person_id": "fictional_recruit_dm_05",
+      "card_id": "fictional_recruit_dm_05_run_v1",
+      "display_name": "Elias Hart",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 71,
+        "SHO": 60,
+        "PAS": 80,
+        "DRI": 71,
+        "DEF": 82,
+        "PHY": 87
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "switch_play",
+      "portrait_id": "run_portrait_045"
+    },
+    {
+      "person_id": "fictional_recruit_dm_06",
+      "card_id": "fictional_recruit_dm_06_run_v1",
+      "display_name": "Felix Mercer",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 73,
+        "SHO": 63,
+        "PAS": 82,
+        "DRI": 73,
+        "DEF": 84,
+        "PHY": 87
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "screen",
+      "portrait_id": "run_portrait_046"
+    },
+    {
+      "person_id": "fictional_recruit_dm_07",
+      "card_id": "fictional_recruit_dm_07_run_v1",
+      "display_name": "Mateo Vale",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 75,
+        "SHO": 61,
+        "PAS": 89,
+        "DRI": 75,
+        "DEF": 89,
+        "PHY": 83
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "anchor",
+      "portrait_id": "run_portrait_047"
+    },
+    {
+      "person_id": "fictional_recruit_dm_08",
+      "card_id": "fictional_recruit_dm_08_run_v1",
+      "display_name": "Julian Reed",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 78,
+        "SHO": 64,
+        "PAS": 87,
+        "DRI": 78,
+        "DEF": 95,
+        "PHY": 90
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "switch_play",
+      "portrait_id": "run_portrait_048"
+    },
+    {
+      "person_id": "fictional_recruit_dm_09",
+      "card_id": "fictional_recruit_dm_09_run_v1",
+      "display_name": "Rafael Quinn",
+      "primary_role": "DM",
+      "natural_roles": [
+        "DM"
+      ],
+      "familiar_roles": [
+        "CB",
+        "CM"
+      ],
+      "attributes": {
+        "PAC": 89,
+        "SHO": 70,
+        "PAS": 98,
+        "DRI": 84,
+        "DEF": 95,
+        "PHY": 92
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "screen",
+      "portrait_id": "run_portrait_049"
+    },
+    {
+      "person_id": "fictional_recruit_cm_00",
+      "card_id": "fictional_recruit_cm_00_run_v1",
+      "display_name": "Isaac Bernard",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 59,
+        "SHO": 53,
+        "PAS": 75,
+        "DRI": 64,
+        "DEF": 58,
+        "PHY": 64
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "tempo_setter",
+      "portrait_id": "run_portrait_050"
+    },
+    {
+      "person_id": "fictional_recruit_cm_01",
+      "card_id": "fictional_recruit_cm_01_run_v1",
+      "display_name": "Noah Duarte",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 68,
+        "SHO": 57,
+        "PAS": 79,
+        "DRI": 66,
+        "DEF": 57,
+        "PHY": 59
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "bullet_pass",
+      "portrait_id": "run_portrait_051"
+    },
+    {
+      "person_id": "fictional_recruit_cm_02",
+      "card_id": "fictional_recruit_cm_02_run_v1",
+      "display_name": "Adrian Mori",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 63,
+        "SHO": 57,
+        "PAS": 81,
+        "DRI": 73,
+        "DEF": 59,
+        "PHY": 61
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "press_resistant",
+      "portrait_id": "run_portrait_052"
+    },
+    {
+      "person_id": "fictional_recruit_cm_03",
+      "card_id": "fictional_recruit_cm_03_run_v1",
+      "display_name": "Aaron Reed",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 68,
+        "SHO": 64,
+        "PAS": 76,
+        "DRI": 73,
+        "DEF": 68,
+        "PHY": 72
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "wall_pass",
+      "portrait_id": "run_portrait_053"
+    },
+    {
+      "person_id": "fictional_recruit_cm_04",
+      "card_id": "fictional_recruit_cm_04_run_v1",
+      "display_name": "Luca Hart",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 70,
+        "SHO": 68,
+        "PAS": 88,
+        "DRI": 75,
+        "DEF": 66,
+        "PHY": 74
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "bullet_pass",
+      "portrait_id": "run_portrait_054"
+    },
+    {
+      "person_id": "fictional_recruit_cm_05",
+      "card_id": "fictional_recruit_cm_05_run_v1",
+      "display_name": "Elias Mercer",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 73,
+        "SHO": 67,
+        "PAS": 89,
+        "DRI": 78,
+        "DEF": 72,
+        "PHY": 71
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "press_resistant",
+      "portrait_id": "run_portrait_055"
+    },
+    {
+      "person_id": "fictional_recruit_cm_06",
+      "card_id": "fictional_recruit_cm_06_run_v1",
+      "display_name": "Jules Bernard",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 78,
+        "SHO": 72,
+        "PAS": 94,
+        "DRI": 83,
+        "DEF": 74,
+        "PHY": 76
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "tempo_setter",
+      "portrait_id": "run_portrait_056"
+    },
+    {
+      "person_id": "fictional_recruit_cm_07",
+      "card_id": "fictional_recruit_cm_07_run_v1",
+      "display_name": "Mateo Reed",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 81,
+        "SHO": 70,
+        "PAS": 99,
+        "DRI": 81,
+        "DEF": 72,
+        "PHY": 74
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "bullet_pass",
+      "portrait_id": "run_portrait_057"
+    },
+    {
+      "person_id": "fictional_recruit_cm_08",
+      "card_id": "fictional_recruit_cm_08_run_v1",
+      "display_name": "Julian Quinn",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 82,
+        "SHO": 76,
+        "PAS": 93,
+        "DRI": 87,
+        "DEF": 81,
+        "PHY": 87
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "press_resistant",
+      "portrait_id": "run_portrait_058"
+    },
+    {
+      "person_id": "fictional_recruit_cm_09",
+      "card_id": "fictional_recruit_cm_09_run_v1",
+      "display_name": "Rafael Senda",
+      "primary_role": "CM",
+      "natural_roles": [
+        "CM"
+      ],
+      "familiar_roles": [
+        "DM",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 93,
+        "SHO": 82,
+        "PAS": 102,
+        "DRI": 91,
+        "DEF": 82,
+        "PHY": 84
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "tempo_setter",
+      "portrait_id": "run_portrait_059"
+    },
+    {
+      "person_id": "fictional_recruit_am_00",
+      "card_id": "fictional_recruit_am_00_run_v1",
+      "display_name": "Isaac Duarte",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 55,
+        "SHO": 58,
+        "PAS": 77,
+        "DRI": 69,
+        "DEF": 27,
+        "PHY": 45
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "threader",
+      "portrait_id": "run_portrait_060"
+    },
+    {
+      "person_id": "fictional_recruit_am_01",
+      "card_id": "fictional_recruit_am_01_run_v1",
+      "display_name": "Noah Mori",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 62,
+        "SHO": 68,
+        "PAS": 71,
+        "DRI": 68,
+        "DEF": 34,
+        "PHY": 60
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "turn_and_go",
+      "portrait_id": "run_portrait_061"
+    },
+    {
+      "person_id": "fictional_recruit_am_02",
+      "card_id": "fictional_recruit_am_02_run_v1",
+      "display_name": "Adrian Lima",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 64,
+        "SHO": 71,
+        "PAS": 73,
+        "DRI": 70,
+        "DEF": 36,
+        "PHY": 60
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "dead_ball_artist",
+      "portrait_id": "run_portrait_062"
+    },
+    {
+      "person_id": "fictional_recruit_am_03",
+      "card_id": "fictional_recruit_am_03_run_v1",
+      "display_name": "Tomas Hart",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 66,
+        "SHO": 69,
+        "PAS": 86,
+        "DRI": 75,
+        "DEF": 41,
+        "PHY": 56
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "threader",
+      "portrait_id": "run_portrait_063"
+    },
+    {
+      "person_id": "fictional_recruit_am_04",
+      "card_id": "fictional_recruit_am_04_run_v1",
+      "display_name": "Luca Mercer",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 73,
+        "SHO": 76,
+        "PAS": 82,
+        "DRI": 79,
+        "DEF": 51,
+        "PHY": 67
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "turn_and_go",
+      "portrait_id": "run_portrait_064"
+    },
+    {
+      "person_id": "fictional_recruit_am_05",
+      "card_id": "fictional_recruit_am_05_run_v1",
+      "display_name": "Elias Vale",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 78,
+        "SHO": 76,
+        "PAS": 87,
+        "DRI": 79,
+        "DEF": 45,
+        "PHY": 63
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "dead_ball_artist",
+      "portrait_id": "run_portrait_065"
+    },
+    {
+      "person_id": "fictional_recruit_am_06",
+      "card_id": "fictional_recruit_am_06_run_v1",
+      "display_name": "Felix Reed",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 74,
+        "SHO": 77,
+        "PAS": 89,
+        "DRI": 83,
+        "DEF": 49,
+        "PHY": 71
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "threader",
+      "portrait_id": "run_portrait_066"
+    },
+    {
+      "person_id": "fictional_recruit_am_07",
+      "card_id": "fictional_recruit_am_07_run_v1",
+      "display_name": "Mateo Quinn",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 86,
+        "SHO": 84,
+        "PAS": 88,
+        "DRI": 85,
+        "DEF": 51,
+        "PHY": 69
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "turn_and_go",
+      "portrait_id": "run_portrait_067"
+    },
+    {
+      "person_id": "fictional_recruit_am_08",
+      "card_id": "fictional_recruit_am_08_run_v1",
+      "display_name": "Julian Senda",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 80,
+        "SHO": 83,
+        "PAS": 96,
+        "DRI": 91,
+        "DEF": 52,
+        "PHY": 70
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "dead_ball_artist",
+      "portrait_id": "run_portrait_068"
+    },
+    {
+      "person_id": "fictional_recruit_am_09",
+      "card_id": "fictional_recruit_am_09_run_v1",
+      "display_name": "Rafael Bernard",
+      "primary_role": "AM",
+      "natural_roles": [
+        "AM"
+      ],
+      "familiar_roles": [
+        "CM",
+        "ST"
+      ],
+      "attributes": {
+        "PAC": 84,
+        "SHO": 90,
+        "PAS": 99,
+        "DRI": 93,
+        "DEF": 56,
+        "PHY": 82
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "threader",
+      "portrait_id": "run_portrait_069"
+    },
+    {
+      "person_id": "fictional_recruit_lw_00",
+      "card_id": "fictional_recruit_lw_00_run_v1",
+      "display_name": "Isaac Mori",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 69,
+        "SHO": 64,
+        "PAS": 61,
+        "DRI": 67,
+        "DEF": 30,
+        "PHY": 56
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "touchline_burst",
+      "portrait_id": "run_portrait_070"
+    },
+    {
+      "person_id": "fictional_recruit_lw_01",
+      "card_id": "fictional_recruit_lw_01_run_v1",
+      "display_name": "Noah Lima",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 73,
+        "SHO": 64,
+        "PAS": 70,
+        "DRI": 71,
+        "DEF": 37,
+        "PHY": 54
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "cut_inside",
+      "portrait_id": "run_portrait_071"
+    },
+    {
+      "person_id": "fictional_recruit_lw_02",
+      "card_id": "fictional_recruit_lw_02_run_v1",
+      "display_name": "Adrian Hart",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 75,
+        "SHO": 66,
+        "PAS": 67,
+        "DRI": 73,
+        "DEF": 42,
+        "PHY": 60
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "close_control",
+      "portrait_id": "run_portrait_072"
+    },
+    {
+      "person_id": "fictional_recruit_lw_03",
+      "card_id": "fictional_recruit_lw_03_run_v1",
+      "display_name": "Tomas Mercer",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 83,
+        "SHO": 69,
+        "PAS": 75,
+        "DRI": 76,
+        "DEF": 39,
+        "PHY": 59
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "touchline_burst",
+      "portrait_id": "run_portrait_073"
+    },
+    {
+      "person_id": "fictional_recruit_lw_04",
+      "card_id": "fictional_recruit_lw_04_run_v1",
+      "display_name": "Luca Vale",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 82,
+        "SHO": 73,
+        "PAS": 74,
+        "DRI": 80,
+        "DEF": 46,
+        "PHY": 70
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "cut_inside",
+      "portrait_id": "run_portrait_074"
+    },
+    {
+      "person_id": "fictional_recruit_lw_05",
+      "card_id": "fictional_recruit_lw_05_run_v1",
+      "display_name": "Elias Reed",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 90,
+        "SHO": 76,
+        "PAS": 75,
+        "DRI": 81,
+        "DEF": 44,
+        "PHY": 64
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "close_control",
+      "portrait_id": "run_portrait_075"
+    },
+    {
+      "person_id": "fictional_recruit_lw_06",
+      "card_id": "fictional_recruit_lw_06_run_v1",
+      "display_name": "Felix Quinn",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 84,
+        "SHO": 75,
+        "PAS": 83,
+        "DRI": 87,
+        "DEF": 45,
+        "PHY": 65
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "touchline_burst",
+      "portrait_id": "run_portrait_076"
+    },
+    {
+      "person_id": "fictional_recruit_lw_07",
+      "card_id": "fictional_recruit_lw_07_run_v1",
+      "display_name": "Mateo Senda",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 88,
+        "SHO": 82,
+        "PAS": 80,
+        "DRI": 86,
+        "DEF": 49,
+        "PHY": 77
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "cut_inside",
+      "portrait_id": "run_portrait_077"
+    },
+    {
+      "person_id": "fictional_recruit_lw_08",
+      "card_id": "fictional_recruit_lw_08_run_v1",
+      "display_name": "Julian Bernard",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 91,
+        "SHO": 86,
+        "PAS": 83,
+        "DRI": 89,
+        "DEF": 52,
+        "PHY": 78
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "close_control",
+      "portrait_id": "run_portrait_078"
+    },
+    {
+      "person_id": "fictional_recruit_lw_09",
+      "card_id": "fictional_recruit_lw_09_run_v1",
+      "display_name": "Dario Duarte",
+      "primary_role": "LW",
+      "natural_roles": [
+        "LW"
+      ],
+      "familiar_roles": [
+        "RW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 97,
+        "SHO": 88,
+        "PAS": 94,
+        "DRI": 95,
+        "DEF": 61,
+        "PHY": 78
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "touchline_burst",
+      "portrait_id": "run_portrait_079"
+    },
+    {
+      "person_id": "fictional_recruit_rw_00",
+      "card_id": "fictional_recruit_rw_00_run_v1",
+      "display_name": "Isaac Lima",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 69,
+        "SHO": 60,
+        "PAS": 67,
+        "DRI": 67,
+        "DEF": 36,
+        "PHY": 54
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "whipped_cross",
+      "portrait_id": "run_portrait_080"
+    },
+    {
+      "person_id": "fictional_recruit_rw_01",
+      "card_id": "fictional_recruit_rw_01_run_v1",
+      "display_name": "Noah Hart",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 77,
+        "SHO": 63,
+        "PAS": 69,
+        "DRI": 70,
+        "DEF": 33,
+        "PHY": 53
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "cutback",
+      "portrait_id": "run_portrait_081"
+    },
+    {
+      "person_id": "fictional_recruit_rw_02",
+      "card_id": "fictional_recruit_rw_02_run_v1",
+      "display_name": "Adrian Mercer",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 81,
+        "SHO": 64,
+        "PAS": 65,
+        "DRI": 71,
+        "DEF": 37,
+        "PHY": 61
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "accelerator",
+      "portrait_id": "run_portrait_082"
+    },
+    {
+      "person_id": "fictional_recruit_rw_03",
+      "card_id": "fictional_recruit_rw_03_run_v1",
+      "display_name": "Tomas Vale",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 83,
+        "SHO": 69,
+        "PAS": 74,
+        "DRI": 74,
+        "DEF": 37,
+        "PHY": 57
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "whipped_cross",
+      "portrait_id": "run_portrait_083"
+    },
+    {
+      "person_id": "fictional_recruit_rw_04",
+      "card_id": "fictional_recruit_rw_04_run_v1",
+      "display_name": "Luca Reed",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 80,
+        "SHO": 71,
+        "PAS": 79,
+        "DRI": 83,
+        "DEF": 41,
+        "PHY": 61
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "cutback",
+      "portrait_id": "run_portrait_084"
+    },
+    {
+      "person_id": "fictional_recruit_rw_05",
+      "card_id": "fictional_recruit_rw_05_run_v1",
+      "display_name": "Elias Quinn",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 89,
+        "SHO": 75,
+        "PAS": 73,
+        "DRI": 79,
+        "DEF": 42,
+        "PHY": 70
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "accelerator",
+      "portrait_id": "run_portrait_085"
+    },
+    {
+      "person_id": "fictional_recruit_rw_06",
+      "card_id": "fictional_recruit_rw_06_run_v1",
+      "display_name": "Felix Senda",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 84,
+        "SHO": 79,
+        "PAS": 82,
+        "DRI": 82,
+        "DEF": 45,
+        "PHY": 71
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "whipped_cross",
+      "portrait_id": "run_portrait_086"
+    },
+    {
+      "person_id": "fictional_recruit_rw_07",
+      "card_id": "fictional_recruit_rw_07_run_v1",
+      "display_name": "Mateo Bernard",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 89,
+        "SHO": 80,
+        "PAS": 86,
+        "DRI": 87,
+        "DEF": 53,
+        "PHY": 70
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "cutback",
+      "portrait_id": "run_portrait_087"
+    },
+    {
+      "person_id": "fictional_recruit_rw_08",
+      "card_id": "fictional_recruit_rw_08_run_v1",
+      "display_name": "Akira Senda",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 95,
+        "SHO": 86,
+        "PAS": 93,
+        "DRI": 93,
+        "DEF": 56,
+        "PHY": 76
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "whipped_cross",
+      "portrait_id": "run_portrait_088"
+    },
+    {
+      "person_id": "fictional_recruit_rw_09",
+      "card_id": "fictional_recruit_rw_09_run_v1",
+      "display_name": "Rafael Mori",
+      "primary_role": "RW",
+      "natural_roles": [
+        "RW"
+      ],
+      "familiar_roles": [
+        "LW",
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 99,
+        "SHO": 85,
+        "PAS": 97,
+        "DRI": 92,
+        "DEF": 55,
+        "PHY": 75
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "whipped_cross",
+      "portrait_id": "run_portrait_089"
+    },
+    {
+      "person_id": "fictional_recruit_st_00",
+      "card_id": "fictional_recruit_st_00_run_v1",
+      "display_name": "Isaac Hart",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 62,
+        "SHO": 73,
+        "PAS": 44,
+        "DRI": 59,
+        "DEF": 29,
+        "PHY": 62
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "poacher",
+      "portrait_id": "run_portrait_090"
+    },
+    {
+      "person_id": "fictional_recruit_st_01",
+      "card_id": "fictional_recruit_st_01_run_v1",
+      "display_name": "Noah Mercer",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 74,
+        "SHO": 73,
+        "PAS": 49,
+        "DRI": 64,
+        "DEF": 31,
+        "PHY": 60
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "finesse_shot",
+      "portrait_id": "run_portrait_091"
+    },
+    {
+      "person_id": "fictional_recruit_st_02",
+      "card_id": "fictional_recruit_st_02_run_v1",
+      "display_name": "Adrian Vale",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 67,
+        "SHO": 74,
+        "PAS": 56,
+        "DRI": 69,
+        "DEF": 31,
+        "PHY": 70
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "aerial_finisher",
+      "portrait_id": "run_portrait_092"
+    },
+    {
+      "person_id": "fictional_recruit_st_03",
+      "card_id": "fictional_recruit_st_03_run_v1",
+      "display_name": "Tomas Reed",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 70,
+        "SHO": 84,
+        "PAS": 52,
+        "DRI": 67,
+        "DEF": 34,
+        "PHY": 71
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "poacher",
+      "portrait_id": "run_portrait_093"
+    },
+    {
+      "person_id": "fictional_recruit_st_04",
+      "card_id": "fictional_recruit_st_04_run_v1",
+      "display_name": "Luca Quinn",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 75,
+        "SHO": 83,
+        "PAS": 57,
+        "DRI": 72,
+        "DEF": 39,
+        "PHY": 74
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "finesse_shot",
+      "portrait_id": "run_portrait_094"
+    },
+    {
+      "person_id": "fictional_recruit_st_05",
+      "card_id": "fictional_recruit_st_05_run_v1",
+      "display_name": "Elias Senda",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 77,
+        "SHO": 84,
+        "PAS": 64,
+        "DRI": 74,
+        "DEF": 44,
+        "PHY": 80
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "aerial_finisher",
+      "portrait_id": "run_portrait_095"
+    },
+    {
+      "person_id": "fictional_recruit_st_06",
+      "card_id": "fictional_recruit_st_06_run_v1",
+      "display_name": "Felix Bernard",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 79,
+        "SHO": 90,
+        "PAS": 61,
+        "DRI": 76,
+        "DEF": 49,
+        "PHY": 76
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "poacher",
+      "portrait_id": "run_portrait_096"
+    },
+    {
+      "person_id": "fictional_recruit_st_07",
+      "card_id": "fictional_recruit_st_07_run_v1",
+      "display_name": "Mateo Duarte",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 89,
+        "SHO": 88,
+        "PAS": 71,
+        "DRI": 81,
+        "DEF": 48,
+        "PHY": 77
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "finesse_shot",
+      "portrait_id": "run_portrait_097"
+    },
+    {
+      "person_id": "fictional_recruit_st_08",
+      "card_id": "fictional_recruit_st_08_run_v1",
+      "display_name": "Rafael Duarte",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 86,
+        "SHO": 93,
+        "PAS": 68,
+        "DRI": 83,
+        "DEF": 50,
+        "PHY": 89
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "aerial_finisher",
+      "portrait_id": "run_portrait_098"
+    },
+    {
+      "person_id": "fictional_recruit_st_09",
+      "card_id": "fictional_recruit_st_09_run_v1",
+      "display_name": "Eden Vale",
+      "primary_role": "ST",
+      "natural_roles": [
+        "ST"
+      ],
+      "familiar_roles": [
+        "AM"
+      ],
+      "attributes": {
+        "PAC": 93,
+        "SHO": 94,
+        "PAS": 77,
+        "DRI": 91,
+        "DEF": 35,
+        "PHY": 86
+      },
+      "keeper_attributes": {
+        "REF": 35,
+        "HAN": 35,
+        "POS": 35,
+        "DIV": 35,
+        "KIC": 35
+      },
+      "trait_id": "poacher",
+      "portrait_id": "run_portrait_099"
+    }
+  ],
+  "metadata_by_card_id": {
+    "fictional_recruit_gk_00_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 65,
+      "tier": "bronze",
+      "market_price": 3000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_gk_01_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 68,
+      "tier": "bronze",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_gk_02_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 70,
+      "tier": "silver",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_gk_03_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 74,
+      "tier": "silver",
+      "market_price": 5000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_gk_04_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 77,
+      "tier": "silver",
+      "market_price": 7000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_gk_05_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 79,
+      "tier": "silver",
+      "market_price": 8000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_gk_06_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 82,
+      "tier": "silver",
+      "market_price": 9000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_gk_07_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 84,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_gk_08_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 86,
+      "tier": "gold",
+      "market_price": 13000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_gk_09_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 92,
+      "tier": "gold",
+      "market_price": 18000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cb_00_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 65,
+      "tier": "bronze",
+      "market_price": 3000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cb_01_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 68,
+      "tier": "bronze",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cb_02_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 70,
+      "tier": "silver",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cb_03_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 74,
+      "tier": "silver",
+      "market_price": 5000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cb_04_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 77,
+      "tier": "silver",
+      "market_price": 7000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cb_05_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 79,
+      "tier": "silver",
+      "market_price": 8000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cb_06_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 81,
+      "tier": "silver",
+      "market_price": 9000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cb_07_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 84,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cb_08_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 87,
+      "tier": "gold",
+      "market_price": 14000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cb_09_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 92,
+      "tier": "gold",
+      "market_price": 18000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lb_00_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 65,
+      "tier": "bronze",
+      "market_price": 3000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lb_01_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 68,
+      "tier": "bronze",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lb_02_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 70,
+      "tier": "silver",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lb_03_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 74,
+      "tier": "silver",
+      "market_price": 5000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lb_04_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 78,
+      "tier": "silver",
+      "market_price": 7000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lb_05_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 79,
+      "tier": "silver",
+      "market_price": 8000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lb_06_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 81,
+      "tier": "silver",
+      "market_price": 9000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lb_07_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 84,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lb_08_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 87,
+      "tier": "gold",
+      "market_price": 14000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lb_09_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 92,
+      "tier": "gold",
+      "market_price": 18000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rb_00_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 65,
+      "tier": "bronze",
+      "market_price": 3000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rb_01_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 68,
+      "tier": "bronze",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rb_02_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 70,
+      "tier": "silver",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rb_03_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 74,
+      "tier": "silver",
+      "market_price": 5000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rb_04_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 77,
+      "tier": "silver",
+      "market_price": 7000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rb_05_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 79,
+      "tier": "silver",
+      "market_price": 8000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rb_06_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 81,
+      "tier": "silver",
+      "market_price": 9000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rb_07_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 84,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rb_08_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 87,
+      "tier": "gold",
+      "market_price": 14000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rb_09_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 92,
+      "tier": "gold",
+      "market_price": 18000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_dm_00_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 65,
+      "tier": "bronze",
+      "market_price": 3000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_dm_01_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 68,
+      "tier": "bronze",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_dm_02_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 70,
+      "tier": "silver",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_dm_03_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 74,
+      "tier": "silver",
+      "market_price": 5000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_dm_04_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 77,
+      "tier": "silver",
+      "market_price": 7000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_dm_05_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 79,
+      "tier": "silver",
+      "market_price": 8000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_dm_06_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 81,
+      "tier": "silver",
+      "market_price": 9000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_dm_07_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 84,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_dm_08_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 87,
+      "tier": "gold",
+      "market_price": 14000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_dm_09_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 92,
+      "tier": "gold",
+      "market_price": 18000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cm_00_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 65,
+      "tier": "bronze",
+      "market_price": 3000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cm_01_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 68,
+      "tier": "bronze",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cm_02_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 70,
+      "tier": "silver",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cm_03_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 72,
+      "tier": "silver",
+      "market_price": 5000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cm_04_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 77,
+      "tier": "silver",
+      "market_price": 7000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cm_05_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 79,
+      "tier": "silver",
+      "market_price": 8000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cm_06_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 83,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cm_07_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 84,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cm_08_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 87,
+      "tier": "gold",
+      "market_price": 14000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_cm_09_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 92,
+      "tier": "gold",
+      "market_price": 18000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_am_00_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 65,
+      "tier": "bronze",
+      "market_price": 3000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_am_01_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 68,
+      "tier": "bronze",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_am_02_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 70,
+      "tier": "silver",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_am_03_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 74,
+      "tier": "silver",
+      "market_price": 5000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_am_04_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 77,
+      "tier": "silver",
+      "market_price": 7000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_am_05_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 79,
+      "tier": "silver",
+      "market_price": 8000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_am_06_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 81,
+      "tier": "silver",
+      "market_price": 9000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_am_07_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 84,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_am_08_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 87,
+      "tier": "gold",
+      "market_price": 14000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_am_09_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 92,
+      "tier": "gold",
+      "market_price": 18000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lw_00_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 65,
+      "tier": "bronze",
+      "market_price": 3000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lw_01_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 68,
+      "tier": "bronze",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lw_02_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 70,
+      "tier": "silver",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lw_03_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 74,
+      "tier": "silver",
+      "market_price": 5000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lw_04_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 77,
+      "tier": "silver",
+      "market_price": 7000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lw_05_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 79,
+      "tier": "silver",
+      "market_price": 8000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lw_06_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 81,
+      "tier": "silver",
+      "market_price": 9000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lw_07_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 84,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lw_08_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 87,
+      "tier": "gold",
+      "market_price": 14000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_lw_09_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 92,
+      "tier": "gold",
+      "market_price": 18000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rw_00_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 65,
+      "tier": "bronze",
+      "market_price": 3000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rw_01_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 68,
+      "tier": "bronze",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rw_02_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 70,
+      "tier": "silver",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rw_03_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 74,
+      "tier": "silver",
+      "market_price": 5000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rw_04_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 77,
+      "tier": "silver",
+      "market_price": 7000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rw_05_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 79,
+      "tier": "silver",
+      "market_price": 8000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rw_06_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 81,
+      "tier": "silver",
+      "market_price": 9000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rw_07_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 84,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rw_08_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 90,
+      "tier": "gold",
+      "market_price": 16000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_rw_09_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 92,
+      "tier": "gold",
+      "market_price": 18000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_st_00_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 65,
+      "tier": "bronze",
+      "market_price": 3000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_st_01_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 68,
+      "tier": "bronze",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_st_02_run_v1": {
+      "country_code": "FRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 70,
+      "tier": "silver",
+      "market_price": 4000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_st_03_run_v1": {
+      "country_code": "JPN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 74,
+      "tier": "silver",
+      "market_price": 5000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_st_04_run_v1": {
+      "country_code": "IDN",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 77,
+      "tier": "silver",
+      "market_price": 7000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_st_05_run_v1": {
+      "country_code": "ARG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 79,
+      "tier": "silver",
+      "market_price": 8000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_st_06_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 81,
+      "tier": "silver",
+      "market_price": 9000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_st_07_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 84,
+      "tier": "silver",
+      "market_price": 10000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_st_08_run_v1": {
+      "country_code": "BRA",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 88,
+      "tier": "gold",
+      "market_price": 15000000,
+      "acquirable": true,
+      "archive_visible": true
+    },
+    "fictional_recruit_st_09_run_v1": {
+      "country_code": "ENG",
+      "era": "Fictional",
+      "edition": "Run edition",
+      "career_pool": "fictional",
+      "ovr": 91,
+      "tier": "gold",
+      "market_price": 17000000,
+      "acquirable": true,
+      "archive_visible": true
+    }
+  }
+}
