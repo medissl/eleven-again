@@ -19,6 +19,7 @@ var campaign_mode := false
 var campaign_library: RefCounted
 var home_name := ""
 var scouting := ""
+var inspection_slot := 0
 
 func _ready() -> void:
 	theme = ThemeData
@@ -65,6 +66,7 @@ func rebuild() -> void:
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	outer.add_child(body)
 	var left_scroll := ScrollContainer.new()
+	left_scroll.follow_focus = true
 	left_scroll.custom_minimum_size.x = 270
 	left_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	body.add_child(left_scroll)
@@ -104,6 +106,7 @@ func rebuild() -> void:
 	catalogue_button.pressed.connect(open_archive)
 	tabs.add_child(catalogue_button)
 	var scroll := ScrollContainer.new()
+	scroll.follow_focus = true
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	right.add_child(scroll)
@@ -116,7 +119,7 @@ func rebuild() -> void:
 		var bench: Array[String] = []
 		for index in plan.cards.size():
 			if index not in plan.starters: bench.append(plan.cards[index].display_name)
-		text(rows,"BENCH  "+", ".join(bench),15,"BodyStrong")
+		text(rows,"RESERVES  "+", ".join(bench),15,"BodyStrong").autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	elif page == "set pieces":
 		var names: Array[String] = []
 		for slot in 11: names.append(plan.cards[plan.starters[slot]].display_name)
@@ -154,6 +157,12 @@ func rebuild() -> void:
 	inspection = text(right,"Select or focus a player to inspect base/effective ratings.",15)
 	inspection.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	inspection.custom_minimum_size.y = 68
+	if campaign_mode:
+		var details := Button.new()
+		details.name = "PreparationPlayerDetails"
+		details.text = "Player details"
+		details.pressed.connect(func(): open_card(plans[team].cards[plans[team].starters[inspection_slot]]))
+		right.add_child(details)
 	outer.add_child(HSeparator.new())
 	var footer := HBoxContainer.new()
 	footer.add_theme_constant_override("separation",18)
@@ -173,6 +182,10 @@ func rebuild() -> void:
 		if plans[0].errors().is_empty() and plans[1].errors().is_empty(): submitted.emit(plans[0].duplicate(true),plans[1].duplicate(true),knockout))
 	footer.add_child(start_button)
 	update_validation()
+	var controls := find_children("*","BaseButton",true,false)
+	for index in controls.size():
+		controls[index].focus_next = controls[index].get_path_to(controls[(index+1)%controls.size()])
+		controls[index].focus_previous = controls[index].get_path_to(controls[posmod(index-1,controls.size())])
 	start_button.grab_focus()
 
 func lineup_row(parent: Node, slot: int) -> void:
@@ -186,7 +199,7 @@ func lineup_row(parent: Node, slot: int) -> void:
 	select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	select.custom_minimum_size.y = 34
 	select.add_theme_font_size_override("font_size",16)
-	for card in plan.cards: select.add_item("%s  %s  %d" % [card.display_name,card.primary_role,card.rating()])
+	for card in plan.cards: select.add_item("%s  %s" % [card.display_name,card.primary_role] if campaign_mode else "%s  %s  %d" % [card.display_name,card.primary_role,card.rating()])
 	select.select(plan.starters[slot])
 	select.item_selected.connect(func(index):
 		var previous: int = plan.starters[slot]
@@ -198,16 +211,18 @@ func lineup_row(parent: Node, slot: int) -> void:
 	select.focus_entered.connect(func(): inspect(slot))
 	select.mouse_entered.connect(func(): inspect(slot))
 	row.add_child(select)
-	var inspect_button := Button.new()
-	inspect_button.name = "OpenCardSlot%d" % slot
-	inspect_button.text = "Card"
-	inspect_button.tooltip_text = "Open player file"
-	inspect_button.pressed.connect(func(): open_card(plan.cards[plan.starters[slot]]))
-	row.add_child(inspect_button)
+	if not campaign_mode:
+		var inspect_button := Button.new()
+		inspect_button.name = "OpenCardSlot%d" % slot
+		inspect_button.text = "Card"
+		inspect_button.tooltip_text = "Open player file"
+		inspect_button.pressed.connect(func(): open_card(plan.cards[plan.starters[slot]]))
+		row.add_child(inspect_button)
 	var card = plan.cards[plan.starters[slot]]
-	text(row,"%d  →  %d" % [card.rating(),card.rating(role,true)],16).custom_minimum_size.x = 90
+	text(row,str(card.rating()) if card.rating() == card.rating(role,true) else "%d → %d" % [card.rating(),card.rating(role,true)],16).custom_minimum_size.x = 90
 
 func inspect(slot: int) -> void:
+	inspection_slot = slot
 	var plan = plans[team]
 	var card = plan.cards[plan.starters[slot]]
 	var stat_text := ""

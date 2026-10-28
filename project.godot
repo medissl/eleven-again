@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Eleven Again"
-run/main_scene="res://match/match_view.tscn"
+run/main_scene="res://ui/campaign_app.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

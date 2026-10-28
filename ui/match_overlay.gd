@@ -151,7 +151,9 @@ func _button(parent: Node, action: String, text: String, primary: bool = false) 
 		icon.ink = Color("102e20") if primary else ivory
 		icon.mouse_filter = MOUSE_FILTER_IGNORE
 		button.add_child(icon)
-		button.resized.connect(func(): icon.position = Vector2(12, (button.size.y - 24) / 2))
+		var align_icon := func(): icon.position = Vector2(12, (button.size.y - 24) / 2)
+		button.resized.connect(align_icon)
+		align_icon.call()
 	if primary and action in ["continue_half","continue_result","confirm_restart","confirm_new"]:
 		var arrow := _text(button, "→", "Label", 23, HORIZONTAL_ALIGNMENT_RIGHT)
 		arrow.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

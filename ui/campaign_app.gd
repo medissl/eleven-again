@@ -38,7 +38,7 @@ func _ready() -> void:
 	render("main")
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO,size),Color("0b281b"))
+	draw_rect(Rect2(Vector2.ZERO,size),Parts.ThemeData.get_color("forest","Palette"))
 	for index in 12: draw_rect(Rect2(index*size.x/12,0,size.x/24,size.y),Color(0.03,0.12,0.08,0.2))
 	draw_rect(Rect2(Vector2(14,14),size-Vector2(28,28)),Color(0.5,0.59,0.48,0.08),false,1)
 
@@ -241,7 +241,7 @@ func close_modal() -> void:
 
 func panel(title: String) -> VBoxContainer:
 	var cover := ColorRect.new()
-	cover.color = Color("0b2419")
+	cover.color = Parts.ThemeData.get_color("forest","Palette")
 	open_modal(cover)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -252,8 +252,12 @@ func panel(title: String) -> VBoxContainer:
 	scroll.follow_focus = true
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	margin.add_child(scroll)
-	var box := Parts.column(scroll,12)
-	text(box,title,42,"Heading")
+	var inset := MarginContainer.new()
+	inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for side in ["left","right","top","bottom"]: inset.add_theme_constant_override("margin_"+side,4)
+	scroll.add_child(inset)
+	var box := Parts.column(inset,12)
+	if not title.is_empty(): text(box,title,42,"Heading")
 	return box
 
 func confirm(title: String, detail: String, commit: Callable) -> void:
@@ -283,28 +287,50 @@ func inspect(id: String, comparison: String = "") -> void:
 	node.closed.connect(func(): modal = null; if is_instance_valid(modal_focus): modal_focus.grab_focus())
 
 func settings() -> void:
-	var box := panel("SETTINGS")
-	button(box,"Back","CloseSettings",func(): close_modal(); apply_preferences(); if not is_instance_valid(view): render(page))
+	var focus := get_viewport().gui_get_focus_owner()
+	var focus_name := str(focus.name) if focus != null and is_instance_valid(modal) else ""
+	var box := panel("")
+	var heading := Parts.row(box)
+	text(heading,"SETTINGS",42,"Heading").size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button(heading,"Back","CloseSettings",func(): close_modal(); apply_preferences(); if not is_instance_valid(view): render(page))
+	box.add_child(HSeparator.new())
+	var columns := Parts.row(box,32)
+	var general := Parts.column(columns,8)
+	var shortcuts := Parts.column(columns,8)
+	text(general,"DISPLAY AND MOTION",15,"Section")
 	for field in ["motion","effects","fullscreen"]:
-		button(box,{"motion":"Reduced motion","effects":"Celebration effects","fullscreen":"Fullscreen"}[field]+(": On" if preferences.data[field] else ": Off"),field,func(): change_preference(field,not preferences.data[field]))
-	text(box,"Master volume",18)
+		var row := Parts.row(general,12)
+		text(row,{"motion":"Reduced motion","effects":"Celebration effects","fullscreen":"Fullscreen"}[field],17).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var toggle := button(row,"On" if preferences.data[field] else "Off",field,func(): change_preference(field,not preferences.data[field]))
+		toggle.custom_minimum_size = Vector2(80,38)
+	text(general,"Master volume",17)
+	var volume_row := Parts.row(general,12)
 	var volume := HSlider.new()
 	volume.name = "MasterVolume"
 	volume.min_value = 0
 	volume.max_value = 1
 	volume.step = 0.1
 	volume.value = preferences.data.volume
-	volume.custom_minimum_size.y = 32
-	box.add_child(volume)
+	volume.custom_minimum_size = Vector2(220,32)
+	volume_row.add_child(volume)
+	var volume_label := text(volume_row,"%d%%" % roundi(volume.value*100),17)
 	volume.value_changed.connect(func(value):
 		var result: Dictionary = preferences.change("volume",value)
 		if not result.ok: volume.set_value_no_signal(preferences.data.volume); message(result.error)
+		volume_label.text = "%d%%" % roundi(preferences.data.volume*100)
 		apply_preferences())
+	text(shortcuts,"SHORTCUTS",15,"Section")
 	for action in ["pause","speed1","speed2","menu"]:
-		button(box,action.capitalize()+": "+OS.get_keycode_string(preferences.data.keys[action]),"Rebind"+action,func(): rebind=action; message("Press a new key. Escape cancels rebinding."))
-	button(box,"Reset shortcuts","ResetShortcuts",func(): change_preference("keys",Preferences.DEFAULT_KEYS.duplicate()))
-	text(box,preferences.error if not preferences.error.is_empty() else "Tab and Enter remain navigation controls. Escape always closes menus.",14)
+		var row := Parts.row(shortcuts,12)
+		text(row,{"pause":"Pause / resume","speed1":"1× speed","speed2":"2× speed","menu":"Match menu"}[action],17).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button(row,OS.get_keycode_string(preferences.data.keys[action]),"Rebind"+action,func(): rebind=action; message("Press a new key. Escape cancels rebinding.")).custom_minimum_size = Vector2(110,38)
+	button(shortcuts,"Reset shortcuts","ResetShortcuts",func(): change_preference("keys",Preferences.DEFAULT_KEYS.duplicate()))
+	box.add_child(HSeparator.new())
+	text(box,preferences.error if not preferences.error.is_empty() else "Tab and Enter navigate. Escape closes menus.",14).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	Parts.focus_loop(modal)
+	if not focus_name.is_empty():
+		var previous := modal.find_child(focus_name,true,false) as Control
+		if previous != null: previous.grab_focus()
 
 func record_file(record: Dictionary) -> void:
 	var box := panel("RECORD XI  "+record.peak_xi.formation)
@@ -349,7 +375,7 @@ func _input(event: InputEvent) -> void:
 		settings()
 	elif event.keycode == KEY_ESCAPE:
 		if is_instance_valid(modal):
-			if modal.has_method("open_card_panel") and is_instance_valid(modal.card_panel): return
+			if modal.has_method("open_card") and is_instance_valid(modal.card_panel): return
 			if modal.has_method("pin_selected") and is_instance_valid(modal.inspection): return
 			if modal.has_method("dismiss"): modal.dismiss()
 			else: close_modal()

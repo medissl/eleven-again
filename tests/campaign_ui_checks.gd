@@ -35,6 +35,27 @@ func press(app: Control, id: String) -> void:
 	button.grab_focus()
 	await key(app.get_viewport(),KEY_ENTER)
 
+func click(app: Control, id: String) -> void:
+	var control := app.find_child(id,true,false) as Control
+	assert(control != null)
+	for down in [true,false]:
+		var event := InputEventMouseButton.new()
+		event.button_index = MOUSE_BUTTON_LEFT
+		event.pressed = down
+		event.position = control.get_global_rect().get_center()
+		app.get_viewport().push_input(event)
+	await process_frame
+	await process_frame
+
+func cards_fit(app: Control) -> void:
+	var offer = app.screen.find_child("Acquisition",true,false)
+	assert(offer.tiles.size() == (4 if offer.market else 5))
+	for tile in offer.tiles:
+		var bounds: Rect2 = tile.get_global_rect()
+		var visible_area: Rect2 = offer.card_area.get_global_rect()
+		assert(visible_area.has_point(bounds.position+Vector2.ONE) and visible_area.has_point(bounds.end-Vector2.ONE),"Every complete card must fit without normal-size scrolling")
+	assert(offer.card_area.scroll_horizontal == 0 and offer.card_area.scroll_vertical == 0)
+
 func picture(app: Control, label: String) -> void:
 	await create_timer(0.22).timeout
 	if not capture: return
@@ -65,7 +86,7 @@ func run() -> void:
 		await motion(app)
 		return
 	await picture(app,"main-empty")
-	await press(app,"NewRun")
+	await click(app,"NewRun")
 	assert(app.library.countries.size() == 6)
 	for origin in app.library.countries:
 		await press(app,origin)
@@ -75,6 +96,10 @@ func run() -> void:
 	await press(app,"StartRun")
 	assert(app.page == "offer" and app.session.controller.snapshot().plan.cards.size() == 16)
 	await picture(app,"opening")
+	cards_fit(app)
+	var opening = app.screen.find_child("Acquisition",true,false)
+	await click(app,"Candidate_"+opening.state.offer.cards[1])
+	assert(opening.selected == opening.state.offer.cards[1])
 	await press(app,"ConfirmAcquisition")
 	assert(app.page == "board" and app.session.controller.snapshot().plan.cards.size() == 17)
 	await picture(app,"board")
@@ -87,6 +112,11 @@ func run() -> void:
 	await press(app,"PrepareCampaign")
 	assert(app.modal.campaign_mode and app.modal.find_child("FixtureSquad",true,false) == null)
 	await picture(app,"preparation")
+	await press(app,"PreparationPlayerDetails")
+	assert(is_instance_valid(app.modal.card_panel))
+	await key(viewport,KEY_ESCAPE)
+	await create_timer(0.22).timeout
+	assert(is_instance_valid(app.modal) and not is_instance_valid(app.modal.card_panel),"Escape closes the player file before preparation")
 	await press(app,"CommitMatch")
 	assert(is_instance_valid(app.view) and app.view.sim == app.session.controller.model)
 	await picture(app,"match")
@@ -103,6 +133,13 @@ func run() -> void:
 	await key(viewport,KEY_1)
 	app.view._physics_process(1.0/60)
 	assert(app.view.sim.ticks == ticks+3)
+	var before_autosave: int = app.session.profile.generation
+	app.last_saved_tick = app.view.sim.ticks-600
+	app._process(0)
+	assert(app.session.profile.generation > before_autosave and app.session.controller.model == app.view.sim)
+	app._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	assert(app.view.paused)
+	await key(viewport,KEY_SPACE)
 	var signature: Array = app.view.sim.signature()
 	await key(viewport,KEY_ESCAPE)
 	await picture(app,"pause")
@@ -127,6 +164,7 @@ func run() -> void:
 	app.render("main")
 	await press(app,"MainSettings")
 	await picture(app,"settings")
+	assert(app.find_child("Scale125",true,false) == null)
 	await press(app,"Rebindpause")
 	await key(viewport,KEY_P)
 	assert(app.preferences.data.keys.pause == KEY_P)
@@ -172,13 +210,28 @@ func run() -> void:
 				var initial_offer = app.screen.find_child("Acquisition",true,false)
 				assert(initial_offer.selected in initial_offer.state.market.cards and initial_offer.outgoing.is_empty(),"A new market cannot inherit an old recruit/release preview")
 				await picture(app,"market")
+				cards_fit(app)
 				var offer = app.screen.find_child("Acquisition",true,false)
 				var state: Dictionary = app.session.controller.snapshot()
+				var stock: Array = state.market.cards.duplicate()
+				await press(app,"MarketNext")
+				assert(offer.page == 1 and offer.selected in stock.slice(4,8))
+				cards_fit(app)
+				await press(app,"MarketPrevious")
+				assert(offer.page == 0 and app.session.controller.snapshot().market.cards == stock,"Paging cannot refresh stock")
 				var cheapest: Array = state.market.cards.duplicate()
 				cheapest.sort_custom(func(a,b): return app.library.price(app.library.cards[a].rating()) < app.library.price(app.library.cards[b].rating()))
 				offer.select(cheapest[0])
-				offer.replacement.select(offer.replacement.item_count-1)
-				offer.replacement.item_selected.emit(offer.replacement.item_count-1)
+				var outgoing_index: int = state.plan.cards.size()-1
+				for starter in state.plan.starters:
+					var old: Resource = app.library.cards[state.plan.cards[starter].card_id]
+					if old.primary_role in app.library.cards[cheapest[0]].natural_roles:
+						outgoing_index = starter
+						break
+				offer.replacement.select(outgoing_index+1)
+				offer.replacement.item_selected.emit(outgoing_index+1)
+				assert(offer.facts.funds.text == app.money(state.cash-app.library.price(app.library.cards[cheapest[0]].rating())))
+				await picture(app,"market-signing")
 				await press(app,"ConfirmAcquisition")
 				var signed_offer = app.screen.find_child("Acquisition",true,false)
 				assert(signed_offer.outgoing.is_empty(),"A released outgoing player cannot remain selected for a second purchase")

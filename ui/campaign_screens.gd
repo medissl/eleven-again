@@ -36,6 +36,9 @@ static func frame(app) -> VBoxContainer:
 		glyph.size = Vector2(30,28)
 		glyph.position = Vector2(8,9)
 		menu.add_child(glyph)
+		var align_icon := func(): glyph.position.y = (menu.size.y-28)/2
+		menu.resized.connect(align_icon)
+		align_icon.call()
 	outer.add_child(HSeparator.new())
 	return outer
 
@@ -59,11 +62,16 @@ static func main(app) -> void:
 	menu_scroll.position = Vector2(32,24)
 	menu_scroll.size = Vector2(app.size.x*0.29,app.size.y-48)
 	menu_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	menu_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	menu_scroll.follow_focus = true
 	app.screen.add_child(menu_scroll)
-	var left := Parts.column(menu_scroll,6)
+	var inset := MarginContainer.new()
+	inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for side in ["left","right","top","bottom"]: inset.add_theme_constant_override("margin_"+side,4)
+	menu_scroll.add_child(inset)
+	var left := Parts.column(inset,6)
 	var title: Label = app.text(left,"ELEVEN\nAGAIN",112,"Heading")
-	title.add_theme_font_size_override("font_size",clampi(int(menu_scroll.size.x/(3.7*app.ui_scale())),80,140))
+	title.add_theme_font_size_override("font_size",clampi(int(app.size.y*0.12),74,112))
 	title.add_theme_constant_override("line_spacing",-16)
 	var preview: Dictionary = app.session.preview()
 	if not preview.is_empty():
@@ -90,10 +98,13 @@ static func main(app) -> void:
 	app.button(left,"Settings","MainSettings",app.settings)
 	app.button(left,"Quit","QuitGame",func(): app.get_tree().quit())
 	for child in left.get_children():
-		if child is Button: child.custom_minimum_size.y = 38
+		if child is Button:
+			child.custom_minimum_size.y = 38
+			child.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	var paper := Parts.Paper.new()
-	paper.position = Vector2(app.size.x*0.345,48)
-	paper.size = Vector2(app.size.x*0.39,app.size.y-96)
+	var paper_height := 300 if preview.is_empty() else 480
+	paper.size = Vector2(app.size.x*0.39,minf(app.size.y-96,paper_height))
+	paper.position = Vector2(app.size.x*0.345,(app.size.y-paper.size.y)/2)
 	app.screen.add_child(paper)
 	var content := Parts.column(paper,14)
 	if preview.is_empty():
@@ -106,10 +117,9 @@ static func main(app) -> void:
 		fixture_rows(app,content,preview.fixtures,preview.ledger,preview.wins)
 		app.text(content,"NEXT STEP\n"+preview.step.replace("_"," ").capitalize(),17,"BodyStrong",Parts.INK)
 		for index in preview.best_cards.size():
-			var width: float = clampf(app.size.x*0.19,240,310)
+			var width: float = minf(288,minf(app.size.x*0.19,(app.size.y-98)/2.8))
 			var card := Parts.card(app.screen,app.library,preview.best_cards[index],width,app.ui_scale(),true,true)
-			card.position = Vector2(app.size.x-width-28-index*12,40+index*(app.size.y-1.4*width-80))
-			card.rotation = 0.025 if index == 0 else -0.025
+			card.position = Vector2(app.size.x-width-32,40+index*(1.4*width+18))
 			card.pressed.connect(func(): app.inspect(preview.best_cards[index]))
 
 static func fixture_rows(app, parent: Node, fixtures: Array, ledger: Array, wins: int) -> void:
@@ -144,6 +154,7 @@ static func origins(app, outer: Node) -> void:
 	var plan: Resource = app.library.country_plan(app.origin_selection)
 	var paper := Parts.Paper.new()
 	paper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	paper.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	row.add_child(paper)
 	var details := Parts.column(paper,8)
 	app.text(details,app.library.countries[app.origin_selection].name.to_upper(),38,"Heading",Parts.INK)
@@ -162,16 +173,17 @@ static func board(app, outer: Node) -> void:
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var paper := Parts.Paper.new()
 	paper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	paper.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	row.add_child(paper)
 	var itinerary := Parts.column(paper,18)
 	var stages := Parts.row(itinerary,12)
-	stages.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	stages.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	for fixture in data.fixtures.slice((chapter-1)*4,chapter*4):
 		var club: Dictionary = app.library.clubs[fixture.club_id]
 		var reveal: bool = fixture.stage <= data.wins+1 or club.is_boss
 		var node := PanelContainer.new()
 		node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		node.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		node.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 		var border := StyleBoxFlat.new()
 		border.bg_color = Color(0,0,0,0)
 		border.border_color = Parts.BRASS if fixture.stage == data.wins+1 else Color("879084")
@@ -192,15 +204,17 @@ static func board(app, outer: Node) -> void:
 		var attempts: Array = data.ledger.filter(func(item): return item.stage == fixture.stage)
 		var caption := "NEXT" if fixture.stage == data.wins+1 else ("FINAL" if club.is_boss else "UPCOMING")
 		if not attempts.is_empty(): caption = "%d – %d\n%s" % [attempts.back().report.scores[0],attempts.back().report.scores[1],"WIN" if attempts.back().report.winner == 0 else "DEFEAT"]
-		app.text(tile,caption,24,"Score",Parts.INK)
+		app.text(tile,caption,24,"Score",Parts.INK).custom_minimum_size.y = 54
 	var next: Dictionary = app.library.rules.stages[data.wins]
 	var reward := "Recruit" if next.recruit else "Coaching choice" if next.coaching else "Championship"
 	if next.market != null: reward += " and Market "+str(int(next.market))
 	app.text(itinerary,"AFTER VICTORY  "+reward,18,"BodyStrong",Parts.INK)
 	var scout_column := Parts.column(row,12)
 	scout_column.size_flags_horizontal = Control.SIZE_FILL
+	scout_column.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	scout_column.custom_minimum_size.x = minf(350,app.size.x*0.29)
 	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size.y = minf(370,app.size.y-300)
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.follow_focus = true
@@ -212,7 +226,9 @@ static func board(app, outer: Node) -> void:
 	scout.add_child(HSeparator.new())
 	app.text(scout,"%.1f OVR   %s" % [app.library.xi_rating(app.library.opponent_plan(data.fixtures[data.wins].variant_id)),club.formation],26,"Score")
 	app.text(scout,club.attack.capitalize()+" passing\n"+club.defence.replace("_"," ").capitalize(),19)
-	app.text(scout,club.scout_threat+"\n"+club.scout_response,17).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var threat: Label = app.text(scout,club.scout_threat,17)
+	threat.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	threat.tooltip_text = club.scout_response
 	app.button(scout_column,"Prepare match","PrepareCampaign",app.prepare,true)
 	if not data.market.is_empty() and data.market.open: app.button(scout_column,"Return to market","ReopenMarket",func(): app.act("reopen_market",[],data.revision))
 

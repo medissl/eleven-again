@@ -24,6 +24,7 @@ func run() -> void:
 				viewport.add_child(view)
 				view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 				view.paused = true
+				if names[0] == "Foundry Athletic": view.sim.scores = [12,10]; view._sync_state()
 				view.hud.set_ui_scale(scale_value)
 				view._layout()
 				await settle()
@@ -32,6 +33,7 @@ func run() -> void:
 				var away: Label = hud.labels.away
 				var score: Label = hud.labels.score
 				assert(absf(score.get_rect().get_center().x-view.pitch.get_center().x) < 1)
+				assert(score.get_theme_font("font").get_string_size(score.text,HORIZONTAL_ALIGNMENT_LEFT,-1,score.get_theme_font_size("font_size")).x <= score.size.x)
 				assert(absf(score.position.x-home.get_rect().end.x-20) < 1)
 				assert(absf(away.position.x-score.get_rect().end.x-20) < 1)
 				assert(home.position.x-(hud.kit_centers[0].x+17) >= 13.9)
