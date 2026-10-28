@@ -8,7 +8,8 @@ const Match = preload("res://match/match_sim.gd")
 const Snapshot = preload("res://match/match_snapshot.gd")
 const State = preload("res://run/run_state.gd")
 const Records = preload("res://run/records.gd")
-const PRINCIPLES := ["short_combinations","wide_service","counter_runners","first_pressure","set_piece_preparation","bench_impact"]
+const Availability = preload("res://run/availability.gd")
+const PRINCIPLES = Match.Coaching.IDS
 var content: RefCounted
 var model: RefCounted
 var _state: Dictionary = {}
@@ -35,7 +36,7 @@ func start(origin: String, seed_value: int, run_id: String) -> Dictionary:
 	if not _state.is_empty(): return failure("This controller already holds a run.")
 	if not content.errors.is_empty() or not content.countries.has(origin) or run_id.is_empty(): return failure("Invalid origin or campaign content.")
 	var plan: Resource = content.country_plan(origin)
-	var data := {"schema":2,"content_version":Campaign.VERSION,"run_id":run_id,"seed":seed_value,"origin":origin,"revision":0,"wins":0,"defeats":0,"cash":int(content.rules.starting_cash),"earnings":0,"step":"opening_recruit","fixtures":content.itinerary(seed_value),"ledger":[],"plan":plan.to_data(),"released":[],"acquisitions":[],"principles":[],"offer":{},"market":{},"coaching":[],"queue":[],"current_attempt":{},"match_snapshot":{},"peak_xi":Records.capture(plan),"discipline":{},"abandoned_attempt":{}}
+	var data := {"schema":3,"content_version":Campaign.VERSION,"run_id":run_id,"seed":seed_value,"origin":origin,"revision":0,"wins":0,"defeats":0,"cash":int(content.rules.starting_cash),"earnings":0,"step":"opening_recruit","fixtures":content.itinerary(seed_value),"ledger":[],"plan":plan.to_data(),"released":[],"acquisitions":[],"principles":[],"offer":{},"market":{},"coaching":[],"queue":[],"current_attempt":{},"match_snapshot":{},"peak_xi":Records.capture(plan),"discipline":{},"abandoned_attempt":{}}
 	for stream in ["offers","markets","attempts","coaching"]:
 		var rng := RandomNumberGenerator.new()
 		rng.seed = seed_value ^ {"offers":11027,"markets":21027,"attempts":31027,"coaching":41027}[stream]
@@ -92,9 +93,9 @@ func guard(expected: int, steps: Array) -> String:
 	if _state.step not in steps: return "This action is unavailable at the current step."
 	return ""
 
-func commit(data: Dictionary) -> Dictionary:
+func commit(data: Dictionary, record_plan: Resource = null) -> Dictionary:
 	var unavailable: Array = data.discipline.keys().filter(func(id): return data.discipline[id].get("ban",0) > 0)
-	var record := Records.capture(Lineup.from_data(data.plan),unavailable)
+	var record := Records.capture(record_plan,unavailable)
 	if not record.is_empty() and record.total > data.peak_xi.total: data.peak_xi = record
 	data.revision = revision()+1
 	_state = data
@@ -102,6 +103,9 @@ func commit(data: Dictionary) -> Dictionary:
 
 func failure(message: String) -> Dictionary:
 	return {"ok":false,"error":message,"revision":revision()}
+
+func preparation_plan() -> Resource:
+	return Availability.plan(_state) if not _state.is_empty() else null
 
 func abandon(expected: int) -> Dictionary:
 	var error := guard(expected,["opening_recruit","prepare","match","result","recruit","market","coaching"])
@@ -117,25 +121,25 @@ func abandon(expected: int) -> Dictionary:
 func commit_match(plan: Resource, expected: int) -> Dictionary:
 	var error := guard(expected,["prepare"])
 	if not error.is_empty(): return failure(error)
-	if plan == null or not plan.errors().is_empty(): return failure("Choose a legal starting eleven.")
+	if plan == null or plan.get_script() != Lineup or not plan.errors().is_empty(): return failure("Choose a legal starting eleven.")
 	var owned: Dictionary = {}
-	for record in _state.plan.cards: owned[record.card_id] = record
-	if plan.cards.size() != owned.size(): return failure("Preparation must use the owned squad.")
+	for card in preparation_plan().cards: owned[card.card_id] = card.to_data()
+	if plan.cards.size() != owned.size(): return failure("Preparation must use the available squad and assigned cover.")
 	for card in plan.cards:
 		if not owned.has(card.card_id) or card.to_data() != owned[card.card_id]: return failure("Preparation changed an owned player definition.")
 	var data := _state.duplicate(true)
 	var rng := stream(data,"attempts")
 	var attempt_seed := rng.randi_range(1,2147483646)
 	data.attempts_rng = str(rng.state)
-	data.plan = plan.to_data()
-	data.current_attempt = {"id":data.run_id+"/attempt/"+str(data.ledger.size()+1),"seed":attempt_seed,"stage":data.wins+1,"fixture":data.fixtures[data.wins].duplicate(true)}
+	data.plan = Availability.remember(Lineup.from_data(data.plan),plan).to_data()
+	data.current_attempt = {"id":data.run_id+"/attempt/"+str(data.ledger.size()+1),"seed":attempt_seed,"stage":data.wins+1,"fixture":data.fixtures[data.wins].duplicate(true),"home_plan":plan.to_data(),"served":Availability.banned(data.discipline)}
 	if not data.market.is_empty(): data.market.open = false
 	var away: Resource = content.opponent_plan(data.current_attempt.fixture.variant_id)
 	model = Match.new(attempt_seed,Match.REGULATION_SECONDS,plan,away,true)
 	model.principles = [data.principles.duplicate(),[]]
 	data.match_snapshot = Snapshot.capture(model)
 	data.step = "match"
-	return commit(data)
+	return commit(data,plan)
 
 func finish_match(expected: int) -> Dictionary:
 	var error := guard(expected,["match"])
@@ -144,6 +148,7 @@ func finish_match(expected: int) -> Dictionary:
 	var data := _state.duplicate(true)
 	var result: Dictionary = data.current_attempt.duplicate(true)
 	result.report = model.snapshot_report()
+	data.discipline = Availability.advance(data.discipline,result.report.events,result.served,result.home_plan.cards)
 	result.prize = 0
 	data.queue = []
 	if model.winner() == 0:
@@ -247,7 +252,7 @@ func acquire(card_id: String, outgoing_id: String, expected: int) -> Dictionary:
 		data.offer = {}
 		error = advance(data)
 		if not error.is_empty(): return failure(error)
-	return commit(data)
+	return commit(data,plan)
 
 func best_owned() -> Array:
 	if _state.is_empty(): return []

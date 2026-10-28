@@ -4,6 +4,8 @@ const Campaign = preload("res://content/campaign.gd")
 const Lineup = preload("res://squad/lineup.gd")
 const Snapshot = preload("res://match/match_snapshot.gd")
 const Records = preload("res://run/records.gd")
+const Availability = preload("res://run/availability.gd")
+const Coaching = preload("res://match/coaching.gd")
 const STEPS := ["opening_recruit","prepare","match","result","recruit","market","coaching","won","lost","abandoned"]
 
 static func error(data: Variant, content: RefCounted) -> String:
@@ -17,7 +19,7 @@ static func error(data: Variant, content: RefCounted) -> String:
 		if data.get(key) is not Array: return "Invalid run list: "+key
 	for key in ["plan","offer","market","current_attempt","match_snapshot","peak_xi","discipline","abandoned_attempt"]:
 		if data.get(key) is not Dictionary: return "Invalid run state: "+key
-	if data.schema != 2 or data.content_version != Campaign.VERSION: return "Unsupported campaign version."
+	if data.schema != 3 or data.content_version != Campaign.VERSION: return "Unsupported campaign version."
 	if not content.errors.is_empty() or not content.countries.has(data.origin) or data.run_id.is_empty(): return "Missing origin/content."
 	if data.step not in STEPS or data.revision < 1 or data.wins < 0 or data.wins > 12 or data.defeats < 0 or data.defeats > 3 or data.cash < 0: return "Invalid progress."
 	if (data.step == "won") != (data.wins == 12) or (data.step == "lost") != (data.defeats == 3): return "Invalid terminal state."
@@ -60,12 +62,17 @@ static func error(data: Variant, content: RefCounted) -> String:
 	var wins := 0
 	var defeats := 0
 	var earnings := 0
+	var discipline := {}
 	var rng := RandomNumberGenerator.new()
 	rng.seed = data.seed ^ 31027
 	for index in data.ledger.size():
 		var result = data.ledger[index]
 		if result is not Dictionary or result.get("report") is not Dictionary or result.report.get("winner") not in [0,1]: return "Invalid result."
 		if result.get("id") != data.run_id+"/attempt/"+str(index+1) or result.get("stage") != wins+1 or result.get("fixture") != data.fixtures[wins] or result.get("seed") != rng.randi_range(1,2147483646): return "Invalid attempt ledger."
+		if result.get("served") != Availability.banned(discipline) or not valid_home(result.get("home_plan"),data.run_id,content,ever_owned,Availability.banned(discipline)) or result.report.get("events") is not Array: return "Invalid disciplinary/match receipt."
+		for event in result.report.events:
+			if event is not Dictionary: return "Invalid result event."
+		discipline = Availability.advance(discipline,result.report.events,result.served,result.home_plan.cards)
 		var prize := 0
 		if result.report.winner == 0:
 			prize = int(content.rules.stages[wins].win_prize)
@@ -75,10 +82,11 @@ static func error(data: Variant, content: RefCounted) -> String:
 		earnings += prize
 		if (wins == 12 or defeats == 3) and index != data.ledger.size()-1: return "Result after run end."
 	if wins != data.wins or defeats != data.defeats or earnings != data.earnings or data.cash != 8000000+earnings-spent: return "Progress/cash ledger mismatch."
+	if data.discipline != discipline: return "Disciplinary ledger mismatch."
 	if data.principles.size() > 2 or data.coaching.size() not in [0,3]: return "Invalid coaching state."
 	var seen := []
 	for id in data.principles+data.coaching:
-		if id not in ["short_combinations","wide_service","counter_runners","first_pressure","set_piece_preparation","bench_impact"] or id in seen: return "Duplicate/unknown principle."
+		if id not in Coaching.IDS or id in seen: return "Duplicate/unknown principle."
 		seen.append(id)
 	if data.step == "coaching" and data.coaching.size() != 3: return "Missing coaching offer."
 	for step in data.queue:
@@ -95,12 +103,15 @@ static func error(data: Variant, content: RefCounted) -> String:
 	if data.step == "match":
 		var attempt: Dictionary = data.current_attempt
 		if attempt.get("id") != data.run_id+"/attempt/"+str(data.ledger.size()+1) or attempt.get("fixture") != data.fixtures[wins] or attempt.get("stage") != wins+1 or attempt.get("seed") != rng.randi_range(1,2147483646): return "Invalid committed attempt."
+		if attempt.get("served") != Availability.banned(discipline) or not valid_home(attempt.get("home_plan"),data.run_id,content,data.plan.cards.map(func(card): return card.card_id),Availability.banned(discipline)): return "Invalid available match plan."
 		var model: RefCounted = Snapshot.restore(data.match_snapshot)
-		if model == null or model.match_seed != attempt.seed or not model.knockout or model.regulation_ticks != model.REGULATION_SECONDS*60 or model.plans[0].to_data() != data.plan or model.plans[1].to_data() != content.opponent_plan(attempt.fixture.variant_id).to_data(): return "Invalid match snapshot."
+		if model == null or model.match_seed != attempt.seed or not model.knockout or model.regulation_ticks != model.REGULATION_SECONDS*60 or model.plans[0].to_data() != attempt.home_plan or model.plans[1].to_data() != content.opponent_plan(attempt.fixture.variant_id).to_data(): return "Invalid match snapshot."
 		if model.period not in model.Period.values() or model.ball_state not in model.BallState.values() or model.ticks < 0 or model.active_ticks < 0: return "Invalid football state."
 		if model.principles != [data.principles,[]]: return "Changed coaching principles."
 		for player in model.players:
-			if not content.cards.has(player.card.card_id) or content.cards[player.card.card_id].to_data() != player.card.to_data(): return "Changed match player definition."
+			var approved: bool = content.cards.has(player.card.card_id) and content.cards[player.card.card_id].to_data() == player.card.to_data()
+			if not approved and not (player.team == 0 and Availability.is_academy(player.card.to_data(),data.run_id)): return "Changed match player definition."
+			if player.card.card_id not in model.plans[player.team].cards.map(func(card): return card.card_id): return "Match player outside the committed squad."
 			for key in model.ATTRIBUTE_FIELDS:
 				var base = player.card.attributes.get(key,player.card.keeper_attributes.get(key))
 				if player.get(model.ATTRIBUTE_FIELDS[key]) != base: return "Changed base match attribute."
@@ -110,6 +121,16 @@ static func error(data: Variant, content: RefCounted) -> String:
 		if data.step != "abandoned" or attempt.get("id") != data.run_id+"/attempt/"+str(data.ledger.size()+1) or attempt.get("fixture") != data.fixtures[wins] or attempt.get("seed") != rng.randi_range(1,2147483646): return "Invalid abandoned attempt."
 	if str(rng.state) != data.attempts_rng: return "Attempt RNG mismatch."
 	return ""
+
+static func valid_home(data: Variant, run_id: String, content: RefCounted, eligible_ids: Array, banned: Array) -> bool:
+	if data is not Dictionary: return false
+	var plan: Resource = Lineup.from_data(data)
+	if plan == null: return false
+	for card in plan.cards:
+		if card.person_id in banned: return false
+		if Availability.is_academy(card.to_data(),run_id): continue
+		if card.card_id not in eligible_ids or not content.cards.has(card.card_id) or content.cards[card.card_id].to_data() != card.to_data(): return false
+	return true
 
 static func plain_finite(value: Variant, depth: int = 0) -> bool:
 	if depth > 64: return false

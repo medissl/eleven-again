@@ -65,12 +65,14 @@ func main_flow() -> void:
 	assert(session.profile.discoveries.is_empty(),"Opening candidates do not discover editions")
 	var preview: Dictionary = session.preview()
 	assert(preview.step == "opening_recruit" and preview.best_cards == session.controller.best_owned())
+	var stale := Session.new(location,content)
 	assert(not session.new_run("BRA",77,"unconfirmed").ok and session.controller.snapshot() == initial)
 	assert(not session.new_run("INVALID",77,"bad-origin",true).ok and session.controller.snapshot() == initial)
 	assert(session.act("acquire",[initial.offer.cards[0],""],session.controller.revision()).ok)
 	assert(session.profile.discoveries.size() == 1)
 	var first_date: String = session.profile.discoveries[initial.offer.cards[0]].first_discovered
 	assert(session.checkpoint().ok and session.profile.discoveries[initial.offer.cards[0]].first_discovered == first_date)
+	assert(stale.preview().is_empty() and not stale.checkpoint().ok,"A stale writer cannot replace newer profile data or preview an inconsistent head")
 	for index in 3:
 		assert(session.act("commit_match",[Lineup.from_data(session.controller.snapshot().plan)],session.controller.revision()).ok)
 		var model: RefCounted = session.controller.model
@@ -93,6 +95,13 @@ func main_flow() -> void:
 	output.store_buffer(PackedByteArray([1,2,3]))
 	output.close()
 	assert(session.reload().ok and session.recovery_used and session.profile.discoveries.size() == 1)
+	for kind in ["profile","journal"]:
+		for suffix in ["", ".bak"]:
+			output = FileAccess.open(session.store.path(kind)+suffix,FileAccess.WRITE)
+			output.store_buffer(PackedByteArray([7,8,9]))
+			output.close()
+	assert(not session.reload().ok and session.blocked,"Unrecoverable profile/journal files are never silently replaced with an empty profile")
+	assert(FileAccess.get_file_as_bytes(session.store.path("profile")) == PackedByteArray([7,8,9]))
 	cleanup(session.store)
 
 func record_checks() -> void:

@@ -113,6 +113,10 @@ func act(action: String, arguments: Array, expected: int) -> Dictionary:
 	if action not in ACTIONS: return fail("Unknown campaign action.")
 	var count: int = {"acquire":2,"choose_principle":1,"commit_match":1}.get(action,0)
 	if arguments.size() != count: return fail("Invalid campaign action arguments.")
+	if action == "commit_match" and arguments[0] is not Resource: return fail("Invalid match plan argument.")
+	if action in ["acquire","choose_principle"]:
+		for argument in arguments:
+			if argument is not String: return fail("Invalid signing/principle argument.")
 	var candidate := Controller.new(content)
 	var restored: Dictionary = candidate.restore(controller.snapshot())
 	if not restored.ok: return fail(restored.error)
@@ -144,6 +148,7 @@ func preview() -> Dictionary:
 	var saved: Dictionary = store.read("run",run_valid)
 	if not saved.ok or saved.data.step in ["won","lost","abandoned"]: return {}
 	var data: Dictionary = saved.data
+	if data.disk_generation != profile.generation or data.transaction_id != profile.transaction_id: return {}
 	var owned: Array = data.plan.cards.map(func(card): return content.cards[card.card_id])
 	owned.sort_custom(func(a,b): return a.rating() > b.rating() if a.rating() != b.rating() else a.card_id < b.card_id)
 	var chapter := mini(3,int(data.wins/4.0)+1)

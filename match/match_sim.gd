@@ -167,6 +167,7 @@ func _init(seed_value: int = 11027, duration_seconds: int = REGULATION_SECONDS, 
 
 func load_card(player: Footballer, card: Resource) -> void:
 	player.card = card
+	player.yellows = 0
 	player.name = card.display_name
 	for key in ATTRIBUTE_FIELDS:
 		player.set(ATTRIBUTE_FIELDS[key], card.attributes[key] if card.attributes.has(key) else card.keeper_attributes[key])
