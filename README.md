@@ -12,7 +12,7 @@ The fixed-step full-pitch simulation includes coordinated support/pressure/cover
 
 Regulation remains **three active minutes at 1× / ninety active-play seconds at 2×**, plus stoppages and deliberate halftime. Exhibition may end in a draw. The optional knockout profile adds two 30-active-second extra-time halves and physical penalties if still tied. Shootout tallies stay separate from match goals/statistics. Exact native disk snapshot/backup primitives are now tested, including fresh-process continuation; automatic game saves and main-menu Continue remain pending.
 
-The first [campaign foundation](reports/campaign-foundation.md) adds all six origins, authored opposition, 300 acquisition candidates, deterministic twelve-stage progression, guarded recruitment/markets and validated disk state. These are tested native models; the playable entry remains the sandbox. Campaign screens/autosave, run/profile transaction journaling, discovery/records, carried discipline and contextual coaching effects remain pending.
+The [campaign foundation](reports/campaign-foundation.md) adds six origins, authored opposition, 300 acquisition candidates and twelve-stage progression/rewards. The [campaign systems batch](reports/campaign-systems.md) adds durable run/profile journaling, acquired-version discovery/records, carried suspensions/temporary academy cover and all six contextual coaching effects. These native models pass focused and existing football checks. Campaign screens, lifecycle autosave, recovery/settings UI and Discovered/records views remain pending; the playable entry remains the sandbox.
 
 The accepted forest/ivory presentation, Barlow/Inter typography, stable camera, goal/confetti and calm reports remain. Read [gameplay evidence and limits](reports/gameplay-batch.md), [UI checkpoint](reports/ui-refresh.md) and [task status](tasks/todo.md). This is not a balanced or exported release.
 
@@ -42,4 +42,4 @@ Use `-- --batch-only` for focused match-batch checks. Inspect the output for scr
 - [Original GDD](Football_Roguelike_GDD_v0.1.md), preserved with its proposals and unmeasured targets.
 - [Fixture sources/tuning](content/SOURCES.md).
 
-GitHub: [medissl/eleven-again](https://github.com/medissl/eleven-again). Current local work is on `codex/campaign-foundation`; nothing has been pushed. Next coherent slice: durable run/profile transactions, records and campaign rules, then native management integration toward the complete twelve-win addition. Read `outputs/run-design-inscryption-v1/CODEX_PROMPT.md` and the foundation report.
+GitHub: [medissl/eleven-again](https://github.com/medissl/eleven-again). Current local work is on `codex/campaign-foundation`; nothing has been pushed. Next coherent slice: native management/preparation/match integration, actual disk Continue and persistent settings toward the complete twelve-win addition. Read `outputs/run-design-inscryption-v1/CODEX_PROMPT.md` and the campaign systems report.

@@ -90,6 +90,11 @@ func main_flow() -> void:
 	assert(session.new_run("ARG",8,"profile-third",true).ok)
 	assert(session.profile.runs["profile-second"].outcome == "abandoned")
 	assert(not session.new_run("ENG",1,"profile-first",true).ok,"Run identity reuse cannot merge discovery counters")
+	assert(session.act("skip_recruit",[],session.controller.revision()).ok)
+	assert(session.act("commit_match",[session.controller.preparation_plan()],session.controller.revision()).ok)
+	for tick in 12: session.controller.model.step()
+	assert(session.act("abandon",[],session.controller.revision()).ok)
+	assert(session.reload().ok and session.profile.runs["profile-third"].outcome == "abandoned" and session.preview().is_empty())
 	# A damaged profile is repaired from the durable latest journal, never reset to empty.
 	var output := FileAccess.open(session.store.path("profile"),FileAccess.WRITE)
 	output.store_buffer(PackedByteArray([1,2,3]))

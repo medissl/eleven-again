@@ -1,5 +1,6 @@
 extends RefCounted
 ## One local writer: prepare on a copy, journal both files, then publish the controller.
+# ponytail: one game process owns the slot; add an OS lock if simultaneous instances are supported.
 const Campaign = preload("res://content/campaign.gd")
 const Controller = preload("res://run/run_controller.gd")
 const State = preload("res://run/run_state.gd")
