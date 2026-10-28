@@ -1,0 +1,706 @@
+{
+  "traits": [
+    {
+      "id": "deflector",
+      "name": "Deflector",
+      "positions": [
+        "GK"
+      ],
+      "stat": "REF/DIV/HAN",
+      "trigger": "Reachable on-target shot where a parry is safer or more feasible than a catch.",
+      "effect": "After a successful base save, prefer a reachable safe deflection sector and add at most 15% rebound speed; does not raise save probability by itself.",
+      "visual": "Cyan label and keeper ring; short cyan trail only after real ball contact.",
+      "success": "A legal save followed by the ball clearing the immediate central danger area; a rebound to an attacker is not celebrated as success.",
+      "counterplay": "Unreachable shots still score; covering attackers can collect rebounds; corners remain possible.",
+      "parameters": {
+        "rebound_speed_multiplier": 1.15
+      },
+      "wave": 1
+    },
+    {
+      "id": "safe_hands",
+      "name": "Safe Hands",
+      "positions": [
+        "GK"
+      ],
+      "stat": "HAN",
+      "trigger": "Reachable catchable shot/cross with low crowd/contact risk.",
+      "effect": "Add +4 HAN to this holding-versus-parry/control decision; never turn an unreachable ball into a catch.",
+      "visual": "Closed-hand icon over keeper; small contracting ring on an actual hold.",
+      "success": "Keeper establishes legal hand control.",
+      "counterplay": "High ball speed, pressure and contested crosses still cause spills.",
+      "parameters": {
+        "attribute": "HAN",
+        "bonus": 4
+      },
+      "wave": 2
+    },
+    {
+      "id": "cat_reflexes",
+      "name": "Cat Reflexes",
+      "positions": [
+        "GK"
+      ],
+      "stat": "REF",
+      "trigger": "Keeper detects a reachable close-range shot.",
+      "effect": "Reduce this keeper's reaction delay by 15%, within the common reaction floor.",
+      "visual": "Small cyan double pulse and REFLEX label; flash at actual contact.",
+      "success": "Shot is saved; a mere dive is not a success.",
+      "counterplay": "Placement, screens, finite dive range and late visibility remain relevant.",
+      "parameters": {
+        "reaction_delay_multiplier": 0.85
+      },
+      "wave": 2
+    },
+    {
+      "id": "sweeper_keeper",
+      "name": "Sweeper Keeper",
+      "positions": [
+        "GK"
+      ],
+      "stat": "POS/REF",
+      "trigger": "A reachable through ball outside the goal area creates a feasible interception.",
+      "effect": "Improve this rush's acceleration by 20%, bounded by legal movement and keeping/handling zones.",
+      "visual": "Dotted forward ring and SWEEPER label; success ring on claim/clearance.",
+      "success": "A legal claim or clearance before the attacker.",
+      "counterplay": "Can be chipped or beaten; no handling outside the penalty area.",
+      "parameters": {
+        "acceleration_multiplier": 1.2
+      },
+      "wave": 2
+    },
+    {
+      "id": "long_throw",
+      "name": "Launch Keeper",
+      "positions": [
+        "GK"
+      ],
+      "stat": "KIC",
+      "trigger": "Keeper has legal hand control and an onside receiver in an open counter lane.",
+      "effect": "Increase feasible throw range by 12%; placement and receiver control still use base execution.",
+      "visual": "Cyan release arc, LAUNCH label and fading ball streak.",
+      "success": "Intended teammate controls the distribution.",
+      "counterplay": "No target or occupied lane cancels selection; no direct thrown goal.",
+      "parameters": {
+        "throw_range_multiplier": 1.12
+      },
+      "wave": 2
+    },
+    {
+      "id": "hard_tackle",
+      "name": "Hard Tackle",
+      "positions": [
+        "CB",
+        "DM",
+        "LB",
+        "RB"
+      ],
+      "stat": "DEF/PHY",
+      "trigger": "A reachable, committed standing/body challenge has a legal angle.",
+      "effect": "Add +4 DEF to this contest; do not extend collision reach, erase fouls, or guarantee retention.",
+      "visual": "Amber/teal aura and HARD TACKLE label; small impact ring only on contact.",
+      "success": "Clean possession win, not a foul or merely touching the ball.",
+      "counterplay": "Shielding, a one-two, mistimed contact and cover can beat it.",
+      "parameters": {
+        "attribute": "DEF",
+        "bonus": 4
+      },
+      "wave": 1
+    },
+    {
+      "id": "anticipator",
+      "name": "Anticipator",
+      "positions": [
+        "CB",
+        "DM"
+      ],
+      "stat": "DEF",
+      "trigger": "A predicted pass crosses a reachable lane the defender is covering.",
+      "effect": "Reduce the own response delay to that pass by 15%; pursue its actual path.",
+      "visual": "Teal eye/chevron cue and ANTICIPATE label.",
+      "success": "Legal interception/control or meaningful deflection.",
+      "counterplay": "A disguised/fast pass, third runner or unreachable lane remains effective.",
+      "parameters": {
+        "reaction_delay_multiplier": 0.85
+      },
+      "wave": 2
+    },
+    {
+      "id": "aerial_fortress",
+      "name": "Aerial Fortress",
+      "positions": [
+        "CB",
+        "DM"
+      ],
+      "stat": "PHY/DEF",
+      "trigger": "Defender reaches a descending contestable high ball.",
+      "effect": "Add +4 PHY for the one aerial contest.",
+      "visual": "Brief upright teal ring and AERIAL label; contact burst on a clearance.",
+      "success": "Wins the contest and clears/controls away from immediate danger.",
+      "counterplay": "Timing and opposing position matter; ground cutbacks bypass aerial strength.",
+      "parameters": {
+        "attribute": "PHY",
+        "bonus": 4
+      },
+      "wave": 2
+    },
+    {
+      "id": "body_block",
+      "name": "Body Block",
+      "positions": [
+        "CB",
+        "DM"
+      ],
+      "stat": "DEF/PHY",
+      "trigger": "Defender is planted near a physically reachable shot path.",
+      "effect": "Extend the committed block envelope by at most 0.15 field units; no distant ball attraction.",
+      "visual": "Short shield/semicircle facing the shot; BLOCK label.",
+      "success": "A real physical block prevents the original shot reaching the goal.",
+      "counterplay": "Feints, passes and shots outside the small envelope beat it.",
+      "parameters": {
+        "block_reach_add": 0.15
+      },
+      "wave": 2
+    },
+    {
+      "id": "accelerator",
+      "name": "Accelerator",
+      "positions": [
+        "LB",
+        "RB",
+        "LW",
+        "RW"
+      ],
+      "stat": "PAC",
+      "trigger": "A chosen overlap, support or carry run has open space.",
+      "effect": "For 1.2 active seconds, increase acceleration 30% and top speed at most 6%, under the global movement cap.",
+      "visual": "Pale-blue aura, ACCELERATOR label and short behind-token streaks.",
+      "success": "Neutral completion at expiry; a success pip only when the committed run objective is reached.",
+      "counterplay": "Cover, body position, stamina and offside still apply.",
+      "parameters": {
+        "duration_seconds": 1.2,
+        "acceleration_multiplier": 1.3,
+        "top_speed_multiplier": 1.06
+      },
+      "wave": 1
+    },
+    {
+      "id": "whipped_cross",
+      "name": "Whipped Cross",
+      "positions": [
+        "LB",
+        "RB",
+        "LW",
+        "RW"
+      ],
+      "stat": "PAS",
+      "trigger": "Wide player has a viable moving aerial target or space target.",
+      "effect": "Increase allowed cross curvature by 15%; ordinary aim error, height and flight contact remain.",
+      "visual": "Amber curved flight streak and CROSS label.",
+      "success": "Target-side teammate legally controls or shoots from the delivery.",
+      "counterplay": "Cross may miss, be claimed or cleared; no target lock.",
+      "parameters": {
+        "curve_capacity_multiplier": 1.15
+      },
+      "wave": 2
+    },
+    {
+      "id": "recovery_sprint",
+      "name": "Recovery Sprint",
+      "positions": [
+        "LB",
+        "RB",
+        "CB"
+      ],
+      "stat": "PAC",
+      "trigger": "Team loses controlled possession with an exposed corridor behind this player.",
+      "effect": "Increase top speed by at most 6% for 2 active seconds during the chosen recovery run.",
+      "visual": "Blue backward chevrons, RECOVER label and short movement streak.",
+      "success": "Reaches assigned cover space or makes a legal recovery intervention.",
+      "counterplay": "Fatigue, an earlier run and a one-two can still bypass the player.",
+      "parameters": {
+        "duration_seconds": 2,
+        "top_speed_multiplier": 1.06
+      },
+      "wave": 2
+    },
+    {
+      "id": "overlap_engine",
+      "name": "Overlap Engine",
+      "positions": [
+        "LB",
+        "RB"
+      ],
+      "stat": "PHY",
+      "trigger": "A coordinated overlap has assigned defensive cover.",
+      "effect": "Reduce own movement stamina drain by 15% for this run, capped at 3 active seconds.",
+      "visual": "Quiet blue/green lane pulse and OVERLAP label.",
+      "success": "Run reaches a useful support point; no automatic pass required.",
+      "counterplay": "Exposed defence lowers run utility; possession loss cancels the attacking intention.",
+      "parameters": {
+        "duration_seconds": 3,
+        "stamina_drain_multiplier": 0.85
+      },
+      "wave": 2
+    },
+    {
+      "id": "screen",
+      "name": "Screen",
+      "positions": [
+        "DM",
+        "CB"
+      ],
+      "stat": "DEF",
+      "trigger": "A covering midfielder can physically intercept a ball through the protected central lane.",
+      "effect": "Add +3 DEF to this reached interception/control contest.",
+      "visual": "Teal bar/eye icon, SCREEN label and a contact tick.",
+      "success": "Legal interception or useful central deflection.",
+      "counterplay": "Wide switches and third-player runs create alternative paths.",
+      "parameters": {
+        "attribute": "DEF",
+        "bonus": 3
+      },
+      "wave": 2
+    },
+    {
+      "id": "anchor",
+      "name": "Anchor",
+      "positions": [
+        "DM",
+        "CM"
+      ],
+      "stat": "PHY",
+      "trigger": "Holder receives under immediate grounded pressure with a shielding angle.",
+      "effect": "Add +4 PHY for a single shielding/strength contest.",
+      "visual": "Low stable green ring and ANCHOR label.",
+      "success": "Retains control through the contest or releases a legal outlet.",
+      "counterplay": "A second presser or blocked outlet remains dangerous.",
+      "parameters": {
+        "attribute": "PHY",
+        "bonus": 4
+      },
+      "wave": 2
+    },
+    {
+      "id": "switch_play",
+      "name": "Switch Play",
+      "positions": [
+        "DM",
+        "CM",
+        "CB"
+      ],
+      "stat": "PAS",
+      "trigger": "Opposite wing has useful space and a feasible diagonal pass.",
+      "effect": "Reduce angular aim dispersion by 10% for this pass; do not improve the receiver's first touch.",
+      "visual": "Wide amber arc and SWITCH label.",
+      "success": "Intended receiver controls on the opposite side.",
+      "counterplay": "Closing the far side or pressuring the passer can defeat it.",
+      "parameters": {
+        "aim_dispersion_multiplier": 0.9
+      },
+      "wave": 2
+    },
+    {
+      "id": "bullet_pass",
+      "name": "Bullet Pass",
+      "positions": [
+        "CM",
+        "DM",
+        "AM",
+        "CB"
+      ],
+      "stat": "PAS",
+      "trigger": "A grounded medium-range pass into a reachable lane is selected.",
+      "effect": "Increase actual ball speed by 15%, capped by pass-speed tuning; ordinary placement error and receiving difficulty remain.",
+      "visual": "Golden ball with white core, short gold trail and BULLET PASS label.",
+      "success": "Intended receiver controls; launch alone is not success.",
+      "counterplay": "A blocked lane still intercepts; fast arrival can cause a poor first touch.",
+      "parameters": {
+        "ball_speed_multiplier": 1.15
+      },
+      "wave": 1
+    },
+    {
+      "id": "wall_pass",
+      "name": "Wall Pass",
+      "positions": [
+        "CM",
+        "AM",
+        "ST"
+      ],
+      "stat": "PAS/DRI",
+      "trigger": "Cardholder is the bounce receiver in a valid one-two intention.",
+      "effect": "Reduce own return-pass preparation by 20%; the return is still chosen only if useful.",
+      "visual": "Two linked small pips and ONE-TWO label; normal real ball path.",
+      "success": "Original runner controls the return pass.",
+      "counterplay": "Tracking the runner or blocking either leg breaks the pattern.",
+      "parameters": {
+        "preparation_time_multiplier": 0.8
+      },
+      "wave": 2
+    },
+    {
+      "id": "tempo_setter",
+      "name": "Tempo Setter",
+      "positions": [
+        "CM",
+        "DM"
+      ],
+      "stat": "PAS",
+      "trigger": "Holder identifies a safe useful recycle/switch while the team is building.",
+      "effect": "Reduce own preparation delay by 15% for this selected release.",
+      "visual": "Single amber pulse and TEMPO label.",
+      "success": "Selected teammate legally controls; no bonus to that teammate's attributes.",
+      "counterplay": "Pressure or a newly closed lane can force a different action before commitment.",
+      "parameters": {
+        "preparation_time_multiplier": 0.85
+      },
+      "wave": 2
+    },
+    {
+      "id": "press_resistant",
+      "name": "Press Resistant",
+      "positions": [
+        "CM",
+        "AM",
+        "DM"
+      ],
+      "stat": "DRI",
+      "trigger": "Two opponents are close enough to make real pressure credible.",
+      "effect": "Add +4 DRI to one receive/turn/retention contest.",
+      "visual": "Tight teal/ivory ring and PRESS RESIST label.",
+      "success": "Controls/retains or exits the pressure with a legal release.",
+      "counterplay": "Space, first-touch speed and covering defenders still matter.",
+      "parameters": {
+        "attribute": "DRI",
+        "bonus": 4
+      },
+      "wave": 2
+    },
+    {
+      "id": "threader",
+      "name": "Threader",
+      "positions": [
+        "AM",
+        "CM"
+      ],
+      "stat": "PAS",
+      "trigger": "A viable grounded line-breaking/through pass is selected.",
+      "effect": "Add +3 PAS to placement of that one pass; ordinary defenders and offside still apply.",
+      "visual": "Narrow amber tracer and THREADER label.",
+      "success": "Intended runner controls the legal ball beyond the intended line.",
+      "counterplay": "Cover and pass-time offside can defeat it; no steering to receiver.",
+      "parameters": {
+        "attribute": "PAS",
+        "bonus": 3
+      },
+      "wave": 1
+    },
+    {
+      "id": "third_man",
+      "name": "Third Man",
+      "positions": [
+        "AM",
+        "CM",
+        "LW",
+        "RW"
+      ],
+      "stat": "PAC/PAS",
+      "trigger": "Two teammates begin a valid combination and this cardholder has a useful third-player lane.",
+      "effect": "Reduce own reaction/start delay for that run by 15%; no teammate is forced to pass.",
+      "visual": "Three small connected pips and THIRD MAN label.",
+      "success": "Runner reaches a viable onside receiving window; reception may earn a separate pass event.",
+      "counterplay": "Tracking, early interception or loss cancels the intention.",
+      "parameters": {
+        "reaction_delay_multiplier": 0.85
+      },
+      "wave": 2
+    },
+    {
+      "id": "turn_and_go",
+      "name": "Turn and Go",
+      "positions": [
+        "AM",
+        "CM",
+        "ST"
+      ],
+      "stat": "DRI",
+      "trigger": "Holder receives with a viable turn into space.",
+      "effect": "Increase own turning rate by 15% for up to 1.2 active seconds.",
+      "visual": "Short crescent aura and TURN label.",
+      "success": "Completes the turn while retaining control.",
+      "counterplay": "A close defender, bad touch or closed space can stop it.",
+      "parameters": {
+        "duration_seconds": 1.2,
+        "turn_rate_multiplier": 1.15
+      },
+      "wave": 2
+    },
+    {
+      "id": "touchline_burst",
+      "name": "Touchline Burst",
+      "positions": [
+        "LW",
+        "RW",
+        "LB",
+        "RB"
+      ],
+      "stat": "PAC/DRI",
+      "trigger": "Wide carrier chooses to beat a reachable marker along available outside space.",
+      "effect": "Increase own acceleration by 30% for 1.2 active seconds; normal top-speed limit remains.",
+      "visual": "Pale-blue outside-lane streak and BURST label.",
+      "success": "Passes the immediate marker with controlled possession.",
+      "counterplay": "Touchline, cover and ball control can defeat the run.",
+      "parameters": {
+        "duration_seconds": 1.2,
+        "acceleration_multiplier": 1.3
+      },
+      "wave": 2
+    },
+    {
+      "id": "cutback",
+      "name": "Cutback",
+      "positions": [
+        "LW",
+        "RW",
+        "LB",
+        "RB"
+      ],
+      "stat": "PAS",
+      "trigger": "A byline carrier identifies a genuinely open delayed receiver.",
+      "effect": "Add +3 PAS to the grounded backward/diagonal delivery.",
+      "visual": "Short backwards amber streak and CUTBACK label.",
+      "success": "Intended late runner legally controls or shoots.",
+      "counterplay": "A tracking midfielder or actual lane block can intercept.",
+      "parameters": {
+        "attribute": "PAS",
+        "bonus": 3
+      },
+      "wave": 2
+    },
+    {
+      "id": "cut_inside",
+      "name": "Cut Inside",
+      "positions": [
+        "LW",
+        "RW",
+        "AM"
+      ],
+      "stat": "DRI",
+      "trigger": "Wide holder has a useful inside lane and suitable body/foot orientation.",
+      "effect": "Increase own turning rate by 15% for 1.2 active seconds.",
+      "visual": "Crescent movement cue and CUT INSIDE label.",
+      "success": "Completes the inside turn with control.",
+      "counterplay": "A compact block can close the route; a shot is not forced.",
+      "parameters": {
+        "duration_seconds": 1.2,
+        "turn_rate_multiplier": 1.15
+      },
+      "wave": 2
+    },
+    {
+      "id": "close_control",
+      "name": "Close Control",
+      "positions": [
+        "LW",
+        "RW",
+        "AM",
+        "CM"
+      ],
+      "stat": "DRI",
+      "trigger": "A difficult but reachable pass arrives and requires a controlled first touch.",
+      "effect": "Reduce own first-touch displacement error by 15%.",
+      "visual": "Small contracting ivory ring and CONTROL label.",
+      "success": "Ball enters legal close control.",
+      "counterplay": "Excessive arrival speed or defender contact can still win the ball.",
+      "parameters": {
+        "first_touch_error_multiplier": 0.85
+      },
+      "wave": 2
+    },
+    {
+      "id": "finesse_shot",
+      "name": "Finesse Shot",
+      "positions": [
+        "ST",
+        "AM",
+        "LW",
+        "RW"
+      ],
+      "stat": "SHO/DRI/PAS",
+      "trigger": "A reachable curved-shot lane with useful shooting angle is chosen.",
+      "effect": "Increase allowed planar curve capacity by 25% within the trajectory limit; base aim error and actual keeper defence remain.",
+      "visual": "FINESSE label and a short warm-white curved trail following actual ball positions.",
+      "success": "A goal is full success; saved/on-target is partial, not a goal celebration.",
+      "counterplay": "Shot may be blocked, saved or miss; curve cannot bend through a defender.",
+      "parameters": {
+        "curve_capacity_multiplier": 1.25
+      },
+      "wave": 1
+    },
+    {
+      "id": "first_time_finish",
+      "name": "First-time Finish",
+      "positions": [
+        "ST",
+        "AM",
+        "LW",
+        "RW"
+      ],
+      "stat": "SHO",
+      "trigger": "A contestable incoming ball can be struck without a settling touch.",
+      "effect": "Add +4 SHO to that first-time strike.",
+      "visual": "Brief ivory strike spark and FIRST TIME label.",
+      "success": "A legal goal; on-target saved is only partial.",
+      "counterplay": "Poor arrival, defenders and limited body orientation remain relevant.",
+      "parameters": {
+        "attribute": "SHO",
+        "bonus": 4
+      },
+      "wave": 2
+    },
+    {
+      "id": "power_strike",
+      "name": "Power Strike",
+      "positions": [
+        "ST",
+        "AM"
+      ],
+      "stat": "SHO/PHY",
+      "trigger": "A useful direct shot with enough preparation space is selected.",
+      "effect": "Increase actual shot speed by 12%, under the shot cap, with 0.15 active seconds extra windup.",
+      "visual": "Short warm-white heavy streak, small release ring and POWER label.",
+      "success": "A legal goal; a save/block is not success.",
+      "counterplay": "Longer windup allows a challenge; aim does not improve automatically.",
+      "parameters": {
+        "ball_speed_multiplier": 1.12,
+        "extra_windup_seconds": 0.15
+      },
+      "wave": 2
+    },
+    {
+      "id": "poacher",
+      "name": "Poacher",
+      "positions": [
+        "ST",
+        "AM"
+      ],
+      "stat": "SHO",
+      "trigger": "A loose ball/rebound or close pass offers a useful box finish.",
+      "effect": "Reduce own settle/shot preparation by 15% for this one action.",
+      "visual": "Small amber near-ball pulse and POACHER label.",
+      "success": "A legal goal before the chance closes.",
+      "counterplay": "Defender cover, reach and offside still matter.",
+      "parameters": {
+        "preparation_time_multiplier": 0.85
+      },
+      "wave": 2
+    },
+    {
+      "id": "aerial_finisher",
+      "name": "Aerial Finisher",
+      "positions": [
+        "ST",
+        "CB"
+      ],
+      "stat": "SHO/PHY",
+      "trigger": "Player legally reaches and contests a descending attacking ball.",
+      "effect": "Add +4 SHO to the header after winning/qualifying for the actual aerial contact.",
+      "visual": "Upright ivory pulse, header contact spark and HEADER label.",
+      "success": "A legal headed goal; a won duel alone is partial.",
+      "counterplay": "PHY/timing/marking can prevent contact; goalkeeper may save.",
+      "parameters": {
+        "attribute": "SHO",
+        "bonus": 4
+      },
+      "wave": 2
+    },
+    {
+      "id": "dead_ball_artist",
+      "name": "Dead-ball Artist",
+      "positions": [
+        "AM",
+        "CM",
+        "ST",
+        "LW",
+        "RW"
+      ],
+      "stat": "SHO/PAS",
+      "trigger": "Assigned available taker has a selected legal free-kick delivery or direct attempt.",
+      "effect": "Reduce own aim dispersion by 10% for the committed kick.",
+      "visual": "Amber stationary-ball ring and DEAD BALL label; trail after actual release.",
+      "success": "Delivery controlled or direct goal as appropriate; indirect rules still apply.",
+      "counterplay": "Wall, range, defender and keeper can defeat it.",
+      "parameters": {
+        "aim_dispersion_multiplier": 0.9
+      },
+      "wave": 2
+    },
+    {
+      "id": "penalty_composure",
+      "name": "Penalty Composure",
+      "positions": [
+        "ST",
+        "AM",
+        "CM"
+      ],
+      "stat": "SHO",
+      "trigger": "Cardholder is the eligible committed penalty taker.",
+      "effect": "Reduce placement dispersion by 10%; no auto-goal, keeper freeze or perfect corner lock.",
+      "visual": "Small steady ivory ring and COMPOSED label before the kick.",
+      "success": "A legal scored penalty.",
+      "counterplay": "The keeper, posts and own execution can still stop it.",
+      "parameters": {
+        "aim_dispersion_multiplier": 0.9
+      },
+      "wave": 2
+    },
+    {
+      "id": "long_throw_specialist",
+      "name": "Long Throw",
+      "positions": [
+        "LB",
+        "RB",
+        "CB"
+      ],
+      "stat": "PHY/PAS",
+      "trigger": "An assigned throw-in taker has a legal useful distant target.",
+      "effect": "Increase available throw range by 12%, within a declared cap.",
+      "visual": "Short dotted amber arc and LONG THROW label.",
+      "success": "A teammate legally controls the delivery.",
+      "counterplay": "Interceptions and direct-goal throw rules remain.",
+      "parameters": {
+        "throw_range_multiplier": 1.12
+      },
+      "wave": 2
+    },
+    {
+      "id": "super_sub",
+      "name": "Super Substitute",
+      "positions": [
+        "LB",
+        "RB",
+        "CB",
+        "DM",
+        "CM",
+        "AM",
+        "LW",
+        "RW",
+        "ST"
+      ],
+      "stat": "PAC",
+      "trigger": "Player enters as a legal substitute in this fixture for the first time.",
+      "effect": "Add +4 PAC for five displayed match minutes; no duplicate entry refresh.",
+      "visual": "Small blue entry pulse and SUPER SUB label; subdued icon during the window.",
+      "success": "Neutral expiry; actual successful actions get their own event feedback.",
+      "counterplay": "Finite window, fatigue, ordinary defences and substitution limits remain.",
+      "parameters": {
+        "attribute": "PAC",
+        "bonus": 4,
+        "duration_match_minutes": 5
+      },
+      "wave": 2
+    }
+  ],
+  "schema_version": 1
+}

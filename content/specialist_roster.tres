@@ -1,0 +1,182 @@
+[gd_resource type="Resource" load_steps=19 format=3]
+[ext_resource type="Script" path="res://content/roster.gd" id="1"]
+[ext_resource type="Script" path="res://content/player_card.gd" id="2"]
+[sub_resource type="Resource" id="p0"]
+script = ExtResource("2")
+person_id = "specialist_rowan"
+card_id = "specialist_rowan_base"
+display_name = "Rowan"
+trait_id = "long_throw"
+primary_role = "GK"
+natural_roles = Array[String](["GK"])
+attributes = {"PAC": 51, "SHO": 19, "PAS": 57, "DRI": 39, "DEF": 34, "PHY": 66}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p1"]
+script = ExtResource("2")
+person_id = "specialist_davi"
+card_id = "specialist_davi_base"
+display_name = "Davi"
+trait_id = "long_throw_specialist"
+primary_role = "LB"
+natural_roles = Array[String](["LB"])
+attributes = {"PAC": 80, "SHO": 50, "PAS": 70, "DRI": 70, "DEF": 68, "PHY": 70}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p2"]
+script = ExtResource("2")
+person_id = "specialist_emil"
+card_id = "specialist_emil_base"
+display_name = "Emil"
+trait_id = "switch_play"
+primary_role = "CB"
+natural_roles = Array[String](["CB"])
+attributes = {"PAC": 64, "SHO": 36, "PAS": 62, "DRI": 48, "DEF": 80, "PHY": 83}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p3"]
+script = ExtResource("2")
+person_id = "specialist_goran"
+card_id = "specialist_goran_base"
+display_name = "Goran"
+trait_id = "aerial_fortress"
+primary_role = "CB"
+natural_roles = Array[String](["CB"])
+attributes = {"PAC": 62, "SHO": 34, "PAS": 60, "DRI": 46, "DEF": 78, "PHY": 81}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p4"]
+script = ExtResource("2")
+person_id = "specialist_hugo"
+card_id = "specialist_hugo_base"
+display_name = "Hugo"
+trait_id = "recovery_sprint"
+primary_role = "RB"
+natural_roles = Array[String](["RB"])
+attributes = {"PAC": 78, "SHO": 48, "PAS": 71, "DRI": 69, "DEF": 70, "PHY": 72}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p5"]
+script = ExtResource("2")
+person_id = "specialist_imani"
+card_id = "specialist_imani_base"
+display_name = "Imani"
+trait_id = "anchor"
+primary_role = "DM"
+natural_roles = Array[String](["DM"])
+attributes = {"PAC": 67, "SHO": 51, "PAS": 78, "DRI": 69, "DEF": 77, "PHY": 79}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p6"]
+script = ExtResource("2")
+person_id = "specialist_jules"
+card_id = "specialist_jules_base"
+display_name = "Jules"
+trait_id = "tempo_setter"
+primary_role = "CM"
+natural_roles = Array[String](["CM"])
+attributes = {"PAC": 69, "SHO": 63, "PAS": 81, "DRI": 77, "DEF": 64, "PHY": 67}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p7"]
+script = ExtResource("2")
+person_id = "specialist_kian"
+card_id = "specialist_kian_base"
+display_name = "Kian"
+trait_id = "turn_and_go"
+primary_role = "CM"
+natural_roles = Array[String](["CM"])
+attributes = {"PAC": 70, "SHO": 64, "PAS": 82, "DRI": 78, "DEF": 65, "PHY": 68}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p8"]
+script = ExtResource("2")
+person_id = "specialist_lior"
+card_id = "specialist_lior_base"
+display_name = "Lior"
+trait_id = "close_control"
+primary_role = "LW"
+natural_roles = Array[String](["LW"])
+attributes = {"PAC": 87, "SHO": 74, "PAS": 76, "DRI": 86, "DEF": 41, "PHY": 63}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p9"]
+script = ExtResource("2")
+person_id = "specialist_marek"
+card_id = "specialist_marek_base"
+display_name = "Marek"
+trait_id = "poacher"
+primary_role = "ST"
+natural_roles = Array[String](["ST"])
+attributes = {"PAC": 76, "SHO": 83, "PAS": 64, "DRI": 77, "DEF": 34, "PHY": 78}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p10"]
+script = ExtResource("2")
+person_id = "specialist_niko"
+card_id = "specialist_niko_base"
+display_name = "Niko"
+trait_id = "finesse_shot"
+primary_role = "RW"
+natural_roles = Array[String](["RW"])
+attributes = {"PAC": 84, "SHO": 75, "PAS": 72, "DRI": 83, "DEF": 42, "PHY": 65}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p11"]
+script = ExtResource("2")
+person_id = "specialist_otto"
+card_id = "specialist_otto_base"
+display_name = "Otto"
+trait_id = "sweeper_keeper"
+primary_role = "GK"
+natural_roles = Array[String](["GK"])
+attributes = {"PAC": 52, "SHO": 20, "PAS": 58, "DRI": 40, "DEF": 35, "PHY": 67}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p12"]
+script = ExtResource("2")
+person_id = "specialist_pavel"
+card_id = "specialist_pavel_base"
+display_name = "Pavel"
+trait_id = "hard_tackle"
+primary_role = "CB"
+natural_roles = Array[String](["CB"])
+attributes = {"PAC": 64, "SHO": 36, "PAS": 62, "DRI": 48, "DEF": 80, "PHY": 83}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p13"]
+script = ExtResource("2")
+person_id = "specialist_quinn"
+card_id = "specialist_quinn_base"
+display_name = "Quinn"
+trait_id = "accelerator"
+primary_role = "LB"
+natural_roles = Array[String](["LB"])
+attributes = {"PAC": 79, "SHO": 49, "PAS": 69, "DRI": 69, "DEF": 67, "PHY": 69}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p14"]
+script = ExtResource("2")
+person_id = "specialist_ravi"
+card_id = "specialist_ravi_base"
+display_name = "Ravi"
+trait_id = "dead_ball_artist"
+primary_role = "CM"
+natural_roles = Array[String](["CM"])
+attributes = {"PAC": 70, "SHO": 64, "PAS": 82, "DRI": 78, "DEF": 65, "PHY": 68}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[sub_resource type="Resource" id="p15"]
+script = ExtResource("2")
+person_id = "specialist_soren"
+card_id = "specialist_soren_base"
+display_name = "Soren"
+trait_id = "penalty_composure"
+primary_role = "ST"
+natural_roles = Array[String](["ST"])
+attributes = {"PAC": 78, "SHO": 85, "PAS": 66, "DRI": 79, "DEF": 36, "PHY": 80}
+keeper_attributes = {"REF": 75, "HAN": 73, "POS": 74, "DIV": 76, "KIC": 70}
+
+[resource]
+script = ExtResource("1")
+cards = Array[Resource]([SubResource("p0"), SubResource("p1"), SubResource("p2"), SubResource("p3"), SubResource("p4"), SubResource("p5"), SubResource("p6"), SubResource("p7"), SubResource("p8"), SubResource("p9"), SubResource("p10"), SubResource("p11"), SubResource("p12"), SubResource("p13"), SubResource("p14"), SubResource("p15")])

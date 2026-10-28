@@ -183,7 +183,7 @@ func _pause_menu() -> void:
 	_button(right, "result" if model.finished else "resume", "Match summary" if model.finished else ("Return to halftime" if model.period == 1 else "Resume match"), true)
 	for entry in [["details","Match details"],["log","Event log"],["settings","Settings"]]: _button(right, entry[0], entry[1])
 	right.add_child(HSeparator.new())
-	for entry in [["restart","Restart exhibition"],["new","New exhibition"],["quit","Quit to desktop"]]: _button(right, entry[0], entry[1])
+	for entry in [["restart","Restart exhibition"],["prepare","Prepare exhibition"],["quit","Quit to desktop"]]: _button(right, entry[0], entry[1])
 	for action in right.get_children():
 		if action is Button:
 			action.add_theme_font_size_override("font_size",roundi(20*scale_factor))
@@ -249,7 +249,7 @@ func _team_score(parent: Control, report: Dictionary, pixels: int, scorers: bool
 		if scorers:
 			var names: Array[String] = []
 			for event in report.events:
-				if event.kind == "goal" and event.team == team: names.append("%s %d′" % [model.players[event.actor].name, event.minute])
+				if event.kind == "goal" and event.team == team: names.append("%s %d′" % [event.get("actor_name",model.players[event.actor].name), event.minute])
 			_text(group, " · ".join(names), "Label", 15, HORIZONTAL_ALIGNMENT_CENTER).text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 
 func _comparison_row(parent: Node, caption: String, values: Array, key: String, tip: Label = null) -> void:
@@ -395,7 +395,7 @@ func _log() -> void:
 func _confirmation() -> void:
 	var box := _column(Rect2(size * Vector2(0.23,0.24),size * Vector2(0.54,0.55)))
 	_text(box, "EXHIBITION ONLY", "Section", 15)
-	_text(box, "Restart this fixture?" if mode == "restart" else "Start a new exhibition?", "Heading", 48)
+	_text(box, "Change the match plan?" if mode == "prepare" else ("Restart this fixture?" if mode == "restart" else "Start a new exhibition?"), "Heading", 48)
 	_text(box, "Discard this exhibition and replay its seed." if mode == "restart" else "Discard this exhibition and start a different seed.", "Label", 18).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_text(box, "Exhibition progress is not saved.", "Label", 16)
 	_button(box, "confirm_" + mode, "Replay fixture" if mode == "restart" else "Start new fixture", true)

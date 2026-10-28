@@ -36,6 +36,7 @@ var presented_owner := -1
 var impact_tick := -1000
 var impact_position := Vector2.ZERO
 var ball_trail: Array[Vector2] = []
+var preparation: Control
 
 func _ready() -> void:
 	var seed_value := fixture_seed if fixture_seed != 0 else int(Time.get_unix_time_from_system()) ^ Time.get_ticks_usec()
@@ -57,6 +58,32 @@ func _ready() -> void:
 	_layout()
 	_sync_state()
 	hud.apply_focus_style()
+	if fixture_seed == 0: open_preparation()
+
+func open_preparation() -> void:
+	var next_seed := sim.match_seed+(1 if sim.ticks > 0 else 0)
+	paused = true
+	_close_overlay(false)
+	if is_instance_valid(preparation): preparation.queue_free()
+	preparation = load("res://ui/preparation.gd").new()
+	preparation.plans[0] = sim.plans[0].duplicate(true)
+	preparation.plans[1] = sim.plans[1].duplicate(true)
+	preparation.ui_scale = hud.ui_scale
+	add_child(preparation)
+	preparation.submitted.connect(func(home,away):
+		sim = Match.new(next_seed,Match.REGULATION_SECONDS,home,away)
+		preparation.queue_free()
+		preparation = null
+		selected = -1
+		hovered = -1
+		result_dismissed = false
+		hud.event_count = -1
+		paused = false
+		_sync_state())
+	preparation.cancelled.connect(func():
+		preparation.queue_free()
+		preparation = null
+		_open_overlay("menu"))
 
 func _make_turf() -> void:
 	# One reusable texture; fixed surface noise never consumes match randomness.
@@ -97,7 +124,7 @@ func _sync_state() -> void:
 	var description := ""
 	if inspected >= 0:
 		var p = sim.players[inspected]
-		description = "%s · %s\nPAC %d  SHO %d  PAS %d\nDRI %d  DEF %d%s" % [p.name, "Meadow" if p.team == 0 else "Harbor", p.pace, p.shooting, p.passing, p.dribbling, p.defence, "  GK %d" % p.keeping if inspected % 11 == 0 else ""]
+		description = "%s · %s · %s\nPAC %d SHO %d PAS %d DRI %d DEF %d PHY %d\nStamina %d · %s" % [p.name,p.role,p.card.tier().capitalize(),sim.attribute(inspected,"PAC"),sim.attribute(inspected,"SHO"),sim.attribute(inspected,"PAS"),sim.attribute(inspected,"DRI"),sim.attribute(inspected,"DEF"),sim.attribute(inspected,"PHY"),p.stamina,p.job]
 	if overlay_mode.is_empty() and not _required_report().is_empty():
 		_open_overlay(_required_report())
 	hud.refresh(sim, paused, speed, description)
@@ -190,6 +217,8 @@ func _on_command(action: String) -> void:
 				paused = false
 		"confirm_restart": _restart(false)
 		"confirm_new": _restart(true)
+		"prepare": _open_overlay("prepare")
+		"confirm_prepare": open_preparation()
 		"quit": get_tree().quit()
 	_sync_state()
 
@@ -231,7 +260,7 @@ func _close_overlay(animate: bool = true) -> void:
 		hud.buttons.menu.grab_focus()
 
 func _restart(new_seed: bool = false) -> void:
-	sim = Match.new(sim.match_seed + (1 if new_seed else 0))
+	sim = Match.new(sim.match_seed + (1 if new_seed else 0),Match.REGULATION_SECONDS,sim.plans[0],sim.plans[1])
 	selected = -1
 	hovered = -1
 	label_alpha.fill(1.0)
@@ -244,6 +273,7 @@ func _restart(new_seed: bool = false) -> void:
 	_sync_state()
 
 func _input(event: InputEvent) -> void:
+	if is_instance_valid(preparation): return
 	if event is InputEventMouseButton and event.pressed:
 		hud.keyboard_focus = false
 		hud.apply_focus_style()
@@ -326,7 +356,48 @@ func _draw() -> void:
 	for i in 22:
 		if not priorities.has(i): priorities.append(i)
 	for index in priorities: _draw_name(index)
+	_draw_traits()
 	_draw_ball()
+
+func _draw_traits() -> void:
+	if sim.ball_state in [Match.BallState.DEAD,Match.BallState.KICKOFF] or sim.finished: return
+	var labels := 0
+	var actors: Array = sim.players.duplicate()
+	actors.sort_custom(func(a,b):
+		var a_priority: int = (1000000 if a.id == sim.owner or a.id == selected else 0)+a.trait_state.get("started",-1000)
+		var b_priority: int = (1000000 if b.id == sim.owner or b.id == selected else 0)+b.trait_state.get("started",-1000)
+		return a_priority > b_priority)
+	for p in actors:
+		if not p.active: continue
+		var state: Dictionary = p.trait_state
+		if state.is_empty(): continue
+		var age: int = sim.active_ticks-state.get("resolved",state.started)
+		if state.state != "active" and age > 36: continue
+		var position := _field(player_positions[p.id])
+		var tint := Color("7bd2cf") if p.role == "GK" or state.trait in ["accelerator","recovery_sprint","touchline_burst"] else AMBER
+		var alpha := 0.85 if state.state == "active" else clampf(1-age/36.0,0,1)*0.6
+		if hud.effects_enabled and not hud.reduced_motion:
+			var pulse := 1.0+sin((sim.active_ticks-state.started)*0.12)*0.08
+			draw_arc(position,20*pulse,0,TAU,32,Color(tint,alpha*0.5),2,true)
+			if state.state == "success": draw_arc(position,23,0,TAU,32,Color(tint,alpha),1,true)
+		# Quiet icons retain identity off-ball; only three recent labels compete for attention.
+		var icon := position+Vector2(0,-21)
+		if state.kind in ["run","entry"]:
+			for shift in [-3,3]: draw_polyline(PackedVector2Array([icon+Vector2(shift-2,3),icon+Vector2(shift+2,0),icon+Vector2(shift-2,-3)]),Color(tint,alpha),1.3,true)
+		elif state.kind == "pass":
+			draw_line(icon+Vector2(-5,0),icon+Vector2(5,0),Color(tint,alpha),1.4,true)
+			draw_polyline(PackedVector2Array([icon+Vector2(1,-4),icon+Vector2(5,0),icon+Vector2(1,4)]),Color(tint,alpha),1.3,true)
+		elif state.kind in ["shot","save","parry"]:
+			draw_arc(icon,5,0,TAU,16,Color(tint,alpha),1.3,true)
+			draw_line(icon+Vector2(-3,-3),icon+Vector2(3,3),Color(tint,alpha),1.2,true)
+		else: draw_polyline(PackedVector2Array([icon+Vector2(-4,0),icon+Vector2(0,-5),icon+Vector2(4,0),icon+Vector2(0,5),icon+Vector2(-4,0)]),Color(tint,alpha),1.2,true)
+		if labels < 3 and sim.active_ticks-state.started < 72:
+			var title: String = state.trait.replace("_"," ").to_upper()
+			var width := font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,11).x
+			var origin := Vector2(clampf(position.x-width/2,pitch.position.x+2,pitch.end.x-width-2),maxf(pitch.position.y+12,position.y-32))
+			draw_string_outline(font,origin,title,HORIZONTAL_ALIGNMENT_LEFT,-1,11,3,Color("0c2117"))
+			draw_string(font,origin,title,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color(tint,alpha))
+			labels += 1
 
 func _draw_ball() -> void:
 	var opacity := _formation_opacity()
@@ -338,11 +409,14 @@ func _draw_ball() -> void:
 		bounce = absf(sin(phase)) * 1.6
 		touch = (sim.players[sim.owner].position - sim.players[sim.owner].previous).normalized() * sin(phase) * 1.8
 	var center := ground + touch - Vector2(0, bounce)
+	center.y -= sim.ball_height*5
 	draw_set_transform(ground + Vector2(0, 4), 0, Vector2(1.35, 0.5))
 	draw_circle(Vector2.ZERO, 4.7, Color(0.01,0.03,0.02,0.75*opacity))
 	draw_set_transform(Vector2.ZERO)
 	draw_circle(center, 6.2, Color(Color("102118"),opacity))
 	draw_circle(center, 5.1, Color(Color("e5e8df"),opacity))
+	if hud.effects_enabled and sim.flight_trait_actor >= 0 and sim.ball_state == Match.BallState.FLIGHT:
+		draw_arc(center,6.5,0,TAU,20,Color(AMBER,0.85*opacity),1.3,true)
 	var patch := PackedVector2Array()
 	for i in 5: patch.append(center + Vector2.from_angle(ball_roll + i * TAU / 5) * 2.0)
 	draw_colored_polygon(patch, Color(Color("203c2a"),opacity))
@@ -379,6 +453,7 @@ func _draw_goal(end: int) -> void:
 	draw_line(Vector2(mouth_x, top), Vector2(mouth_x, bottom), Color(0.96,0.97,0.9,0.7), 2, true)
 
 func _draw_player(index: int) -> void:
+	if not sim.players[index].active: return
 	var point := _field(player_positions[index])
 	var opacity := _formation_opacity()
 	var color := Color(CREAM if index < 11 else CORAL,opacity)
@@ -403,6 +478,7 @@ func _draw_player(index: int) -> void:
 	draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM if index % 11 == 0 or index >= 11 else Color("102315"),opacity))
 
 func _draw_name(index: int) -> void:
+	if not sim.players[index].active: return
 	var point := _field(player_positions[index])
 	var player_name: String = sim.players[index].name
 	var pixels: int = roundi(14 * hud.ui_scale)

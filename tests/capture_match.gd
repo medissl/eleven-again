@@ -82,7 +82,8 @@ func capture() -> void:
 			scene.paused = true
 			scene._sync_state()
 		if not panel_mode.is_empty():
-			scene._on_command(panel_mode)
+			if panel_mode == "preparation": scene.open_preparation()
+			else: scene._on_command(panel_mode)
 			await process_frame
 			await process_frame
 		await create_timer(0.25).timeout
@@ -124,7 +125,16 @@ func click_button(viewport: SubViewport, button: Button) -> void:
 
 func verify_controls(viewport: SubViewport, scene: Control) -> void:
 	var before: Array = scene.sim.signature()
-	if scene.overlay_mode == "halftime":
+	if is_instance_valid(scene.preparation):
+		var prep = scene.preparation
+		prep.plans[0].formation = "4-4-2"
+		prep.plans[0].attack = "counter"
+		prep.rebuild()
+		await process_frame
+		await send_key(viewport,KEY_ENTER)
+		assert(scene.preparation == null and not scene.paused and scene.sim.plans[0].formation == "4-4-2" and scene.sim.plans[0].attack == "counter")
+		assert(scene.sim.active_ticks == 0 and scene.sim.players.size() == 22)
+	elif scene.overlay_mode == "halftime":
 		await send_key(viewport, KEY_ESCAPE)
 		assert(scene.overlay_mode == "halftime" and scene.sim.signature() == before)
 		var focused := viewport.gui_get_focus_owner() as Button
@@ -181,19 +191,19 @@ func capture_motion(kind: String) -> void:
 	view.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	view.size = Vector2(1280,720)
 	view.scale = Vector2(viewport.size) / view.size
-	var wanted: String = {"kickoff":"kickoff", "kickoff2x":"kickoff", "goal":"goal","goal2x":"goal","goalpause":"goal","halftime":"halftime","fulltime":"full_time","passes":"pass","rebound":"parry","recovery":"tackle","menu":"pass"}[kind]
+	var wanted: String = {"traits":"trait_activation","traits2x":"trait_activation","kickoff":"kickoff", "kickoff2x":"kickoff", "goal":"goal","goal2x":"goal","goalpause":"goal","halftime":"halftime","fulltime":"full_time","passes":"pass","rebound":"parry","recovery":"tackle","menu":"pass"}[kind]
 	while not view.sim.events.any(func(event): return event.kind == wanted) and not view.sim.finished:
 		if wanted != "halftime": view.sim.acknowledge_halftime()
 		view.sim.step()
 	assert(view.sim.events.any(func(event): return event.kind == wanted))
-	if kind in ["kickoff","kickoff2x","passes","rebound","recovery","goal","goal2x","goalpause"]:
+	if kind in ["traits","traits2x","kickoff","kickoff2x","passes","rebound","recovery","goal","goal2x","goalpause"]:
 		var lead_in: int = maxi(0,view.sim.ticks-12)
 		view.sim = load("res://match/match_sim.gd").new(11027)
 		while view.sim.ticks < lead_in:
 			view.sim.acknowledge_halftime()
 			view.sim.step()
 	view.paused = false
-	view.speed = 2 if kind in ["kickoff2x", "goal2x"] else 1
+	view.speed = 2 if kind in ["traits2x","kickoff2x", "goal2x"] else 1
 	view._sync_state()
 	if view.has_method("snap_presentation"): view.call("snap_presentation")
 	var directory := "res://.godot/presentation-frames/%s-%d" % [kind, viewport.size.y]

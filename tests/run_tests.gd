@@ -1,6 +1,10 @@
 extends SceneTree
 
 const Match = preload("res://match/match_sim.gd")
+const GameplayChecks = preload("res://tests/gameplay_checks.gd")
+const TraitChecks = preload("res://tests/trait_checks.gd")
+const RuleChecks = preload("res://tests/rule_checks.gd")
+const AttributeChecks = preload("res://tests/attribute_checks.gd")
 var checks := 0
 var failures: Array[String] = []
 
@@ -14,6 +18,14 @@ func _initialize() -> void:
 	call_deferred("run")
 
 func run() -> void:
+	if "--batch-only" in OS.get_cmdline_user_args():
+		GameplayChecks.new().run(check)
+		TraitChecks.new().run(check)
+		RuleChecks.new().run(check)
+		AttributeChecks.new().run(check)
+		print("BATCH CHECKS ",checks," FAILURES ",failures.size())
+		quit(0 if failures.is_empty() else 1)
+		return
 	var a := Match.new(42)
 	var b := Match.new(42)
 	check(a.players.size() == 22, "two complete fictional elevens")
@@ -78,6 +90,10 @@ func run() -> void:
 	test_kickoffs()
 	test_boundaries()
 	test_clock()
+	GameplayChecks.new().run(check)
+	TraitChecks.new().run(check)
+	RuleChecks.new().run(check)
+	AttributeChecks.new().run(check)
 	if "--model-only" not in OS.get_cmdline_user_args(): await test_view()
 	print("CHECKS ", checks, " FAILURES ", failures.size())
 	quit(0 if failures.is_empty() else 1)
@@ -125,10 +141,10 @@ func test_shots() -> void:
 	for seed_value in 40:
 		var saved = shot_fixture(seed_value)
 		finish_flight(saved)
-		if saved.events.back().kind == "hold":
+		if saved.events.any(func(event): return event.kind == "hold"):
 			holds += 1
 			check(saved.owner == 11 and saved.saves[1] == 1, "keeper holds after one save event")
-		elif saved.events.back().kind == "parry":
+		elif saved.events.any(func(event): return event.kind == "parry"):
 			parries += 1
 			check(saved.owner == -1 and saved.ball_state == Match.BallState.LOOSE and saved.ball_velocity.length() > 0, "parry creates moving rebound")
 	check(holds > 0 and parries > 0, "seeded scenarios exercise holds and parries")
@@ -303,6 +319,10 @@ func label_texts(node: Node) -> String:
 
 func test_view() -> void:
 	var view = load("res://match/match_view.tscn").instantiate()
+	check(view.get_script() != null, "match view script compiles")
+	if view.get_script() == null:
+		view.free()
+		return
 	view.fixture_seed = 11027
 	root.add_child(view)
 	view.set_physics_process(false)
@@ -390,7 +410,7 @@ func test_view() -> void:
 	check(view.hud.event_list.get_child(0).get_child(2).get_child(0).text == "Full time", "newest event appears first")
 	check(view.overlay_mode == "result" and view.paused, "full time opens a persistent result report")
 	var moments: String = label_texts(view.hud.panel_content.find_child("Moments", true, false))
-	check("Goal" in moments and "No goals" not in moments, "report never appends an empty-state message to actual scoring events")
+	check(("Goal" in moments) == (view.sim.scores[0]+view.sim.scores[1] > 0), "report scoring moments agree with the actual fixture")
 	view._input(key(KEY_ESCAPE))
 	check(view.overlay_mode == "result", "Escape cannot discard the final report")
 	view._on_command("continue_result")

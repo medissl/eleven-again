@@ -273,7 +273,7 @@ func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String)
 	buttons.pause.disabled = sim.finished or overlay.is_active()
 
 func event_copy(event: Dictionary) -> Array[String]:
-	var actor: String = model.players[event.actor].name if event.actor >= 0 else ""
+	var actor: String = event.get("actor_name",model.players[event.actor].name if event.actor >= 0 else "")
 	match event.kind:
 		"goal": return [actor, "Goal · %d–%d" % event.score]
 		"save": return [actor, "Save"]
@@ -297,6 +297,19 @@ func event_copy(event: Dictionary) -> Array[String]:
 		"throw_in", "corner", "free_kick": return [actor, event.kind.replace("_"," ").capitalize()]
 		"throw_in_awarded", "corner_awarded", "free_kick_awarded", "goal_kick_awarded": return [actor, event.kind.replace("_"," ").capitalize()]
 		"foul": return [actor, "Foul on %s" % model.players[event.victim].name]
+		"poor_touch": return [actor, "Loose first touch"]
+		"substitution": return [actor, "On for %s" % event.out_name]
+		"trait_activation": return [actor,event.trait.replace("_"," ").capitalize()+" · Activated"]
+		"trait_result": return [actor,event.trait.replace("_"," ").capitalize()+" · "+event.state.capitalize()+": "+event.reason]
+		"offside": return [actor,"Offside"]
+		"yellow_card": return [actor,"Yellow card"]
+		"red_card": return [actor,"Second yellow · sent off" if event.second_yellow else "Red card"]
+		"penalty_awarded": return [actor,"Penalty awarded"]
+		"penalty": return [actor,"Penalty"]
+		"indirect_free_kick", "indirect_free_kick_awarded": return [actor,"Indirect free kick"]
+		"emergency_keeper": return [actor,"Emergency goalkeeper"]
+		"forfeit": return [actor,"Match forfeited · fewer than seven players"]
+		"header", "aerial_win": return [actor,"Aerial contact"]
 		"recovery": return [actor, "Loose ball recovered"]
 		_: return [actor, "Ball out"]
 
@@ -309,7 +322,7 @@ func _refresh_rows() -> void:
 	var limit := maxi(1, int((size.y - 208 - (80 * ui_scale if not inspected.is_empty() else 0)) / (72 * ui_scale + 12)))
 	for i in range(model.events.size() - 1, -1, -1):
 		var event: Dictionary = model.events[i]
-		if event.kind not in ["goal", "save", "parry", "smother", "tackle", "interception", "block", "miss", "shot", "pass", "kickoff", "halftime", "full_time"]: continue
+		if event.kind not in ["goal", "save", "parry", "smother", "tackle", "interception", "block", "miss", "shot", "pass", "kickoff", "halftime", "full_time","offside","foul","yellow_card","red_card","substitution","penalty_awarded","corner_awarded","throw_in_awarded","goal_kick_awarded","forfeit"]: continue
 		if event.kind == "pass":
 			if pass_shown: continue
 			pass_shown = true

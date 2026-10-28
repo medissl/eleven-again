@@ -2,6 +2,18 @@ extends RefCounted
 ## Ground-plane law boundaries. Height is supplied by the flight model, never the renderer.
 const RADIUS := 0.11
 
+static func contact_fraction(from: Vector2, to: Vector2, centre: Vector2, radius: float) -> float:
+	var offset := from-centre
+	if offset.length_squared() <= radius*radius: return 0.0
+	var delta := to-from
+	var a := delta.length_squared()
+	if a < 0.0000001: return INF
+	var b := 2*offset.dot(delta)
+	var discriminant := b*b-4*a*(offset.length_squared()-radius*radius)
+	if discriminant < 0: return INF
+	var entry := (-b-sqrt(discriminant))/(2*a)
+	return entry if entry >= 0 and entry <= 1 else INF
+
 static func crossing(from: Vector2, to: Vector2) -> Dictionary:
 	var first := 2.0
 	var axis := -1
@@ -32,7 +44,10 @@ static func resolve(model, from: Vector2, to: Vector2) -> bool:
 		return true
 	var attacking_team := 0 if model.direction(0) == (1.0 if hit.edge > 0 else -1.0) else 1
 	if absf(hit.point.y-34) + RADIUS <= 3.66 and model.ball_height <= 2.44-RADIUS:
-		model.goal_scored(touch, attacking_team)
+		if model.restart_untouched and (attacking_team != model.restart_kick_team or model.restart_delivery in ["throw_in","indirect_free_kick"]):
+			if attacking_team != model.restart_kick_team: model.award_restart(attacking_team,Vector2(hit.edge,0 if hit.point.y < 34 else 68),"corner",touch)
+			else: model.award_restart(1-attacking_team,model.oriented(Vector2(5.5,34),1-attacking_team),"goal_kick",touch)
+		else: model.goal_scored(touch, attacking_team)
 	elif touching_team == attacking_team:
 		if model.flight_kind == "shot": model.emit_event("miss", model.flight_source)
 		model.award_restart(1-attacking_team, model.oriented(Vector2(5.5,34),1-attacking_team), "goal_kick", touch)

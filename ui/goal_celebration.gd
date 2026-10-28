@@ -57,7 +57,7 @@ func sync(sim: RefCounted, event: Dictionary, reduce: bool, show_effects: bool, 
 			_make_particles(sim.match_seed ^ event.tick ^ event.actor,event.team)
 		team = event.team
 		age = sim.ticks - event.tick
-		detail.text = sim.players[event.actor].name.to_upper()
+		detail.text = event.get("actor_name",sim.players[event.actor].name).to_upper()
 		team_line.text = "%s  ·  %d′" % ["MEADOW XI" if team == 0 else "HARBOR XI",event.minute]
 	var active: bool = age >= 0 and age < 150 and not blocked and sim.period != 1 and not sim.finished
 	visible = active
