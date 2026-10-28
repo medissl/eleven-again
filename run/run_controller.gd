@@ -6,6 +6,7 @@ const Lineup = preload("res://squad/lineup.gd")
 const Card = preload("res://content/player_card.gd")
 const Match = preload("res://match/match_sim.gd")
 const Snapshot = preload("res://match/match_snapshot.gd")
+const State = preload("res://run/run_state.gd")
 const PRINCIPLES := ["short_combinations","wide_service","counter_runners","first_pressure","set_piece_preparation","bench_impact"]
 var content: RefCounted
 var model: RefCounted
@@ -21,6 +22,13 @@ func snapshot() -> Dictionary:
 
 func revision() -> int:
 	return _state.get("revision",0)
+
+func restore(data: Variant) -> Dictionary:
+	var error := State.error(data,content)
+	if not error.is_empty(): return failure(error)
+	_state = data.duplicate(true)
+	model = Snapshot.restore(data.match_snapshot) if data.step == "match" else null
+	return {"ok":true,"revision":revision()}
 
 func start(origin: String, seed_value: int, run_id: String) -> Dictionary:
 	if not _state.is_empty(): return failure("This controller already holds a run.")

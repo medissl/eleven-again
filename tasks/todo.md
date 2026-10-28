@@ -153,10 +153,12 @@ Latest target supersedes the earlier four-win product: use `../outputs/run-desig
   - Dependencies: Gate 2. Likely files: `match/match_sim.gd`, `match/shootout.gd`, `ui/match_hud.gd`, `tests/test_match_rules.gd` (M).
   - Evidence (28 October match batch): Optional knockout preparation profile: two 30-active-second ET halves, physical penalties, early clinch and paired sudden death. Separate score/stat tallies, exact in-flight resume, winner/phase tests and native result/Continue checks at both sizes pass.
 - [ ] **3.2 — Country setup and stage progression.** Integrate the six authored origins with 16 starters/$8m and all twelve saved fixture assignments; progress through twelve victories or three defeats using explicit result/reward states.
+  - Foundation evidence (28 October): `content/campaign.gd` admits six origins/96 starters, 24 clubs/60 stage rosters and 100 fictional recruits; `run/run_controller.gd` passes the complete twelve-win/three-loss state chain and one real native knockout result boundary. Stable revisions reject duplicate results/actions; opponents remain frozen across losses. Native setup/board/results integration and full campaign acceptance remain open. See [foundation evidence](../reports/campaign-foundation.md).
   - Acceptance: losses retain roster/cash and retry the saved opponent with a new attempt seed; result/prize application is idempotent; final win/loss ends exactly once.
   - Verification: forced win/loss sequences, repeated result delivery, max-fixture bound, and restart from summary; inspect setup/run overview.
   - Dependencies: 3.1. Likely files: `run/run_state.gd`, `run/run_controller.gd`, `content/full_run.tres`, `ui/run_overview.tscn`, `tests/test_run.gd` (M).
 - [ ] **3.3 — Recruit one of five.** Add the opening and all nine scheduled victory offers, four-tier eligibility/depletion rules, identity exclusions, role coverage and atomic squad replacement.
+  - Foundation evidence: all ten decisions, 200-seed band/role/depletion checks, person-wide edition exclusions, explicit 18-player replacement, zero-value release and last-GK protection pass in the controller. Failures preserve state/RNG. Native five-full-card selection/replacement/cancel flows and durable profile discovery remain pending.
   - Acceptance: five distinct eligible people, opening 75–79, one choice/decline, 18-player cap, owned/released exclusions, and cancelled replacement leaves the squad untouched.
   - Verification: seeded offers, exhausted category/band fallback, duplicate versions, full-squad cancel/confirm; keyboard comparison/selection flow.
   - Dependencies: 3.2. Likely files: `run/recruitment.gd`, `squad/squad_rules.gd`, `ui/recruitment.tscn`, `ui/recruitment.gd`, `tests/test_recruitment.gd` (M).
@@ -164,6 +166,7 @@ Latest target supersedes the earlier four-win product: use `../outputs/run-desig
 **Checkpoint 3A:** The twelve-stage controller advances with actual resolved matches and non-repeatable rewards; recruitment never violates identity/squad rules.
 
 - [ ] **3.4 — All three markets with real spending consequences.** Add eight saved candidates after wins 3/7/11, price interpolation, affordability safeguards and a two-purchase limit per visit. Use the documented 115–120 peak price revision ($70–80m); lower anchors are unchanged.
+  - Foundation evidence: three eight-candidate markets, two low-band slots, correct prices, two-buy cap, insufficient-funds rollback, fixed close/reopen stock and next-kickoff expiry pass. Native pages/signing review and durable transaction/profile integration remain pending.
   - Acceptance: recruit precedes market, insufficient funds/third purchase are rejected, release/payment/acquisition commit together, and previews/cancels cannot spend or release anything.
   - Verification: exact funds, negative balance prevention, monotonic prices, full-squad purchase rollback, and no refresh after reopening; inspect next-opponent/funds preview.
   - Dependencies: 3.3. Likely files: `run/market.gd`, `run/run_controller.gd`, `ui/market.tscn`, `ui/market.gd`, `tests/test_market.gd` (M).
@@ -181,10 +184,12 @@ Latest target supersedes the earlier four-win product: use `../outputs/run-desig
 ## Phase 4 — reliable continuation
 
 - [ ] **4.1 — Versioned saves at decision boundaries.** Add separate active-run/profile envelopes, validated serialization, atomic writes, one backup, and menu continuation.
+  - Foundation evidence: `persistence/save_store.gd` and `run/run_state.gd` pass disposable native disk/backup/corrupt-preservation checks, finite plain-data/content/financial validation and exact state restoration. Run/profile journal coordination, autosave wiring and user-facing Continue/recovery remain pending; this primitive does not complete the task.
   - Acceptance: generated offers/markets/opponents and unresolved reward steps restore exactly; purchase/result replay cannot double-commit; corrupt/incompatible state is preserved and recovery is explained.
   - Verification: disposable-directory interrupted-write/backup/schema tests and reopen at each run decision; test alongside existing user saves without touching them.
   - Dependencies: Gate 3. Likely files: `persistence/save_store.gd`, `persistence/state_codec.gd`, `run/run_controller.gd`, `ui/main_menu.gd`, `tests/test_save.gd` (M).
 - [ ] **4.2 — Exact mid-match continuation.** Persist committed inputs and complete match/RNG state, including pending events and cooldowns.
+  - Foundation evidence: two separate Godot executable launches save and restore a committed native campaign match, reproducing the exact 600-tick future signature/RNG. In-game Save and exit/Continue, lifecycle autosave and expanded interruption scenarios remain pending.
   - Acceptance: quitting/resuming the committed attempt preserves future events/result on the supported build; it cannot reroll opponent/seed or repeat a reward; incompatible build handling is explicit.
   - Verification: uninterrupted versus resumed state/event comparison during possession, ball flight, dead ball, subs, ET, and shootout; test safe recovery after forced interruption.
   - Dependencies: 4.1. Likely files: `match/match_state.gd`, `match/match_sim.gd`, `persistence/state_codec.gd`, `run/run_controller.gd`, `tests/test_save.gd` (M).

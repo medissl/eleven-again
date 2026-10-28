@@ -2,6 +2,7 @@ extends SceneTree
 const Campaign = preload("res://content/campaign.gd")
 const Controller = preload("res://run/run_controller.gd")
 const Lineup = preload("res://squad/lineup.gd")
+const State = preload("res://run/run_state.gd")
 var content: RefCounted
 
 func _initialize() -> void:
@@ -18,11 +19,13 @@ func fixture(controller: RefCounted, home: int, away: int, penalties: bool = fal
 	var old_revision: int = controller.revision()
 	assert(controller.finish_match(old_revision).ok)
 	var result: Dictionary = controller.snapshot()
+	assert(State.error(result,content).is_empty(),State.error(result,content))
 	assert(not controller.finish_match(old_revision).ok and controller.snapshot() == result,"Repeated result cannot pay or advance twice")
 
 func decisions(controller: RefCounted, counts: Dictionary, sign_free: bool = false) -> void:
 	while controller.snapshot().step not in ["prepare","won","lost"]:
 		var state: Dictionary = controller.snapshot()
+		assert(State.error(state,content).is_empty(),State.error(state,content))
 		match state.step:
 			"result": assert(controller.continue_result(controller.revision()).ok)
 			"opening_recruit", "recruit":
@@ -87,6 +90,7 @@ func run() -> void:
 		if index < 2: decisions(failed,{"recruits":0,"markets":0,"coaching":0})
 	assert(failed.snapshot().step == "lost" and failed.snapshot().ledger.size() == 3 and failed.snapshot().cash == 8000000)
 	market_checks()
+	signing_failures()
 	actual_match()
 	print("CAMPAIGN: twelve wins, three defeats, ten recruits, three fixed markets, two choices, revisions, signing and native match boundary passed")
 	quit()
@@ -138,3 +142,45 @@ func actual_match() -> void:
 	var report: Dictionary = controller.model.snapshot_report()
 	assert(controller.finish_match(controller.revision()).ok)
 	assert(controller.snapshot().ledger[0].report == report,"Run ledger consumes the real football outcome")
+
+func signing_failures() -> void:
+	var controller := Controller.new(content)
+	assert(controller.start("ARG",91,"signing-contract").ok)
+	var state: Dictionary = controller.snapshot()
+	assert(controller.acquire(state.offer.cards[1],"",controller.revision()).ok)
+	fixture(controller,1,0)
+	var before: Dictionary = controller.snapshot()
+	var pool: Array = content.recruits.duplicate()
+	content.recruits.clear()
+	assert(not controller.continue_result(controller.revision()).ok)
+	assert(controller.snapshot() == before,"Content exhaustion retains the paid result and RNG without advancing")
+	content.recruits.assign(pool)
+	assert(controller.continue_result(controller.revision()).ok)
+	state = controller.snapshot()
+	assert(controller.acquire(state.offer.cards[1],"",controller.revision()).ok)
+	fixture(controller,1,0)
+	assert(controller.continue_result(controller.revision()).ok)
+	state = controller.snapshot()
+	var reserve_keeper: String = state.plan.cards[11].card_id
+	assert(controller.acquire(state.offer.cards[1],reserve_keeper,controller.revision()).ok)
+	fixture(controller,1,0)
+	assert(controller.continue_result(controller.revision()).ok)
+	state = controller.snapshot()
+	assert(not controller.acquire(state.offer.cards[1],state.plan.cards[0].card_id,controller.revision()).ok)
+	assert(controller.snapshot() == state,"Last trained keeper is protected atomically")
+	assert(controller.skip_recruit(controller.revision()).ok)
+	state = controller.snapshot()
+	var stock: Array = state.market.cards.duplicate()
+	stock.sort_custom(func(a,b): return content.price(content.cards[a].rating()) > content.price(content.cards[b].rating()))
+	assert(controller.acquire(stock[0],state.plan.cards.back().card_id,controller.revision()).ok)
+	# Authored zero-funds boundary, independent of the sampled stock's prices.
+	controller._state.cash = 0
+	state = controller.snapshot()
+	var expensive: String = stock[1]
+	assert(not controller.acquire(expensive,state.plan.cards.back().card_id,controller.revision()).ok)
+	assert(controller.snapshot() == state,"Insufficient funds retains cash, stock and outgoing player")
+	assert(controller.close_market(controller.revision()).ok)
+	var bad_plan: Resource = Lineup.from_data(controller.snapshot().plan)
+	bad_plan.cards[0].keeper_attributes.REF = 120
+	state = controller.snapshot()
+	assert(not controller.commit_match(bad_plan,controller.revision()).ok and controller.snapshot() == state,"Preparation cannot rewrite base attributes")

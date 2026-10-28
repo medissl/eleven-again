@@ -36,5 +36,11 @@ func _initialize() -> void:
 	# A missing low band may not reroll into a higher one, even when that is all that exists.
 	var high_only: Array = content.recruits.filter(func(c): return c.rating() > 100)
 	assert(not Acquisition.generate(high_only,[{"min":65,"max":69,"weight":100},{"min":100,"max":120,"weight":0}],content.weights.free_slots,[],rng).ok)
+	var card: Resource = content.recruits[0].duplicate(true)
+	var edition: Resource = card.duplicate(true)
+	edition.card_id += "_another_edition"
+	var versions: Array = [card,edition]
+	assert(not Acquisition.generate(versions,[{"min":1,"max":120,"weight":100}],["WILD"],[card.person_id],rng).ok,"Person exclusion applies to all editions")
+	assert(not Acquisition.generate(versions,[{"min":1,"max":120,"weight":100}],["WILD","WILD"],[],rng).ok,"One person cannot fill two offer slots")
 	print("ACQUISITION: opening, all chapters/markets, 200 seeds, low-stock guarantees, exclusion and depletion checks passed")
 	quit()
