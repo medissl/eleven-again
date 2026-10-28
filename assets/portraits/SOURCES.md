@@ -1,0 +1,3 @@
+# Catalogue portraits
+
+200 original modular 96×96 transparent likeness studies promoted from `outputs/player-catalogue-200-v1/portraits/` for the user-requested card integration. Recipes, source kit, hashes and review limits remain in that authoring package. No external photos, third-party sprites or licensed kits are used. These are provisional approximations, not verified historical likenesses. Display with nearest filtering and preserved square aspect; no runtime compositor is required. Metadata and source-reference scope are retained in `content/player_catalogue.json` and `content/catalogue_references.json`.

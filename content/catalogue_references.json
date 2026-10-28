@@ -1,0 +1,148 @@
+{
+  "sources": [
+    {
+      "id": "AUTHOR",
+      "title": "Catalogue authoring",
+      "url": "",
+      "scope": "Names/football knowledge and selected game roles; records without a specific identity reference are not individually source-verified."
+    },
+    {
+      "id": "UCL25",
+      "title": "UEFA 2024/25 Team of the Season",
+      "url": "https://www.uefa.com/uefachampionsleague/news/029a-1de594e11846-742ee836b971-1000--2024-25-champions-league-team-of-the-season/",
+      "scope": "Modern-player selection context; no game ratings copied."
+    },
+    {
+      "id": "UCLSQUADS",
+      "title": "UEFA 2025/26 squad selections",
+      "url": "https://www.uefa.com/uefachampionsleague/news/029d-1ea2da6b438f-0a4889826e05-1000--champions-league-squads-league-phase-selections-confirmed/",
+      "scope": "Background roster context, not individual verification of every modern row."
+    },
+    {
+      "id": "VITINHA",
+      "title": "Paris Saint-Germain Vitinha profile",
+      "url": "https://www.psg.fr/en/players/vitinha",
+      "scope": "Name, nationality, midfield role and career background."
+    },
+    {
+      "id": "MBAPPE",
+      "title": "Real Madrid Mbappe profile",
+      "url": "https://www.realmadrid.com/en-US/football/first-team/players/kylian-mbappe",
+      "scope": "Identity and forward career background."
+    },
+    {
+      "id": "HAALAND",
+      "title": "Manchester City Haaland profile",
+      "url": "https://www.mancity.com/players/erling-haaland/news",
+      "scope": "Identity, nationality and forward role."
+    },
+    {
+      "id": "DEMBELE",
+      "title": "UEFA Dembele 2024/25 Player of the Season",
+      "url": "https://www.uefa.com/uefachampionsleague/news/029a-1de593cb29ee-c04434a97ebb-1000--ousmane-dembele-named-2024-25-/",
+      "scope": "Modern selection and 2024/25 context."
+    },
+    {
+      "id": "DELPIERO",
+      "title": "Juventus Del Piero Hall of Fame",
+      "url": "https://halloffame.juventus.com/en/hall-of-fame/alessandro-del-piero",
+      "scope": "Identity, forward role and career context."
+    },
+    {
+      "id": "ROONEY",
+      "title": "Premier League Rooney Hall of Fame",
+      "url": "https://www.premierleague.com/en/events/hall-of-fame/inductees/wayne-rooney",
+      "scope": "Forward career background; AM is an authored support-striker mapping."
+    },
+    {
+      "id": "HENRY",
+      "title": "Premier League Henry Hall of Fame",
+      "url": "https://www.premierleague.com/en/events/hall-of-fame/inductees/thierry-henry",
+      "scope": "Identity and winger-to-striker career context."
+    },
+    {
+      "id": "PLHOF",
+      "title": "Premier League Hall of Fame FAQ",
+      "url": "https://www.premierleague.com/en/events/hall-of-fame/faqs",
+      "scope": "Historical player selection context."
+    },
+    {
+      "id": "JUVE",
+      "title": "Juventus Hall of Fame",
+      "url": "https://www.juventus.com/en/hall-of-fame",
+      "scope": "Historical selection; programme requires retired players."
+    },
+    {
+      "id": "INTER",
+      "title": "Inter Hall of Fame",
+      "url": "https://www.inter.it/en/club/hall-of-fame",
+      "scope": "Historical names and broad position groups."
+    },
+    {
+      "id": "BAYERN",
+      "title": "FC Bayern Museum Hall of Fame",
+      "url": "https://fcbayern.com/museum/en/exhibition/fcb-erlebniswelt",
+      "scope": "Historical selection context."
+    },
+    {
+      "id": "BARCA",
+      "title": "Barcelona legendary players",
+      "url": "https://www.fcbarcelona.com/en/club/history/legendary-players",
+      "scope": "Historical player background; not a retirement-status list."
+    },
+    {
+      "id": "BUSQUETS",
+      "title": "Barcelona Busquets retirement announcement",
+      "url": "https://www.fcbarcelona.com/en/football/first-team/news/4369754/sergio-busquets-to-retire-at-the-end-of-the-season",
+      "scope": "Retirement at end of 2025 MLS season."
+    },
+    {
+      "id": "BRAZIL",
+      "title": "FIFA Brazil World Cup forwards",
+      "url": "https://www.fifa.com/pt/articles/todos-atacantes-brasil-copas-do-mundo",
+      "scope": "Historical Brazil attacking-player context."
+    },
+    {
+      "id": "GENTO",
+      "title": "Real Madrid Gento tribute",
+      "url": "https://www.realmadrid.com/en-US/news/football/first-team/special-features/farewell-gento",
+      "scope": "Identity and left-wing career context."
+    },
+    {
+      "id": "MESSI",
+      "title": "Inter Miami Messi contract extension",
+      "url": "https://www.intermiamicf.com/news/inter-miami-cf-signs-leo-messi-to-contract-extension",
+      "scope": "Modern cohort eligibility; contract through 2028, not retirement."
+    },
+    {
+      "id": "RONALDO",
+      "title": "Saudi Pro League Ronaldo contract extension",
+      "url": "https://www.spl.com.sa/en/news/i-believe-i-will-be-champion-in-saudi-arabia-ronaldo-on-al-nassr-renewal",
+      "scope": "Modern cohort eligibility; contract through 2027."
+    },
+    {
+      "id": "NEYMAR",
+      "title": "Santos Neymar 2026 extension",
+      "url": "https://www.santosfc.com.br/santos-fc-e-neymar-jr-renovam-contrato-ate-o-fim-de-2026/",
+      "scope": "Modern cohort eligibility; selected card is a 2014/15 version."
+    },
+    {
+      "id": "SON",
+      "title": "LAFC Son Heung-Min profile",
+      "url": "https://www.lafc.com/players/son-heung-min/",
+      "scope": "Modern career context and South Korea representation."
+    },
+    {
+      "id": "YASHIN",
+      "title": "UEFA Yashin 1960 team of the tournament",
+      "url": "https://www.uefa.com/uefaeuro/history/news/0253-0d7d093f0fcd-0aa143e2ca40-1000--1960-team-of-the-tournament/",
+      "scope": "USSR goalkeeper identity and 1963 Ballon d'Or context."
+    },
+    {
+      "id": "LEWANDOWSKI",
+      "title": "Barcelona Lewandowski historical player record",
+      "url": "https://players.fcbarcelona.com/en/player/2927-robert-lewandowski-robert-lewandowski",
+      "scope": "Recent career background; the selected edition is Bayern 2019/20, not a live-form rating."
+    }
+  ]
+}
