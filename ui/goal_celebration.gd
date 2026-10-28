@@ -15,6 +15,8 @@ var entry := 1.0
 var opacity := 0.0
 var jersey: Control
 var particles: Array[Dictionary] = []
+var team_names: Array = ["Meadow XI","Harbor XI"]
+var team_kits: Array = [Color("efe9d9"),Color("ed7864")]
 
 func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
@@ -58,12 +60,12 @@ func sync(sim: RefCounted, event: Dictionary, reduce: bool, show_effects: bool, 
 		team = event.team
 		age = sim.ticks - event.tick
 		detail.text = event.get("actor_name",sim.players[event.actor].name).to_upper()+(" (OG)" if event.get("own_goal",false) else "")
-		team_line.text = "%s  ·  %d′" % ["MEADOW XI" if team == 0 else "HARBOR XI",event.minute]
+		team_line.text = "%s  ·  %d′" % [team_names[team].to_upper(),event.minute]
 	var active: bool = age >= 0 and age < 150 and not blocked and sim.period != 1 and not sim.finished
 	visible = active
 	for label in [title,detail,team_line]: label.visible = active
 	jersey.visible = active
-	jersey.ink = Color("efe9d9") if team == 0 else Color("ed7864")
+	jersey.ink = team_kits[team]
 	if not active: return
 	entry = 1.0 if reduced else 1.0 - pow(1.0 - clampf(age / 16.0,0,1),3)
 	opacity = minf(clampf(age / 5.0,0,1),clampf((150-age)/18.0,0,1))

@@ -145,6 +145,11 @@ func metadata(card_id: String) -> Dictionary:
 	var info: Dictionary = metadata_by_id.get(card_id,{}).duplicate(true)
 	if info.is_empty() and cards.has(card_id):
 		info = {"version_label":"Run edition","country_name":"Fictional player","career_pool":"Campaign","target_asset_path":"res://assets/portraits/run_recruits/"+cards[card_id].portrait_id+".png"}
+		for country in countries.values():
+			if card_id in country.cards:
+				info.country_code = country.id
+				info.country_name = country.name
+				break
 	return info
 
 func badge_path(club_id: String) -> String:

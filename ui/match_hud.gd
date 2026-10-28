@@ -19,6 +19,7 @@ var panel_content: Control:
 var divider := 1008.0
 var pitch := Rect2()
 var event_count := -1
+var kit_centers: Array[Vector2] = [Vector2.ZERO,Vector2.ZERO]
 var inspected := ""
 var model: RefCounted
 var status_color := Color("58bd7a")
@@ -31,6 +32,9 @@ var ui_scale := 1.0
 var celebration
 var keyboard_focus := false
 var no_focus := StyleBoxEmpty.new()
+var campaign_mode := false
+var team_names: Array = ["Meadow XI","Harbor XI"]
+var team_kits: Array = [Color("efe9d9"),Color("ed7864")]
 
 class EventRow:
 	extends HBoxContainer
@@ -41,8 +45,10 @@ class EventIcon:
 	extends Control
 	var kind := ""
 	var team := -1
+	var kit := Color.TRANSPARENT
 	func _draw() -> void:
 		var color := Color("efe9d9") if team == 0 else Color("ed7864")
+		if kit.a > 0: color = kit
 		if team < 0: color = Color("a0afa4")
 		var center := Vector2(17, 17)
 		if kind in ["goal","shootout_goal"]:
@@ -104,8 +110,8 @@ class EventIcon:
 
 func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
-	_label("home", "MEADOW XI", 26, CREAM, HORIZONTAL_ALIGNMENT_RIGHT)
-	_label("away", "HARBOR XI", 26, CREAM)
+	_label("home", team_names[0].to_upper(), 26, CREAM, HORIZONTAL_ALIGNMENT_RIGHT)
+	_label("away", team_names[1].to_upper(), 26, CREAM)
 	labels.home.theme_type_variation = "Team"
 	labels.away.theme_type_variation = "Team"
 	_label("score", "0 – 0", 46, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
@@ -133,6 +139,8 @@ func _ready() -> void:
 	event_list.mouse_filter = MOUSE_FILTER_IGNORE
 	add_child(event_list)
 	celebration = GoalCelebration.new()
+	celebration.team_names = team_names.duplicate()
+	celebration.team_kits = team_kits.duplicate()
 	add_child(celebration)
 	labels.goal_title = celebration.title
 	labels.goal_detail = celebration.detail
@@ -214,9 +222,20 @@ func arrange(field_rect: Rect2, divider_x: float) -> void:
 	pitch = field_rect
 	divider = divider_x
 	var center := pitch.get_center().x
-	_put(labels.home, Rect2(center - 218, 18, 132, 38))
-	_put(labels.away, Rect2(center + 106, 18, 132, 38))
-	_put(labels.score, Rect2(center - 80, 2, 160, 57))
+	var face: Font = labels.home.get_theme_font("font")
+	var score_face: Font = labels.score.get_theme_font("font")
+	var score_width := maxf(128,score_face.get_string_size(labels.score.text,HORIZONTAL_ALIGNMENT_LEFT,-1,labels.score.get_theme_font_size("font_size")).x+12)
+	var maximum_name := minf(220,(pitch.size.x-score_width-140)/2)
+	var pixels := roundi(26*ui_scale)
+	while pixels > 16 and maxf(face.get_string_size(labels.home.text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x,face.get_string_size(labels.away.text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x) > maximum_name: pixels -= 1
+	for team in 2:
+		var label: Label = labels.home if team == 0 else labels.away
+		label.add_theme_font_size_override("font_size",pixels)
+		var width := minf(maximum_name,ceilf(face.get_string_size(label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x)+2)
+		_put(label,Rect2(center-score_width/2-20-width if team == 0 else center+score_width/2+20,18,width,38))
+	_put(labels.score, Rect2(center - score_width/2, 2, score_width, 57))
+	kit_centers[0] = Vector2(labels.home.position.x-31,37)
+	kit_centers[1] = Vector2(labels.away.position.x+labels.away.size.x+31,37)
 	_put(labels.clock, Rect2(center - 110, 57 + (ui_scale - 1) * 28, 220, 27))
 	_put(labels.live, Rect2(divider + 38, 94, 190, 28))
 	_put(celebration, pitch)
@@ -239,8 +258,8 @@ func _put(control: Control, rect: Rect2) -> void:
 func _draw() -> void:
 	if overlay.is_active(): return
 	var center := pitch.get_center().x
-	_kit(Vector2(center - 246, 37), CREAM)
-	_kit(Vector2(center + 246, 37), CORAL)
+	_kit(kit_centers[0], team_kits[0])
+	_kit(kit_centers[1], team_kits[1])
 	draw_line(Vector2(center-22,56),Vector2(center+22,56),Color(AMBER,0.65),1)
 	draw_line(Vector2(divider, 84), Vector2(divider, size.y - 20), Color("40513d"), 1)
 	draw_line(Vector2(divider + 18, 130), Vector2(size.x - 20, 130), Color("344a36"), 1)
@@ -251,6 +270,9 @@ func _kit(center: Vector2, color: Color) -> void:
 	var points := PackedVector2Array([Vector2(-7,-12),Vector2(-17,-5),Vector2(-13,3),Vector2(-8,0),Vector2(-8,15),Vector2(8,15),Vector2(8,0),Vector2(13,3),Vector2(17,-5),Vector2(7,-12),Vector2(3,-8),Vector2(-3,-8)])
 	for i in points.size(): points[i] += center
 	draw_colored_polygon(points, color)
+	if color.get_luminance() < 0.45:
+		points.append(points[0])
+		draw_polyline(points,Color(CREAM,0.65),0.9,true)
 
 func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String) -> void:
 	model = sim
@@ -300,8 +322,8 @@ func event_copy(event: Dictionary) -> Array[String]:
 		"block": return [actor, "Shot blocked"]
 		"miss": return [actor, "Shot wide"]
 		"shot": return [actor, "Shot"]
-		"kickoff": return ["Meadow XI" if event.team == 0 else "Harbor XI", "Kickoff"]
-		"kickoff_setup": return ["Meadow XI" if event.team == 0 else "Harbor XI", "Preparing kickoff"]
+		"kickoff": return [team_names[event.team], "Kickoff"]
+		"kickoff_setup": return [team_names[event.team], "Preparing kickoff"]
 		"halftime": return ["Half time", "Teams change ends"]
 		"full_time": return ["Full time", "%d–%d · Exhibition draw" % event.score if event.score[0] == event.score[1] else "%d–%d · Final score" % event.score]
 		"pass": return [actor, "Pass to %s" % event.get("receiver_name",model.players[event.receiver].name)]
@@ -366,6 +388,7 @@ func _refresh_rows() -> void:
 		var icon := EventIcon.new()
 		icon.kind = event.kind
 		icon.team = event.team
+		if event.team >= 0: icon.kit = team_kits[event.team]
 		icon.custom_minimum_size = Vector2(34, 40)
 		row.add_child(icon)
 		var text := VBoxContainer.new()

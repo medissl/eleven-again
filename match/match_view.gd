@@ -1,4 +1,5 @@
 extends Control
+signal campaign_action(action: String)
 
 const Match = preload("res://match/match_sim.gd")
 const Hud = preload("res://ui/match_hud.gd")
@@ -37,10 +38,15 @@ var impact_tick := -1000
 var impact_position := Vector2.ZERO
 var ball_trail: Array[Vector2] = []
 var preparation: Control
+var external_model: RefCounted
+var campaign_mode := false
+var team_names: Array = ["Meadow XI","Harbor XI"]
+var team_kits: Array = [Color("efe9d9"),Color("ed7864")]
+var key_bindings := {"pause":KEY_SPACE,"speed1":KEY_1,"speed2":KEY_2,"menu":KEY_ESCAPE}
 
 func _ready() -> void:
 	var seed_value := fixture_seed if fixture_seed != 0 else int(Time.get_unix_time_from_system()) ^ Time.get_ticks_usec()
-	sim = Match.new(seed_value)
+	sim = external_model if external_model != null else Match.new(seed_value)
 	font = MatchTheme.default_font
 	for p in sim.players: player_positions.append(p.position)
 	label_alpha.resize(22)
@@ -48,6 +54,9 @@ func _ready() -> void:
 	label_dim_until.resize(22)
 	_make_turf()
 	hud = Hud.new()
+	hud.campaign_mode = campaign_mode
+	hud.team_names = team_names.duplicate()
+	hud.team_kits = team_kits.duplicate()
 	hud.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(hud)
 	hud.command.connect(_on_command)
@@ -58,7 +67,7 @@ func _ready() -> void:
 	_layout()
 	_sync_state()
 	hud.apply_focus_style()
-	if fixture_seed == 0: open_preparation()
+	if fixture_seed == 0 and external_model == null: open_preparation()
 
 func open_preparation() -> void:
 	var next_seed := sim.match_seed+(1 if sim.ticks > 0 else 0)
@@ -194,6 +203,11 @@ func _required_report() -> String:
 	return ""
 
 func _on_command(action: String) -> void:
+	if campaign_mode and action in ["save_exit","campaign_settings","continue_result"]:
+		paused = true
+		campaign_action.emit(action)
+		return
+	if campaign_mode and action in ["restart","new","prepare","confirm_restart","confirm_new","confirm_prepare","quit"]: return
 	if not overlay_mode.is_empty() and action in ["pause", "speed1", "speed2"]: return
 	match action:
 		"pause":
@@ -204,10 +218,6 @@ func _on_command(action: String) -> void:
 		"effects", "motion":
 			if action == "effects": hud.effects_enabled = not hud.effects_enabled
 			else: hud.reduced_motion = not hud.reduced_motion
-			hud.show_panel(overlay_mode, sim)
-		"scale100", "scale115", "scale125":
-			hud.set_ui_scale(float(action.trim_prefix("scale")) / 100.0)
-			_layout()
 			hud.show_panel(overlay_mode, sim)
 		"continue_half":
 			if overlay_mode == "halftime" and sim.acknowledge_halftime():
@@ -290,14 +300,14 @@ func _input(event: InputEvent) -> void:
 	if event.keycode in [KEY_TAB,KEY_ESCAPE,KEY_ENTER]:
 		hud.keyboard_focus = true
 		hud.apply_focus_style()
-	if event.keycode == KEY_ESCAPE:
+	if event.keycode == KEY_ESCAPE or event.keycode == key_bindings.menu:
 		if overlay_mode.is_empty(): _open_overlay("menu")
 		elif not hud.overlay.dismiss_help(): _dismiss_overlay()
 	elif not overlay_mode.is_empty(): return
-	elif event.keycode == KEY_SPACE:
+	elif event.keycode == key_bindings.pause:
 		if not sim.finished: paused = not paused
-	elif event.keycode in [KEY_1, KEY_2]:
-		speed = 1 if event.keycode == KEY_1 else 2
+	elif event.keycode in [key_bindings.speed1,key_bindings.speed2]:
+		speed = 1 if event.keycode == key_bindings.speed1 else 2
 	elif event.keycode in [KEY_LEFT, KEY_RIGHT]:
 		selected = posmod(selected + (-1 if event.keycode == KEY_LEFT else 1), 22)
 		hovered = -1
@@ -475,7 +485,7 @@ func _draw_player(index: int) -> void:
 	var is_keeper: bool = sim.players[index].role == "GK"
 	var point := _field(player_positions[index])
 	var opacity := _formation_opacity()
-	var color := Color(CREAM if index < 11 else CORAL,opacity)
+	var color := Color(team_kits[0] if index < 11 else team_kits[1],opacity)
 	if selected == index or sim.owner == index:
 		var transfer := 0.0 if hud.reduced_motion else 3*clampf(1-(sim.ticks-owner_tick)/10.0,0,1)
 		draw_arc(point, 17.0 if selected == index else 16.0+transfer, 0, TAU, 36, Color(AMBER,opacity), 2.0 if selected == index else 1.3, true)
@@ -491,10 +501,11 @@ func _draw_player(index: int) -> void:
 		draw_arc(point, 9, PI * 0.10, PI * 0.90, 14, Color(Color("9d4937"),opacity), 1.2, true)
 	var number := str(index % 11 + 1)
 	var number_pos := point + Vector2(-font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x / 2, 5)
-	if index >= 11 or is_keeper:
+	var light_number: bool = is_keeper or team_kits[0 if index < 11 else 1].get_luminance() < 0.45
+	if light_number:
 		for offset in [Vector2(-0.7,0),Vector2(0.7,0),Vector2(0,-0.7),Vector2(0,0.7)]:
 			draw_string(font, number_pos + offset, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(Color("27432d"),opacity))
-	draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM if is_keeper or index >= 11 else Color("102315"),opacity))
+	draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM if light_number else Color("102315"),opacity))
 
 func _draw_name(index: int) -> void:
 	if not sim.players[index].active: return

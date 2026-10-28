@@ -1,0 +1,7 @@
+# Native campaign integration — 28 October 2026
+
+The main scene now opens the native twelve-win campaign. Main/origin/board, saved recruitment/markets, coaching, existing preparation/match reports, Discovered/records and terminal states use CampaignSession transactions. Continue reads the valid disk head; match checkpoints run every 600 ticks, on period changes, Save and exit, focus loss and window close. Save failure pauses the flow and exposes recovery. Settings and deliberate replace/abandon confirmations are independent of run power.
+
+Evidence before the latest campaign-presentation polish: full football runner 109,763 checks/zero failures; existing card UI checks pass; native campaign keyboard checks traverse all twelve authored victories, three markets/two principles and the three-defeat ending. A separate executable uses native Save and exit/Continue and reproduces the next 600 ticks exactly, including persisted volume. Authored campaign victories exercise the flow, not balance. A genuine engine fixture was also presented through native halftime/Continue/full time; a 36-frame native 2x motion sample was captured.
+
+Latest user feedback is still being applied: fixed 100% UI (remove size options), consistent shirt/name/score spacing everywhere, and outputs/campaign-ui-match-style-v1 campaign layouts. Portrait likeness/era work is explicitly deferred. No full human campaign, forced OS-kill recovery, calibration, performance baseline or exported build is claimed. All changes remain local.

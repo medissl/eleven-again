@@ -15,6 +15,10 @@ var ui_scale := 1.0
 var knockout := false
 var card_panel: Control
 var reduced_motion := false
+var campaign_mode := false
+var campaign_library: RefCounted
+var home_name := ""
+var scouting := ""
 
 func _ready() -> void:
 	theme = ThemeData
@@ -53,8 +57,8 @@ func rebuild() -> void:
 	var outer := VBoxContainer.new()
 	outer.add_theme_constant_override("separation",12)
 	margin.add_child(outer)
-	text(outer,"EXHIBITION PREPARATION",36,"Heading")
-	text(outer,"Choose your XI and plan. All changes lock at kickoff.  3 active minutes · 1× / 2×",16)
+	text(outer,"MATCH PREPARATION" if campaign_mode else "EXHIBITION PREPARATION",36,"Heading")
+	text(outer,scouting if campaign_mode else "Choose your XI and plan. All changes lock at kickoff.  3 active minutes · 1× / 2×",16).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	outer.add_child(HSeparator.new())
 	body = HBoxContainer.new()
 	body.add_theme_constant_override("separation",26)
@@ -68,10 +72,12 @@ func rebuild() -> void:
 	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	left.add_theme_constant_override("separation",5)
 	left_scroll.add_child(left)
-	choice(left,"Team",["Meadow XI","Harbor XI"],team,func(index): team=index; rebuild())
-	choice(left,"Fixture squad",["Standard","Specialists"],1 if plans[team].cards[0].person_id.begins_with("specialist_") else 0,func(index): plans[team]=Lineup.specialists() if index == 1 else Lineup.exhibition(team); rebuild())
+	if not campaign_mode:
+		choice(left,"Team",["Meadow XI","Harbor XI"],team,func(index): team=index; rebuild())
+		choice(left,"Fixture squad",["Standard","Specialists"],1 if plans[team].cards[0].person_id.begins_with("specialist_") else 0,func(index): plans[team]=Lineup.specialists() if index == 1 else Lineup.exhibition(team); rebuild())
+	else: text(left,home_name,24,"Team")
 	var plan = plans[team]
-	choice(left,"Match rules",["Exhibition draw","Knockout: ET and penalties"],1 if knockout else 0,func(index): knockout=index == 1)
+	if not campaign_mode: choice(left,"Match rules",["Exhibition draw","Knockout: ET and penalties"],1 if knockout else 0,func(index): knockout=index == 1)
 	var formations := ["4-3-3","4-4-2","4-2-3-1"]
 	choice(left,"Formation",formations,formations.find(plan.formation),func(index): plan.formation=formations[index]; rebuild())
 	for field in ["attack","defence","route","substitution_plan","late_risk"]:
@@ -110,7 +116,7 @@ func rebuild() -> void:
 		var bench: Array[String] = []
 		for index in plan.cards.size():
 			if index not in plan.starters: bench.append(plan.cards[index].display_name)
-		text(rows,"BENCH  ·  "+", ".join(bench),15,"BodyStrong")
+		text(rows,"BENCH  "+", ".join(bench),15,"BodyStrong")
 	elif page == "set pieces":
 		var names: Array[String] = []
 		for slot in 11: names.append(plan.cards[plan.starters[slot]].display_name)
@@ -142,7 +148,7 @@ func rebuild() -> void:
 			var indices := [-1]
 			for index in plan.cards.size():
 				if index not in plan.starters:
-					entries.append(plan.cards[index].display_name+" · "+plan.cards[index].primary_role)
+					entries.append(plan.cards[index].display_name+"  "+plan.cards[index].primary_role)
 					indices.append(index)
 			choice(rows,plan.cards[plan.starters[slot]].display_name,entries,maxi(0,indices.find(plan.pinned_replacements.get(slot,-1))),func(index): plan.pinned_replacements[slot]=indices[index])
 	inspection = text(right,"Select or focus a player to inspect base/effective ratings.",15)
@@ -159,6 +165,7 @@ func rebuild() -> void:
 	back.pressed.connect(func(): cancelled.emit())
 	footer.add_child(back)
 	start_button = Button.new()
+	start_button.name = "CommitMatch"
 	start_button.text = "Start match  →"
 	start_button.theme_type_variation = "Primary"
 	start_button.custom_minimum_size = Vector2(230,45)
@@ -179,7 +186,7 @@ func lineup_row(parent: Node, slot: int) -> void:
 	select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	select.custom_minimum_size.y = 34
 	select.add_theme_font_size_override("font_size",16)
-	for card in plan.cards: select.add_item("%s  ·  %s  %d" % [card.display_name,card.primary_role,card.rating()])
+	for card in plan.cards: select.add_item("%s  %s  %d" % [card.display_name,card.primary_role,card.rating()])
 	select.select(plan.starters[slot])
 	select.item_selected.connect(func(index):
 		var previous: int = plan.starters[slot]
@@ -207,21 +214,22 @@ func inspect(slot: int) -> void:
 	for key in card.attributes: stat_text += "%s %d  " % [key,card.attributes[key]]
 	if card.primary_role == "GK":
 		for key in card.keeper_attributes: stat_text += "%s %d  " % [key,card.keeper_attributes[key]]
-	inspection.text = "%s · %s · Base %d / slot %d\n%s\nTrait: %s" % [card.display_name,card.tier().capitalize(),card.rating(),card.rating(Lineup.ROLES[plan.formation][slot],true),stat_text,card.trait_id.replace("_"," ").capitalize() if not card.trait_id.is_empty() else "None"]
+	inspection.text = "%s  %s  Base %d / slot %d\n%s\nTrait: %s" % [card.display_name,card.tier().capitalize(),card.rating(),card.rating(Lineup.ROLES[plan.formation][slot],true),stat_text,card.trait_id.replace("_"," ").capitalize() if not card.trait_id.is_empty() else "None"]
 	if not card.trait_id.is_empty():
 		var definition: Dictionary = card.Traits.catalogue[card.trait_id]
-		inspection.text += " · "+("Available" if Lineup.ROLES[plan.formation][slot] in definition.positions else "Unavailable in this role")
+		inspection.text += "  "+("Available" if Lineup.ROLES[plan.formation][slot] in definition.positions else "Unavailable in this role")
 		inspection.tooltip_text = definition.trigger+"\n"+definition.effect+"\nCounterplay: "+definition.counterplay
 
 func update_validation() -> void:
 	var errors: Array[String] = plans[0].errors()+plans[1].errors()
-	validation.text = "Legal XI · tactics and substitutions lock at kickoff" if errors.is_empty() else "; ".join(errors)
+	validation.text = "Legal XI  tactics and substitutions lock at kickoff" if errors.is_empty() else "; ".join(errors)
 	start_button.disabled = not errors.is_empty()
 
 func open_card(card: Resource) -> void:
 	if is_instance_valid(card_panel): return
 	var inspector = load("res://ui/card_inspector.gd").new()
 	inspector.definition = card
+	if campaign_library != null: inspector.info = campaign_library.metadata(card.card_id)
 	inspector.owned = true
 	inspector.ui_scale = ui_scale
 	open_card_panel(inspector)

@@ -29,19 +29,23 @@ class Icon:
 				for y in [5,12,19]: draw_line(Vector2(2,y),Vector2(23,y),ink,1.7,true)
 			"kit":
 				draw_set_transform(size / 2, 0, Vector2.ONE * size.y / 34)
-				draw_colored_polygon(PackedVector2Array([Vector2(-7,-12),Vector2(-17,-5),Vector2(-13,3),Vector2(-8,0),Vector2(-8,15),Vector2(8,15),Vector2(8,0),Vector2(13,3),Vector2(17,-5),Vector2(7,-12),Vector2(3,-8),Vector2(-3,-8)]),ink)
+				var points := PackedVector2Array([Vector2(-7,-12),Vector2(-17,-5),Vector2(-13,3),Vector2(-8,0),Vector2(-8,15),Vector2(8,15),Vector2(8,0),Vector2(13,3),Vector2(17,-5),Vector2(7,-12),Vector2(3,-8),Vector2(-3,-8)])
+				draw_colored_polygon(points,ink)
+				if ink.get_luminance() < 0.45:
+					points.append(points[0])
+					draw_polyline(points,Color("efe9d9a6"),0.7,true)
 			"resume", "continue_half", "continue_result":
 				draw_colored_polygon(PackedVector2Array([Vector2(5,3),Vector2(21,12),Vector2(5,21)]), ink)
 			"details":
 				for i in 3: draw_line(Vector2(5+i*7,21),Vector2(5+i*7,9-i*3),ink,2,true)
-			"settings":
+			"settings", "campaign_settings":
 				draw_arc(Vector2(12,12),8,0,TAU,12,ink,1.5,true)
 				draw_arc(Vector2(12,12),3,0,TAU,16,ink,1.5,true)
 				for i in 8: draw_line(Vector2(12,12)+Vector2.from_angle(i*TAU/8)*8,Vector2(12,12)+Vector2.from_angle(i*TAU/8)*11,ink,2,true)
 			"restart", "new":
 				draw_arc(Vector2(12,12),9,0.3,TAU-0.4,28,ink,1.5,true)
 				draw_polyline(PackedVector2Array([Vector2(15,2),Vector2(21,3),Vector2(20,9)]),ink,1.5,true)
-			"quit":
+			"quit", "save_exit":
 				draw_polyline(PackedVector2Array([Vector2(10,3),Vector2(21,3),Vector2(21,21),Vector2(10,21)]),ink,1.5,true)
 				draw_line(Vector2(2,12),Vector2(15,12),ink,1.5,true)
 				draw_polyline(PackedVector2Array([Vector2(10,7),Vector2(15,12),Vector2(10,17)]),ink,1.5,true)
@@ -137,7 +141,7 @@ func _button(parent: Node, action: String, text: String, primary: bool = false) 
 	button.custom_minimum_size.y = 48 * scale_factor
 	button.pressed.connect(func(): command.emit(action))
 	parent.add_child(button)
-	if action in ["resume", "menu", "details", "log", "settings", "restart", "new", "quit"]:
+	if action in ["resume", "menu", "details", "log", "settings", "campaign_settings", "save_exit", "restart", "new", "quit"]:
 		for state in ["normal", "hover", "pressed"]:
 			var style: StyleBox = MatchTheme.get_stylebox(state, button.theme_type_variation).duplicate()
 			style.content_margin_left = 46
@@ -171,7 +175,7 @@ func _focus_loop() -> void:
 
 func _pause_menu() -> void:
 	var left := _column(Rect2(size * Vector2(0.08,0.25), size * Vector2(0.5,0.58)))
-	_text(left, "EXHIBITION COMPLETE" if model.finished else "MATCH PAUSED", "Section", 16, HORIZONTAL_ALIGNMENT_CENTER)
+	_text(left, ("MATCH COMPLETE" if presenter.campaign_mode else "EXHIBITION COMPLETE") if model.finished else "MATCH PAUSED", "Section", 16, HORIZONTAL_ALIGNMENT_CENTER)
 	_text(left, "FULL TIME" if model.finished else "PAUSED", "Heading", 150, HORIZONTAL_ALIGNMENT_CENTER)
 	var score := Control.new()
 	score.custom_minimum_size.y = 90
@@ -181,9 +185,9 @@ func _pause_menu() -> void:
 	var right := _column(Rect2(size * Vector2(0.67,0.20), size * Vector2(0.28,0.74)))
 	right.add_theme_constant_override("separation",12)
 	_button(right, "result" if model.finished else "resume", "Match summary" if model.finished else ("Return to halftime" if model.period == 1 else "Resume match"), true)
-	for entry in [["details","Match details"],["log","Event log"],["settings","Settings"]]: _button(right, entry[0], entry[1])
+	for entry in [["details","Match details"],["log","Event log"],["campaign_settings" if presenter.campaign_mode else "settings","Settings"]]: _button(right, entry[0], entry[1])
 	right.add_child(HSeparator.new())
-	for entry in [["restart","Restart exhibition"],["prepare","Prepare exhibition"],["quit","Quit to desktop"]]: _button(right, entry[0], entry[1])
+	for entry in ([["save_exit","Save and exit to main menu"]] if presenter.campaign_mode else [["restart","Restart exhibition"],["prepare","Prepare exhibition"],["quit","Quit to desktop"]]): _button(right, entry[0], entry[1])
 	for action in right.get_children():
 		if action is Button:
 			action.add_theme_font_size_override("font_size",roundi(20*scale_factor))
@@ -201,14 +205,8 @@ func _settings() -> void:
 	_text(box, "Settings", "Heading", 52)
 	_button(box, "effects", "Celebration effects: " + ("On" if presenter.effects_enabled else "Off"))
 	_button(box, "motion", "Reduced motion: " + ("On" if presenter.reduced_motion else "Off"))
-	_text(box, "Interface size", "BodyStrong", 17)
-	var sizes := HBoxContainer.new()
-	box.add_child(sizes)
-	for percent in [100,115,125]:
-		var button := _button(sizes, "scale%d" % percent, "%d%%" % percent, is_equal_approx(presenter.ui_scale, percent / 100.0))
-		button.size_flags_horizontal = SIZE_EXPAND_FILL
 	_text(box, "Preferences apply to this session. Match timing and outcomes stay unchanged.", "Label", 15).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_button(box, "back", "Back", true)
+	_button(box, "back", "Back")
 
 func _section(parent: Node, caption: String) -> void:
 	var row := HBoxContainer.new()
@@ -222,35 +220,62 @@ func _section(parent: Node, caption: String) -> void:
 func _team_score(parent: Control, report: Dictionary, pixels: int, scorers: bool = true) -> void:
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override("separation", 20)
+	var gap := roundi(20*scale_factor)
+	var identity_gap := roundi(14*scale_factor)
+	row.add_theme_constant_override("separation",gap)
 	parent.add_child(row)
 	row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var score := _text(row, "%d  –  %d" % report.scores, "Score", pixels, HORIZONTAL_ALIGNMENT_CENTER)
+	score.name = "TeamScore"
+	score.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	var groups: Array[Control] = []
+	var labels: Array[Label] = []
 	for team in 2:
-		if team == 1:
-			var score := _text(row, "%d  –  %d" % report.scores, "Score", pixels, HORIZONTAL_ALIGNMENT_CENTER)
-			score.custom_minimum_size.x = pixels * 2.6 * scale_factor
-			score.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		var group := VBoxContainer.new()
 		group.size_flags_horizontal = SIZE_EXPAND_FILL
 		group.size_flags_vertical = SIZE_SHRINK_CENTER
-		group.custom_minimum_size.x = maxf(0,(parent.size.x-pixels*2.6*scale_factor-40)/2)
-		parent.resized.connect(func(): group.custom_minimum_size.x = maxf(0,(parent.size.x-pixels*2.6*scale_factor-40)/2))
+		groups.append(group)
 		row.add_child(group)
 		var identity := HBoxContainer.new()
 		identity.alignment = BoxContainer.ALIGNMENT_END if team == 0 else BoxContainer.ALIGNMENT_BEGIN
-		identity.add_theme_constant_override("separation", 18)
+		identity.add_theme_constant_override("separation",identity_gap)
 		group.add_child(identity)
 		var kit := Icon.new()
+		kit.name = "TeamKitHome" if team == 0 else "TeamKitAway"
 		kit.kind = "kit"
-		kit.ink = ivory if team == 0 else coral
-		kit.custom_minimum_size = Vector2(42,42)
+		kit.ink = presenter.team_kits[team]
+		kit.custom_minimum_size = Vector2(42,42)*scale_factor
+		kit.size_flags_vertical = SIZE_SHRINK_CENTER
 		identity.add_child(kit)
-		_text(identity, "MEADOW XI" if team == 0 else "HARBOR XI", "Team", 40 if pixels > 60 else 32)
+		var team_name := _text(identity, presenter.team_names[team].to_upper(), "Team", 40 if pixels > 60 else 32)
+		team_name.name = "TeamNameHome" if team == 0 else "TeamNameAway"
+		team_name.tooltip_text = presenter.team_names[team]
+		team_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		team_name.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		team_name.size_flags_horizontal = SIZE_SHRINK_BEGIN
+		labels.append(team_name)
 		if scorers:
 			var names: Array[String] = []
 			for event in report.events:
 				if event.kind == "goal" and event.team == team: names.append("%s %d′" % [event.get("actor_name",model.players[event.actor].name), event.minute])
 			_text(group, " · ".join(names), "Label", 15, HORIZONTAL_ALIGNMENT_CENTER).text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	row.move_child(score,1)
+	var align_teams := func():
+		var score_face: Font = score.get_theme_font("font")
+		var score_width := maxf(pixels*2.6*scale_factor,ceilf(score_face.get_string_size(score.text,HORIZONTAL_ALIGNMENT_LEFT,-1,score.get_theme_font_size("font_size")).x)+4)
+		score.custom_minimum_size.x = score_width
+		var side := maxf(0,floorf((parent.size.x-score_width-2*gap)/2))
+		var available := maxf(1,side-42*scale_factor-identity_gap)
+		var name_pixels := roundi((40 if pixels > 60 else 32)*scale_factor)
+		var face: Font = labels[0].get_theme_font("font")
+		while name_pixels > roundi(16*scale_factor) and maxf(face.get_string_size(labels[0].text,HORIZONTAL_ALIGNMENT_LEFT,-1,name_pixels).x,face.get_string_size(labels[1].text,HORIZONTAL_ALIGNMENT_LEFT,-1,name_pixels).x) > available: name_pixels -= 1
+		for team in 2:
+			groups[team].custom_minimum_size.x = side
+			labels[team].add_theme_font_size_override("font_size",name_pixels)
+			labels[team].autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if face.get_string_size(labels[team].text,HORIZONTAL_ALIGNMENT_LEFT,-1,name_pixels).x > available else TextServer.AUTOWRAP_OFF
+			labels[team].custom_minimum_size.x = minf(available,ceilf(face.get_string_size(labels[team].text,HORIZONTAL_ALIGNMENT_LEFT,-1,name_pixels).x)+1)
+	parent.resized.connect(align_teams)
+	align_teams.call_deferred()
 
 func _comparison_row(parent: Node, caption: String, values: Array, key: String, tip: Label = null) -> void:
 	var row := HBoxContainer.new()
@@ -377,7 +402,7 @@ func _summary() -> void:
 	_button(footer, "menu" if mode != "details" else "back", "Match menu" if mode != "details" else "Back")
 	var result := _text(footer, ("Exhibition draw" if report.scores[0] == report.scores[1] else ("Meadow XI win" if report.scores[0] > report.scores[1] else "Harbor XI win")) if mode == "result" else "", "Label", 17, HORIZONTAL_ALIGNMENT_CENTER)
 	if mode == "result" and report.get("winner",-1) >= 0:
-		result.text = ("Meadow XI win" if report.winner == 0 else "Harbor XI win")+(" on penalties" if not report.get("penalties",[]).is_empty() else (" by forfeit" if report.get("forfeit_team",-1) >= 0 else ""))
+		result.text = presenter.team_names[report.winner]+" win"+(" on penalties" if not report.get("penalties",[]).is_empty() else (" by forfeit" if report.get("forfeit_team",-1) >= 0 else ""))
 	result.size_flags_horizontal = SIZE_EXPAND_FILL
 	if mode != "details":
 		_button(footer, "continue_half" if mode == "halftime" else "continue_result", "Continue second half" if mode == "halftime" else "Continue", true).custom_minimum_size.x = 300 * scale_factor
