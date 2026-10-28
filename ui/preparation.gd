@@ -1,6 +1,6 @@
 extends ColorRect
 ## Native pre-match controls. Emits private plans; submitted matches never read these widgets.
-signal submitted(home: Resource, away: Resource)
+signal submitted(home: Resource, away: Resource, knockout: bool)
 signal cancelled
 const Lineup = preload("res://squad/lineup.gd")
 const ThemeData = preload("res://ui/game_theme.tres")
@@ -12,6 +12,7 @@ var validation: Label
 var start_button: Button
 var inspection: Label
 var ui_scale := 1.0
+var knockout := false
 
 func _ready() -> void:
 	theme = ThemeData
@@ -68,6 +69,7 @@ func rebuild() -> void:
 	choice(left,"Team",["Meadow XI","Harbor XI"],team,func(index): team=index; rebuild())
 	choice(left,"Fixture squad",["Standard","Specialists"],1 if plans[team].cards[0].person_id.begins_with("specialist_") else 0,func(index): plans[team]=Lineup.specialists() if index == 1 else Lineup.exhibition(team); rebuild())
 	var plan = plans[team]
+	choice(left,"Match rules",["Exhibition draw","Knockout: ET and penalties"],1 if knockout else 0,func(index): knockout=index == 1)
 	var formations := ["4-3-3","4-4-2","4-2-3-1"]
 	choice(left,"Formation",formations,formations.find(plan.formation),func(index): plan.formation=formations[index]; rebuild())
 	for field in ["attack","defence","route","substitution_plan","late_risk"]:
@@ -116,7 +118,18 @@ func rebuild() -> void:
 				plan.penalty_order[other] = old
 				rebuild())
 	else:
-		text(rows,"Pin replacements, or leave Auto for the selected template. Maximum five changes in three windows; no re-entry.",16).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		text(rows,"Pin replacements, or leave Auto. The first suitable reserve in bench order enters; used, unavailable or harmful replacements are skipped. Maximum five changes in three windows; no re-entry.",16).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		var reserve_names: Array = []
+		var reserves: Array = plan.bench_order.duplicate()
+		for index in reserves: reserve_names.append(plan.cards[index].display_name)
+		for order in reserves.size():
+			choice(rows,"Bench priority %d" % (order+1),reserve_names,reserves.find(plan.bench_order[order]),func(index):
+				var other: int = plan.bench_order.find(reserves[index])
+				var previous: int = plan.bench_order[order]
+				plan.bench_order[order] = reserves[index]
+				plan.bench_order[other] = previous
+				rebuild())
+		rows.add_child(HSeparator.new())
 		for slot in range(1,11):
 			var entries: Array = ["Auto"]
 			var indices := [-1]
@@ -143,7 +156,7 @@ func rebuild() -> void:
 	start_button.theme_type_variation = "Primary"
 	start_button.custom_minimum_size = Vector2(230,45)
 	start_button.pressed.connect(func():
-		if plans[0].errors().is_empty() and plans[1].errors().is_empty(): submitted.emit(plans[0].duplicate(true),plans[1].duplicate(true)))
+		if plans[0].errors().is_empty() and plans[1].errors().is_empty(): submitted.emit(plans[0].duplicate(true),plans[1].duplicate(true),knockout))
 	footer.add_child(start_button)
 	update_validation()
 	start_button.grab_focus()
@@ -166,6 +179,7 @@ func lineup_row(parent: Node, slot: int) -> void:
 		var other: int = plan.starters.find(index)
 		if other >= 0: plan.starters[other] = previous
 		plan.starters[slot] = index
+		plan.refresh_bench_order()
 		rebuild())
 	select.focus_entered.connect(func(): inspect(slot))
 	select.mouse_entered.connect(func(): inspect(slot))
@@ -181,8 +195,17 @@ func inspect(slot: int) -> void:
 	if card.primary_role == "GK":
 		for key in card.keeper_attributes: stat_text += "%s %d  " % [key,card.keeper_attributes[key]]
 	inspection.text = "%s · %s · Base %d / slot %d\n%s\nTrait: %s" % [card.display_name,card.tier().capitalize(),card.rating(),card.rating(Lineup.ROLES[plan.formation][slot],true),stat_text,card.trait_id.replace("_"," ").capitalize() if not card.trait_id.is_empty() else "None"]
+	if not card.trait_id.is_empty():
+		var definition: Dictionary = card.Traits.catalogue[card.trait_id]
+		inspection.text += " · "+("Available" if Lineup.ROLES[plan.formation][slot] in definition.positions else "Unavailable in this role")
+		inspection.tooltip_text = definition.trigger+"\n"+definition.effect+"\nCounterplay: "+definition.counterplay
 
 func update_validation() -> void:
 	var errors: Array[String] = plans[0].errors()+plans[1].errors()
 	validation.text = "Legal XI · tactics and substitutions lock at kickoff" if errors.is_empty() else "; ".join(errors)
 	start_button.disabled = not errors.is_empty()
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		get_viewport().set_input_as_handled()
+		cancelled.emit()

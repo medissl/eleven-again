@@ -102,3 +102,38 @@ func run(check: Callable) -> void:
 			restored.step()
 		check.call(restored.signature() == original.signature(), stage+" resume preserves subsequent actions and RNG")
 	check.call(Snapshot.restore({"schema":999}) == null, "incompatible snapshots are rejected")
+	var transition := Match.new(42)
+	transition.take_control(9)
+	transition.transition_tick = -1000
+	transition.last_touch = 12 # A deflection is not controlled possession.
+	transition.ball_state = Match.BallState.LOOSE
+	transition.take_control(6)
+	check.call(transition.transition_tick == -1000, "own recovery after a deflection cannot manufacture a counterattack")
+	transition.take_control(12)
+	check.call(transition.transition_tick == transition.active_ticks, "genuine opposing control starts the actual transition")
+	var coordinated := Match.new(42)
+	coordinated.players[9].position = Vector2(60,34)
+	coordinated.take_control(9)
+	coordinated.choose_targets()
+	check.call(coordinated.players[6].target != coordinated.players[7].target and coordinated.players[5].job == "screen counter", "support triangles retain distinct lanes and cover")
+	var patient_target: Vector2 = coordinated.players[6].target
+	coordinated.plans[0].attack = "direct"
+	coordinated.choose_targets()
+	check.call(coordinated.players[6].target != patient_target, "attacking approach changes actual support geometry")
+	coordinated.players[6].position = Vector2(70,40)
+	coordinated.players[6].target = coordinated.players[6].position
+	coordinated.pass_to(6)
+	coordinated.choose_targets()
+	check.call(not coordinated.combination.is_empty() and coordinated.players[9].job == "one-two run", "short forward pass creates an actual interruptible return run")
+	coordinated.take_control(12)
+	check.call(coordinated.combination.is_empty(), "opposing possession cancels combination intentions")
+	var priority_plan = load("res://squad/lineup.gd").exhibition(0)
+	priority_plan.cards[15].primary_role = "CM"
+	priority_plan.cards[15].natural_roles.assign(["CM"])
+	priority_plan.cards[15].trait_id = ""
+	for key in priority_plan.cards[15].attributes: priority_plan.cards[15].attributes[key] = 100
+	var priority := Match.new(42,180,priority_plan)
+	priority.active_ticks = priority.regulation_ticks*2/3
+	priority.players[6].stamina = 10
+	priority.Substitutions.apply(priority)
+	check.call(priority.players[6].card.card_id == priority_plan.cards[14].card_id,"first suitable bench priority is honoured before a higher-rated later reserve")

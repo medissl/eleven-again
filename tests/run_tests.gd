@@ -488,5 +488,28 @@ func test_view() -> void:
 	check(view.hud.overlay.is_active() and (closing_tween == null or not closing_tween.is_running()), "rapid reopening cancels the obsolete closing transition")
 	view._restart()
 	check(view.ball_trail.is_empty() and view.impact_tick < 0 and view.hud.overlay.transition == null, "restart clears contact trails and pending menu transitions")
+	var penalty_match := Match.new(42,180,null,null,true)
+	penalty_match.active_ticks = penalty_match.regulation_ticks*4/3
+	penalty_match.Shootout.start(penalty_match)
+	var shootout_start: Dictionary = penalty_match.snapshot()
+	var Snapshot = load("res://match/match_snapshot.gd")
+	var shootout_final: Array = []
+	for playback in [1,2]:
+		view._close_overlay(false)
+		view.sim = Snapshot.restore(shootout_start)
+		view.speed = playback
+		view.paused = false
+		view.result_dismissed = false
+		view.hud.effects_enabled = playback == 2
+		view._sync_state()
+		var frames := 0
+		while not view.sim.finished and frames < 6000:
+			view._physics_process(Match.DT)
+			frames += 1
+		check(view.sim.finished and view.overlay_mode == "result", "shootout opens a real final report")
+		check(view.sim.scores == [0,0] and view.hud.labels.score.text == "0 – 0" and "PEN" in view.hud.labels.clock.text, "HUD keeps penalty scores separate from match goals")
+		check("on penalties" in label_texts(view.hud.panel_content), "result identifies the actual shootout winner")
+		if playback == 1: shootout_final = view.sim.signature()
+		else: check(view.sim.signature() == shootout_final, "1x/2x and effects preferences preserve the entire shootout")
 	view.queue_free()
 	await process_frame

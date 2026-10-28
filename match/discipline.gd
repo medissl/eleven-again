@@ -4,6 +4,7 @@ static func foul(m, offender: int, victim: int, severity: int) -> void:
 	if m.ball_state == m.BallState.DEAD or not m.players[offender].active: return
 	var defender = m.players[offender]
 	var attacker = m.players[victim]
+	var dismissed_role: String = defender.role
 	var incident: Vector2 = m.ball
 	m.fouls[defender.team] += 1
 	m.emit_event("foul",offender,{"victim":victim,"victim_name":attacker.name})
@@ -23,6 +24,15 @@ static func foul(m, offender: int, victim: int, severity: int) -> void:
 			m.emit_event("forfeit",offender)
 			m.result_report = m.snapshot_report()
 			return
+		if dismissed_role in ["CB","LB","RB","DM"]:
+			var replacement := -1
+			for p in m.players:
+				if not p.active or p.team != defender.team or p.role not in ["CM","DM","AM"]: continue
+				if replacement < 0 or m.attribute(p.id,"DEF") > m.attribute(replacement,"DEF"): replacement = p.id
+			if replacement >= 0:
+				m.players[replacement].role = dismissed_role
+				m.players[replacement].anchor_override = defender.anchor_override if defender.anchor_override.x >= 0 else m.FootballAI.SHAPES[m.plans[defender.team].formation][offender%11]
+				m.emit_event("reshuffle",replacement,{"assigned_role":dismissed_role})
 	var local: Vector2 = m.oriented(incident,defender.team)
 	if local.x < 16.5 and absf(local.y-34) < 20.16:
 		m.award_restart(attacker.team,m.oriented(Vector2(11,34),defender.team),"penalty",offender)

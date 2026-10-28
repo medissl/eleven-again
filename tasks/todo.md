@@ -1,6 +1,6 @@
 # Eleven Again — development tasks
 
-Task source of truth. Read `plan.md` for phase boundaries, GDD authority, architecture, checks, and prompts. Status on 28 October 2026: presentation accepted, proper kickoff (1.13) implemented and verified; **next: genuine boundary restarts (1.14)**. See [Phase 1 evidence](../reports/phase-one.md) and [kickoff evidence](../reports/kickoffs.md).
+Task source of truth. Read `plan.md` for phase boundaries, GDD authority, architecture, checks, and prompts. Status on 28 October 2026: match-system batch implemented through preparation, attributes, coordinated AI/tactics, stamina/substitutions, set pieces/basic offside/discipline, ET/shootouts and all 36 researched traits. User confirmed **complete match systems first**; run/economy/disk saves/index remain pending. **Next: 3.2 — four-win run progression**, after playtesting this match batch. See [gameplay evidence](../reports/gameplay-batch.md). See [Phase 1 evidence](../reports/phase-one.md) and [kickoff evidence](../reports/kickoffs.md).
 
 Each task below has a checkable outcome, verification, dependencies, and likely files. Paths are suggestions; inspect existing code before choosing them. S ≈ 1–2 files, M ≈ 3–5; split a task that grows beyond that. Update a completed task with concise evidence (actual command/result, seeds/screenshots where relevant, limits, and local commit). Checkpoints review the preceding work and do not automatically authorize a new phase.
 
@@ -90,57 +90,66 @@ UI acceptance: user tested and accepted the current UI on 28 October 2026; stop 
   - Verification: initial/goal/second-half kickoff scenarios, legal placements and physical first reception at both speeds; seeded outcome equivalence after rule changes.
   - Dependencies: 1.12. Likely files: match model/restarts, existing native rule checks (M).
   - Evidence (28 October): dedicated stationary kickoff state, legal shape, 12-tick opening countdown, real short backward pass using ordinary passing/reception, second-touch eligibility and eligible ball pursuit. First/goal/second-half scenarios and full-view 1×/2× equivalence pass; native runner: 111,192 assertions, zero failures. Import clean. Native 720p/1080p frame sequences reviewed; see `../reports/kickoffs.md`. One authored opening pattern; illegal second touches are prevented, rather than awarding indirect free kicks. Next: 1.14.
-- [ ] **1.14 — Genuine boundary restarts.** Classify the earliest whole-ball boundary crossing using actual last touch; distinguish throw, corner, goal kick and goal, including defensive blocks/keeper deflections.
+- [x] **1.14 — Genuine boundary restarts.** Classify the earliest whole-ball boundary crossing using actual last touch; distinguish throw, corner, goal kick and goal, including defensive blocks/keeper deflections.
   - Acceptance: no periodic awards or double award near a corner; keeper holds remain controlled, parries create one live ball, and awarded restarts have a bounded legal setup and real delivery. Declare any missing height rules.
   - Verification: authored last-touch/crossing/near-corner/deflection cases, ordinary fixture event rates and visible ball/feed agreement.
   - Dependencies: 1.13. Likely files: match model, ball rules/restarts, focused rule checks (M).
-- [ ] **1.15 — Genuine fouls and basic free kicks.** Add fouls from real late/illegal challenge context and bounded free-kick setup/delivery; keep clean and failed challenges distinct.
+  - Evidence (28 October match batch): Whole-ball earliest crossing and actual last touch; physical throws/corners/goal kicks, curved/lofted travel and contact-conditioned rebounds. Native crossing/delivery tests and authored corner renders at both sizes pass. See gameplay report for height/post-physics limits.
+- [x] **1.15 — Genuine fouls and basic free kicks.** Add fouls from real late/illegal challenge context and bounded free-kick setup/delivery; keep clean and failed challenges distinct.
   - Acceptance: no random stoppage lottery, no animation-awarded offences, correct location/team/taker and one restart per incident. Full discipline/penalty edge cases remain 5.1–5.3.
   - Verification: clean/failed/foul challenge scenarios and natural fixture observation; no repeated award or restart soft lock.
   - Dependencies: 1.14. Likely files: challenge/restart rules and focused native checks (M).
+  - Evidence (28 October match batch): Reachable challenge context awards one actual foul/restart; physical direct/indirect free kicks and penalties share the match model. No periodic offence lottery. Native foul/card/expiry and full-match checks pass.
 
-Follow-up priorities after restart/foul slices: complete attribute execution in **2.1**, coordinated/contextual football AI in **2.6**, selectable tactics in **2.3**, and real automatic card traits in **6.1**. The current prototype has basic heuristics, five outfield attributes and generic keeping only; it does not implement the complete AI/attribute/tactic/trait design. Continue in coherent, separately verified gameplay slices.
+Follow-up priorities after restart/foul slices: complete attribute execution in **2.1**, coordinated/contextual football AI in **2.6**, selectable tactics in **2.3**, and real automatic card traits in **6.1**. These match-side systems are now implemented and checked in the requested larger batch; see the evidence below. Later run/economy/persistence/content work remains unchecked. The user explicitly selected match systems first.
 
 ## Phase 2 — meaningful preparation
 
-- [ ] **2.1 — Data-backed cards and role ratings.** Replace prototype constants with validated card Resources and the GDD's role weights, familiarity penalties, and goalkeeper fields.
+- [x] **2.1 — Data-backed cards and role ratings.** Replace prototype constants with validated card Resources and the GDD's role weights, familiarity penalties, and goalkeeper fields.
   - Acceptance: full PAC/SHO/PAS/DRI/DEF/PHY and REF/HAN/POS/DIV/KIC values, 1–120 bounds, stable IDs, role weights/OVR and emergency keeping are correct. Relevant attributes visibly affect their actual execution domain through one effective-value path; OVR adds no hidden multiplier. Split data and execution domains into focused increments before coding.
   - Verification: rating/identity/role cases plus paired 60-versus-100 scenarios for movement, finishing, passing/first touch, defending/strength/endurance and keeper domains; fictional exhibition and playback equality remain intact.
   - Dependencies: Gate 1. Likely files: `content/player_card.gd`, `content/prototype_roster.tres`, `squad/squad_rules.gd`, `match/match_sim.gd`, `tests/test_squad.gd` (M).
-- [ ] **2.2 — Build and commit a legal XI.** Add preparation with comparison, bench, and 4-3-3/4-4-2/4-2-3-1 assignments.
+  - Evidence (28 October match batch): Immutable fictional Resources, validated integral 1–120 fields, exact role OVR/familiarity and one capped effective-stat path. Paired native domain checks over 96 seeds plus baseline finishing checks pass; no established balance claim.
+- [x] **2.2 — Build and commit a legal XI.** Add preparation with comparison, bench, and 4-3-3/4-4-2/4-2-3-1 assignments.
   - Acceptance: eleven distinct owned available players and one assigned GK are required; penalties, captain, takers, and penalty order are editable/previewed; kickoff locks submitted decisions against live edits.
   - Verification: duplicate/missing/GK/familiarity cases; arrange each formation by mouse and keyboard and play its committed XI.
   - Dependencies: 2.1. Likely files: `content/formations.tres`, `squad/squad_rules.gd`, `ui/preparation.tscn`, `ui/preparation.gd`, `tests/test_squad.gd` (M).
-- [ ] **2.3 — Tactical identity on the pitch.** Connect three attacking and three defensive approaches to positioning and action preferences.
+  - Evidence (28 October match batch): Native legal XI/bench preparation, all three formations, captain/takers and penalty order; private submitted plans. Both-size enlarged preparation renders and native Enter submission pass; formation/identity/role validation is covered by native checks.
+- [x] **2.3 — Tactical identity on the pitch.** Connect three attacking and three defensive approaches to positioning and action preferences.
   - Acceptance: all nine combinations are selectable and previewed; controlled possession/direct/counter and press/block examples visibly differ without a hidden matchup bonus.
   - Verification: seeded context scenarios and event/position comparisons; inspect representative matches and unchanged playback equivalence.
   - Dependencies: 2.2 and 2.6. Likely files: `content/tactics.tres`, `match/decisions.gd`, `ui/preparation.gd`, `tests/test_tactics.gd` (M).
+  - Evidence (28 October match batch): Nine selectable attack/defence combinations plus route, width and late-risk choices affect actual geometry/action utility/work, without a matchup multiplier. Geometry/action and presented/headless equivalence checks pass; tactical balance needs human playtests.
 
 **Checkpoint 2A:** Role-adjusted selection is legal and tactics affect observed play; baseline match invariants still pass.
 
-- [ ] **2.4 — Match-only stamina.** Deplete/recover effective movement/execution from PHY, activity, and pressing, with capped fatigue penalties.
+- [x] **2.4 — Match-only stamina.** Deplete/recover effective movement/execution from PHY, activity, and pressing, with capped fatigue penalties.
   - Timing: normalize base drain to regulation progress under the confirmed three-minute duration; do not triple the old per-fixture fatigue budget. Derive automatic substitution thresholds from displayed minutes in task 2.5.
   - Acceptance: all fixtures start at 100, zero stamina reduces affected attributes by at most 12%, bonuses/fatigue are applied once, and UI explains tired players.
   - Verification: boundary and tactic-depletion scenarios plus fresh-fixture reset; record observed calibration separately from GDD targets.
   - Dependencies: 2.3. Likely files: `match/match_state.gd`, `match/match_sim.gd`, `ui/match_hud.gd`, `tests/test_tactics.gd` (M).
-- [ ] **2.5 — Preplanned automatic substitutions.** Implement three templates, pinned replacements, bench order, and optional 70-minute risk instructions.
+  - Evidence (28 October match batch): PHY/activity/pressing-dependent work normalized to 180-second regulation, fresh fixture/substitute stamina and a 12% maximum penalty. Native boundaries/depletion comparisons and live inspection pass.
+- [x] **2.5 — Preplanned automatic substitutions.** Implement three templates, pinned replacements, bench order, and optional 70-minute risk instructions.
   - Acceptance: max five substitutions/three windows excluding halftime; eligible players enter at full stamina, no re-entry, and harmful or impossible swaps are skipped with an explanation.
   - Verification: template thresholds, used/unavailable bench, window cap, and trailing/leading cases; inspect pre-match preview and actual substitution events.
   - Dependencies: 2.4. Likely files: `match/substitutions.gd`, `match/match_sim.gd`, `ui/preparation.gd`, `ui/match_hud.gd`, `tests/test_substitutions.gd` (M).
+  - Evidence (28 October match batch): Three automatic templates, real bench priority, pins and late-risk instructions; five changes/three windows, no re-entry, fit/harm safeguards and fresh entrants. Native window, priority, eligibility and snapshot checks pass; prep explains skipped unsuitable/unavailable reserves.
 
-- [ ] **2.6 — Coordinated, context-aware football AI.** Build on the prototype with support triangles, elected pressure with cover, useful runs/recycling and comparable legal pass/carry/shoot choices informed by real player strengths. These foundations run before 2.3's tactic presets.
+- [x] **2.6 — Coordinated, context-aware football AI.** Build on the prototype with support triangles, elected pressure with cover, useful runs/recycling and comparable legal pass/carry/shoot choices informed by real player strengths. These foundations run before 2.3's tactic presets.
   - Acceptance: ordinary untraited football produces observable coordinated patterns; no swarm, scripted score, guaranteed combination or tactic matchup multiplier. Commit intentions long enough to avoid oscillation. Split patterns/action choices into focused increments before coding.
   - Verification: authored support/cover/chance-choice cases and paired seeded geometry/action comparisons, then observed match motion at both speeds; keep authoritative equality.
   - Dependencies: 2.1 and 2.2. Likely files: match decisions/team intents, player execution, native AI checks (M per increment).
+  - Evidence (28 October match batch): Finite steering/turning, support triangles, pressure/cover, interrupted one-two/third-player runs, comparable legal action utilities and physical first touches. Authored coordination tests, fixture regressions and 1×/2× native frame-sequence review pass; human watchability remains open.
 
-**Gate 2:** Lineup/tactical/substitution decisions are understandable and reproducible. Review gameplay and preparation at both sizes; retain the Phase 1 regression suite.
+**Gate 2 — technical checks and rendered preparation passed; human tactical/watchability review open:** legal plans, effective stats, coordinated behavior and substitution limits have native regression coverage. Both-size enlarged preparation and 1×/2× frame sequences were reviewed; the Phase 1 suite still passes. These do not establish enjoyment or tactical balance.
 
 ## Phase 3 — four-win run
 
-- [ ] **3.1 — Resolve tied matches.** Derive ET from the shared regulation duration: one-third total, split into two halves (30 active seconds each under 180-second regulation); add shootouts with early termination and paired sudden death.
+- [x] **3.1 — Resolve tied matches.** Derive ET from the shared regulation duration: one-third total, split into two halves (30 active seconds each under 180-second regulation); add shootouts with early termination and paired sudden death.
   - Acceptance: ET starts only on a regulation tie; shootout follows only an ET tie; on-field eligible takers/fatigue apply and shootout goals remain separate from match goals/statistics.
   - Verification: regulation winner, ET winner, early clinch, and sudden-death fixtures; visible phase/score labels and timing checks.
   - Dependencies: Gate 2. Likely files: `match/match_sim.gd`, `match/shootout.gd`, `ui/match_hud.gd`, `tests/test_match_rules.gd` (M).
+  - Evidence (28 October match batch): Optional knockout preparation profile: two 30-active-second ET halves, physical penalties, early clinch and paired sudden death. Separate score/stat tallies, exact in-flight resume, winner/phase tests and native result/Continue checks at both sizes pass.
 - [ ] **3.2 — Country setup and stage progression.** Start one country with 16 fictional starters/$8m and progress through four victories or three defeats using explicit result/reward states.
   - Acceptance: losses retain roster/cash and retry the saved opponent with a new attempt seed; result/prize application is idempotent; final win/loss ends exactly once.
   - Verification: forced win/loss sequences, repeated result delivery, max-fixture bound, and restart from summary; inspect setup/run overview.
@@ -193,20 +202,23 @@ Follow-up priorities after restart/foul slices: complete attribute execution in 
 
 ## Phase 5 — complete football and twelve-win run
 
-- [ ] **5.1 — Football restarts and set pieces.** Replace prototype dead-ball handling with throw-ins, corners, goal kicks, free kicks, penalties, aerial outcomes, and preassigned takers.
+- [x] **5.1 — Football restarts and set pieces.** Replace prototype dead-ball handling with throw-ins, corners, goal kicks, free kicks, penalties, aerial outcomes, and preassigned takers.
   - Acceptance: correct team/location/ball state resumes after each restart; keeper handling bounds apply; set pieces use physical ball travel and ordinary attributes rather than an unrelated scoring roll.
   - Verification: authored each-boundary/restart/header/keeper-outside-box scenarios; save/resume while arranging a restart; inspect positioning and taker defaults.
   - Dependencies: Gate 4. Likely files: `match/restarts.gd`, `match/ball_rules.gd`, `ui/preparation.gd`, `persistence/state_codec.gd`, `tests/test_match_rules.gd` (M).
-- [ ] **5.2 — Basic offside.** Evaluate pass-time positions and active involvement, resetting through the shared restart rules.
+  - Evidence (28 October match batch): Match side pulled forward by the requested batch: real routines/takers/headers/keepers and restart restrictions. Native corner/penalty/action snapshots round-trip and preserve future state; authored corner renders reviewed. Disk persistence remains 4.1–4.2.
+- [x] **5.2 — Basic offside.** Evaluate pass-time positions and active involvement, resetting through the shared restart rules.
   - Acceptance: qualifying active attackers are penalized consistently; legal, passive, own-half, and exempt-restart cases are distinguished; pending offside context survives resume.
   - Verification: authored positional/second-last-defender/pass-time cases, restart exemptions, and interception/involvement/resume cases; inspect event/location agreement.
   - Dependencies: 5.1. Likely files: `match/offside.gd`, `match/ball_rules.gd`, `match/restarts.gd`, `persistence/state_codec.gd`, `tests/test_match_rules.gd` (M).
-- [ ] **5.3 — Fouls, cards, and reduced teams.** Tie foul risk to reachable challenges; handle yellows, second yellows, direct reds, GK dismissals and forfeits.
+  - Evidence (28 October match batch): Pass-time circle-centre offside, active ball involvement, level/own-half/direct-restart exemptions and deliberate-control reset. Pending offside snapshot/future equality passes. Full interference-with-opponent/body-edge detail is explicitly outside this basic implementation.
+- [x] **5.3 — Fouls, cards, and reduced teams.** Tie foul risk to reachable challenges; handle yellows, second yellows, direct reds, GK dismissals and forfeits.
   - Acceptance: correct player leaves, keeper/shape is preserved through legal substitutions/emergency assignment, no replacement re-entry, and below seven triggers one resolved forfeit.
   - Verification: seeded challenge/contact cases, GK red with/without subs, second-yellow nonstacking, and forfeit idempotency; resume during disciplinary stoppage.
   - Dependencies: 5.2. Likely files: `match/discipline.gd`, `match/substitutions.gd`, `match/match_sim.gd`, `persistence/state_codec.gd`, `tests/test_discipline.gd` (M).
+  - Evidence (28 October match batch): Contextual fouls/yellow/second-yellow/direct red, legal trained/emergency GK cover, defensive reshaping and idempotent fewer-than-seven forfeit. Dismissed players are excluded from pressure/contacts/restart selection. Disciplinary/keeper snapshot and subsequent-state checks pass; run suspensions remain 5.4.
 
-**Checkpoint 5A:** Complete match-rule scenarios and prior save-equivalence cases pass; watch for stoppage inflation, repeated fouls, and shape collapse.
+**Checkpoint 5A — match side implemented early:** basic rule scenarios and in-memory match snapshot equivalence pass. Atomic disk/run saves are still pending; this does not complete Gate 4 or the full Phase 5 run. Watch for stoppage inflation, repeated fouls and shape collapse in human playtests.
 
 - [ ] **5.4 — Suspension and emergency coverage.** Apply three-yellow/red one-fixture suspensions and anonymous one-fixture academy cover.
   - Acceptance: only the next completed attempt serves a suspension/clears tally, second-yellow red does not stack, emergency players cannot persist/discover/set peak-XI records, and kickoff cannot soft-lock.
@@ -227,10 +239,11 @@ Follow-up priorities after restart/foul slices: complete attribute execution in 
 
 Card/album reference saved by the user: read `../CARD_DESIGN_HANDOFF.md` and the linked project references before tasks 6.3–6.4. Apply its archive-card direction to earlier recruitment/squad UI tasks when they begin, with gameplay rules still governed by the GDD.
 
-- [ ] **6.1 — Real automatic signature traits.** Implement the single trait printed on a card as a bounded enhancement of an actual legal action, with above-player identity and honest activation/success/partial/failure feedback. Ordinary football works without traits. Catalogue counts and balance remain provisional.
+- [x] **6.1 — Real automatic signature traits.** Implement the single trait printed on a card as a bounded enhancement of an actual legal action, with above-player identity and honest activation/success/partial/failure feedback. Ordinary football works without traits. Catalogue counts and balance remain provisional.
   - Acceptance: maximum one trait per card; conditional +3/+4 effects and +6 cap precede role/fatigue penalties; timers and applicability survive save/resume without double counting.
   - Verification: boundary/stack/timer cases for every trait and principle, substitute timing, and equivalent visible/headless runs.
   - Dependencies: Gate 5. Likely files: `content/traits.tres`, `match/effective_attributes.gd`, `match/match_sim.gd`, `persistence/state_codec.gd`, `tests/test_traits.gd` (M).
+  - Evidence (28 October match batch): All 36 researched automatic trait contracts are implemented on actual actions, with bounded uses/cooldowns/costs, shared +6 cap, role applicability, real curves/speeds/windup and aura/action feedback. All positive/negative eligibility/use contracts pass; two fictional squad options expose all traits. Coaching choices remain 5.5; standalone match snapshots work, disk save integration remains 4.2.
 - [ ] **6.2 — Six country-origin squads.** Author sixteen fictional starters per country with comparable strength, viable formations, origin/kit identity, and equal starting access.
   - Acceptance: all six pass legal-role/attribute/starting-XI checks and remain selectable from the first run; nationality adds no hidden bonus or signing restriction.
   - Verification: validate and launch every origin in all formations; compare actual initial strength bands and distinguish team patterns. Split authored data batches as needed.

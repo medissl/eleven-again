@@ -177,7 +177,7 @@ func _pause_menu() -> void:
 	score.custom_minimum_size.y = 90
 	left.add_child(score)
 	_team_score(score, model.snapshot_report(), 54, false)
-	_text(left, "%d′  ·  %s" % [model.display_minute(), "Full time" if model.finished else ("Half time" if model.period == 1 else ("Second half" if model.period == 2 else "First half"))], "Label", 17, HORIZONTAL_ALIGNMENT_CENTER)
+	_text(left, "%d′  ·  %s" % [model.display_minute(),model.phase_name()], "Label", 17, HORIZONTAL_ALIGNMENT_CENTER)
 	var right := _column(Rect2(size * Vector2(0.67,0.20), size * Vector2(0.28,0.74)))
 	right.add_theme_constant_override("separation",12)
 	_button(right, "result" if model.finished else "resume", "Match summary" if model.finished else ("Return to halftime" if model.period == 1 else "Resume match"), true)
@@ -331,7 +331,7 @@ func _events(parent: VBoxContainer, events: Array, all_events: bool = false) -> 
 	rows.add_theme_constant_override("separation", 10)
 	scroll.add_child(rows)
 	for event in events:
-		if not all_events and event.kind not in ["goal","save","parry","smother","block"]: continue
+		if not all_events and event.kind not in ["goal","save","parry","smother","block","shootout_goal","shootout_miss","forfeit","red_card","substitution"]: continue
 		var row := HBoxContainer.new()
 		row.custom_minimum_size.y = 62 * scale_factor
 		row.add_theme_constant_override("separation", 10)
@@ -357,6 +357,7 @@ func _summary() -> void:
 	var heading := _text(content, {"halftime":"HALF TIME","result":"FULL TIME","details":"MATCH DETAILS"}[mode], "Section", 17, HORIZONTAL_ALIGNMENT_CENTER)
 	_place(heading, Rect2(0, size.y * 0.055, size.x, 30))
 	var minute := _text(content, "%d′" % report.minute, "Label", 16, HORIZONTAL_ALIGNMENT_CENTER)
+	if not report.get("penalties",[]).is_empty(): minute.text += "  ·  Penalties %d–%d" % report.penalties
 	_place(minute, Rect2(0,size.y * 0.108,size.x,25))
 	var score := Control.new()
 	content.add_child(score)
@@ -375,6 +376,8 @@ func _summary() -> void:
 	_place(footer, Rect2(48,size.y-100,size.x-96,56))
 	_button(footer, "menu" if mode != "details" else "back", "Match menu" if mode != "details" else "Back")
 	var result := _text(footer, ("Exhibition draw" if report.scores[0] == report.scores[1] else ("Meadow XI win" if report.scores[0] > report.scores[1] else "Harbor XI win")) if mode == "result" else "", "Label", 17, HORIZONTAL_ALIGNMENT_CENTER)
+	if mode == "result" and report.get("winner",-1) >= 0:
+		result.text = ("Meadow XI win" if report.winner == 0 else "Harbor XI win")+(" on penalties" if not report.get("penalties",[]).is_empty() else (" by forfeit" if report.get("forfeit_team",-1) >= 0 else ""))
 	result.size_flags_horizontal = SIZE_EXPAND_FILL
 	if mode != "details":
 		_button(footer, "continue_half" if mode == "halftime" else "continue_result", "Continue second half" if mode == "halftime" else "Continue", true).custom_minimum_size.x = 300 * scale_factor

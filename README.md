@@ -1,44 +1,41 @@
 # Eleven Again
 
-An offline PC football squad-building roguelike, built in Godot. Prepare a fictional starting squad, recruit football greats, set tactics, and watch short top-down matches through a disposable run.
+An offline PC football squad-building roguelike in Godot. The current playable milestone is the match and preparation sandbox; the run/recruitment loop is still to come.
 
 ## Current state
 
-UI refresh accepted by the user on **28 October 2026**. Shared packaged typography, fullscreen menus/reports, distinct icons and renderer-only transition polish are checkpointed locally. See [UI checkpoint evidence](reports/ui-refresh.md). Further UI work is deferred to polish. Proper kickoffs now set a stationary centre ball, legal spacing and an actual opening pass, including after goals and halftime; see [kickoff verification](reports/kickoffs.md). Boundary rules, full attributes, coordinated AI, tactics and traits remain planned gameplay work.
+The user requested a large gameplay batch and confirmed **complete match systems first** on 28 October 2026. Native preparation now commits a legal XI, bench, formation, attack/defence tactics, width, route, captain/takers, penalty order and automatic substitution plan. Authored fictional card Resources supply six outfield and five keeper attributes, role familiarity/OVR, fatigue and one signature trait. OVR and tier add no hidden match multiplier.
 
-Phase 1 implemented, 27 October 2026: a playable fictional eleven-a-side exhibition with physical passes, interceptions, tackles, shots, saves, rebounds, goals, two halves, a live journal, statistics, and pause/speed controls. Godot **4.7.2.stable.official.ed1daf0bf**, GDScript, GL Compatibility; no external dependencies.
+The fixed-step full-pitch simulation includes coordinated support/pressure/cover, interruptible combinations, finite movement/turning, physical passes/curves/crosses/headers, first touches, tackles, shots, saves/rebounds and whole-ball boundary restarts. Basic offside, contextual fouls/cards, reduced-team cover, keeper dismissals and forfeits are implemented. All 36 researched traits enhance actual actions, with bounded use/cooldown and local aura/action feedback. Standard and Specialists fixture squads collectively expose them; these squads are unbalanced test content.
 
-Regulation is **three active minutes at 1× / ninety active-play seconds at 2×**, plus stoppages and time spent in reports. Goals show an on-field scorer/score celebration; halftime freezes until **Continue second half**, with actual statistics and first-half moments. Full time retains its summary until Continue opens exhibition choices. Menu includes celebration-effects and reduced-motion switches for the current session.
+Regulation remains **three active minutes at 1× / ninety active-play seconds at 2×**, plus stoppages and deliberate halftime. Exhibition may end in a draw. The optional knockout profile adds two 30-active-second extra-time halves and physical penalties if still tied. Shootout tallies stay separate from match goals/statistics. Native plain-data snapshots reproduce future match state/RNG, but disk saves and main-menu Continue are not implemented.
 
-The pitch-first HUD, fixed below-player names, rolling football and deeper nets remain. Native checks and rendered report/control verification pass at 720p/1080p; human watchability approval remains open. This prototype permits draws and generic restarts. Complete attributes, genuine set pieces, tactics, cards, recruitment, runs, saves and audio remain future work. It is not a balanced or exported release.
+The accepted forest/ivory presentation, Barlow/Inter typography, stable camera, goal/confetti and calm reports remain. Read [gameplay evidence and limits](reports/gameplay-batch.md), [UI checkpoint](reports/ui-refresh.md) and [task status](tasks/todo.md). Recruitment, markets, run progression, coaching, disk persistence, player index, historical content, audio, calibration and export remain pending. This is not a balanced or exported release.
 
-## Development documents
+## Play in Godot
 
-- [Development roadmap](tasks/plan.md): phases, boundaries, risks, checks, and reusable Codex instructions.
-- [Task checklist](tasks/todo.md): ordered work and acceptance criteria; the current task source of truth.
-- [Project agent instructions](AGENTS.md): engineering, skills, Git, and verification workflow.
-- [Project design direction](DESIGN.md): football tactics board and legends album, with rendering gates.
-- [Original GDD v0.1](Football_Roguelike_GDD_v0.1.md): preserved early design, including provisional rules and unmeasured targets.
+Import this folder's `project.godot` and press **F5**. Preparation opens first. Choose either team to edit its sandbox plan, use Standard or Specialists, and scroll to additional tactical choices. The Lineup, Set Pieces and Substitutions tabs expose roles, takers and reserve priority/pins. Inspect a player to see base/effective ratings and its trait. Start match locks private copies of both plans.
 
-## Godot
+- Space pauses/resumes. Escape opens/closes menus while preserving the prior playback state.
+- 1 / 2 or the segmented buttons select 1× / 2×.
+- Hover/click a player or Left/Right to inspect actual stats, stamina/job and trait availability; hover the inspection for trigger/effect/counterplay.
+- Tab/Shift+Tab and Enter navigate native controls. All events opens the paused complete log.
+- Menu → Prepare exhibition opens another plan. Restart replays the same committed plans/seed. Halftime waits for Continue second half.
 
-Import this folder's `project.godot` in Godot and press **F5**. The exhibition starts automatically with a fresh fixture seed. Open **Menu** for match details, the full log, a confirmed same-seed restart, a new exhibition, or quit. The current prototype generates attributes with the fixture seed. Use the installed engine version until a deliberate upgrade is verified.
+## Development
 
-- Space: pause/resume. Escape: menu/back, restoring the prior playback state when the menu closes.
-- 1 / 2 or the segmented buttons: 1× / 2× playback.
-- Hover/click a player or Left/Right: inspect names and prototype attributes.
-- Tab/Shift+Tab and Enter: navigate/activate buttons. All events opens the complete log while paused.
-
-The shell executable was found at `D:\Godot\Godot_v4.7.2-stable_win64_console.exe`. Run native checks from the project directory:
+Godot **4.7.2.stable.official.ed1daf0bf**, GDScript, GL Compatibility; no runtime dependencies. The engine was found at `D:\Godot\Godot_v4.7.2-stable_win64_console.exe`.
 
 ```powershell
+& 'D:\Godot\Godot_v4.7.2-stable_win64_console.exe' --headless --path . --editor --import --quit
 & 'D:\Godot\Godot_v4.7.2-stable_win64_console.exe' --headless --path . --script res://tests/run_tests.gd
 ```
 
-See [Phase 1 verification](reports/phase-one.md) for exact checks, seeds, rendering evidence, measured limits, and screenshot commands.
+Use `-- --batch-only` for focused match-batch checks. Inspect the output for script errors as well as assertion failures. Commands and reproducible native render scenarios are in the gameplay report.
 
-## Version control
+- [Roadmap](tasks/plan.md) and [task checklist](tasks/todo.md).
+- [Project instructions](AGENTS.md) and [design direction](DESIGN.md).
+- [Original GDD](Football_Roguelike_GDD_v0.1.md), preserved with its proposals and unmeasured targets.
+- [Fixture sources/tuning](content/SOURCES.md).
 
-GitHub repository: [medissl/eleven-again](https://github.com/medissl/eleven-again). Local Git is initialized with this `origin`. Local checkpoints do not imply files have been pushed; publishing requires user authorization.
-
-Next gameplay slice: **1.14 — genuine boundary restarts**, before meaningful preparation in Phase 2. Kickoff development is on `codex/proper-kickoffs`; nothing has been pushed.
+GitHub: [medissl/eleven-again](https://github.com/medissl/eleven-again). Current local work is on `codex/gameplay-batch`; nothing has been pushed. Next coherent milestone: **3.2–3.6, the session-playable four-win run**, after feedback on the match batch.

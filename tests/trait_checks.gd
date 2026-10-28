@@ -3,12 +3,12 @@ const Match = preload("res://match/match_sim.gd")
 const Traits = preload("res://match/traits.gd")
 const OPPORTUNITIES := {
 	"deflector":{"kind":"parry"},"safe_hands":{"kind":"save","pressure":0.1},"cat_reflexes":{"kind":"save","distance":12.0},"sweeper_keeper":{"kind":"run","job":"sweep"},"long_throw":{"kind":"pass","delivery":"keeper_throw","hand_control":true,"risk":0.1,"length":27.0},
-	"hard_tackle":{"kind":"tackle","legal_angle":true},"anticipator":{"kind":"respond","reachable":true},"aerial_fortress":{"kind":"aerial","defending":true},"body_block":{"kind":"block","reachable":true},
+	"hard_tackle":{"kind":"tackle","legal_angle":true},"anticipator":{"kind":"respond","reachable":true},"aerial_fortress":{"kind":"aerial","defending":true,"descending":true},"body_block":{"kind":"block","reachable":true},
 	"accelerator":{"kind":"run","job":"carry","open":true},"whipped_cross":{"kind":"pass","delivery":"cross"},"recovery_sprint":{"kind":"run","recovery":true},"overlap_engine":{"kind":"run","job":"overlap","covered":true},
 	"screen":{"kind":"receive","interception":true,"central":true},"anchor":{"kind":"shield","pressure":0.8},"switch_play":{"kind":"pass","lateral":30.0,"risk":0.1},"bullet_pass":{"kind":"pass","length":25.0,"delivery":"pass"},
 	"wall_pass":{"kind":"receive","bounce":true},"tempo_setter":{"kind":"receive","pressure":0.1,"recycle":true},"press_resistant":{"kind":"receive","opponents":2},"threader":{"kind":"pass","progress":20.0,"delivery":"through"},
 	"third_man":{"kind":"run","job":"third-man run"},"turn_and_go":{"kind":"receive","open":true},"touchline_burst":{"kind":"run","job":"carry","wide":true,"open":true},"cutback":{"kind":"pass","delivery":"cutback","risk":0.1},"cut_inside":{"kind":"run","job":"carry","inside":true,"open":true},"close_control":{"kind":"receive","difficult":true},
-	"finesse_shot":{"kind":"shot","curve":1.6},"first_time_finish":{"kind":"shot","first_time":true},"power_strike":{"kind":"shot","pressure":0.1},"poacher":{"kind":"receive","box":true,"rebound":true},"aerial_finisher":{"kind":"shot","aerial":true},"dead_ball_artist":{"kind":"pass","restart":"free_kick"},"penalty_composure":{"kind":"shot","restart":"penalty"},"long_throw_specialist":{"kind":"pass","restart":"throw_in","length":28.0},"super_sub":{"kind":"entry"}}
+	"finesse_shot":{"kind":"shot","curve":1.6},"first_time_finish":{"kind":"shot","first_time":true},"power_strike":{"kind":"shot","pressure":0.1},"poacher":{"kind":"receive","box":true,"rebound":true},"aerial_finisher":{"kind":"shot","aerial":true},"dead_ball_artist":{"kind":"pass","restart":"free_kick"},"penalty_composure":{"kind":"shot","restart":"penalty"},"long_throw_specialist":{"kind":"pass","restart":"throw_in","length":33.0},"super_sub":{"kind":"entry"}}
 
 func run(check: Callable) -> void:
 	check.call(Traits.catalogue.size() == 36 and OPPORTUNITIES.size() == 36, "every researched trait has an explicit legal opportunity scenario")
@@ -21,10 +21,13 @@ func run(check: Callable) -> void:
 				break
 		var player = model.players[actor]
 		player.card.trait_id = ability
+		player.active = false
+		check.call(Traits.activate(model,actor,OPPORTUNITIES[ability]).is_empty(), ability+" cannot activate for a dismissed player")
+		player.active = true
 		var rng_before: int = model.rng.state
 		check.call(Traits.activate(model,actor,{"kind":"unrelated"}).is_empty(), ability+" rejects an irrelevant action")
 		var activation := Traits.activate(model,actor,OPPORTUNITIES[ability])
-		check.call(not activation.is_empty() and player.trait_uses == 1 and player.stamina == 98, ability+" commits one bounded activation")
+		check.call(not activation.is_empty() and player.trait_uses == 1 and player.stamina == (100 if ability == "overlap_engine" else 98), ability+" commits one bounded activation")
 		var before: Array = model.signature()
 		check.call(Traits.activate(model,actor,OPPORTUNITIES[ability]).is_empty() and model.signature() == before, ability+" cannot stack or consume twice")
 		check.call(model.rng.state == rng_before, ability+" activation never draws an outcome lottery")

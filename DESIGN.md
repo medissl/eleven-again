@@ -79,3 +79,9 @@ Keep the pitch flat and readable. Decoration, texture, crowd effects, and rarity
 Run the actual scene, capture both target sizes, inspect composition and name collisions, and interact with changed flows using mouse and keyboard. Check that pitch, ball, score, feed, and focus remain understandable under motion and UI scaling. Record concrete defects, refine the largest ones, and recheck. Measure frame time on the actual PC when meaningful.
 
 Store a small set of useful screenshots and findings in the relevant task evidence; do not generate a gallery for every minor edit. Use the global design scorecard as a critique tool, never as a substitute for playtesting. A screenshot proves layout, not match enjoyment or tactical quality.
+
+## Implemented match additions — 28 October
+
+Preparation uses the existing forest/ivory native theme and Barlow/Inter hierarchy, with scrollable XI, set-piece and substitution controls at 720p/enlarged scale. Four-tier v2 card arithmetic is used in authored Resources; full archive-card rendering remains later work. Match inspection shows role-specific real attributes, stamina/job and the card trait with uses/cooldown and a trigger/effect/counterplay tooltip.
+
+Trait cues are local rings, capped short labels above players and action-family icons; surname placement stays below. Enhanced flight trails follow actual ball positions. All cues consume match events/state, respect pause/effects/reduced motion, and consume no gameplay RNG. Set-piece/shootout setup uses the existing short formation reveal and stable camera. Penalty results keep the match score and shootout tally separate. See `reports/gameplay-batch.md` for native captures and remaining visual/balance limits.

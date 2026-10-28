@@ -239,7 +239,8 @@
       "counterplay": "Exposed defence lowers run utility; possession loss cancels the attacking intention.",
       "parameters": {
         "duration_seconds": 3,
-        "stamina_drain_multiplier": 0.85
+        "stamina_drain_multiplier": 0.85,
+        "activation_stamina_cost": 0
       },
       "wave": 2
     },

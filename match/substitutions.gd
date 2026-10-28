@@ -19,7 +19,6 @@ static func apply(m, halftime: bool = false) -> void:
 			if plan.substitution_plan == "fresh_legs" and player.stamina >= (55 if stage == 0 else 45): continue
 			if plan.substitution_plan == "protect_shape" and player.stamina > 75: continue
 			var replacement := -1
-			var quality := -INF
 			var pinned: int = plan.pinned_replacements.get(id%11,-1)
 			for index in plan.bench_order:
 				if index < 0 or index >= plan.cards.size() or index in plan.starters or plan.cards[index].card_id in m.used_cards[team]: continue
@@ -28,9 +27,8 @@ static func apply(m, halftime: bool = false) -> void:
 				if player.role not in card.natural_roles+card.familiar_roles: continue
 				var candidate: float = card.rating(player.role,true)
 				if candidate < player.card.rating(player.role,true)*(0.88+0.12*player.stamina/100.0)*0.9: continue
-				if candidate > quality:
-					replacement = index
-					quality = candidate
+				replacement = index
+				break
 			if replacement < 0: continue
 			var old_name: String = player.name
 			var old_card: String = player.card.card_id

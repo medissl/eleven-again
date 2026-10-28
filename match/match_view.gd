@@ -69,9 +69,10 @@ func open_preparation() -> void:
 	preparation.plans[0] = sim.plans[0].duplicate(true)
 	preparation.plans[1] = sim.plans[1].duplicate(true)
 	preparation.ui_scale = hud.ui_scale
+	preparation.knockout = sim.knockout
 	add_child(preparation)
-	preparation.submitted.connect(func(home,away):
-		sim = Match.new(next_seed,Match.REGULATION_SECONDS,home,away)
+	preparation.submitted.connect(func(home,away,resolve_ties):
+		sim = Match.new(next_seed,Match.REGULATION_SECONDS,home,away,resolve_ties)
 		preparation.queue_free()
 		preparation = null
 		selected = -1
@@ -124,7 +125,13 @@ func _sync_state() -> void:
 	var description := ""
 	if inspected >= 0:
 		var p = sim.players[inspected]
-		description = "%s · %s · %s\nPAC %d SHO %d PAS %d DRI %d DEF %d PHY %d\nStamina %d · %s" % [p.name,p.role,p.card.tier().capitalize(),sim.attribute(inspected,"PAC"),sim.attribute(inspected,"SHO"),sim.attribute(inspected,"PAS"),sim.attribute(inspected,"DRI"),sim.attribute(inspected,"DEF"),sim.attribute(inspected,"PHY"),p.stamina,p.job]
+		var keys := ["REF","HAN","POS","DIV","KIC","PAC"] if p.role == "GK" else ["PAC","SHO","PAS","DRI","DEF","PHY"]
+		description = "%s · %s%s\n%s %d  %s %d  %s %d\n%s %d  %s %d  %s %d\nStamina %d · %s" % [p.name,p.role," · Sent off" if not p.active else "",keys[0],sim.attribute(inspected,keys[0]),keys[1],sim.attribute(inspected,keys[1]),keys[2],sim.attribute(inspected,keys[2]),keys[3],sim.attribute(inspected,keys[3]),keys[4],sim.attribute(inspected,keys[4]),keys[5],sim.attribute(inspected,keys[5]),p.stamina,p.job]
+		if not p.card.trait_id.is_empty():
+			var definition: Dictionary = sim.Traits.catalogue[p.card.trait_id]
+			var ready := "Ready" if sim.active_ticks >= p.trait_ready else "%d′ cooldown" % ceili((p.trait_ready-sim.active_ticks)*90.0/sim.regulation_ticks)
+			description += "\n%s · %d/%d · %s" % [definition.name,p.trait_uses,sim.trait_allowance,ready if p.role in definition.positions else "Role unavailable"]
+			hud.inspection.tooltip_text = definition.trigger+"\n"+definition.effect+"\nCounterplay: "+definition.counterplay
 	if overlay_mode.is_empty() and not _required_report().is_empty():
 		_open_overlay(_required_report())
 	hud.refresh(sim, paused, speed, description)
@@ -145,7 +152,7 @@ func snap_presentation() -> void:
 func _consume_presentation_events() -> void:
 	for index in range(presentation_events,sim.events.size()):
 		var event: Dictionary = sim.events[index]
-		if event.kind == "kickoff_setup" and event.tick > 0:
+		if event.kind in ["kickoff_setup","shootout_setup","restart_setup"] and event.tick > 0:
 			# Briefly reveal the real reset shape; never draw a fictional flight to centre.
 			for i in 22: player_positions[i] = sim.players[i].position
 			ball = sim.ball
@@ -167,7 +174,7 @@ func _process(delta: float) -> void:
 	# A few milliseconds of render-only settling, with no anticipation or overshoot.
 	for i in 22: player_positions[i] = player_positions[i].lerp(sim.players[i].position,1-exp(-delta*65))
 	ball = ball.lerp(sim.ball,1-exp(-delta*100))
-	if sim.ball_state == Match.BallState.FLIGHT and not hud.reduced_motion:
+	if _has_ball_trail() and not hud.reduced_motion:
 		if ball_trail.is_empty() or ball_trail.back().distance_to(ball) > 0.02: ball_trail.append(ball)
 		while ball_trail.size() > 4: ball_trail.pop_front()
 	else: ball_trail.clear()
@@ -260,7 +267,7 @@ func _close_overlay(animate: bool = true) -> void:
 		hud.buttons.menu.grab_focus()
 
 func _restart(new_seed: bool = false) -> void:
-	sim = Match.new(sim.match_seed + (1 if new_seed else 0),Match.REGULATION_SECONDS,sim.plans[0],sim.plans[1])
+	sim = Match.new(sim.match_seed + (1 if new_seed else 0),Match.REGULATION_SECONDS,sim.plans[0],sim.plans[1],sim.knockout)
 	selected = -1
 	hovered = -1
 	label_alpha.fill(1.0)
@@ -302,6 +309,7 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
 		hovered = -1
 		for i in 22:
+			if not sim.players[i].active: continue
 			if _field(player_positions[i]).distance_to(event.position) < 17:
 				hovered = i
 				if event is InputEventMouseButton: selected = i
@@ -342,9 +350,9 @@ func _draw() -> void:
 	if not hud.reduced_motion and sim.ticks-impact_tick >= 0 and sim.ticks-impact_tick < 10:
 		var phase := (sim.ticks-impact_tick)/10.0
 		draw_arc(_field(impact_position),7+phase*9,0,TAU,24,Color(CREAM,0.3*(1-phase)),1.2,true)
-	if sim.ball_state == Match.BallState.FLIGHT and not hud.reduced_motion:
+	if _has_ball_trail() and not hud.reduced_motion:
 		for index in range(1,ball_trail.size()):
-			draw_line(_field(ball_trail[index-1]),_field(ball_trail[index]),Color(CREAM,0.08+index*0.035),1.4,true)
+			draw_line(_field(ball_trail[index-1]),_field(ball_trail[index]),Color(_ball_ink(),0.08+index*0.035),1.4,true)
 	for i in 22:
 		if i != sim.owner and i != selected: _draw_player(i)
 	if sim.owner >= 0 and sim.owner != selected: _draw_player(sim.owner)
@@ -371,7 +379,7 @@ func _draw_traits() -> void:
 		if not p.active: continue
 		var state: Dictionary = p.trait_state
 		if state.is_empty(): continue
-		var age: int = sim.active_ticks-state.get("resolved",state.started)
+		var age: int = sim.ticks-state.get("visual_resolved",state.get("visual_tick",sim.ticks))
 		if state.state != "active" and age > 36: continue
 		var position := _field(player_positions[p.id])
 		var tint := Color("7bd2cf") if p.role == "GK" or state.trait in ["accelerator","recovery_sprint","touchline_burst"] else AMBER
@@ -391,7 +399,7 @@ func _draw_traits() -> void:
 			draw_arc(icon,5,0,TAU,16,Color(tint,alpha),1.3,true)
 			draw_line(icon+Vector2(-3,-3),icon+Vector2(3,3),Color(tint,alpha),1.2,true)
 		else: draw_polyline(PackedVector2Array([icon+Vector2(-4,0),icon+Vector2(0,-5),icon+Vector2(4,0),icon+Vector2(0,5),icon+Vector2(-4,0)]),Color(tint,alpha),1.2,true)
-		if labels < 3 and sim.active_ticks-state.started < 72:
+		if labels < 3 and sim.ticks-state.get("visual_tick",sim.ticks) < 72:
 			var title: String = state.trait.replace("_"," ").to_upper()
 			var width := font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,11).x
 			var origin := Vector2(clampf(position.x-width/2,pitch.position.x+2,pitch.end.x-width-2),maxf(pitch.position.y+12,position.y-32))
@@ -415,8 +423,8 @@ func _draw_ball() -> void:
 	draw_set_transform(Vector2.ZERO)
 	draw_circle(center, 6.2, Color(Color("102118"),opacity))
 	draw_circle(center, 5.1, Color(Color("e5e8df"),opacity))
-	if hud.effects_enabled and sim.flight_trait_actor >= 0 and sim.ball_state == Match.BallState.FLIGHT:
-		draw_arc(center,6.5,0,TAU,20,Color(AMBER,0.85*opacity),1.3,true)
+	if hud.effects_enabled and _ball_ink() != CREAM:
+		draw_arc(center,6.5,0,TAU,20,Color(_ball_ink(),0.85*opacity),1.3,true)
 	var patch := PackedVector2Array()
 	for i in 5: patch.append(center + Vector2.from_angle(ball_roll + i * TAU / 5) * 2.0)
 	draw_colored_polygon(patch, Color(Color("203c2a"),opacity))
@@ -424,6 +432,15 @@ func _draw_ball() -> void:
 		var angle := ball_roll + i * TAU / 3
 		draw_colored_polygon(PackedVector2Array([center + Vector2.from_angle(angle) * 3.2, center + Vector2.from_angle(angle - 0.3) * 4.8, center + Vector2.from_angle(angle + 0.3) * 4.8]), Color(Color("203c2a"),opacity))
 	draw_circle(center + Vector2(-1.6, -2.0), 0.9, Color(1,1,1,0.8*opacity))
+
+func _has_ball_trail() -> bool:
+	return sim.ball_state == Match.BallState.FLIGHT or (sim.ball_state == Match.BallState.LOOSE and sim.ball_velocity.length() > 2 and _ball_ink() != CREAM)
+
+func _ball_ink() -> Color:
+	if not hud.effects_enabled: return CREAM
+	if sim.ball_state == Match.BallState.FLIGHT and sim.flight_trait_actor >= 0 and sim.players[sim.flight_trait_actor].trait_state.get("state","") == "active": return AMBER
+	if sim.ball_state == Match.BallState.LOOSE and sim.last_touch >= 0 and sim.players[sim.last_touch].trait_state.get("trait","") == "deflector" and sim.players[sim.last_touch].trait_state.get("state","") == "active": return Color("7bd2cf")
+	return CREAM
 
 func _draw_goal(end: int) -> void:
 	var depth := 2.5 * _scale()
@@ -435,7 +452,7 @@ func _draw_goal(end: int) -> void:
 	var recoil := 0.0
 	var age: int = sim.ticks - hud.goal_cue_tick
 	if hud.effects_enabled and not hud.reduced_motion and hud.goal_cue_actor >= 0 and age >= 0 and age < 90:
-		var scoring_team: int = sim.players[hud.goal_cue_actor].team
+		var scoring_team: int = hud.goal_event.get("team",sim.players[hud.goal_cue_actor].team)
 		if (end == 1) == (sim.direction(scoring_team) > 0):
 			recoil = sin(age * 0.3) * exp(-age / 25.0) * 2.0
 	draw_rect(Rect2(net.position + Vector2(1, 3), net.size), Color(0.01,0.035,0.02,0.8))
@@ -454,6 +471,7 @@ func _draw_goal(end: int) -> void:
 
 func _draw_player(index: int) -> void:
 	if not sim.players[index].active: return
+	var is_keeper: bool = sim.players[index].role == "GK"
 	var point := _field(player_positions[index])
 	var opacity := _formation_opacity()
 	var color := Color(CREAM if index < 11 else CORAL,opacity)
@@ -466,16 +484,16 @@ func _draw_player(index: int) -> void:
 	draw_circle(point, 13.2, Color(Color("102315"),opacity))
 	draw_circle(point, 12.3, Color(CREAM,opacity))
 	draw_circle(point, 11.1, color)
-	if index % 11 == 0:
+	if is_keeper:
 		draw_circle(point, 10.3, Color(Color("247f53"),opacity))
 	if index >= 11:
 		draw_arc(point, 9, PI * 0.10, PI * 0.90, 14, Color(Color("9d4937"),opacity), 1.2, true)
 	var number := str(index % 11 + 1)
 	var number_pos := point + Vector2(-font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x / 2, 5)
-	if index >= 11 or index % 11 == 0:
+	if index >= 11 or is_keeper:
 		for offset in [Vector2(-0.7,0),Vector2(0.7,0),Vector2(0,-0.7),Vector2(0,0.7)]:
 			draw_string(font, number_pos + offset, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(Color("27432d"),opacity))
-	draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM if index % 11 == 0 or index >= 11 else Color("102315"),opacity))
+	draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM if is_keeper or index >= 11 else Color("102315"),opacity))
 
 func _draw_name(index: int) -> void:
 	if not sim.players[index].active: return

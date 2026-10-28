@@ -8,10 +8,12 @@ const Substitutions = preload("res://match/substitutions.gd")
 const Traits = preload("res://match/traits.gd")
 const Offside = preload("res://match/offside.gd")
 const Discipline = preload("res://match/discipline.gd")
+const Shootout = preload("res://match/shootout.gd")
+const Restarts = preload("res://match/restarts.gd")
 const ATTRIBUTE_FIELDS := {"PAC":"pace","SHO":"shooting","PAS":"passing","DRI":"dribbling","DEF":"defence","PHY":"physical","REF":"reflexes","HAN":"handling","POS":"positioning","DIV":"diving","KIC":"kicking"}
 
 enum BallState { CONTROLLED, FLIGHT, LOOSE, DEAD, KICKOFF }
-enum Period { FIRST_HALF, HALF_TIME, SECOND_HALF, FULL_TIME }
+enum Period { FIRST_HALF, HALF_TIME, SECOND_HALF, FULL_TIME, EXTRA_FIRST, EXTRA_SECOND, SHOOTOUT }
 const DT := 1.0 / 60.0
 const FIELD := Vector2(105, 68)
 const REGULATION_SECONDS := 180
@@ -61,6 +63,8 @@ class Footballer:
 	var cooldown := 0
 	var active := true
 	var yellows := 0
+	var shootout_trait_used := false
+	var anchor_override := Vector2(-1,-1)
 
 var players: Array[Footballer] = []
 var rng := RandomNumberGenerator.new()
@@ -133,9 +137,17 @@ var restart_delivery := ""
 var restart_kick_team := -1
 var forfeit_team := -1
 var flight_on_target_recorded := false
+var knockout := false
+var trait_allowance := 3
+var shootout: Dictionary = {}
+var last_control_team := -1
+var flight_serial := 0
+var period_extension := false
+var period_extension_contact := false
 
-func _init(seed_value: int = 11027, duration_seconds: int = REGULATION_SECONDS, home: Resource = null, away: Resource = null) -> void:
+func _init(seed_value: int = 11027, duration_seconds: int = REGULATION_SECONDS, home: Resource = null, away: Resource = null, resolve_ties: bool = false) -> void:
 	match_seed = seed_value
+	knockout = resolve_ties
 	regulation_ticks = maxi(2, duration_seconds) * 60
 	rng.seed = seed_value
 	plans = [(Lineup.exhibition(0) if home == null else home).duplicate(true), (Lineup.exhibition(1) if away == null else away).duplicate(true)]
@@ -171,7 +183,7 @@ func attribute(id: int, key: String, bonus: float = 0) -> float:
 	return clampf((base+clampf(bonus+Traits.bonus(p,key),0,6))*role_factor*(0.88+0.12*clampf(p.stamina/100.0,0,1)),1,120)
 
 func control_team() -> int:
-	return players[owner].team if owner >= 0 else (players[last_touch].team if last_touch >= 0 else restart_team)
+	return players[owner].team if owner >= 0 else (last_control_team if last_control_team >= 0 else restart_team)
 
 func keeper_id(team: int) -> int:
 	for p in players:
@@ -179,8 +191,9 @@ func keeper_id(team: int) -> int:
 	return team*11
 
 func direction(team: int) -> float:
+	if period == Period.SHOOTOUT: return 1.0 if team == shootout.get("team",0) else -1.0
 	var first_half := 1.0 if team == 0 else -1.0
-	return -first_half if period == Period.SECOND_HALF or period == Period.FULL_TIME else first_half
+	return -first_half if period in [Period.SECOND_HALF,Period.FULL_TIME,Period.EXTRA_SECOND] else first_half
 
 func oriented(point: Vector2, team: int) -> Vector2:
 	return point if direction(team) > 0 else FIELD - point
@@ -189,14 +202,17 @@ func controlled_ball_position(id: int) -> Vector2:
 	return players[id].position + players[id].facing * 1.7
 
 func display_minute() -> int:
-	return mini(90, int(active_ticks * 90.0 / regulation_ticks))
+	return mini(120 if knockout and active_ticks > regulation_ticks else 90, int(active_ticks * 90.0 / regulation_ticks))
 
 func reset_shape(kicking_team: int) -> void:
+	last_control_team = kicking_team
+	transition_tick = -1000
 	restart_team = kicking_team
 	restart_kind = "kickoff"
 	restart_position = CENTRE
 	for p in players:
 		var anchor: Vector2 = FootballAI.SHAPES[plans[p.team].formation][p.id % 11]
+		if p.anchor_override.x >= 0: anchor = p.anchor_override
 		p.position = oriented(Vector2(anchor.x * 0.6, anchor.y), p.team)
 		if p.team != kicking_team and p.position.distance_to(CENTRE) < 9.15:
 			p.position = CENTRE + (p.position - CENTRE).normalized() * 9.15
@@ -228,6 +244,9 @@ func reset_shape(kicking_team: int) -> void:
 func step() -> void:
 	if finished or period == Period.HALF_TIME:
 		return
+	if period == Period.SHOOTOUT:
+		Shootout.step(self)
+		return
 	ticks += 1
 	previous_ball = ball
 	for p in players:
@@ -252,7 +271,7 @@ func step() -> void:
 			else:
 				deliver_restart()
 		return
-	active_ticks += 1
+	if not period_extension: active_ticks += 1
 	Traits.tick(self)
 	if ticks % 15 == 1:
 		choose_targets()
@@ -281,24 +300,57 @@ func step() -> void:
 		for p in players:
 			if not p.active: continue
 			if p.id == kickoff_kicker: continue
+			if p.id == last_touch and p.role == "GK" and p.cooldown > 0: continue
 			if p.position.distance_to(ball) < 1.3:
 				if p.position.distance_to(ball) > 0.01: p.facing = p.position.direction_to(ball)
 				take_control(p.id)
 				break
 	if ball_state not in [BallState.DEAD, BallState.KICKOFF]:
 		BallRules.resolve(self, previous_ball, ball)
+	if period_extension:
+		if not period_extension_contact and (ball_state == BallState.FLIGHT or (ball_state == BallState.LOOSE and ball_velocity.length() > 0.4)): return
+		period_extension = false
+		period_extension_contact = false
 	if period == Period.FIRST_HALF and active_ticks >= regulation_ticks / 2.0:
 		period = Period.HALF_TIME
 		start_restart(1, Vector2(52.5, 34), "halftime", 0)
 		emit_event("halftime", -1)
 		halftime_report = snapshot_report()
-	elif active_ticks >= regulation_ticks:
-		period = Period.FULL_TIME
-		finished = true
-		owner = -1
-		ball_state = BallState.DEAD
-		emit_event("full_time", -1, {"score": scores.duplicate()})
-		result_report = snapshot_report()
+	elif period == Period.SECOND_HALF and active_ticks >= regulation_ticks:
+		if knockout and scores[0] == scores[1]:
+			period = Period.EXTRA_FIRST
+			trait_allowance = 4
+			Traits.stop(self)
+			reset_shape(0)
+			emit_event("extra_time",-1)
+		else: finish_match()
+	elif period == Period.EXTRA_FIRST and active_ticks >= regulation_ticks*7.0/6:
+		period = Period.EXTRA_SECOND
+		Traits.stop(self)
+		reset_shape(1)
+		emit_event("extra_half",-1)
+	elif period == Period.EXTRA_SECOND and active_ticks >= regulation_ticks*4.0/3:
+		if scores[0] == scores[1]: Shootout.start(self)
+		else: finish_match()
+
+func finish_match() -> void:
+	if finished: return
+	Traits.stop(self)
+	period = Period.FULL_TIME
+	finished = true
+	owner = -1
+	ball_state = BallState.DEAD
+	emit_event("full_time",-1,{"score":scores.duplicate()})
+	result_report = snapshot_report()
+
+func winner() -> int:
+	if forfeit_team >= 0: return 1-forfeit_team
+	if scores[0] != scores[1]: return 0 if scores[0] > scores[1] else 1
+	if not shootout.is_empty() and Shootout.clinched(shootout): return 0 if shootout.goals[0] > shootout.goals[1] else 1
+	return -1
+
+func phase_name() -> String:
+	return {Period.FIRST_HALF:"First half",Period.HALF_TIME:"Half time",Period.SECOND_HALF:"Second half",Period.EXTRA_FIRST:"Extra time · first half",Period.EXTRA_SECOND:"Extra time · second half",Period.SHOOTOUT:"Penalty shootout",Period.FULL_TIME:"Full time"}[period]
 
 func acknowledge_halftime() -> bool:
 	if period != Period.HALF_TIME: return false
@@ -312,9 +364,12 @@ func snapshot_report() -> Dictionary:
 		"shots": shots.duplicate(), "on_target": shots_on_target.duplicate(),
 		"saves": saves.duplicate(), "completed": completed_passes.duplicate(),
 		"attempted": pass_attempts.duplicate(), "possession": possession_ticks.duplicate(),
-		"events": events.duplicate(true),"forfeit_team":forfeit_team}
+		"events": events.duplicate(true),"forfeit_team":forfeit_team,"penalties":shootout.get("goals",[]).duplicate(),"winner":winner()}
 
 func start_restart(team: int, location: Vector2, kind: String, duration: int) -> void:
+	if kind == "penalty" and period_boundary_due():
+		period_extension = true
+		period_extension_contact = false
 	Traits.resolve(self,flight_trait_actor,flight_trait_action,"failed","ball out or play stopped")
 	Traits.stop(self)
 	restart_team = team
@@ -335,6 +390,7 @@ func start_restart(team: int, location: Vector2, kind: String, duration: int) ->
 	offside_context.clear()
 	restart_untouched = false
 	combination.clear()
+	transition_tick = -1000
 	if not pending_shot.is_empty():
 		Traits.resolve(self,pending_shot.actor,pending_shot.action,"failed","play stopped")
 		pending_shot.clear()
@@ -372,7 +428,10 @@ func award_restart(team: int, location: Vector2, kind: String, actor: int = -1) 
 	players[restart_taker].position = (location-Vector2(direction(team)*1.7,0)).clamp(Vector2.ONE,FIELD-Vector2.ONE)
 	players[restart_taker].previous = players[restart_taker].position
 	players[restart_taker].target = players[restart_taker].position
+	players[restart_taker].facing = Vector2(direction(team),0)
+	Restarts.arrange(self,team,kind,location,restart_taker)
 	emit_event(kind+"_awarded", restart_taker, {"team":team, "last_touch":actor})
+	emit_event("restart_setup",restart_taker,{"restart":kind})
 
 func deliver_restart() -> void:
 	owner = restart_taker
@@ -381,7 +440,7 @@ func deliver_restart() -> void:
 	var receiver := -1
 	var value := -INF
 	for p in players:
-		if p.team != restart_team or p.id == owner: continue
+		if not p.active or p.team != restart_team or p.id == owner: continue
 		var length := ball.distance_to(p.position)
 		var throw_range := 32.0
 		if players[owner].card.trait_id == "long_throw_specialist" and players[owner].trait_uses < 3 and active_ticks >= players[owner].trait_ready: throw_range *= 1.12
@@ -452,9 +511,11 @@ func take_control(id: int, kind: String = "recovery") -> void:
 	restart_untouched = false
 	if ball_state == BallState.LOOSE:
 		Traits.activate(self,id,{"kind":"receive","box":oriented(players[id].position,players[id].team).x > 88,"rebound":flight_kind == "shot","pressure":0.0})
-	if last_touch >= 0 and players[id].team != players[last_touch].team:
+	if last_control_team >= 0 and players[id].team != last_control_team:
 		transition_tick = active_ticks
 		combination.clear()
+	last_control_team = players[id].team
+	if period_extension: period_extension_contact = true
 	kickoff_kicker = -1
 	if pass_pending:
 		Traits.resolve(self,flight_trait_actor,flight_trait_action,"success" if id == flight_receiver else ("partial" if players[id].team == players[flight_source].team else "failed"),"physical reception" if id == flight_receiver else "different player reached delivery")
@@ -522,16 +583,20 @@ func pass_to(receiver: int, pressure: float = 0, delivery_kind: String = "pass")
 	elif length < 20 and passer.id%11 != 0 and (recipient.position.x-passer.position.x)*direction(passer.team) > 1:
 		var third := passer.team*11+(7 if passer.id%11 != 7 and receiver%11 != 7 else 8)
 		combination = {"passer":passer.id,"bounce":receiver,"third":third,"team":passer.team,"expires":active_ticks+150}
-	flight_curve = (1.8 if delivery_kind == "cross" else 0.0)*Traits.parameter(passer,"curve_capacity_multiplier")
+	flight_curve = (minf(1.8,length*0.09) if delivery_kind == "cross" else 0.0)*Traits.parameter(passer,"curve_capacity_multiplier")
 	flight_peak = 3.2 if delivery_kind == "cross" or (plans[passer.team].attack == "direct" and length > 32) else 0.0
 	if delivery_kind == "keeper_throw": flight_peak = 1.1
+	if current_restart == "throw_in": flight_peak = 2.4 if length > 20 else 1.2
 	launch_ball(aim, minf(34,(19 + delivery * 0.08)*Traits.parameter(passer,"ball_speed_multiplier")), "pass")
 	if not enhancement.is_empty():
 		flight_trait_actor = passer.id
 		flight_trait_action = enhancement.action
-	emit_event("pass", passer.id, {"receiver": receiver, "target": aim, "delivery":delivery_kind})
+		emit_event("trait_execution",passer.id,{"trait":enhancement.trait,"action":enhancement.action,"flight":flight_serial})
+	emit_event("pass", passer.id, {"receiver": receiver,"receiver_name":recipient.name,"receiver_card":recipient.card.card_id, "target": aim, "delivery":delivery_kind})
 
 func launch_ball(aim: Vector2, velocity: float, kind: String) -> void:
+	flight_serial += 1
+	last_control_team = players[owner].team
 	flight_on_target_recorded = false
 	offside_context = Offside.capture(self,owner)
 	restart_untouched = not current_restart.is_empty()
@@ -554,7 +619,7 @@ func launch_ball(aim: Vector2, velocity: float, kind: String) -> void:
 	owner = -1
 	keeper_hand_owner = -1
 	for p in players:
-		if p.team == players[flight_source].team: continue
+		if not p.active or p.team == players[flight_source].team: continue
 		var response := Traits.activate(self,p.id,{"kind":"respond","reachable":p.position.distance_to(aim) < 12})
 		p.response_delay = roundi((18-attribute(p.id,"DEF")*0.10)*Traits.parameter(p,"reaction_delay_multiplier"))
 
@@ -586,6 +651,7 @@ func advance_flight() -> void:
 			contact = p.id
 			first = contact_time
 	if contact >= 0:
+		if period_extension: period_extension_contact = true
 		if Offside.involved(self,contact): return
 		restart_untouched = false
 		if flight_kind == "shot":
@@ -612,15 +678,16 @@ func advance_flight() -> void:
 		var receive_trait := Traits.activate(self,contact,{"kind":"receive","pressure":pressure,"interception":not same_team,"central":absf(local.y-34) < 12,"bounce":not combination.is_empty() and combination.bounce == contact,"recycle":local.x < 65,"opponents":close_opponents(contact,5),"open":pressure < 0.3,"difficult":ball_velocity.length() > 27 or pressure > 0.5,"box":local.x > 88,"rebound":false})
 		skill = attribute(contact,"DRI") if same_team else attribute(contact,"DEF")
 		if ball_height > 0.6:
-			Traits.activate(self,contact,{"kind":"aerial","defending":not same_team})
+			Traits.activate(self,contact,{"kind":"aerial","defending":not same_team,"descending":progress > 0.5})
 			var opponent := nearest(1-players[contact].team,players[contact].position)
-			if players[opponent].position.distance_to(players[contact].position) < 2 and rng.randf() > clampf(0.5+(attribute(contact,"PHY")-attribute(opponent,"PHY"))*0.005,0.15,0.85): contact = opponent
+			if players[opponent].position.distance_to(contact_point) < 1.4 and rng.randf() > clampf(0.5+(attribute(contact,"PHY")-attribute(opponent,"PHY"))*0.005,0.15,0.85): contact = opponent
 			ball = from.lerp(destination,first)
+			if players[contact].position.distance_to(ball) > 0.01: players[contact].facing = players[contact].position.direction_to(ball)
 			take_control(contact,"aerial_win")
 			if owner != contact: return
 			Traits.resolve(self,contact,players[contact].trait_state.get("action",-1),"success","aerial contact won")
 			if chance_quality(ball,players[contact].team) > 0.45:
-				shot_context = {"aerial":true,"first_time":true}
+				shot_context = {"aerial":progress > 0.5,"first_time":true}
 				shoot(pressure)
 			else: emit_event("header",contact)
 			return
@@ -633,6 +700,7 @@ func advance_flight() -> void:
 			ball_velocity *= 0.15*Traits.parameter(players[contact],"first_touch_error_multiplier")
 			emit_event("poor_touch",contact)
 			Traits.resolve(self,flight_trait_actor,flight_trait_action,"partial","receiver could not control")
+			Traits.resolve(self,contact,receive_trait.get("action",-1),"partial" if players[contact].card.trait_id == "close_control" else "failed","first touch escaped control")
 		else:
 			take_control(contact, "received" if same_team else "interception")
 			if owner == contact and same_team and chance_quality(ball,players[contact].team) > 0.58 and pressure < 0.55:
@@ -658,14 +726,14 @@ func shoot(pressure: float = 0, prepared: bool = false) -> void:
 	var shooter := players[owner]
 	var goal := oriented(Vector2(105, 34), shooter.team)
 	shot_quality = chance_quality(ball, shooter.team)
-	var base_curve := 1.6 if absf(ball.y-34) > 5 and shot_quality > 0.35 else 0.0
+	var base_curve := minf(1.6,ball.distance_to(goal)*0.09) if absf(ball.y-34) > 5 and shot_quality > 0.35 else 0.0
 	var context := {"kind":"shot","curve":base_curve,"first_time":shot_context.get("first_time",false),"aerial":shot_context.get("aerial",false),"pressure":pressure,"prepared":prepared,"restart":current_restart}
 	var enhancement := Traits.activate(self,shooter.id,context) if not prepared else shooter.trait_state
 	if not prepared and not enhancement.is_empty() and enhancement.trait == "power_strike":
 		pending_shot = {"actor":shooter.id,"action":enhancement.action,"release":active_ticks+9,"pressure":pressure}
 		return
 	var accuracy := clampf(0.30 + 0.004 * (attribute(shooter.id,"SHO") - 60) + 0.32 * shot_quality - 0.16 * pressure, 0.15, 0.95)
-	shots[shooter.team] += 1
+	if period != Period.SHOOTOUT: shots[shooter.team] += 1
 	var target_y := 34 + rng.randf_range(-3.2, 3.2)*Traits.parameter(shooter,"aim_dispersion_multiplier")
 	var on_target := rng.randf() < accuracy
 	if not on_target:
@@ -677,13 +745,14 @@ func shoot(pressure: float = 0, prepared: bool = false) -> void:
 	if not enhancement.is_empty():
 		flight_trait_actor = shooter.id
 		flight_trait_action = enhancement.action
+		emit_event("trait_execution",shooter.id,{"trait":enhancement.trait,"action":enhancement.action,"flight":flight_serial})
 	shot_context.clear()
-	emit_event("shot", shooter.id, {"on_target": on_target, "quality": shot_quality})
+	emit_event("shootout_shot" if period == Period.SHOOTOUT else "shot", shooter.id, {"on_target": on_target, "quality": shot_quality})
 
 func close_opponents(id: int, radius: float) -> int:
 	var count := 0
 	for p in players:
-		if p.team != players[id].team and p.position.distance_to(players[id].position) < radius: count += 1
+		if p.active and p.team != players[id].team and p.position.distance_to(players[id].position) < radius: count += 1
 	return count
 
 func keeper_save(keeper_id: int) -> bool:
@@ -692,7 +761,7 @@ func keeper_save(keeper_id: int) -> bool:
 	if oriented(keeper.position,keeper.team).x > 16.5 or absf(keeper.position.y-34) > 20.16: return false
 	var reach := 2.5+attribute(keeper_id,"DIV")*0.04
 	if absf(ball.y-keeper.position.y) > reach: return false
-	var enhancement := Traits.activate(self,keeper_id,{"kind":"save","distance":keeper.position.distance_to(shooter.position),"pressure":clampf(1-keeper.position.distance_to(shooter.position)/8,0,1)})
+	var enhancement := Traits.activate(self,keeper_id,{"kind":"save","distance":keeper.position.distance_to(flight_origin),"pressure":clampf(1-keeper.position.distance_to(shooter.position)/8,0,1)})
 	var reaction := maxf(0.12,(0.32-attribute(keeper_id,"REF")*0.0015)*Traits.parameter(keeper,"reaction_delay_multiplier"))
 	if flight_ticks*DT < reaction:
 		Traits.resolve(self,keeper_id,enhancement.get("action",-1),"failed","shot arrived before reaction")
@@ -701,40 +770,51 @@ func keeper_save(keeper_id: int) -> bool:
 	if rng.randf() >= chance:
 		Traits.resolve(self,keeper_id,enhancement.get("action",-1),"failed","save attempt beaten")
 		return false
-	shots_on_target[shooter.team] += 1
-	flight_on_target_recorded = true
-	saves[keeper.team] += 1
+	if period != Period.SHOOTOUT:
+		shots_on_target[shooter.team] += 1
+		flight_on_target_recorded = true
+		saves[keeper.team] += 1
 	last_touch = keeper_id
 	restart_untouched = false
 	kickoff_kicker = -1
-	emit_event("save", keeper_id, {"shooter": flight_source})
-	Traits.resolve(self,flight_trait_actor,flight_trait_action,"failed","goalkeeper saved")
+	emit_event("shootout_save" if period == Period.SHOOTOUT else "save", keeper_id, {"shooter": flight_source})
+	if period != Period.SHOOTOUT: Traits.resolve(self,flight_trait_actor,flight_trait_action,"failed","goalkeeper saved")
 	if rng.randf() < clampf(0.45+attribute(keeper_id,"HAN")*0.0035,0.4,0.9):
 		take_control(keeper_id, "hold")
 		Traits.resolve(self,keeper_id,enhancement.get("action",-1),"success","legal hand control")
 	else:
 		owner = -1
 		ball_state = BallState.LOOSE
-		ball = keeper.position + Vector2(-direction(shooter.team) * 1.5, 0)
 		ball_velocity = Vector2(-direction(shooter.team) * 12, rng.randf_range(-8, 8))
+		if absf(ball.y-34) > 1.8 and rng.randf() < 0.35:
+			var to_line := absf(oriented(Vector2(105,34),shooter.team).x-ball.x)
+			ball_velocity = Vector2(direction(shooter.team)*clampf(to_line*2,0.5,6),signf(ball.y-34)*14)
+		keeper.cooldown = 18
 		Traits.resolve(self,keeper_id,enhancement.get("action",-1),"partial","save became live rebound")
 		var deflection := Traits.activate(self,keeper_id,{"kind":"parry"})
 		if not deflection.is_empty():
 			var danger := nearest(shooter.team,keeper.position,false)
 			ball_velocity.y = 10 if players[danger].position.y < keeper.position.y else -10
 			ball_velocity = (ball_velocity*Traits.parameter(keeper,"rebound_speed_multiplier")).limit_length(20)
+		ball += ball_velocity.normalized()*0.3
 		emit_event("parry", keeper_id)
 	return true
 
 func goal_scored(shooter_id: int, scoring_team: int = -1) -> void:
+	if period == Period.SHOOTOUT:
+		Traits.resolve(self,flight_trait_actor,flight_trait_action,"success","shootout goal")
+		Shootout.finish_attempt(self,true)
+		return
 	var team: int = players[shooter_id].team if scoring_team < 0 else scoring_team
+	if players[shooter_id].team != team and flight_kind == "shot" and flight_source >= 0 and players[flight_source].team == team and last_control_team == team and absf(flight_target.y-34) <= 3.66:
+		shooter_id = flight_source
 	scores[team] += 1
 	Traits.resolve(self,flight_trait_actor,flight_trait_action,"success","actual goal-line crossing")
 	if flight_kind == "shot" and not flight_on_target_recorded and flight_source >= 0 and players[flight_source].team == team and absf(flight_target.y-34) <= 3.66:
 		shots_on_target[team] += 1
 		flight_on_target_recorded = true
 	ball = Vector2(105 if direction(team) > 0 else 0, ball.y)
-	emit_event("goal", shooter_id, {"score": scores.duplicate(), "team":team, "own_goal":players[shooter_id].team != team})
+	emit_event("goal", shooter_id, {"score": scores.duplicate(), "team":team, "own_goal":players[shooter_id].team != team,"last_touch":last_touch})
 	start_restart(1 - team, ball, "kickoff", 150)
 
 func challenge_carrier() -> void:
@@ -776,6 +856,8 @@ func emit_event(kind: String, actor: int, extra: Dictionary = {}) -> void:
 	if actor >= 0:
 		event["actor_name"] = players[actor].name
 		event["actor_card"] = players[actor].card.card_id
+		event["flight"] = flight_serial
+		if players[actor].trait_state.get("state","") == "active": event["action"] = players[actor].trait_state.action
 	event.merge(extra)
 	events.append(event)
 
@@ -793,9 +875,14 @@ func signature() -> Array:
 	result.append([substitution_counts.duplicate(),substitution_windows.duplicate(),substitution_stages.duplicate(),used_cards.duplicate(true)])
 	result.append([action_id,flight_trait_actor,flight_trait_action,flight_ticks,flight_origin,flight_control,flight_duration,flight_curve,flight_peak,shot_context.duplicate(true),pending_shot.duplicate(true),current_restart,keeper_hand_owner])
 	result.append([offside_context.duplicate(true),restart_untouched,restart_delivery,restart_kick_team,forfeit_team])
+	result.append([knockout,trait_allowance,shootout.duplicate(true),flight_on_target_recorded])
+	result.append([last_control_team,flight_serial,period_extension,period_extension_contact])
 	for p in players:
-		result.append([p.position, p.target, p.cooldown, p.card.card_id, p.role, p.stamina, p.velocity, p.facing, p.ready_tick,p.trait_state.duplicate(true),p.trait_uses,p.trait_ready,p.response_delay,p.run_ready_tick,p.entered_tick,p.active,p.yellows])
+		result.append([p.position, p.target, p.cooldown, p.card.card_id, p.role, p.stamina, p.velocity, p.facing, p.ready_tick,p.trait_state.duplicate(true),p.trait_uses,p.trait_ready,p.response_delay,p.run_ready_tick,p.entered_tick,p.active,p.yellows,p.shootout_trait_used,p.anchor_override])
 	return result
 
 func snapshot() -> Dictionary:
 	return load("res://match/match_snapshot.gd").capture(self)
+
+func period_boundary_due() -> bool:
+	return (period == Period.FIRST_HALF and active_ticks >= regulation_ticks/2.0) or (period == Period.SECOND_HALF and active_ticks >= regulation_ticks) or (period == Period.EXTRA_FIRST and active_ticks >= regulation_ticks*7.0/6) or (period == Period.EXTRA_SECOND and active_ticks >= regulation_ticks*4.0/3)

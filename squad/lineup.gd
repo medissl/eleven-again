@@ -34,6 +34,7 @@ static func specialists() -> Resource:
 
 func errors() -> Array[String]:
 	var found: Array[String] = []
+	if cards.size() < 11 or cards.size() > 18: found.append("Squad must contain 11–18 players")
 	if not ROLES.has(formation): found.append("Unknown formation")
 	if attack not in ["possession","direct","counter"] or defence not in ["high_press","balanced","deep_block"]: found.append("Unknown tactical approach")
 	if substitution_plan not in ["balanced","fresh_legs","protect_shape"]: found.append("Unknown substitution plan")
@@ -55,7 +56,25 @@ func errors() -> Array[String]:
 	if penalty_order.size() != 11 or ordered.size() != 11: found.append("Penalty order must contain every starter once")
 	for slot in penalty_order:
 		if slot < 0 or slot >= 11: found.append("Invalid penalty order")
+	var bench := {}
+	for index in bench_order:
+		if index < 0 or index >= cards.size() or index in starters or bench.has(index): found.append("Invalid bench order")
+		bench[index] = true
+	if bench.size() != cards.size()-11: found.append("Bench order must include every reserve")
+	for slot in pinned_replacements:
+		var index = pinned_replacements[slot]
+		if slot is not int or slot < 0 or slot >= 11 or index is not int or index < -1 or index >= cards.size(): found.append("Invalid pinned replacement")
 	return found
+
+func refresh_bench_order() -> void:
+	var updated: Array[int] = []
+	for index in bench_order:
+		if index >= 0 and index < cards.size() and index not in starters and index not in updated: updated.append(index)
+	for index in cards.size():
+		if index not in starters and index not in updated: updated.append(index)
+	bench_order = updated
+	for slot in pinned_replacements:
+		if pinned_replacements[slot] in starters: pinned_replacements[slot] = -1
 
 func to_data() -> Dictionary:
 	var data := {"cards":cards.map(func(card): return card.to_data())}

@@ -45,22 +45,22 @@ class EventIcon:
 		var color := Color("efe9d9") if team == 0 else Color("ed7864")
 		if team < 0: color = Color("a0afa4")
 		var center := Vector2(17, 17)
-		if kind == "goal":
+		if kind in ["goal","shootout_goal"]:
 			draw_arc(center, 10, 0, TAU, 24, color, 1.8, true)
 			draw_circle(center, 3.5, color)
 			for i in 5:
 				var point := center + Vector2.from_angle(i * TAU / 5) * 6
 				draw_line(point, center + Vector2.from_angle(i * TAU / 5) * 10, color, 1.5, true)
-		elif kind in ["save", "smother", "parry"]:
+		elif kind in ["save", "smother", "parry","shootout_save"]:
 			draw_set_transform(Vector2(-14, 0))
 			draw_polyline(PackedVector2Array([Vector2(23, 16), Vector2(24, 27), Vector2(38, 27), Vector2(42, 13)]), Color("f1eedb"), 1.8, true)
 			for i in 4: draw_line(Vector2(26 + i * 4, 19), Vector2(25 + i * 4, 5 + i % 2 * 3), Color("f1eedb"), 1.8, true)
 		elif kind == "tackle":
 			draw_polyline(PackedVector2Array([Vector2(3,24),Vector2(3,17),Vector2(11,18),Vector2(17,11),Vector2(22,15),Vector2(15,25),Vector2(3,24)]),color,1.8,true)
 			draw_circle(Vector2(26,9),3,color)
-		elif kind in ["shot","miss"]:
+		elif kind in ["shot","miss","shootout_shot","shootout_miss"]:
 			draw_polyline(PackedVector2Array([Vector2(17,26),Vector2(17,5),Vector2(31,5),Vector2(31,26)]),color,1.5,true)
-			var target := Vector2(29,1) if kind == "miss" else Vector2(25,12)
+			var target := Vector2(29,1) if kind in ["miss","shootout_miss"] else Vector2(25,12)
 			draw_line(Vector2(3,26),target,color,1.8,true)
 			draw_polyline(PackedVector2Array([target-Vector2(7,0),target,target+Vector2(0,7)]),color,1.8,true)
 			draw_circle(Vector2(3,26),2.5,color)
@@ -80,7 +80,22 @@ class EventIcon:
 			draw_arc(center,10,0,TAU,24,color,1.5,true)
 			draw_line(Vector2(17,3),Vector2(17,31),color,1.5,true)
 			draw_circle(center,2.5,color)
-		elif kind in ["halftime","full_time"]:
+		elif kind in ["yellow_card","red_card"]:
+			draw_rect(Rect2(10,5,14,23),Color("f0cd50") if kind == "yellow_card" else Color("ed7864"))
+		elif kind == "foul":
+			draw_arc(Vector2(13,21),7,0,TAU,20,color,1.6,true)
+			draw_polyline(PackedVector2Array([Vector2(16,15),Vector2(28,8),Vector2(31,14),Vector2(20,22)]),color,1.6,true)
+		elif kind in ["offside","corner_awarded","throw_in_awarded"]:
+			draw_line(Vector2(10,4),Vector2(10,30),color,1.7,true)
+			draw_polyline(PackedVector2Array([Vector2(10,5),Vector2(27,11),Vector2(10,17)]),color,1.7,true)
+		elif kind == "substitution":
+			for offset in [0,12]:
+				var x := 27 if offset == 0 else 7
+				var sign_x := 1 if offset == 0 else -1
+				var ink := Color("58bd7a") if offset == 0 else Color("ed7864")
+				draw_line(Vector2(7,10+offset),Vector2(27,10+offset),ink,1.7,true)
+				draw_polyline(PackedVector2Array([Vector2(x-sign_x*5,5+offset),Vector2(x,10+offset),Vector2(x-sign_x*5,15+offset)]),ink,1.7,true)
+		elif kind in ["halftime","full_time","extra_time","extra_half","shootout_start"]:
 			draw_arc(center,10,0,TAU,24,color,1.5,true)
 			draw_polyline(PackedVector2Array([Vector2(17,8),Vector2(17,17),Vector2(24,17)]),color,1.8,true)
 		else:
@@ -111,7 +126,7 @@ func _ready() -> void:
 	inspection = Label.new()
 	inspection.add_theme_font_size_override("font_size", 14)
 	inspection.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	inspection.mouse_filter = MOUSE_FILTER_IGNORE
+	inspection.mouse_filter = MOUSE_FILTER_PASS
 	add_child(inspection)
 	event_list = VBoxContainer.new()
 	event_list.add_theme_constant_override("separation", 12)
@@ -212,8 +227,8 @@ func arrange(field_rect: Rect2, divider_x: float) -> void:
 	_put(buttons.menu, Rect2(x + 158, 20, 88, 42))
 	_put(buttons.log, Rect2(divider + 14, size.y - 62, size.x - divider - 30, 42))
 	inspection.position = Vector2(divider + 20, 134)
-	inspection.size = Vector2(size.x - divider - 38, 70)
-	event_list.position = Vector2(divider + 18, 140 + (80 if not inspected.is_empty() else 0))
+	inspection.size = Vector2(size.x - divider - 38, 130*ui_scale)
+	event_list.position = Vector2(divider + 18, 140 + (140*ui_scale if not inspected.is_empty() else 0))
 	event_list.size = Vector2(size.x - divider - 32, 0)
 	queue_redraw()
 
@@ -255,6 +270,8 @@ func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String)
 		labels.clock.text = "FULL TIME · %d′" % sim.display_minute()
 	elif sim.period == 1:
 		labels.clock.text = "HALF TIME · %d–%d" % sim.scores
+	if not sim.shootout.is_empty(): labels.clock.text = "PEN %d–%d · %d′" % [sim.shootout.goals[0],sim.shootout.goals[1],sim.display_minute()]
+	elif sim.period in [sim.Period.EXTRA_FIRST,sim.Period.EXTRA_SECOND]: labels.clock.text = "ET · %d′" % sim.display_minute()
 	labels.live.text = "FULL TIME" if sim.finished else ("PAUSED" if paused else "LIVE")
 	status_color = MUTED if sim.finished else (AMBER if paused else Color("58bd7a"))
 	queue_redraw()
@@ -275,7 +292,7 @@ func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String)
 func event_copy(event: Dictionary) -> Array[String]:
 	var actor: String = event.get("actor_name",model.players[event.actor].name if event.actor >= 0 else "")
 	match event.kind:
-		"goal": return [actor, "Goal · %d–%d" % event.score]
+		"goal": return [actor, ("Own goal · " if event.get("own_goal",false) else "Goal · ")+"%d–%d" % event.score]
 		"save": return [actor, "Save"]
 		"smother": return [actor, "Claims the ball"]
 		"tackle": return [actor, "Tackle"]
@@ -287,19 +304,21 @@ func event_copy(event: Dictionary) -> Array[String]:
 		"kickoff_setup": return ["Meadow XI" if event.team == 0 else "Harbor XI", "Preparing kickoff"]
 		"halftime": return ["Half time", "Teams change ends"]
 		"full_time": return ["Full time", "%d–%d · Exhibition draw" % event.score if event.score[0] == event.score[1] else "%d–%d · Final score" % event.score]
-		"pass": return [actor, "Pass to %s" % model.players[event.receiver].name]
+		"pass": return [actor, "Pass to %s" % event.get("receiver_name",model.players[event.receiver].name)]
 		"received": return [actor, "Pass received"]
 		"hold": return [actor, "Ball held"]
 		"parry": return [actor, "Live rebound"]
 		"challenge": return [actor, "Challenge"]
 		"goal_kick": return [actor, "Goal kick"]
 		"restart": return [actor, "Restart"]
+		"restart_setup": return [actor,event.restart.replace("_"," ").capitalize()+" setup"]
 		"throw_in", "corner", "free_kick": return [actor, event.kind.replace("_"," ").capitalize()]
 		"throw_in_awarded", "corner_awarded", "free_kick_awarded", "goal_kick_awarded": return [actor, event.kind.replace("_"," ").capitalize()]
-		"foul": return [actor, "Foul on %s" % model.players[event.victim].name]
+		"foul": return [actor, "Foul on %s" % event.get("victim_name",model.players[event.victim].name)]
 		"poor_touch": return [actor, "Loose first touch"]
 		"substitution": return [actor, "On for %s" % event.out_name]
 		"trait_activation": return [actor,event.trait.replace("_"," ").capitalize()+" · Activated"]
+		"trait_execution": return [actor,event.trait.replace("_"," ").capitalize()+" · Executed"]
 		"trait_result": return [actor,event.trait.replace("_"," ").capitalize()+" · "+event.state.capitalize()+": "+event.reason]
 		"offside": return [actor,"Offside"]
 		"yellow_card": return [actor,"Yellow card"]
@@ -308,7 +327,14 @@ func event_copy(event: Dictionary) -> Array[String]:
 		"penalty": return [actor,"Penalty"]
 		"indirect_free_kick", "indirect_free_kick_awarded": return [actor,"Indirect free kick"]
 		"emergency_keeper": return [actor,"Emergency goalkeeper"]
+		"reshuffle": return [actor,"Covers "+event.assigned_role]
 		"forfeit": return [actor,"Match forfeited · fewer than seven players"]
+		"extra_time", "extra_half": return ["Extra time","First half" if event.kind == "extra_time" else "Second half"]
+		"shootout_start": return ["Penalty shootout","Scores are separate from match goals"]
+		"shootout_setup": return [actor,"Preparing penalty"]
+		"shootout_shot": return [actor,"Penalty attempt"]
+		"shootout_save": return [actor,"Penalty saved"]
+		"shootout_goal", "shootout_miss": return [actor,("Penalty scored · " if event.kind == "shootout_goal" else "Penalty missed · ")+"%d–%d" % event.penalties]
 		"header", "aerial_win": return [actor,"Aerial contact"]
 		"recovery": return [actor, "Loose ball recovered"]
 		_: return [actor, "Ball out"]
@@ -319,10 +345,10 @@ func _refresh_rows() -> void:
 		child.queue_free()
 	var count := 0
 	var pass_shown := false
-	var limit := maxi(1, int((size.y - 208 - (80 * ui_scale if not inspected.is_empty() else 0)) / (72 * ui_scale + 12)))
+	var limit := maxi(1, int((size.y - 208 - (140 * ui_scale if not inspected.is_empty() else 0)) / (72 * ui_scale + 12)))
 	for i in range(model.events.size() - 1, -1, -1):
 		var event: Dictionary = model.events[i]
-		if event.kind not in ["goal", "save", "parry", "smother", "tackle", "interception", "block", "miss", "shot", "pass", "kickoff", "halftime", "full_time","offside","foul","yellow_card","red_card","substitution","penalty_awarded","corner_awarded","throw_in_awarded","goal_kick_awarded","forfeit"]: continue
+		if event.kind not in ["goal", "save", "parry", "smother", "tackle", "interception", "block", "miss", "shot", "pass", "kickoff", "halftime", "full_time","offside","foul","yellow_card","red_card","substitution","penalty_awarded","corner_awarded","throw_in_awarded","goal_kick_awarded","forfeit","extra_time","extra_half","shootout_start","shootout_shot","shootout_goal","shootout_miss","shootout_save"]: continue
 		if event.kind == "pass":
 			if pass_shown: continue
 			pass_shown = true

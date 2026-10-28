@@ -15,6 +15,9 @@ func capture() -> void:
 	var ui_scale := 1.0
 	var long_names := false
 	var motion_case := ""
+	var scenario := ""
+	var inspect_id := -1
+	var prep_page := "lineup"
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--ticks="):
 			ticks_to_run = int(argument.trim_prefix("--ticks="))
@@ -31,6 +34,9 @@ func capture() -> void:
 		elif argument.begins_with("--ui-scale="): ui_scale = float(argument.trim_prefix("--ui-scale="))
 		elif argument == "--long-names": long_names = true
 		elif argument.begins_with("--motion="): motion_case = argument.trim_prefix("--motion=")
+		elif argument.begins_with("--scenario="): scenario = argument.trim_prefix("--scenario=")
+		elif argument.begins_with("--inspect="): inspect_id = int(argument.trim_prefix("--inspect="))
+		elif argument.begins_with("--prep-page="): prep_page = argument.trim_prefix("--prep-page=")
 	if not motion_case.is_empty():
 		await capture_motion(motion_case)
 		quit()
@@ -54,6 +60,8 @@ func capture() -> void:
 			scene.sim.players[20].name = "João Hernández-Wellington"
 		scene.hud.set_ui_scale(ui_scale)
 		scene._layout()
+		if not scenario.is_empty(): setup_scenario(scene,scenario)
+		scene.selected = inspect_id
 		for tick in ticks_to_run:
 			scene.sim.acknowledge_halftime()
 			scene.sim.step()
@@ -82,7 +90,10 @@ func capture() -> void:
 			scene.paused = true
 			scene._sync_state()
 		if not panel_mode.is_empty():
-			if panel_mode == "preparation": scene.open_preparation()
+			if panel_mode == "preparation":
+				scene.open_preparation()
+				scene.preparation.page = prep_page
+				scene.preparation.rebuild()
 			else: scene._on_command(panel_mode)
 			await process_frame
 			await process_frame
@@ -90,9 +101,12 @@ func capture() -> void:
 		await RenderingServer.frame_post_draw
 		var stage := "result" if scene.sim.finished else ("match" if ticks_to_run > 0 else "board")
 		if not panel_mode.is_empty(): stage = panel_mode
+		if panel_mode == "preparation" and prep_page != "lineup": stage += "-"+prep_page
 		if not event_kind.is_empty(): stage = event_kind + ("-reduced" if reduced else "")
 		if ui_scale > 1: stage += "-%d" % roundi(ui_scale*100)
 		if long_names: stage += "-names"
+		if not scenario.is_empty(): stage = scenario
+		if inspect_id >= 0: stage += "-inspect"
 		var path := "res://reports/screenshots/%s-%dx%d.png" % [stage, dimensions.x, dimensions.y]
 		var result := viewport.get_texture().get_image().save_png(path)
 		assert(result == OK)
@@ -102,6 +116,21 @@ func capture() -> void:
 			await verify_controls(viewport, scene)
 		viewport.queue_free()
 	quit()
+
+func setup_scenario(scene: Control, scenario: String) -> void:
+	var m = scene.sim
+	if scenario in ["shootout","shootout_result"]:
+		m.knockout = true
+		m.active_ticks = m.regulation_ticks*4/3
+		m.Shootout.start(m)
+		for tick in (6000 if scenario == "shootout_result" else 45):
+			if m.finished: break
+			m.step()
+		assert(m.finished if scenario == "shootout_result" else not m.finished)
+	elif scenario == "corner":
+		m.last_touch = 12
+		m.BallRules.resolve(m,Vector2(104,12),Vector2(106,12))
+		for tick in 68: m.step()
 
 func send_key(viewport: SubViewport, code: Key) -> void:
 	press_key(viewport,code)

@@ -39,6 +39,11 @@ static func resolve(model, from: Vector2, to: Vector2) -> bool:
 	var touch: int = model.last_touch
 	var touching_team: int = model.players[touch].team
 	model.ball = hit.point
+	if model.period == model.Period.SHOOTOUT:
+		var at_target_goal: bool = hit.axis == 0 and hit.edge == 105
+		if at_target_goal and absf(hit.point.y-34)+RADIUS <= 3.66 and model.ball_height <= 2.44-RADIUS: model.goal_scored(touch,model.shootout.team)
+		else: model.Shootout.finish_attempt(model,false)
+		return true
 	if hit.axis == 1:
 		model.award_restart(1-touching_team, hit.point, "throw_in", touch)
 		return true

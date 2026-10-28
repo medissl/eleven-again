@@ -10,13 +10,14 @@ static func late_risk(m, team: int) -> float:
 
 static func targets(m) -> void:
 	var previous_jobs: Array = m.players.map(func(p): return p.job)
-	var control: int = m.players[m.owner].team if m.owner >= 0 else (m.players[m.last_touch].team if m.last_touch >= 0 else m.restart_team)
+	var control: int = m.control_team()
 	if not m.combination.is_empty() and (m.active_ticks > m.combination.expires or control != m.combination.team): m.combination.clear()
 	for p in m.players:
 		if not p.active: continue
 		var plan = m.plans[p.team]
 		var local: Vector2 = m.oriented(m.ball,p.team)
 		var anchor: Vector2 = SHAPES[plan.formation][p.id%11]
+		if p.anchor_override.x >= 0: anchor = p.anchor_override
 		var attacking: bool = control == p.team
 		var countering: bool = attacking and plan.attack == "counter" and m.active_ticks-m.transition_tick < 240
 		var shift := (local.x-52.5)*0.4+(8 if attacking else -10)
@@ -93,6 +94,7 @@ static func action(m) -> void:
 	var local: Vector2 = m.oriented(carrier.position,carrier.team)
 	var best := -1
 	var value := 6.0+quality*5-pressure*3
+	value -= maxf(0,pressure-0.5)*5
 	var shot: float = 25*quality*(0.4+m.attribute(carrier.id,"SHO")/200)-pressure*2-m.lane_risk(m.ball,m.oriented(Vector2(105,34),carrier.team),carrier.team,true)*4
 	shot += late_risk(m,carrier.team)*2
 	if carrier.role != "GK" and quality > 0.30 and absf(local.y-34) < 23 and shot > value:
@@ -108,7 +110,9 @@ static func action(m) -> void:
 		var space := minf(12,p.position.distance_to(m.players[m.nearest(1-p.team,p.position)].position))
 		var candidate: float = progress*(0.55 if plan.attack == "direct" else 0.35)+space*0.55+(m.chance_quality(p.position,p.team)-quality)*18-length*0.10-risk*14
 		candidate *= 0.75+m.attribute(carrier.id,"PAS")/300
+		candidate -= maxf(0,70-m.attribute(p.id,"DRI"))*0.06
 		if plan.attack == "possession" and length < 20: candidate += 3
+		if m.held_ticks > 90 and pressure > 0.6 and risk < 0.35: candidate += 6
 		if plan.route == "combinations" and length < 18: candidate += 2
 		candidate += progress*late_risk(m,carrier.team)*0.12
 		if plan.attack == "counter" and m.active_ticks-m.transition_tick < 240 and progress > 5: candidate += 5
