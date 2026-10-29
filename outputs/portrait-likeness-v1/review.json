@@ -1,0 +1,2229 @@
+{
+  "schema": 2,
+  "ui_checkpoint": "a8d1a7f",
+  "method": "Existing modular pixel geometry and per-edition recipes; no complete portrait generation",
+  "catalogue_sha256_before": "2495ebb245feeaa5e3f0d581a63604fcc2a368980396764be137dc663a16cce3",
+  "source_runtime_equivalence": "All 200 original recipes reproduce runtime RGBA pixels exactly",
+  "cards": [
+    {
+      "card_id": "thibaut_courtois_2023_24",
+      "display_name": "Thibaut Courtois",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_thibaut_courtois_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "alisson_becker_2023_24",
+      "display_name": "Alisson Becker",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_alisson_becker_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "ederson_2023_24",
+      "display_name": "Ederson",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ederson_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "gianluigi_donnarumma_2024_25",
+      "display_name": "Gianluigi Donnarumma",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_gianluigi_donnarumma_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "jan_oblak_2020_21",
+      "display_name": "Jan Oblak",
+      "era": "2020-21",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_jan_oblak_2020_21.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "marc_andre_ter_stegen_2022_23",
+      "display_name": "Marc-André ter Stegen",
+      "era": "2022-23",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_marc_andre_ter_stegen_2022_23.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "emiliano_martinez_2022",
+      "display_name": "Emiliano Martínez",
+      "era": "2022",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_emiliano_martinez_2022.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "mike_maignan_2021_22",
+      "display_name": "Mike Maignan",
+      "era": "2021-22",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_mike_maignan_2021_22.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "diogo_costa_2024_25",
+      "display_name": "Diogo Costa",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_diogo_costa_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "david_raya_2024_25",
+      "display_name": "David Raya",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_david_raya_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "gianluigi_buffon_2005_06",
+      "display_name": "Gianluigi Buffon",
+      "era": "2005-06",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_gianluigi_buffon_2005_06.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.playmakerstats.com/player/gianluigi-buffon?edicao_id=560",
+          "image": "https://cdn-img.zerozero.pt/img/planteis/new/01/17/60117_gianluigi_buffon_20240527093359.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Italy training portrait, three-star crest: dark parted/swept hair, heavy brows, long face and prominent nose. Profile is not a dated 2006 exposure; exact-era corroboration desirable."
+      ],
+      "before_sha256": "734b0987b4be39d52205a43f60e5ea4fd7dbfe887d972cf9308c0c20c9f7a031",
+      "after_sha256": "5b9e33ef29bf59ae25f13ecdeafe3000377280d856048e34025c3d2561aca88b",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "iker_casillas_2009_10",
+      "display_name": "Iker Casillas",
+      "era": "2009-10",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_iker_casillas_2009_10.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.playmakerstats.com/player/iker-casillas?edicao_id=22383",
+          "image": "https://cdn-img.staticzz.com/img/planteis/new/60/60/2546060_iker_casillas_20250324231146.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Adjacent Spain edition: short brown textured hair, thick brows, close jaw stubble. Fluorescent kit later than target; a face study, not exact 2009-10 evidence."
+      ],
+      "before_sha256": "465938730bb338dd3b45ac52f7e1fc645d0a16b867b1086b3f0b6b3aa0ed2efc",
+      "after_sha256": "5158a3d7a37f016f1f2bca523378d5884530605571e62d92f8da637beb0c777a",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "edwin_van_der_sar_2008_09",
+      "display_name": "Edwin van der Sar",
+      "era": "2008-09",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_edwin_van_der_sar_2008_09.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "petr_cech_2004_05",
+      "display_name": "Petr Čech",
+      "era": "2004-05",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_petr_cech_2004_05.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "peter_schmeichel_1995_96",
+      "display_name": "Peter Schmeichel",
+      "era": "1995-96",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_peter_schmeichel_1995_96.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "oliver_kahn_2001_02",
+      "display_name": "Oliver Kahn",
+      "era": "2001-02",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_oliver_kahn_2001_02.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "lev_yashin_1963",
+      "display_name": "Lev Yashin",
+      "era": "1963",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_lev_yashin_1963.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://bu1sport.com/blogs/magazine/best-goalkeepers-history-lev-yashin",
+          "image": "https://bu1sport.com/cdn/shop/articles/Lev_Jasin.webp?v=1770881949&width=1024",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Career-era cap portrait: rounded flat cloth cap/short brim, strong brow/nose and long square jaw. Colourized secondary reproduction; exact 1963 cap colour not established."
+      ],
+      "before_sha256": "85c01e1286838db80ae1d915afe770165e5ba8bdaaab38403ca7cf75e45a2577",
+      "after_sha256": "7a0a09645ea379673579779b5ca90cea9c879da584be10b6d966356f922b6b18",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "gordon_banks_1966",
+      "display_name": "Gordon Banks",
+      "era": "1966",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_gordon_banks_1966.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "dino_zoff_1982",
+      "display_name": "Dino Zoff",
+      "era": "1982",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_dino_zoff_1982.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "sepp_maier_1973_74",
+      "display_name": "Sepp Maier",
+      "era": "1973-74",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_sepp_maier_1973_74.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "virgil_van_dijk_2018_19",
+      "display_name": "Virgil van Dijk",
+      "era": "2018-19",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_virgil_van_dijk_2018_19.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "william_saliba_2023_24",
+      "display_name": "William Saliba",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_william_saliba_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "ruben_dias_2020_21",
+      "display_name": "Rúben Dias",
+      "era": "2020-21",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ruben_dias_2020_21.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "alessandro_bastoni_2024_25",
+      "display_name": "Alessandro Bastoni",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_alessandro_bastoni_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "antonio_rudiger_2023_24",
+      "display_name": "Antonio Rüdiger",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_antonio_rudiger_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "marquinhos_2024_25",
+      "display_name": "Marquinhos",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_marquinhos_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "gabriel_magalhaes_2024_25",
+      "display_name": "Gabriel Magalhães",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_gabriel_magalhaes_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "pau_cubarsi_2024_25",
+      "display_name": "Pau Cubarsí",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_pau_cubarsi_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "ibrahima_konate_2024_25",
+      "display_name": "Ibrahima Konaté",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ibrahima_konate_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "kim_min_jae_2022_23",
+      "display_name": "Kim Min-jae",
+      "era": "2022-23",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_kim_min_jae_2022_23.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "paolo_maldini_2002_03",
+      "display_name": "Paolo Maldini",
+      "era": "2002-03",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_paolo_maldini_2002_03.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://in.pinterest.com/pin/fifa-world-cup-korea-japon-2002--44965696272014042/",
+          "image": "https://i.pinimg.com/474x/b6/2d/a1/b62da130a6d8d491dfdc86ccf9f94fd8.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2002 Italy portrait: dark centre part, wavy nape, light eyes, defined cheeks/jaw and light stubble."
+      ],
+      "before_sha256": "5e45ccb87cb8f7397125b075515bc3ea67fc70482a7756178cb742bd4e6b1c7b",
+      "after_sha256": "5e746c3e62da5fe007864910c2d06864ca5d9b481cf8797005021af1338a2f4c",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "franco_baresi_1988_89",
+      "display_name": "Franco Baresi",
+      "era": "1988-89",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_franco_baresi_1988_89.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "alessandro_nesta_2002_03",
+      "display_name": "Alessandro Nesta",
+      "era": "2002-03",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_alessandro_nesta_2002_03.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "fabio_cannavaro_2006",
+      "display_name": "Fabio Cannavaro",
+      "era": "2006",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_fabio_cannavaro_2006.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "rio_ferdinand_2007_08",
+      "display_name": "Rio Ferdinand",
+      "era": "2007-08",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_rio_ferdinand_2007_08.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "nemanja_vidic_2008_09",
+      "display_name": "Nemanja Vidić",
+      "era": "2008-09",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_nemanja_vidic_2008_09.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "john_terry_2004_05",
+      "display_name": "John Terry",
+      "era": "2004-05",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_john_terry_2004_05.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "carles_puyol_2008_09",
+      "display_name": "Carles Puyol",
+      "era": "2008-09",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_carles_puyol_2008_09.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "franz_beckenbauer_1973_74",
+      "display_name": "Franz Beckenbauer",
+      "era": "1973-74",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_franz_beckenbauer_1973_74.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.pinterest.com/pin/circa-1974-bayern-munich-and-west-german-captain-franz-beckenbauer--131378514110733781/",
+          "image": "https://i.pinimg.com/originals/ea/f6/b9/eaf6b94a4e8d4ad159580fcbcae07186.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "1974-labelled portrait: wavy swept volume, longer sideburns, light eyes and broad jaw. Not a flat modern side part."
+      ],
+      "before_sha256": "e9acff7e745b2d7ccf655c001181204ac9323ff84e9b9c151e32713e0463de11",
+      "after_sha256": "98991703f732af930b857cf3d553775c40fbb840443f1908965370e567636d3e",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "ronald_koeman_1991_92",
+      "display_name": "Ronald Koeman",
+      "era": "1991-92",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ronald_koeman_1991_92.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "nuno_mendes_2024_25",
+      "display_name": "Nuno Mendes",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_nuno_mendes_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "theo_hernandez_2022_23",
+      "display_name": "Theo Hernández",
+      "era": "2022-23",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_theo_hernandez_2022_23.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "alphonso_davies_2019_20",
+      "display_name": "Alphonso Davies",
+      "era": "2019-20",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_alphonso_davies_2019_20.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "andrew_robertson_2019_20",
+      "display_name": "Andrew Robertson",
+      "era": "2019-20",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_andrew_robertson_2019_20.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "alejandro_grimaldo_2023_24",
+      "display_name": "Alejandro Grimaldo",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_alejandro_grimaldo_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "federico_dimarco_2024_25",
+      "display_name": "Federico Dimarco",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_federico_dimarco_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "antonee_robinson_2024_25",
+      "display_name": "Antonee Robinson",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_antonee_robinson_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "marc_cucurella_2024_25",
+      "display_name": "Marc Cucurella",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_marc_cucurella_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "alejandro_balde_2024_25",
+      "display_name": "Alejandro Balde",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_alejandro_balde_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "milos_kerkez_2024_25",
+      "display_name": "Miloš Kerkez",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_milos_kerkez_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "roberto_carlos_2001_02",
+      "display_name": "Roberto Carlos",
+      "era": "2001-02",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_roberto_carlos_2001_02.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.fourfourtwo.com/features/real-madrids-galacticos-remembered-galacticos-zidane-figo-ronaldo-and-roberto-carlos-recall",
+          "image": "https://cdn.mos.cms.futurecdn.net/jCEsmbo49HKLRLqdxTuYpi.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Madrid Siemens-era portrait: close-shaved scalp, rounder chin, fine brows, broad nose and wide smile. Minimal facial hair."
+      ],
+      "before_sha256": "5425cb82067f2dabaa89372644c4e92a4efcffb868e9931b0099da0707067e16",
+      "after_sha256": "26d03a472f1c0657a49d13460a27b2f448c28ec78e2cee2dc64059b17cc4a59b",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "marcelo_2016_17",
+      "display_name": "Marcelo",
+      "era": "2016-17",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_marcelo_2016_17.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "ashley_cole_2009_10",
+      "display_name": "Ashley Cole",
+      "era": "2009-10",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ashley_cole_2009_10.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "patrice_evra_2007_08",
+      "display_name": "Patrice Evra",
+      "era": "2007-08",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_patrice_evra_2007_08.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "bixente_lizarazu_1998",
+      "display_name": "Bixente Lizarazu",
+      "era": "1998",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_bixente_lizarazu_1998.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "giacinto_facchetti_1964_65",
+      "display_name": "Giacinto Facchetti",
+      "era": "1964-65",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_giacinto_facchetti_1964_65.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "andreas_brehme_1990",
+      "display_name": "Andreas Brehme",
+      "era": "1990",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_andreas_brehme_1990.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "denis_irwin_1998_99",
+      "display_name": "Denis Irwin",
+      "era": "1998-99",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_denis_irwin_1998_99.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "giovanni_van_bronckhorst_2005_06",
+      "display_name": "Giovanni van Bronckhorst",
+      "era": "2005-06",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_giovanni_van_bronckhorst_2005_06.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "jose_antonio_camacho_1981_82",
+      "display_name": "José Antonio Camacho",
+      "era": "1981-82",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_jose_antonio_camacho_1981_82.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "achraf_hakimi_2024_25",
+      "display_name": "Achraf Hakimi",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_achraf_hakimi_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "trent_alexander_arnold_2019_20",
+      "display_name": "Trent Alexander-Arnold",
+      "era": "2019-20",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_trent_alexander_arnold_2019_20.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "dani_carvajal_2023_24",
+      "display_name": "Dani Carvajal",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_dani_carvajal_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "jules_kounde_2024_25",
+      "display_name": "Jules Koundé",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_jules_kounde_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "pedro_porro_2023_24",
+      "display_name": "Pedro Porro",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_pedro_porro_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "reece_james_2021_22",
+      "display_name": "Reece James",
+      "era": "2021-22",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_reece_james_2021_22.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "jeremie_frimpong_2023_24",
+      "display_name": "Jeremie Frimpong",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_jeremie_frimpong_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "ben_white_2023_24",
+      "display_name": "Ben White",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ben_white_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "denzel_dumfries_2024_25",
+      "display_name": "Denzel Dumfries",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_denzel_dumfries_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "diogo_dalot_2023_24",
+      "display_name": "Diogo Dalot",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_diogo_dalot_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "cafu_2001_02",
+      "display_name": "Cafu",
+      "era": "2001-02",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_cafu_2001_02.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "javier_zanetti_2009_10",
+      "display_name": "Javier Zanetti",
+      "era": "2009-10",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_javier_zanetti_2009_10.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "philipp_lahm_2012_13",
+      "display_name": "Philipp Lahm",
+      "era": "2012-13",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_philipp_lahm_2012_13.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "dani_alves_2010_11",
+      "display_name": "Dani Alves",
+      "era": "2010-11",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_dani_alves_2010_11.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "gianluca_zambrotta_2005_06",
+      "display_name": "Gianluca Zambrotta",
+      "era": "2005-06",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_gianluca_zambrotta_2005_06.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "maicon_2009_10",
+      "display_name": "Maicon",
+      "era": "2009-10",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_maicon_2009_10.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "gary_neville_1998_99",
+      "display_name": "Gary Neville",
+      "era": "1998-99",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_gary_neville_1998_99.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "lilian_thuram_1998",
+      "display_name": "Lilian Thuram",
+      "era": "1998",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_lilian_thuram_1998.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "carlos_alberto_1970",
+      "display_name": "Carlos Alberto",
+      "era": "1970",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_carlos_alberto_1970.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "giuseppe_bergomi_1989_90",
+      "display_name": "Giuseppe Bergomi",
+      "era": "1989-90",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_giuseppe_bergomi_1989_90.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "rodri_2022_23",
+      "display_name": "Rodri",
+      "era": "2022-23",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_rodri_2022_23.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "declan_rice_2024_25",
+      "display_name": "Declan Rice",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_declan_rice_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "aurelien_tchouameni_2023_24",
+      "display_name": "Aurélien Tchouaméni",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_aurelien_tchouameni_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "martin_zubimendi_2023_24",
+      "display_name": "Martín Zubimendi",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_martin_zubimendi_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "joao_palhinha_2023_24",
+      "display_name": "João Palhinha",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_joao_palhinha_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "manuel_ugarte_2023_24",
+      "display_name": "Manuel Ugarte",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_manuel_ugarte_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "moises_caicedo_2024_25",
+      "display_name": "Moisés Caicedo",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_moises_caicedo_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "bruno_guimaraes_2023_24",
+      "display_name": "Bruno Guimarães",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_bruno_guimaraes_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "sandro_tonali_2024_25",
+      "display_name": "Sandro Tonali",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_sandro_tonali_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "joshua_kimmich_2019_20",
+      "display_name": "Joshua Kimmich",
+      "era": "2019-20",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_joshua_kimmich_2019_20.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "patrick_vieira_2003_04",
+      "display_name": "Patrick Vieira",
+      "era": "2003-04",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_patrick_vieira_2003_04.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "claude_makelele_2004_05",
+      "display_name": "Claude Makélélé",
+      "era": "2004-05",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_claude_makelele_2004_05.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "sergio_busquets_2010_11",
+      "display_name": "Sergio Busquets",
+      "era": "2010-11",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_sergio_busquets_2010_11.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "xabi_alonso_2013_14",
+      "display_name": "Xabi Alonso",
+      "era": "2013-14",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_xabi_alonso_2013_14.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "frank_rijkaard_1988_89",
+      "display_name": "Frank Rijkaard",
+      "era": "1988-89",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_frank_rijkaard_1988_89.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "didier_deschamps_1997_98",
+      "display_name": "Didier Deschamps",
+      "era": "1997-98",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_didier_deschamps_1997_98.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "edgar_davids_1997_98",
+      "display_name": "Edgar Davids",
+      "era": "1997-98",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_edgar_davids_1997_98.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "dunga_1994",
+      "display_name": "Dunga",
+      "era": "1994",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_dunga_1994.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "javier_mascherano_2010_11",
+      "display_name": "Javier Mascherano",
+      "era": "2010-11",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_javier_mascherano_2010_11.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "esteban_cambiasso_2009_10",
+      "display_name": "Esteban Cambiasso",
+      "era": "2009-10",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_esteban_cambiasso_2009_10.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "vitinha_2024_25",
+      "display_name": "Vitinha",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_vitinha_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "pedri_2024_25",
+      "display_name": "Pedri",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_pedri_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "federico_valverde_2023_24",
+      "display_name": "Federico Valverde",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_federico_valverde_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "frenkie_de_jong_2018_19",
+      "display_name": "Frenkie de Jong",
+      "era": "2018-19",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_frenkie_de_jong_2018_19.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "nicolo_barella_2024_25",
+      "display_name": "Nicolò Barella",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_nicolo_barella_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "enzo_fernandez_2022",
+      "display_name": "Enzo Fernández",
+      "era": "2022",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_enzo_fernandez_2022.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "alexis_mac_allister_2023_24",
+      "display_name": "Alexis Mac Allister",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_alexis_mac_allister_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "ryan_gravenberch_2024_25",
+      "display_name": "Ryan Gravenberch",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ryan_gravenberch_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "joao_neves_2024_25",
+      "display_name": "João Neves",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_joao_neves_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "tijjani_reijnders_2024_25",
+      "display_name": "Tijjani Reijnders",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_tijjani_reijnders_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "xavi_2010_11",
+      "display_name": "Xavi",
+      "era": "2010-11",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_xavi_2010_11.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.pinterest.com/pin/barcelona-spain-january-26-xavi-hernandez-of-barcelona-looks-on-during-the-copa-del-rey-semi-final-first-l--703828247994758283/",
+          "image": "https://i.pinimg.com/originals/c3/a7/a2/c3a7a2b5b88d3ff8ff7dcde995166a72.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2010-11 kit match photo: short dark textured crown, heavy brows, rounder lower face and short facial hair."
+      ],
+      "before_sha256": "e9a114f3490aac3e9c33e9a11ab0a76b20e68e9b346ce4fb0e8684aa0137dd18",
+      "after_sha256": "0308c5d41afec8cbe5bc4ccee4905983a4da6d62e8a5eb5a00604f6fc2e1b1a0",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "andres_iniesta_2011_12",
+      "display_name": "Andrés Iniesta",
+      "era": "2011-12",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_andres_iniesta_2011_12.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.pinterest.com/pin/iniesta--26599454019404045/",
+          "image": "https://i.pinimg.com/736x/a7/96/0a/a7960a998e6f135f0201f023e9ee6f8b.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2011-12 narrow-stripe Qatar Foundation shirt: high/receding temples, small central tuft, fair complexion, soft round chin and restrained stubble."
+      ],
+      "before_sha256": "d299426c8894e43ae0421aadded6f0d4f2c58af04d25183d2fec0b6a45d2dafd",
+      "after_sha256": "aa093f60ec4b46995a7059d9eb62a3cfb2b74be5ab3bf5b4ec193f14cde2c0be",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "paul_scholes_2002_03",
+      "display_name": "Paul Scholes",
+      "era": "2002-03",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_paul_scholes_2002_03.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "steven_gerrard_2005_06",
+      "display_name": "Steven Gerrard",
+      "era": "2005-06",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_steven_gerrard_2005_06.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "frank_lampard_2009_10",
+      "display_name": "Frank Lampard",
+      "era": "2009-10",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_frank_lampard_2009_10.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "clarence_seedorf_2002_03",
+      "display_name": "Clarence Seedorf",
+      "era": "2002-03",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_clarence_seedorf_2002_03.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "michael_ballack_2001_02",
+      "display_name": "Michael Ballack",
+      "era": "2001-02",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_michael_ballack_2001_02.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "toni_kroos_2016_17",
+      "display_name": "Toni Kroos",
+      "era": "2016-17",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_toni_kroos_2016_17.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "bastian_schweinsteiger_2012_13",
+      "display_name": "Bastian Schweinsteiger",
+      "era": "2012-13",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_bastian_schweinsteiger_2012_13.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "lothar_matthaus_1989_90",
+      "display_name": "Lothar Matthäus",
+      "era": "1989-90",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_lothar_matthaus_1989_90.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "jude_bellingham_2023_24",
+      "display_name": "Jude Bellingham",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_jude_bellingham_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "florian_wirtz_2023_24",
+      "display_name": "Florian Wirtz",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_florian_wirtz_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "jamal_musiala_2024_25",
+      "display_name": "Jamal Musiala",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_jamal_musiala_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "bruno_fernandes_2024_25",
+      "display_name": "Bruno Fernandes",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_bruno_fernandes_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "martin_odegaard_2023_24",
+      "display_name": "Martin Ødegaard",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_martin_odegaard_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "cole_palmer_2023_24",
+      "display_name": "Cole Palmer",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_cole_palmer_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "xavi_simons_2023_24",
+      "display_name": "Xavi Simons",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_xavi_simons_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "phil_foden_2023_24",
+      "display_name": "Phil Foden",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_phil_foden_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "dani_olmo_2024",
+      "display_name": "Dani Olmo",
+      "era": "2024",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_dani_olmo_2024.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "kevin_de_bruyne_2022_23",
+      "display_name": "Kevin De Bruyne",
+      "era": "2022-23",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_kevin_de_bruyne_2022_23.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "pele_1970",
+      "display_name": "Pelé",
+      "era": "1970",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_pele_1970.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.ogol.com.br/jogador/pele?epoca_id=99",
+          "image": "https://www.ogol.com.br/img/jogadores/new/57/33/5733_pele_20250727230551.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "1970-context blue Brazil portrait: compact dense curls rather than a large afro, high cheeks and open smile."
+      ],
+      "before_sha256": "75484b18481b41480819d23733e69c33fa0061a2fe90eb60e928fdd4047fe6b1",
+      "after_sha256": "66faf4171ad92d795a355bcdccfd90b1a2170326d03ec13e541d573efc429970",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "diego_maradona_1986",
+      "display_name": "Diego Maradona",
+      "era": "1986",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_diego_maradona_1986.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://24noticias.sapo.pt/desporto/artigos/maradona-recordar-um-deus-do-futebol-atraves-das-fotografias-que-o-imortalizaram",
+          "image": "https://mb.web.sapo.io/e50023f4b30ee494c3cc62e06e653c9d2be65614.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Argentina-era photo: full curly fringe/ears/nape, low heavy eyebrows, round cheeks and fuller lips. Small original curl band lacked silhouette."
+      ],
+      "before_sha256": "6bcfa750be58cb3b4ef5bb60c98c76f306aaec020961c2b1711fc4733c41bbd0",
+      "after_sha256": "d38bb426ccc369805dc9f438b463b1835615cc1b9695915d10e87f8967dbdb6f",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "zinedine_zidane_2001_02",
+      "display_name": "Zinedine Zidane",
+      "era": "2001-02",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_zinedine_zidane_2001_02.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.ogol.com.br/jogador/zinedine-zidane?epoca_id=132",
+          "image": "https://cdn-img.staticzz.com/img/planteis/new/16/29/41629_zinedine_zidane_20250416050730.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Adjacent 2002-03 Madrid photo: receded close crop, long face, strong brow and prominent nose. Not an exact 2001-02 dated exposure."
+      ],
+      "before_sha256": "8018b4758b50f3621361db6fb55501560954e82234246e83e2dc4a44592cd3ac",
+      "after_sha256": "8cf14b22b47d27d6717ee2a63a508a2a1e10c603b9b2026a5079733a9a3010ea",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "johan_cruyff_1973_74",
+      "display_name": "Johan Cruyff",
+      "era": "1973-74",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_johan_cruyff_1973_74.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://vi.wikipedia.org/wiki/Johan_Cruyff",
+          "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Johan_Cruyff_1974c.jpg/1280px-Johan_Cruyff_1974c.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "1974 Rob Mieremet/Anefo portrait: soft swept fringe, longer sideburns/nape, narrow jaw, light eyes and prominent nose. No modern short sides."
+      ],
+      "before_sha256": "d36ac8092b8559405c3d1fc3081169b9bcee19a2e3fd0bdefac02587f0f63f56",
+      "after_sha256": "acebb64d4655d5817d9f182091cd4a2f468309fe03ef56a0aff3f271c5e406f8",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "michel_platini_1983_84",
+      "display_name": "Michel Platini",
+      "era": "1983-84",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_michel_platini_1983_84.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "zico_1981",
+      "display_name": "Zico",
+      "era": "1981",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_zico_1981.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "kaka_2006_07",
+      "display_name": "Kaká",
+      "era": "2006-07",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_kaka_2006_07.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.leballonrond.fr/joueur/kaka?epoca_id=137",
+          "image": "https://www.leballonrond.fr/img/planteis/new/70/24/167024_kaka_20250423084320.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Milan-era photo from adjacent-season profile: loose dark part/fringe, clean face, long cheeks, strong brows and broad smile. Exact exposure date not established."
+      ],
+      "before_sha256": "39097b25990572e3d9c56c8e09d82bdac20e20eae54b5df45945271ed7e5f499",
+      "after_sha256": "fecb1453731708c93c7fb3f441f1bd6167a66ee0e9fa2bae87bf7240672c068e",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "roberto_baggio_1993_94",
+      "display_name": "Roberto Baggio",
+      "era": "1993-94",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_roberto_baggio_1993_94.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "francesco_totti_2000_01",
+      "display_name": "Francesco Totti",
+      "era": "2000-01",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_francesco_totti_2000_01.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "wayne_rooney_2010_11",
+      "display_name": "Wayne Rooney",
+      "era": "2010-11",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_wayne_rooney_2010_11.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "vinicius_junior_2023_24",
+      "display_name": "Vinícius Júnior",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_vinicius_junior_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "kylian_mbappe_2023_24",
+      "display_name": "Kylian Mbappé",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_kylian_mbappe_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "raphinha_2024_25",
+      "display_name": "Raphinha",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_raphinha_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "khvicha_kvaratskhelia_2022_23",
+      "display_name": "Khvicha Kvaratskhelia",
+      "era": "2022-23",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_khvicha_kvaratskhelia_2022_23.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "rafael_leao_2021_22",
+      "display_name": "Rafael Leão",
+      "era": "2021-22",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_rafael_leao_2021_22.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "luis_diaz_2024_25",
+      "display_name": "Luis Díaz",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_luis_diaz_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "nico_williams_2024",
+      "display_name": "Nico Williams",
+      "era": "2024",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_nico_williams_2024.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "neymar_2014_15",
+      "display_name": "Neymar",
+      "era": "2014-15",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_neymar_2014_15.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://br.pinterest.com/pin/62698619796968255/",
+          "image": "https://i.pinimg.com/originals/2e/0b/a3/2e0ba3196afac1f863e0a4345724a49c.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2014-15 vertical-stripe kit: dark textured forward fringe, short sides, narrow jaw and neat facial hair. No earlier towering blond crest."
+      ],
+      "before_sha256": "2f6dd5b218fa19ec60c71f67a0a8b1d6a1c1cbd292fa0ec956d3589c50681362",
+      "after_sha256": "5745831c203723473bad2fdb5f1677456336b73f9d29a0b4ad3d002f36c2da42",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "bradley_barcola_2024_25",
+      "display_name": "Bradley Barcola",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_bradley_barcola_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "son_heung_min_2021_22",
+      "display_name": "Son Heung-min",
+      "era": "2021-22",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_son_heung_min_2021_22.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "ronaldinho_2005_06",
+      "display_name": "Ronaldinho",
+      "era": "2005-06",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ronaldinho_2005_06.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.ceroacero.es/jugador/ronaldinho-gaucho?epoca_id=135",
+          "image": "https://www.ceroacero.es/img/planteis/new/15/49/31549_ronaldinho_gaucho_20240509194032.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Edition portrait: pulled-back curls/tails, long cheeks, broad nose, large smile, fine facial hair. Narrow headband reflects match appearance; avoid generic loose dreadlocks."
+      ],
+      "before_sha256": "3b615a797516c7b36eec5d774db7ce9fb1bd64b4ea8ff5c2692b2f4d5233ccfa",
+      "after_sha256": "4d89da9915216c7ab5fb369a471e2f027edcc225fce7c3f2797e9c6926ca542d",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "franck_ribery_2012_13",
+      "display_name": "Franck Ribéry",
+      "era": "2012-13",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_franck_ribery_2012_13.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "ryan_giggs_1998_99",
+      "display_name": "Ryan Giggs",
+      "era": "1998-99",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ryan_giggs_1998_99.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "robert_pires_2003_04",
+      "display_name": "Robert Pirès",
+      "era": "2003-04",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_robert_pires_2003_04.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "marc_overmars_1997_98",
+      "display_name": "Marc Overmars",
+      "era": "1997-98",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_marc_overmars_1997_98.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "pavel_nedved_2002_03",
+      "display_name": "Pavel Nedvěd",
+      "era": "2002-03",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_pavel_nedved_2002_03.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "john_barnes_1987_88",
+      "display_name": "John Barnes",
+      "era": "1987-88",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_john_barnes_1987_88.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "david_ginola_1998_99",
+      "display_name": "David Ginola",
+      "era": "1998-99",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_david_ginola_1998_99.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "paulo_futre_1986_87",
+      "display_name": "Paulo Futre",
+      "era": "1986-87",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_paulo_futre_1986_87.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "francisco_gento_1959_60",
+      "display_name": "Francisco Gento",
+      "era": "1959-60",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_francisco_gento_1959_60.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "ousmane_dembele_2024_25",
+      "display_name": "Ousmane Dembélé",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ousmane_dembele_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "mohamed_salah_2024_25",
+      "display_name": "Mohamed Salah",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_mohamed_salah_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "lamine_yamal_2024_25",
+      "display_name": "Lamine Yamal",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_lamine_yamal_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "bukayo_saka_2023_24",
+      "display_name": "Bukayo Saka",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_bukayo_saka_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "michael_olise_2024_25",
+      "display_name": "Michael Olise",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_michael_olise_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "rodrygo_2023_24",
+      "display_name": "Rodrygo",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_rodrygo_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "lionel_messi_2008_09",
+      "display_name": "Lionel Messi",
+      "era": "2008-09",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_lionel_messi_2008_09.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://howrsepl-ewa123.blogspot.com/2021/08/lionel-messi-young-lionel-messi-young.html",
+          "image": "https://fearofbliss.wordpress.com/wp-content/uploads/2008/12/messi.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Period half-blue/half-red shirt portrait: longer naturally parted hair/nape, clean face, softer cheeks and prominent nose. No later beard/fade."
+      ],
+      "before_sha256": "f011e6bc7dc7714c11c3f768b7297d40d1e4f6ba03b9195c6117708de96ee5da",
+      "after_sha256": "654ff99a0ab28d5bd1b906393128b3c92c1e00c1d2302eb13375c6f28de74494",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "bernardo_silva_2022_23",
+      "display_name": "Bernardo Silva",
+      "era": "2022-23",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_bernardo_silva_2022_23.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "desire_doue_2024_25",
+      "display_name": "Désiré Doué",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_desire_doue_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "takefusa_kubo_2023_24",
+      "display_name": "Takefusa Kubo",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_takefusa_kubo_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "george_best_1967_68",
+      "display_name": "George Best",
+      "era": "1967-68",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_george_best_1967_68.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "garrincha_1962",
+      "display_name": "Garrincha",
+      "era": "1962",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_garrincha_1962.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "jairzinho_1970",
+      "display_name": "Jairzinho",
+      "era": "1970",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_jairzinho_1970.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "luis_figo_1999_00",
+      "display_name": "Luís Figo",
+      "era": "1999-00",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_luis_figo_1999_00.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "david_beckham_2000_01",
+      "display_name": "David Beckham",
+      "era": "2000-01",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_david_beckham_2000_01.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.gq.com/story/david-beckham-hair-oral-history",
+          "image": "https://media.gq.com/photos/55f0f63ee4fe554f30885b7e/master/w_1600%2Cc_limit/David-Beckham-hair-skinhead-2000-horizontal.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Dated 18 March 2000: close fair shave, defined cheeks/jaw, straight brows, light eyes and restrained stubble. Replace the tall pointed fauxhawk. The season also included a short mohawk."
+      ],
+      "before_sha256": "e7f7946db6adf08b9f1cd881c07908a6d05569ec62499d09f7691a21e9fd896a",
+      "after_sha256": "a1a2e3fec634d8747c19e17a9df9b2833f63b71205a82ff28ac2dccad58a52ce",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "arjen_robben_2012_13",
+      "display_name": "Arjen Robben",
+      "era": "2012-13",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_arjen_robben_2012_13.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "stanley_matthews_1953",
+      "display_name": "Stanley Matthews",
+      "era": "1953",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_stanley_matthews_1953.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "pierre_littbarski_1989_90",
+      "display_name": "Pierre Littbarski",
+      "era": "1989-90",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_pierre_littbarski_1989_90.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "joaquin_2004_05",
+      "display_name": "Joaquín",
+      "era": "2004-05",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_joaquin_2004_05.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "steve_mcmanaman_1999_00",
+      "display_name": "Steve McManaman",
+      "era": "1999-00",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_steve_mcmanaman_1999_00.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "erling_haaland_2022_23",
+      "display_name": "Erling Haaland",
+      "era": "2022-23",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_erling_haaland_2022_23.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "harry_kane_2023_24",
+      "display_name": "Harry Kane",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_harry_kane_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "robert_lewandowski_2019_20",
+      "display_name": "Robert Lewandowski",
+      "era": "2019-20",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_robert_lewandowski_2019_20.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "lautaro_martinez_2023_24",
+      "display_name": "Lautaro Martínez",
+      "era": "2023-24",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_lautaro_martinez_2023_24.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "alexander_isak_2024_25",
+      "display_name": "Alexander Isak",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_alexander_isak_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "victor_osimhen_2022_23",
+      "display_name": "Victor Osimhen",
+      "era": "2022-23",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_victor_osimhen_2022_23.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "julian_alvarez_2024_25",
+      "display_name": "Julián Álvarez",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_julian_alvarez_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "cristiano_ronaldo_2016_17",
+      "display_name": "Cristiano Ronaldo",
+      "era": "2016-17",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_cristiano_ronaldo_2016_17.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.pinterest.com/pin/cristiano-ronaldo-8th-season-at-madrid-is-about-to-start-new-picture-of-201617--234327986841979323/",
+          "image": "https://i.pinimg.com/736x/8f/52/0b/8f520b447693fbb4b75647456aecf17c.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Season-labelled polo-kit portrait: short sides, wide swept quiff, angular jaw, dark arched brows and visible smile. Avoid a narrow conical crest."
+      ],
+      "before_sha256": "b69b611351ef49c67abd6d19777810343bbb97e92257caa3b6a26aedd807d617",
+      "after_sha256": "643ad865b31a956b78a470a9015256c93e235211c10eda49988be536ef7781dd",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "viktor_gyokeres_2024_25",
+      "display_name": "Viktor Gyökeres",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_viktor_gyokeres_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "serhou_guirassy_2024_25",
+      "display_name": "Serhou Guirassy",
+      "era": "2024-25",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_serhou_guirassy_2024_25.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "alessandro_del_piero_1997_98",
+      "display_name": "Alessandro Del Piero",
+      "era": "1997-98",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_alessandro_del_piero_1997_98.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "thierry_henry_2003_04",
+      "display_name": "Thierry Henry",
+      "era": "2003-04",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_thierry_henry_2003_04.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.fourfourtwo.com/features/the-best-premier-league-players-of-the-00s",
+          "image": "https://cdn.mos.cms.futurecdn.net/v2/t%3A0%2Cl%3A283%2Ccw%3A1620%2Cch%3A1215%2Cq%3A80%2Cw%3A1620/4VzuN3sV3Y6kQETovif7y4.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Arsenal-era portrait: shaved dome, long lean face, arched brows, almond eyes and fuller relaxed lips."
+      ],
+      "before_sha256": "43eb022ae5924050cee3ebfbef2e8ce5a2066c8638b7ecb2f3699bb6168f31eb",
+      "after_sha256": "5b015ec14231c229a0c3d0b990883abe197bff4de1fbdbf328b6b09fdb31949c",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "ronaldo_nazario_1996_97",
+      "display_name": "Ronaldo Nazário",
+      "era": "1996-97",
+      "priority": true,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ronaldo_nazario_1996_97.png",
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.playmakerstats.com/player/ronaldo?epoca_id=126",
+          "image": "https://cdn-img.staticzz.com/img/planteis/new/32/22/43222_ronaldo_20250422142002.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Barcelona edition: close-shaved scalp, high forehead, broader nose, small front-tooth gap. No 2002 triangle fringe. Original complexion too dark for reference."
+      ],
+      "before_sha256": "29875645193b6a41cc635d11f46ba078cae7272cc62890b691e7c6ed90401447",
+      "after_sha256": "3a8c7082715d532637260fef8866696e26d1704c5a7e6bd195eece422be74956",
+      "verification": "Source assembly, full catalogue/card UI checks, native 720p/1080p samples; user positive feedback on batch."
+    },
+    {
+      "card_id": "marco_van_basten_1988_89",
+      "display_name": "Marco van Basten",
+      "era": "1988-89",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_marco_van_basten_1988_89.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "romario_1993_94",
+      "display_name": "Romário",
+      "era": "1993-94",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_romario_1993_94.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "gerd_muller_1971_72",
+      "display_name": "Gerd Müller",
+      "era": "1971-72",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_gerd_muller_1971_72.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "eusebio_1965_66",
+      "display_name": "Eusébio",
+      "era": "1965-66",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_eusebio_1965_66.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "ferenc_puskas_1959_60",
+      "display_name": "Ferenc Puskás",
+      "era": "1959-60",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_ferenc_puskas_1959_60.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "didier_drogba_2009_10",
+      "display_name": "Didier Drogba",
+      "era": "2009-10",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_didier_drogba_2009_10.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    },
+    {
+      "card_id": "gabriel_batistuta_1998_99",
+      "display_name": "Gabriel Batistuta",
+      "era": "1998-99",
+      "priority": false,
+      "runtime_path": "res://assets/portraits/catalogue_200/portrait_gabriel_batistuta_1998_99.png",
+      "status": "pending",
+      "references": [],
+      "observations": []
+    }
+  ]
+}

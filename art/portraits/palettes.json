@@ -1,0 +1,168 @@
+{
+  "schema_version": 2,
+  "fixed": {
+    "ink": "#202B27",
+    "eye_white": "#EEE8D3",
+    "iris": "#27372F",
+    "iris_light": "#68766F",
+    "iris_blue": "#567A88"
+  },
+  "skin": {
+    "porcelain": {
+      "skin": "#E7BFA3",
+      "skin_light": "#F6D8B7",
+      "skin_mid": "#D3A185",
+      "skin_shadow": "#B47C65",
+      "lip": "#A96657",
+      "lip_light": "#CF8E7E"
+    },
+    "fair": {
+      "skin": "#DFAE8A",
+      "skin_light": "#EFC8A2",
+      "skin_mid": "#C18D70",
+      "skin_shadow": "#A66F57",
+      "lip": "#925445",
+      "lip_light": "#BE7B69"
+    },
+    "warm": {
+      "skin": "#D09A70",
+      "skin_light": "#E7B788",
+      "skin_mid": "#B37B59",
+      "skin_shadow": "#956046",
+      "lip": "#7F493C",
+      "lip_light": "#B7735C"
+    },
+    "olive": {
+      "skin": "#B88862",
+      "skin_light": "#D1A67D",
+      "skin_mid": "#9C6D4E",
+      "skin_shadow": "#80543E",
+      "lip": "#713F34",
+      "lip_light": "#A36250"
+    },
+    "tan": {
+      "skin": "#AE7953",
+      "skin_light": "#CA9669",
+      "skin_mid": "#916042",
+      "skin_shadow": "#784B34",
+      "lip": "#673D32",
+      "lip_light": "#975444"
+    },
+    "brown": {
+      "skin": "#8E5C3E",
+      "skin_light": "#AA7853",
+      "skin_mid": "#744730",
+      "skin_shadow": "#5D3728",
+      "lip": "#542F27",
+      "lip_light": "#824935"
+    },
+    "dark": {
+      "skin": "#69432F",
+      "skin_light": "#885D40",
+      "skin_mid": "#533322",
+      "skin_shadow": "#42281D",
+      "lip": "#3D251F",
+      "lip_light": "#663C30"
+    },
+    "deep": {
+      "skin": "#4D3327",
+      "skin_light": "#6D4933",
+      "skin_mid": "#3D261D",
+      "skin_shadow": "#302019",
+      "lip": "#2C1D18",
+      "lip_light": "#523026"
+    }
+  },
+  "hair": {
+    "black": {
+      "hair": "#30332F",
+      "hair_light": "#4A4D43",
+      "hair_shadow": "#1D211E"
+    },
+    "espresso": {
+      "hair": "#3D3026",
+      "hair_light": "#60503B",
+      "hair_shadow": "#271F1B"
+    },
+    "brown": {
+      "hair": "#634730",
+      "hair_light": "#8A6542",
+      "hair_shadow": "#3E2D23"
+    },
+    "chestnut": {
+      "hair": "#7E4E30",
+      "hair_light": "#AD7345",
+      "hair_shadow": "#4C3125"
+    },
+    "blond": {
+      "hair": "#B89151",
+      "hair_light": "#DDC07C",
+      "hair_shadow": "#806237"
+    },
+    "platinum": {
+      "hair": "#D8C89C",
+      "hair_light": "#EEE1BB",
+      "hair_shadow": "#99865E"
+    },
+    "ginger": {
+      "hair": "#A95D30",
+      "hair_light": "#CE8848",
+      "hair_shadow": "#6D3D25"
+    },
+    "silver": {
+      "hair": "#9F9F8A",
+      "hair_light": "#CBC9B3",
+      "hair_shadow": "#666B60"
+    }
+  },
+  "shirt": {
+    "cream": {
+      "shirt": "#DED8BC",
+      "shirt_light": "#F3ECD3",
+      "shirt_shadow": "#B8B297",
+      "collar": "#364B3A"
+    },
+    "forest": {
+      "shirt": "#315843",
+      "shirt_light": "#4A7757",
+      "shirt_shadow": "#1C3A2B",
+      "collar": "#E6DFC7"
+    },
+    "coral": {
+      "shirt": "#CA6A56",
+      "shirt_light": "#E68C70",
+      "shirt_shadow": "#934A3D",
+      "collar": "#EDE4CC"
+    },
+    "blue": {
+      "shirt": "#38618B",
+      "shirt_light": "#5283AF",
+      "shirt_shadow": "#24425F",
+      "collar": "#ECE3C8"
+    },
+    "gold": {
+      "shirt": "#D8AE44",
+      "shirt_light": "#F1D06B",
+      "shirt_shadow": "#A6802E",
+      "collar": "#315640"
+    },
+    "orange": {
+      "shirt": "#D57939",
+      "shirt_light": "#EF9E50",
+      "shirt_shadow": "#9E502B",
+      "collar": "#E8DFBF"
+    },
+    "red": {
+      "shirt": "#B9483E",
+      "shirt_light": "#D76750",
+      "shirt_shadow": "#853329",
+      "collar": "#E7DCBE"
+    },
+    "white": {
+      "shirt": "#E8E3CF",
+      "shirt_light": "#FAF4E2",
+      "shirt_shadow": "#B6B7A3",
+      "collar": "#364735"
+    }
+  }
+}
