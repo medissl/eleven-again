@@ -1,0 +1,42 @@
+[
+  {
+    "id": "rodrygo_2023_24",
+    "look": "round_chin short_quiff almond fine broad_bridge open_smile none brown black",
+    "note": "Official adjacent LaLiga 2024 Madrid portrait: short dark raised taper, compact soft cheeks and clean tooth smile; no later braided style.",
+    "reference": {
+      "title": "Rodrygo Silva de Goes LALIGA EA SPORTS | LALIGA",
+      "page": "https://www.laliga.com/en-GB/player/rodrygo",
+      "image": "https://assets.laliga.com/squad/2024/t186/p440077/512x556/p440077_t186_2024_0_001_000.png"
+    }
+  },
+  {
+    "id": "bernardo_silva_2022_23",
+    "look": "soft_oval short_taper neutral straight straight full_calm close_beard fair espresso",
+    "note": "Earlier Nike-era City portrait: compact dark crop and close connected beard, small oval face. Earlier face study only; no exact 2022-23 exposure claim.",
+    "reference": {
+      "title": "Bernardo Silva - Biography - IMDb",
+      "page": "https://www.imdb.com/name/nm9884283/bio/",
+      "image": "https://m.media-amazon.com/images/M/MV5BYjY1MzRhYjQtNjYyNS00MTM1LWIwYjgtMjhjODI4M2E3OTY3XkEyXkFqcGc%40._V1_.jpg"
+    }
+  },
+  {
+    "id": "desire_doue_2024_25",
+    "look": "long_square bleached_coils soft straight_dark broad_bridge soft_closed none warm blond",
+    "note": "2024-25 PSG portrait: dense high dark-rooted curls with numerous blond ends, dark brows, long strong clean jaw and closed calm smile.",
+    "reference": {
+      "title": "Désiré Doué :: 2024/2025 - PSG - Informações e Estatísticas do Jogador",
+      "page": "https://www.ogol.com.br/jogador/desire-doue/915191?epoca_id=154",
+      "image": "https://www.ogol.com.br/img/planteis/new/93/51/11659351_desire_doue_20240818034633.jpg"
+    }
+  },
+  {
+    "id": "takefusa_kubo_2023_24",
+    "look": "full_cheeks curtains_short narrow fine button soft_closed none fair espresso",
+    "note": "Official LaLiga 2023 Sociedad portrait: loose short dark-brown parted curtains over forehead, full youthful cheeks, narrow eyes and clean small chin.",
+    "reference": {
+      "title": "Takefusa Kubo LALIGA EA SPORTS | LALIGA",
+      "page": "https://www.laliga.com/jugador/take",
+      "image": "https://assets.laliga.com/squad/2023/t188/p219271/512x556/p219271_t188_2023_1_001_000.png"
+    }
+  }
+]

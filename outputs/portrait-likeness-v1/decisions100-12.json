@@ -1,0 +1,42 @@
+[
+  {
+    "id": "phil_foden_2023_24",
+    "look": "broad_jaw caesar_fade blue_hooded straight straight full_calm none fair black",
+    "note": "Official 2023-24 City annual-report portrait: close blunt dark cropped top with faded sides, light eyes and clean strong jaw; no quiff.",
+    "reference": {
+      "title": "Manchester City | Annual Report 2023-24",
+      "page": "https://www.mancity.com/annualreport2024/mens-team/",
+      "image": "https://www.mancity.com/annualreport2024/wp-content/uploads/2024/12/foden.png"
+    }
+  },
+  {
+    "id": "dani_olmo_2024",
+    "look": "long_narrow sidepart deep_light fine straight soft_closed none fair dark_blond",
+    "note": "Official UEFA Euro 2024 Spain portrait: short neatly swept natural brown hair, high forehead, long clean face and light eyes.",
+    "reference": {
+      "title": "Season 2024 | UEFA EURO 2024 | UEFA.com",
+      "page": "https://www.uefa.com/euro2024/teams/players/250081720--dani-olmo/news/",
+      "image": "https://img.uefa.com/imgml/TP/players/3/2024/cutoff/250081720.png"
+    }
+  },
+  {
+    "id": "kevin_de_bruyne_2022_23",
+    "look": "round_chin texture_crop blue_hooded fine straight smile close_beard porcelain strawberry",
+    "note": "Adjacent 2023-24 City portrait: loose strawberry-blond crop, pale skin/light eyes and short warm ginger beard; not later long brushed hair.",
+    "reference": {
+      "title": "Los mejores jugadores del mundo  - Futbol",
+      "page": "https://tellezrodriguezjosejulianfutbol.blogspot.com/2024/03/los-mejores-jugadores-del-mundo.html",
+      "image": "https://www.mancity.com/meta/media/z00hnhu0/kevin-de-bruyne.png"
+    }
+  },
+  {
+    "id": "michel_platini_1983_84",
+    "look": "chiselled wavy_centrepart hooded thick prominent full_calm fine_stubble fair espresso",
+    "note": "1983 Juventus portrait reproduction: medium ear-length dark waves, high slightly receding forehead, prominent nose and fine chin stubble; no later bald head.",
+    "reference": {
+      "title": "– La boutique SO",
+      "page": "https://boutique.so/fr-fr/products/michel-platini-portrait-juventus-turin-1983",
+      "image": "https://boutique.so/cdn/shop/files/1_3b33f2f9-4f62-42c7-938f-8cc479560d82.png?v=1773399990"
+    }
+  }
+]

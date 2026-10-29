@@ -1,0 +1,42 @@
+[
+  {
+    "id": "joao_palhinha_2023_24",
+    "look": "chiselled sidepart hooded straight prominent open_smile fine_stubble olive espresso",
+    "note": "Official 2023-24 Fulham portrait: neat short side sweep/fade, angular cheeks, long bridge and fine clean-jaw stubble.",
+    "reference": {
+      "title": "Fulham FC - João Palhinha",
+      "page": "https://www.fulhamfc.com/players/joao-palhinha/",
+      "image": "https://images.webapi.fulhamfc.com/fit-in/1200x1200/cb4209c0-35cb-11ee-9e1d-c96174a33f83.png"
+    }
+  },
+  {
+    "id": "manuel_ugarte_2023_24",
+    "look": "broad_jaw fringe_fade soft straight straight open_smile fine_chin fair espresso",
+    "note": "2023 PSG signing image: short irregular wavy fringe, broad cheeks and lower jaw, slight chin hair and tooth smile.",
+    "reference": {
+      "title": "Client Challenge",
+      "page": "https://fr.besoccer.com/info/officiel-le-psg-recrute-manuel-ugarte-1259539",
+      "image": "https://cdn.resfu.com/media/img_news/manuel-ugarte-signe-au-psg--besoccer.png"
+    }
+  },
+  {
+    "id": "moises_caicedo_2024_25",
+    "look": "long_square flat_buzz hooded fine broad_bridge full_calm chin_patch dark black",
+    "note": "Chelsea squad portrait: very short even coiled crop, long rectangular face, full lips and small chin patch; no large curls.",
+    "reference": {
+      "title": "Crystal Palace x Chelsea - Retrospecto, escalações e onde assistir",
+      "page": "https://www.ogol.com.br/noticias/crystal-palace-x-chelsea-retrospecto-escalacoes-e-onde-assistir/1034492",
+      "image": "https://www.ogol.com.br/img/planteis/new/63/83/14846383_moises_caicedo_20250612201742.png"
+    }
+  },
+  {
+    "id": "bruno_guimaraes_2023_24",
+    "look": "broad_jaw bleached_taper hooded thick_dark broad_bridge full_calm close_beard_dark olive platinum",
+    "note": "2023-24 Newcastle kit image: bleached short top with dark roots/sides, dark connected beard/brows and broad jaw.",
+    "reference": {
+      "title": "2023/24 Newcastle United home shirt price compared to our Premier League big 7 rivals - Interesting - NUFC The Mag",
+      "page": "https://www.themag.co.uk/2023/06/2023-24-newcastle-united-home-shirt-price-compared-to-our-premier-league-big-7-rivals-interesting/",
+      "image": "https://cdn.themag.co.uk/assets/bruno-guimaraes-23-24-strip-newcastle-united-nufc-2000.jpg"
+    }
+  }
+]

@@ -1,0 +1,583 @@
+WorkerThreadPool: 8 threads, 6 max low-priority.
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+Using "default" pen tablet driver...
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 2004498165
+EDITOR API HASH: 1696660745
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: C:/Users/media/AppData/Roaming/Godot/editor_settings-4.7.tres remapped: C:/Users/media/AppData/Roaming/Godot/editor_settings-4.7.tres
+Completed load for: 'C:/Users/media/AppData/Roaming/Godot/editor_settings-4.7.tres' remapped 'C:/Users/media/AppData/Roaming/Godot/editor_settings-4.7.tres' at thread -1
+EditorSettings: Load OK!
+EditorTheme: Generating new theme for the config '3810048042'.
+EditorTheme: Generating new icons.
+EditorTheme: Generating new fonts.
+EditorTheme: Generating new styles.
+Loading resource: C:/Users/media/AppData/Local/Godot/editor_doc_cache-4.7.res remapped: C:/Users/media/AppData/Local/Godot/editor_doc_cache-4.7.res
+Loaded system CA certificates
+Completed load for: 'C:/Users/media/AppData/Local/Godot/editor_doc_cache-4.7.res' remapped 'C:/Users/media/AppData/Local/Godot/editor_doc_cache-4.7.res' at thread -1
+Failed to bind socket. Error: 3.
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (100 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | portrait_alessandro_del_piero_1997_98.png[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | portrait_alexander_isak_2024_25.png[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | portrait_alexis_mac_allister_2023_24.png[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | portrait_arjen_robben_2012_13.png[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | portrait_aurelien_tchouameni_2023_24.png[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | portrait_bastian_schweinsteiger_2012_13.png[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | portrait_bernardo_silva_2022_23.png[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | portrait_bradley_barcola_2024_25.png[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | portrait_bruno_fernandes_2024_25.png[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | portrait_bruno_guimaraes_2023_24.png[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | portrait_bukayo_saka_2023_24.png[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | portrait_clarence_seedorf_2002_03.png[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | portrait_claude_makelele_2004_05.png[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | portrait_cole_palmer_2023_24.png[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | portrait_dani_olmo_2024.png[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | portrait_david_ginola_1998_99.png[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | portrait_declan_rice_2024_25.png[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | portrait_desire_doue_2024_25.png[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | portrait_didier_deschamps_1997_98.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | portrait_didier_drogba_2009_10.png[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | portrait_dunga_1994.png[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | portrait_enzo_fernandez_2022.png[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | portrait_esteban_cambiasso_2009_10.png[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | portrait_eusebio_1965_66.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | portrait_federico_valverde_2023_24.png[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | portrait_ferenc_puskas_1959_60.png[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | portrait_florian_wirtz_2023_24.png[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | portrait_francesco_totti_2000_01.png[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | portrait_francisco_gento_1959_60.png[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | portrait_franck_ribery_2012_13.png[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | portrait_frank_lampard_2009_10.png[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | portrait_frank_rijkaard_1988_89.png[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | portrait_frenkie_de_jong_2018_19.png[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | portrait_gabriel_batistuta_1998_99.png[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | portrait_garrincha_1962.png[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | portrait_george_best_1967_68.png[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | portrait_gerd_muller_1971_72.png[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | portrait_harry_kane_2023_24.png[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | portrait_jairzinho_1970.png[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | portrait_jamal_musiala_2024_25.png[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | portrait_javier_mascherano_2010_11.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | portrait_joao_neves_2024_25.png[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | portrait_joao_palhinha_2023_24.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | portrait_joaquin_2004_05.png[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | portrait_john_barnes_1987_88.png[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | portrait_joshua_kimmich_2019_20.png[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | portrait_jude_bellingham_2023_24.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | portrait_julian_alvarez_2024_25.png[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | portrait_kevin_de_bruyne_2022_23.png[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | portrait_khvicha_kvaratskhelia_2022_23.png[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | portrait_lamine_yamal_2024_25.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | portrait_lautaro_martinez_2023_24.png[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | portrait_lothar_matthaus_1989_90.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | portrait_luis_diaz_2024_25.png[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | portrait_luis_figo_1999_00.png[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | portrait_manuel_ugarte_2023_24.png[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | portrait_marco_van_basten_1988_89.png[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | portrait_marc_overmars_1997_98.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | portrait_martin_odegaard_2023_24.png[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | portrait_martin_zubimendi_2023_24.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | portrait_michael_ballack_2001_02.png[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | portrait_michael_olise_2024_25.png[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | portrait_michel_platini_1983_84.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | portrait_moises_caicedo_2024_25.png[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | portrait_nicolo_barella_2024_25.png[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | portrait_nico_williams_2024.png[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | portrait_ousmane_dembele_2024_25.png[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | portrait_patrick_vieira_2003_04.png[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | portrait_paulo_futre_1986_87.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | portrait_paul_scholes_2002_03.png[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | portrait_pavel_nedved_2002_03.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | portrait_pedri_2024_25.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | portrait_phil_foden_2023_24.png[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | portrait_pierre_littbarski_1989_90.png[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | portrait_rafael_leao_2021_22.png[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | portrait_raphinha_2024_25.png[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | portrait_robert_lewandowski_2019_20.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | portrait_robert_pires_2003_04.png[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | portrait_rodri_2022_23.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | portrait_rodrygo_2023_24.png[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | portrait_romario_1993_94.png[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | portrait_ryan_giggs_1998_99.png[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | portrait_ryan_gravenberch_2024_25.png[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | portrait_sandro_tonali_2024_25.png[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | portrait_sergio_busquets_2010_11.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | portrait_serhou_guirassy_2024_25.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | portrait_son_heung_min_2021_22.png[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | portrait_stanley_matthews_1953.png[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | portrait_steven_gerrard_2005_06.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | portrait_steve_mcmanaman_1999_00.png[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | portrait_takefusa_kubo_2023_24.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | portrait_tijjani_reijnders_2024_25.png[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | portrait_toni_kroos_2016_17.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | portrait_viktor_gyokeres_2024_25.png[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | portrait_vinicius_junior_2023_24.png[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | portrait_vitinha_2024_25.png[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | portrait_wayne_rooney_2010_11.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | portrait_xabi_alonso_2013_14.png[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | portrait_xavi_simons_2023_24.png[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | portrait_zico_1981.png[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (100 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | portrait_rafael_leao_2021_22.png[39m[0m
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_pierre_littbarski_1989_90.png
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_rafael_leao_2021_22.png
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_phil_foden_2023_24.png
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_pedri_2024_25.png
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_paul_scholes_2002_03.png
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_pavel_nedved_2002_03.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_rafael_leao_2021_22.png" import took 78 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_paulo_futre_1986_87.png
+[   0% ] [90m[1mreimport[22m | portrait_pierre_littbarski_1989_90.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_phil_foden_2023_24.png" import took 83 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_patrick_vieira_2003_04.png
+[   1% ] [90m[1mreimport[22m | portrait_phil_foden_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_pierre_littbarski_1989_90.png" import took 88 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_ousmane_dembele_2024_25.png
+[   2% ] [90m[1mreimport[22m | portrait_pedri_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_pedri_2024_25.png" import took 97 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_nico_williams_2024.png
+[   3% ] [90m[1mreimport[22m | portrait_pavel_nedved_2002_03.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_paul_scholes_2002_03.png" import took 100 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_nicolo_barella_2024_25.png
+[   4% ] [90m[1mreimport[22m | portrait_paul_scholes_2002_03.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_paulo_futre_1986_87.png" import took 59 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_moises_caicedo_2024_25.png
+[   5% ] [90m[1mreimport[22m | portrait_paulo_futre_1986_87.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_ousmane_dembele_2024_25.png" import took 65 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_michel_platini_1983_84.png
+[   6% ] [90m[1mreimport[22m | portrait_patrick_vieira_2003_04.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_patrick_vieira_2003_04.png" import took 77 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_michael_olise_2024_25.png
+[   7% ] [90m[1mreimport[22m | portrait_ousmane_dembele_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_pavel_nedved_2002_03.png" import took 167 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_michael_ballack_2001_02.png
+[   8% ] [90m[1mreimport[22m | portrait_nico_williams_2024.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_nicolo_barella_2024_25.png" import took 76 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_martin_zubimendi_2023_24.png
+[   9% ] [90m[1mreimport[22m | portrait_nicolo_barella_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_nico_williams_2024.png" import took 84 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_martin_odegaard_2023_24.png
+[  10% ] [90m[1mreimport[22m | portrait_moises_caicedo_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_moises_caicedo_2024_25.png" import took 75 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_marc_overmars_1997_98.png
+[  11% ] [90m[1mreimport[22m | portrait_michel_platini_1983_84.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_michel_platini_1983_84.png" import took 62 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_marco_van_basten_1988_89.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_michael_ballack_2001_02.png" import took 62 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_manuel_ugarte_2023_24.png
+[  12% ] [90m[1mreimport[22m | portrait_michael_olise_2024_25.png[39m[0m
+[  13% ] [90m[1mreimport[22m | portrait_michael_ballack_2001_02.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_martin_odegaard_2023_24.png" import took 61 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_luis_figo_1999_00.png
+[  14% ] [90m[1mreimport[22m | portrait_martin_zubimendi_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_michael_olise_2024_25.png" import took 89 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_luis_diaz_2024_25.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_marc_overmars_1997_98.png" import took 67 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_lothar_matthaus_1989_90.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_martin_zubimendi_2023_24.png" import took 109 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_lautaro_martinez_2023_24.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_manuel_ugarte_2023_24.png" import took 59 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_lamine_yamal_2024_25.png
+[  15% ] [90m[1mreimport[22m | portrait_martin_odegaard_2023_24.png[39m[0m
+[  16% ] [90m[1mreimport[22m | portrait_marc_overmars_1997_98.png[39m[0m
+[  17% ] [90m[1mreimport[22m | portrait_marco_van_basten_1988_89.png[39m[0m
+[  18% ] [90m[1mreimport[22m | portrait_manuel_ugarte_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_luis_figo_1999_00.png" import took 65 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_zico_1981.png
+[  19% ] [90m[1mreimport[22m | portrait_luis_figo_1999_00.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_luis_diaz_2024_25.png" import took 63 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_xavi_simons_2023_24.png
+[  20% ] [90m[1mreimport[22m | portrait_luis_diaz_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_lothar_matthaus_1989_90.png" import took 65 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_xabi_alonso_2013_14.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_marco_van_basten_1988_89.png" import took 130 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_wayne_rooney_2010_11.png
+[  21% ] [90m[1mreimport[22m | portrait_lothar_matthaus_1989_90.png[39m[0m
+[  22% ] [90m[1mreimport[22m | portrait_lautaro_martinez_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_lamine_yamal_2024_25.png" import took 71 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_vitinha_2024_25.png
+[  23% ] [90m[1mreimport[22m | portrait_lamine_yamal_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_zico_1981.png" import took 63 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_vinicius_junior_2023_24.png
+[  24% ] [90m[1mreimport[22m | portrait_zico_1981.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_xavi_simons_2023_24.png" import took 60 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_viktor_gyokeres_2024_25.png
+[  25% ] [90m[1mreimport[22m | portrait_xavi_simons_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_lautaro_martinez_2023_24.png" import took 97 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_toni_kroos_2016_17.png
+[  26% ] [90m[1mreimport[22m | portrait_xabi_alonso_2013_14.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_xabi_alonso_2013_14.png" import took 64 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_tijjani_reijnders_2024_25.png
+[  27% ] [90m[1mreimport[22m | portrait_wayne_rooney_2010_11.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_wayne_rooney_2010_11.png" import took 73 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_takefusa_kubo_2023_24.png
+[  28% ] [90m[1mreimport[22m | portrait_vitinha_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_vinicius_junior_2023_24.png" import took 70 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_steve_mcmanaman_1999_00.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_vitinha_2024_25.png" import took 83 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_steven_gerrard_2005_06.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_viktor_gyokeres_2024_25.png" import took 75 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_stanley_matthews_1953.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_toni_kroos_2016_17.png" import took 76 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_son_heung_min_2021_22.png
+[  29% ] [90m[1mreimport[22m | portrait_vinicius_junior_2023_24.png[39m[0m
+[  30% ] [90m[1mreimport[22m | portrait_viktor_gyokeres_2024_25.png[39m[0m
+[  31% ] [90m[1mreimport[22m | portrait_toni_kroos_2016_17.png[39m[0m
+[  32% ] [90m[1mreimport[22m | portrait_tijjani_reijnders_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_tijjani_reijnders_2024_25.png" import took 61 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_serhou_guirassy_2024_25.png
+[  33% ] [90m[1mreimport[22m | portrait_takefusa_kubo_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_steve_mcmanaman_1999_00.png" import took 63 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_sergio_busquets_2010_11.png
+[  34% ] [90m[1mreimport[22m | portrait_steve_mcmanaman_1999_00.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_steven_gerrard_2005_06.png" import took 72 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_sandro_tonali_2024_25.png
+[  35% ] [90m[1mreimport[22m | portrait_steven_gerrard_2005_06.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_stanley_matthews_1953.png" import took 81 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_ryan_gravenberch_2024_25.png
+[  36% ] [90m[1mreimport[22m | portrait_stanley_matthews_1953.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_son_heung_min_2021_22.png" import took 77 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_ryan_giggs_1998_99.png
+[  37% ] [90m[1mreimport[22m | portrait_son_heung_min_2021_22.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_serhou_guirassy_2024_25.png" import took 72 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_romario_1993_94.png
+[  38% ] [90m[1mreimport[22m | portrait_serhou_guirassy_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_sergio_busquets_2010_11.png" import took 65 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_rodrygo_2023_24.png
+[  39% ] [90m[1mreimport[22m | portrait_sergio_busquets_2010_11.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_takefusa_kubo_2023_24.png" import took 160 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_rodri_2022_23.png
+[  40% ] [90m[1mreimport[22m | portrait_sandro_tonali_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_ryan_gravenberch_2024_25.png" import took 85 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_robert_pires_2003_04.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_rodrygo_2023_24.png" import took 68 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_robert_lewandowski_2019_20.png
+[  41% ] [90m[1mreimport[22m | portrait_ryan_gravenberch_2024_25.png[39m[0m
+[  42% ] [90m[1mreimport[22m | portrait_ryan_giggs_1998_99.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_sandro_tonali_2024_25.png" import took 139 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_raphinha_2024_25.png
+[  43% ] [90m[1mreimport[22m | portrait_romario_1993_94.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_romario_1993_94.png" import took 120 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_federico_valverde_2023_24.png
+[  44% ] [90m[1mreimport[22m | portrait_rodrygo_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_ryan_giggs_1998_99.png" import took 133 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_eusebio_1965_66.png
+[  45% ] [90m[1mreimport[22m | portrait_rodri_2022_23.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_robert_pires_2003_04.png" import took 66 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_esteban_cambiasso_2009_10.png
+[  46% ] [90m[1mreimport[22m | portrait_robert_pires_2003_04.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_rodri_2022_23.png" import took 102 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_enzo_fernandez_2022.png
+[  47% ] [90m[1mreimport[22m | portrait_robert_lewandowski_2019_20.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_robert_lewandowski_2019_20.png" import took 81 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_dunga_1994.png
+[  48% ] [90m[1mreimport[22m | portrait_raphinha_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_raphinha_2024_25.png" import took 79 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_didier_drogba_2009_10.png
+[  49% ] [90m[1mreimport[22m | portrait_federico_valverde_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_federico_valverde_2023_24.png" import took 83 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_didier_deschamps_1997_98.png
+[  50% ] [90m[1mreimport[22m | portrait_eusebio_1965_66.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_esteban_cambiasso_2009_10.png" import took 76 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_desire_doue_2024_25.png
+[  51% ] [90m[1mreimport[22m | portrait_esteban_cambiasso_2009_10.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_enzo_fernandez_2022.png" import took 107 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_declan_rice_2024_25.png
+[  52% ] [90m[1mreimport[22m | portrait_enzo_fernandez_2022.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_eusebio_1965_66.png" import took 134 ms.
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_dunga_1994.png" import took 84 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_david_ginola_1998_99.png
+[  53% ] [90m[1mreimport[22m | portrait_dunga_1994.png[39m[0m
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_dani_olmo_2024.png
+[  54% ] [90m[1mreimport[22m | portrait_didier_drogba_2009_10.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_didier_deschamps_1997_98.png" import took 76 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_cole_palmer_2023_24.png
+[  55% ] [90m[1mreimport[22m | portrait_didier_deschamps_1997_98.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_desire_doue_2024_25.png" import took 81 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_claude_makelele_2004_05.png
+[  56% ] [90m[1mreimport[22m | portrait_desire_doue_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_didier_drogba_2009_10.png" import took 107 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_clarence_seedorf_2002_03.png
+[  57% ] [90m[1mreimport[22m | portrait_declan_rice_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_declan_rice_2024_25.png" import took 86 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_bukayo_saka_2023_24.png
+[  58% ] [90m[1mreimport[22m | portrait_david_ginola_1998_99.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_dani_olmo_2024.png" import took 105 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_bruno_guimaraes_2023_24.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_david_ginola_1998_99.png" import took 109 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_bruno_fernandes_2024_25.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_cole_palmer_2023_24.png" import took 94 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_bradley_barcola_2024_25.png
+[  59% ] [90m[1mreimport[22m | portrait_dani_olmo_2024.png[39m[0m
+[  60% ] [90m[1mreimport[22m | portrait_cole_palmer_2023_24.png[39m[0m
+[  61% ] [90m[1mreimport[22m | portrait_claude_makelele_2004_05.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_claude_makelele_2004_05.png" import took 85 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_bernardo_silva_2022_23.png
+[  62% ] [90m[1mreimport[22m | portrait_clarence_seedorf_2002_03.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_clarence_seedorf_2002_03.png" import took 92 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_bastian_schweinsteiger_2012_13.png
+[  63% ] [90m[1mreimport[22m | portrait_bukayo_saka_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_bukayo_saka_2023_24.png" import took 85 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_aurelien_tchouameni_2023_24.png
+[  64% ] [90m[1mreimport[22m | portrait_bruno_guimaraes_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_bruno_guimaraes_2023_24.png" import took 64 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_arjen_robben_2012_13.png
+[  65% ] [90m[1mreimport[22m | portrait_bruno_fernandes_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_bruno_fernandes_2024_25.png" import took 74 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_alexis_mac_allister_2023_24.png
+[  66% ] [90m[1mreimport[22m | portrait_bradley_barcola_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_bernardo_silva_2022_23.png" import took 79 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_alexander_isak_2024_25.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_arjen_robben_2012_13.png" import took 60 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_alessandro_del_piero_1997_98.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_bastian_schweinsteiger_2012_13.png" import took 98 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_khvicha_kvaratskhelia_2022_23.png
+[  67% ] [90m[1mreimport[22m | portrait_bernardo_silva_2022_23.png[39m[0m
+[  68% ] [90m[1mreimport[22m | portrait_bastian_schweinsteiger_2012_13.png[39m[0m
+[  69% ] [90m[1mreimport[22m | portrait_aurelien_tchouameni_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_aurelien_tchouameni_2023_24.png" import took 88 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_kevin_de_bruyne_2022_23.png
+[  70% ] [90m[1mreimport[22m | portrait_arjen_robben_2012_13.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_bradley_barcola_2024_25.png" import took 152 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_julian_alvarez_2024_25.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_alexander_isak_2024_25.png" import took 65 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_jude_bellingham_2023_24.png
+[  71% ] [90m[1mreimport[22m | portrait_alexis_mac_allister_2023_24.png[39m[0m
+[  72% ] [90m[1mreimport[22m | portrait_alexander_isak_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_alessandro_del_piero_1997_98.png" import took 64 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_joshua_kimmich_2019_20.png
+[  73% ] [90m[1mreimport[22m | portrait_alessandro_del_piero_1997_98.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_jude_bellingham_2023_24.png" import took 67 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_john_barnes_1987_88.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_alexis_mac_allister_2023_24.png" import took 155 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_joaquin_2004_05.png
+[  74% ] [90m[1mreimport[22m | portrait_khvicha_kvaratskhelia_2022_23.png[39m[0m
+[  75% ] [90m[1mreimport[22m | portrait_kevin_de_bruyne_2022_23.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_kevin_de_bruyne_2022_23.png" import took 99 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_joao_palhinha_2023_24.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_joshua_kimmich_2019_20.png" import took 64 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_joao_neves_2024_25.png
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_john_barnes_1987_88.png" import took 65 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_javier_mascherano_2010_11.png
+[  76% ] [90m[1mreimport[22m | portrait_julian_alvarez_2024_25.png[39m[0m
+[  77% ] [90m[1mreimport[22m | portrait_jude_bellingham_2023_24.png[39m[0m
+[  78% ] [90m[1mreimport[22m | portrait_joshua_kimmich_2019_20.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_joao_neves_2024_25.png" import took 90 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_jamal_musiala_2024_25.png
+[  79% ] [90m[1mreimport[22m | portrait_john_barnes_1987_88.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_julian_alvarez_2024_25.png" import took 197 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_jairzinho_1970.png
+[  80% ] [90m[1mreimport[22m | portrait_joaquin_2004_05.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_joaquin_2004_05.png" import took 132 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_harry_kane_2023_24.png
+[  81% ] [90m[1mreimport[22m | portrait_joao_palhinha_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_javier_mascherano_2010_11.png" import took 75 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_gerd_muller_1971_72.png
+[  82% ] [90m[1mreimport[22m | portrait_joao_neves_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_khvicha_kvaratskhelia_2022_23.png" import took 271 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_george_best_1967_68.png
+[  83% ] [90m[1mreimport[22m | portrait_javier_mascherano_2010_11.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_jamal_musiala_2024_25.png" import took 77 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_garrincha_1962.png
+[  84% ] [90m[1mreimport[22m | portrait_jamal_musiala_2024_25.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_jairzinho_1970.png" import took 66 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_gabriel_batistuta_1998_99.png
+[  85% ] [90m[1mreimport[22m | portrait_jairzinho_1970.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_gerd_muller_1971_72.png" import took 65 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_frenkie_de_jong_2018_19.png
+[  86% ] [90m[1mreimport[22m | portrait_harry_kane_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_joao_palhinha_2023_24.png" import took 243 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_frank_rijkaard_1988_89.png
+[  87% ] [90m[1mreimport[22m | portrait_gerd_muller_1971_72.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_garrincha_1962.png" import took 67 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_frank_lampard_2009_10.png
+[  88% ] [90m[1mreimport[22m | portrait_george_best_1967_68.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_harry_kane_2023_24.png" import took 139 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_franck_ribery_2012_13.png
+[  89% ] [90m[1mreimport[22m | portrait_garrincha_1962.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_frenkie_de_jong_2018_19.png" import took 78 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_francisco_gento_1959_60.png
+[  90% ] [90m[1mreimport[22m | portrait_gabriel_batistuta_1998_99.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_george_best_1967_68.png" import took 134 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_francesco_totti_2000_01.png
+[  91% ] [90m[1mreimport[22m | portrait_frenkie_de_jong_2018_19.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_gabriel_batistuta_1998_99.png" import took 106 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_florian_wirtz_2023_24.png
+[  92% ] [90m[1mreimport[22m | portrait_frank_rijkaard_1988_89.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_frank_lampard_2009_10.png" import took 63 ms.
+EditorFileSystem: Importing file: res://assets/portraits/catalogue_200/portrait_ferenc_puskas_1959_60.png
+[  93% ] [90m[1mreimport[22m | portrait_frank_lampard_2009_10.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_frank_rijkaard_1988_89.png" import took 65 ms.
+[  94% ] [90m[1mreimport[22m | portrait_franck_ribery_2012_13.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_francisco_gento_1959_60.png" import took 82 ms.
+[  95% ] [90m[1mreimport[22m | portrait_francisco_gento_1959_60.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_franck_ribery_2012_13.png" import took 93 ms.
+[  96% ] [90m[1mreimport[22m | portrait_francesco_totti_2000_01.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_ferenc_puskas_1959_60.png" import took 73 ms.
+[  97% ] [90m[1mreimport[22m | portrait_florian_wirtz_2023_24.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_florian_wirtz_2023_24.png" import took 111 ms.
+[  98% ] [90m[1mreimport[22m | portrait_ferenc_puskas_1959_60.png[39m[0m
+EditorFileSystem: "res://assets/portraits/catalogue_200/portrait_francesco_totti_2000_01.png" import took 125 ms.
+[  99% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (100 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[  33% ] [90m[1mloading_editor_layout[22m | Reopening scenes...[39m[0m
+Loading resource: res://match/match_view.tscn remapped: res://match/match_view.tscn
+Loading resource: res://match/match_view.gd remapped: res://match/match_view.gd
+Loading resource: res://content/exhibition_roster.tres remapped: res://content/exhibition_roster.tres
+Loading resource: res://content/roster.gd remapped: res://content/roster.gd
+Completed load for: 'res://content/roster.gd' remapped 'res://content/roster.gd' at thread -1
+Loading resource: res://content/player_card.gd remapped: res://content/player_card.gd
+Completed load for: 'res://content/player_card.gd' remapped 'res://content/player_card.gd' at thread -1
+Completed load for: 'res://content/exhibition_roster.tres' remapped 'res://content/exhibition_roster.tres' at thread -1
+Loading resource: res://ui/game_theme.tres remapped: res://ui/game_theme.tres
+Loading resource: res://assets/fonts/Inter-Variable.ttf remapped: res://assets/fonts/Inter-Variable.ttf
+Loading resource: res://.godot/imported/Inter-Variable.ttf-e500b369badb17500bd3445af6919693.fontdata remapped: res://.godot/imported/Inter-Variable.ttf-e500b369badb17500bd3445af6919693.fontdata
+Completed load for: 'res://assets/fonts/Inter-Variable.ttf' remapped 'res://assets/fonts/Inter-Variable.ttf' at thread -1
+Loading resource: res://assets/fonts/BarlowCondensed-Bold.ttf remapped: res://assets/fonts/BarlowCondensed-Bold.ttf
+Loading resource: res://.godot/imported/BarlowCondensed-Bold.ttf-98705ec00425e586a00a6d7340a3c35a.fontdata remapped: res://.godot/imported/BarlowCondensed-Bold.ttf-98705ec00425e586a00a6d7340a3c35a.fontdata
+Completed load for: 'res://assets/fonts/BarlowCondensed-Bold.ttf' remapped 'res://assets/fonts/BarlowCondensed-Bold.ttf' at thread -1
+Loading resource: res://assets/fonts/BarlowCondensed-SemiBold.ttf remapped: res://assets/fonts/BarlowCondensed-SemiBold.ttf
+Loading resource: res://.godot/imported/BarlowCondensed-SemiBold.ttf-a61dd99857b2d1cd6578199d7509bfaf.fontdata remapped: res://.godot/imported/BarlowCondensed-SemiBold.ttf-a61dd99857b2d1cd6578199d7509bfaf.fontdata
+Completed load for: 'res://assets/fonts/BarlowCondensed-SemiBold.ttf' remapped 'res://assets/fonts/BarlowCondensed-SemiBold.ttf' at thread -1
+Loading resource: res://assets/fonts/BarlowCondensed-BoldItalic.ttf remapped: res://assets/fonts/BarlowCondensed-BoldItalic.ttf
+Loading resource: res://.godot/imported/BarlowCondensed-BoldItalic.ttf-0e69fd6ad5a5b42952216a4f8001fed3.fontdata remapped: res://.godot/imported/BarlowCondensed-BoldItalic.ttf-0e69fd6ad5a5b42952216a4f8001fed3.fontdata
+Completed load for: 'res://assets/fonts/BarlowCondensed-BoldItalic.ttf' remapped 'res://assets/fonts/BarlowCondensed-BoldItalic.ttf' at thread -1
+Completed load for: 'res://ui/game_theme.tres' remapped 'res://ui/game_theme.tres' at thread -1
+Completed load for: 'res://match/match_view.gd' remapped 'res://match/match_view.gd' at thread -1
+Completed load for: 'res://match/match_view.tscn' remapped 'res://match/match_view.tscn' at thread -1
+[  50% ] [90m[1mloading_editor_layout[22m | Loading central editor layout...[39m[0m
+[  66% ] [90m[1mloading_editor_layout[22m | Loading plugin window layout...[39m[0m
+[  83% ] [90m[1mloading_editor_layout[22m | Editor layout ready.[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+Failed to bind socket. Error: 3.
+Script docs haven't been properly loaded or regenerated, so don't save them to disk.
+EditorSettings: Save OK!
+XR: Clearing primary interface
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"
+Orphan StringName: Node (static: 3, total: 4)
+StringName: 1 unclaimed string names at exit.

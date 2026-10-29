@@ -1,0 +1,42 @@
+[
+  {
+    "id": "enzo_fernandez_2022",
+    "look": "square_brow short_quiff hooded straight straight open_smile fine_stubble fair black",
+    "note": "2022 Argentina no.24 tournament portrait: short dark raised side sweep, broad clean-to-fine-stubble jaw and broad tooth smile. Do not assume later dyed hair.",
+    "reference": {
+      "title": "Enzo Fernández 2022",
+      "page": "https://www.listal.com/viewimage/26503238",
+      "image": "https://iv1.lisimg.com/image/26503238/740full-enzo-fernandez.jpg"
+    }
+  },
+  {
+    "id": "alexis_mac_allister_2023_24",
+    "look": "round_chin sidepart deep_light straight straight open_smile close_beard_auburn rosy brown",
+    "note": "2023-24 Liverpool portrait: short brown side sweep, distinctly red/auburn close beard, rosy rounded cheeks and light eyes.",
+    "reference": {
+      "title": "Alexis Mac Allister - Liverpool - Informações e Estatísticas do Jogador",
+      "page": "https://www.ogol.com.br/jogador/alexis-mac-allister/542144?epoca_id=153",
+      "image": "https://www.ogol.com.br/img/planteis/new/65/59/8656559_alexis_mac_allister_20250102010731.png"
+    }
+  },
+  {
+    "id": "ryan_gravenberch_2024_25",
+    "look": "long_broad box_taper hooded heavy_arc broad_bridge open_smile goatee brown black",
+    "note": "October 2024 Liverpool portrait: short flat coiled crop/fade, high cheekbones, pronounced brows and small connected moustache/goatee.",
+    "reference": {
+      "title": "Thông tin tiểu sử cầu thủ Ryan Gravenberch của CLB Liverpool",
+      "page": "https://bongda24h.vn/tieu-su-cau-thu/ryan-gravenberch-527-374350.html",
+      "image": "https://static.bongda24h.vn/medias/original/2024/10/15/38-ryan-gravenberch-1510211549.jpg"
+    }
+  },
+  {
+    "id": "joao_neves_2024_25",
+    "look": "soft_oval texture_crop deep_light fine button soft_closed none fair espresso",
+    "note": "August 2024 PSG introduction: loose short dark texture/fringe, youthful broad cheeks, light eyes and clean rounded chin; no adult beard.",
+    "reference": {
+      "title": "PSG Resmi Kenalkan Joao Neves",
+      "page": "https://www.bola.net/liga_eropa_lain/psg-resmi-kenalkan-joao-neves-57b575.html",
+      "image": "https://cdns.klimg.com/bola.net/library/upload/21/2024/08/996x664/psg-joao-neves_df62a96.jpg"
+    }
+  }
+]

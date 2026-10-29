@@ -1,0 +1,42 @@
+[
+  {
+    "id": "rodri_2022_23",
+    "look": "long_square sidepart neutral thick straight full_calm fine_stubble olive espresso",
+    "note": "2022-23 City squad portrait: short tidy dark side sweep, long square jaw, strong straight brows and fine stubble.",
+    "reference": {
+      "title": "Rodri :: 2022/2023 - Manchester City - Informações e Estatísticas do Jogador",
+      "page": "https://www.ogol.com.br/jogador/rodri-/331348?epoca_id=152",
+      "image": "https://cdn-img.staticzz.com/img/planteis/new/22/81/7032281_rodri_hernandez_20240420232858.jpg"
+    }
+  },
+  {
+    "id": "declan_rice_2024_25",
+    "look": "broad_jaw short_quiff deep_light straight straight open_smile close_beard fair espresso",
+    "note": "Official 2024 Arsenal image: high compact dark brushed top/faded sides, close connected jaw beard and light eyes.",
+    "reference": {
+      "title": "Declan Rice",
+      "page": "https://arsenaldirect.arsenal.com/shopbyplayer/DECLAN-RICE",
+      "image": "https://cdn.media.amplience.net/i/ArsenalDirect/Rice_2024_sbp?%24sbp-page-heroimage-small-6024%24=&fmt=jpg"
+    }
+  },
+  {
+    "id": "aurelien_tchouameni_2023_24",
+    "look": "long_broad high_coils hooded straight broad_bridge full_calm chin_patch dark black",
+    "note": "2023-24 Madrid presentation: high soft coiled top, broad long face, quiet heavy-lidded eyes and fine chin hair.",
+    "reference": {
+      "title": "チュアメニ：「もちろん今夏、レアル・マドリードがエムバペを獲得する可能性もあった」 - マドリード通信 | ライブ！レアル・マドリード",
+      "page": "https://s.liverealmadrid.jp/news/2023/09/53161.html",
+      "image": "https://liverealmadrid.jp/images/plantilla/202324_Tchouameni.jpg"
+    }
+  },
+  {
+    "id": "martin_zubimendi_2023_24",
+    "look": "soft_oval texture_crop soft straight straight open_smile fine_stubble fair brown",
+    "note": "Official adjacent 2022 LaLiga portrait: soft oval face, short loose brown fringe/sweep, light chin stubble and tooth smile.",
+    "reference": {
+      "title": "Martín Zubimendi english-premier-league | LALIGA",
+      "page": "https://www.laliga.com/en-GB/player/zubimendi",
+      "image": "https://assets.laliga.com/squad/2022/t188/p481655/512x556/p481655_t188_2022_0_001_000.png"
+    }
+  }
+]

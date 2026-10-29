@@ -1,0 +1,42 @@
+[
+  {
+    "id": "alessandro_del_piero_1997_98",
+    "look": "soft_oval tousled_sweep hooded straight straight smile fine_stubble fair brown",
+    "note": "Adjacent 1996-97 Juventus portrait: soft tousled brown fringe, clean-to-fine-stubble young oval face, small warm smile; no later cropped/receding adult look.",
+    "reference": {
+      "title": "Alessandro Del Piero :: 1996/1997 - Informações e Estatísticas do Jogador",
+      "page": "https://www.ogol.com.br/jogador/alessandro-del-piero?epoca_id=126",
+      "image": "https://cdn-img.zerozero.pt/img/planteis/new/73/99/47399_alessandro_del_piero_20250423201911.jpg"
+    }
+  },
+  {
+    "id": "marco_van_basten_1988_89",
+    "look": "long_square wet_centrepart focused angled long stern none fair espresso",
+    "note": "Milan Mediolanum/Kappa era portrait: loose wet dark centre-part fringe, ear tufts, high forehead/cheeks and long clean angular jaw.",
+    "reference": {
+      "title": "Pin by Johnny Verikakis on Soccer Legends | Marco van basten, Ac milan, Paolo maldini",
+      "page": "https://uk.pinterest.com/pin/marco-van-basten-of-ac-milan-in-1989--132363676536765575/",
+      "image": "https://i.pinimg.com/736x/06/68/b6/0668b6484c229a57e26fd7ccc3244859.jpg"
+    }
+  },
+  {
+    "id": "romario_1993_94",
+    "look": "soft_oval curly_fade hooded thick wide soft_closed none olive black",
+    "note": "Barcelona Kappa playing portrait: dense compact rounded curls with short sides, strong dark brows, full lips and clean youthful jaw; not a modern shaved head.",
+    "reference": {
+      "title": "Romario: 30 goles en Liga, campeón del mundo y 23 días de retraso - Libertad Digital",
+      "page": "https://www.libertaddigital.com/deportes/futbol/2026-04-12/romario-30-goles-en-liga-campeon-del-mundo-y-23-dias-de-retraso-7387141/",
+      "image": "https://s1.staticld.com/2026/04/12/1920/1080/fit/romario-posado1.jpg"
+    }
+  },
+  {
+    "id": "gerd_muller_1971_72",
+    "look": "full_cheeks seventies_sweep hooded thick straight stern sideburns fair brown",
+    "note": "Zeit archival Germany portrait: full dark side-parted seventies sweep to nape, very strong pointed sideburns, broad rounded face and clean upper lip/chin. Rejected a mislabelled Athletic Bilbao player from the first query; no invented moustache.",
+    "reference": {
+      "title": "Gerd Müller: \"Servus, Gerd\" | DIE ZEIT",
+      "page": "https://www.zeit.de/sport/2021-08/gerd-mueller-tot-fussball-leben-fs",
+      "image": "https://img.zeit.de/sport/2021-08/gerd-mueller-tot-fussball-leben-fs-bilder/gerd-mueller-tot-fussball-leben-fs-02.jpg/imagegroup/original__1000x1494"
+    }
+  }
+]

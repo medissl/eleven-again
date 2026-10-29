@@ -13,7 +13,10 @@
     "dark_hair_shadow": "#1D211E",
     "brown_hair": "#634730",
     "brown_hair_light": "#8A6542",
-    "brown_hair_shadow": "#3E2D23"
+    "brown_hair_shadow": "#3E2D23",
+    "auburn_hair": "#8F583B",
+    "auburn_hair_shadow": "#634131",
+    "auburn_hair_light": "#AC7750"
   },
   "skin": {
     "porcelain": {
@@ -134,6 +137,11 @@
       "hair": "#7C6748",
       "hair_light": "#A68D63",
       "hair_shadow": "#493F32"
+    },
+    "strawberry": {
+      "hair": "#CF9A5F",
+      "hair_shadow": "#936039",
+      "hair_light": "#E0BA7C"
     }
   },
   "shirt": {

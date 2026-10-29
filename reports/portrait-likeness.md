@@ -92,3 +92,57 @@ representative full 1080p page were visually inspected. Captures are
 
 The remaining midfield/wing/striker reviews continue in batch100 source notes.
 No GitHub push, release, export or gameplay change is part of this work.
+
+## Completed roster: 200 individual reviews
+
+The final hundred midfielders, wingers and forwards are now corrected and
+promoted. Coverage is **200/200**. Seventeen additional reusable pieces bring
+the kit to **146** (95 additions over the original 51). The final batch adds
+short side fringes/tousled sweeps, Caesar fades, several braid/twist lengths,
+dyed curls with dark roots, layered collar-length hair, a headband, subtle
+skin-tone cheek scars, auburn/dark facial hair, sideburns and tiny brace detail.
+The eight-category composer and three palette categories remain unchanged.
+
+Each player has an observed photographic reference and explicit era notes in
+`outputs/portrait-likeness-v1/review.json`; decisions100-01 through -25 retain
+the final batch's individual studies. No standalone portrait generation or
+photographic pixels enter game assets. The ignored reference cache is local
+authoring material only. Its cache keys now include the image URL, preventing
+different queries' same-numbered results from reusing an unrelated photograph.
+A mislabelled Athletic Bilbao photograph was rejected during the Muller study;
+the actual Germany archive supports long sideburns and a clean upper lip.
+
+Assembly review refined initially excessive radial twists into short curved
+locks and connected dyed curls into a coherent crown. Source-specific choices
+include young Del Piero's tousled fringe, helmet-free/era-correct accessories,
+Son without a later injury mask, and dark eyebrows/beards under dyed hair.
+Historical colour and exact date remain uncertain for monochrome, undated or
+adjacent-season references; these are documented stylized interpretations,
+not photographic likeness or human visual approval claims.
+
+Final verification on Godot **4.7.2**, GL Compatibility:
+
+- 146 pieces/200 recipes validate; all 200 sprites are unique 96x96 RGBA with
+  binary alpha. The previous 129 piece definitions remain unchanged.
+- Exactly the final 100 runtime PNGs changed against checkpoint eeea312; the
+  previous 100 sprites and recipes are unchanged. The complete catalogue bytes
+  retain SHA-256 `2495ebb245feeaa5e3f0d581a63604fcc2a368980396764be137dc663a16cce3`.
+- `capture.gd --all` renders all 200 actual CardViews at **1280x720 and
+  1920x1080**, asserting every opaque imported texture pixel equals its source.
+  All ten 720p native review sheets and representative full 1080p pages were
+  visually inspected. There are no clipped heads, missing art or card binding
+  failures in these captures.
+- `tests/catalogue_checks.gd` and `tests/card_ui_checks.gd` pass, including 200
+  bindings, hidden/missing-art behavior, search/paging, mouse pin, keyboard
+  inspection/Back and comparison. Import and native logs contain no script,
+  parse or engine ERROR markers. The existing editor's MCP socket bind warning
+  during the second import process does not affect texture refresh; the runtime
+  pixel assertions independently passed.
+
+Evidence: `outputs/portrait-likeness-v1/native-all-01..40-{1280x720,1920x1080}.png`,
+`native-all-review-01..10.png`, and final `batch100-review-1..5.png` comparisons.
+Logs: `reports/portrait-final200-{import,native,catalogue,card-ui}.log`.
+
+The requested 200-player portrait milestone is complete. Individual likeness
+feedback can be handled as targeted follow-ups; remaining football/UI/export
+tasks stay in the existing tracker. No push or gameplay/data change was made.

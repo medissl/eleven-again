@@ -1,0 +1,42 @@
+[
+  {
+    "id": "pedri_2024_25",
+    "look": "soft_oval flat_buzz hooded thick straight open_smile none fair black",
+    "note": "Official October 2024 Barcelona portrait: close straight dark crop, thick brows and compact youthful clean face; no long fringe or beard.",
+    "reference": {
+      "title": "Pedri | 2025/2026 player page | Midfielder | FC Barcelona Official website",
+      "page": "https://www.fcbarcelona.com/en/football/first-team/squad/70486/---------------pedri",
+      "image": "https://www.fcbarcelona.com/photo-resources/2024/10/13/350837be-717b-4b17-9e66-ef201caac7ae/08-Pedri-M.jpg?height=470&width=470"
+    }
+  },
+  {
+    "id": "federico_valverde_2023_24",
+    "look": "long_narrow sidepart hooded fine straight open_smile fine_stubble fair brown",
+    "note": "2023-24 Madrid portrait: short brown side sweep, long slim jaw, slight moustache/chin stubble and tooth smile; no later bleached hair.",
+    "reference": {
+      "title": "Fede Valverde :: 2023/2024 - Real Madrid - Informações e Estatísticas do Jogador",
+      "page": "https://www.ogol.com.br/jogador/fede-valverde/383442?epoca_id=153",
+      "image": "https://www.ogol.com.br/img/planteis/new/93/99/8729399_fede_valverde_20250716055139.jpg"
+    }
+  },
+  {
+    "id": "frenkie_de_jong_2018_19",
+    "look": "soft_oval loose_centrepart blue_hooded fine straight open_smile none porcelain blond",
+    "note": "Ajax playing-era photo: loose blond centre/side curtains, light eyes, soft broad clean cheeks and smile.",
+    "reference": {
+      "title": "AMSTERDAM, NETHERLANDS - SEPTEMBER 15: Frenkie de Jong of Ajax during the Dutch Eredivisie match between Ajax v… | Soccer players, Football players, Football poster",
+      "page": "https://www.pinterest.com/pin/20547742038816289/",
+      "image": "https://i.pinimg.com/736x/9b/b9/94/9bb994141e1c540bde6ab6b9fb757fa4.jpg"
+    }
+  },
+  {
+    "id": "nicolo_barella_2024_25",
+    "look": "full_cheeks sidepart neutral fine straight soft_closed none rosy brown",
+    "note": "2024-25 two-star Inter portrait: neat warm-brown swept short hair, rounded cheeks/compact jaw, clean face and restrained expression.",
+    "reference": {
+      "title": "Equipe Inter Milan 2024-2025 - Internazionale.fr",
+      "page": "https://internazionale.fr/equipes/equipe-inter-milan-2024-2025/",
+      "image": "https://media.invisioncic.com/b334924/pages_media/23_Berella_2x.webp"
+    }
+  }
+]

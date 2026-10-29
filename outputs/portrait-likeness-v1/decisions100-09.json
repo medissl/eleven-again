@@ -1,0 +1,42 @@
+[
+  {
+    "id": "clarence_seedorf_2002_03",
+    "look": "broad_jaw box_taper neutral straight wide smile none dark black",
+    "note": "Adjacent Milan squad image with Scudetto patch: full short dense crop and clean strong jaw; do not substitute his later bald head/goatee.",
+    "reference": {
+      "title": "Clarence Seedorf - Player Profile & Stats",
+      "page": "https://www.playmakerstats.com/player/clarence-seedorf/1961?epoca_id=134",
+      "image": "https://cdn-img.zerozero.pt/img/planteis/new/02/70/10270_clarence_seedorf_20250528044652.jpg"
+    }
+  },
+  {
+    "id": "michael_ballack_2001_02",
+    "look": "long_square texture_crop deep_light straight prominent full_calm none fair black",
+    "note": "RWE-era Leverkusen studio portrait: short compact dark fringe/crop, long square clean jaw, strong bridge and light eyes.",
+    "reference": {
+      "title": "Em 2002, Ballack comandou um Leverkusen vice-campeão europeu",
+      "page": "https://www.fussballbr.com/2020/04/em-2002-ballack-comandou-um-leverkusen.html",
+      "image": "https://1.bp.blogspot.com/-qXmohLSVXgE/Xpso0hy1XRI/AAAAAAAAHSE/RFHD_iA2U4QDml_QRK1R8fSH4aIvCz8zgCLcBGAsYHQ/s1600/Dl3TGRzXsAE5g8K.jpg"
+    }
+  },
+  {
+    "id": "toni_kroos_2016_17",
+    "look": "broad_jaw sidepart blue_hooded fine straight smile none fair dark_blond",
+    "note": "Adjacent 2015-16 Madrid portrait: neat natural dark-blond side sweep with short sides, light eyes and clean broad jaw.",
+    "reference": {
+      "title": "Toni Kroos :: 2015/2016 - Player Profile & Stats",
+      "page": "https://www.playmakerstats.com/player/toni-kroos/43004?epoca_id=145",
+      "image": "https://cdn-img.zerozero.pt/img/planteis/new/50/04/3045004_toni_kroos_20240528073551.jpg"
+    }
+  },
+  {
+    "id": "bastian_schweinsteiger_2012_13",
+    "look": "broad_jaw receding_brush blue_hooded fine prominent soft_closed none rosy dark_blond",
+    "note": "Adjacent 2013-14 Bayern portrait: compact swept/receding dark-blond hair, broad jaw and light eyes; do not automatically assign a platinum buzz.",
+    "reference": {
+      "title": "Bastian Schweinsteiger - Perfil del Jugador",
+      "page": "https://www.ceroacero.es/jugador/bastian-schweinsteiger/2610?epoca_id=143",
+      "image": "https://cdn-img.zerozero.pt/img/planteis/new/67/22/2166722_bastian_schweinsteiger_20240628070752.jpg"
+    }
+  }
+]

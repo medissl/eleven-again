@@ -1,0 +1,42 @@
+[
+  {
+    "id": "bruno_fernandes_2024_25",
+    "look": "long_narrow short_quiff hooded angled prominent full_calm close_beard fair espresso",
+    "note": "Official United profile image: short textured dark top, long angular face, prominent nose and connected close dark beard. Collar is an earlier United shirt; exact 2024-25 exposure not established.",
+    "reference": {
+      "title": "Bruno Fernandes - Men's Team | Manchester United",
+      "page": "https://www.manutd.com/en/teams/mens-team/bruno-fernandes",
+      "image": "https://dynamic-crop-cdn.scoreplay.io/472/4896330/media_102559977_102167101.jpg?f=CENTER&fmt=jpg&w=1200"
+    }
+  },
+  {
+    "id": "martin_odegaard_2023_24",
+    "look": "chiselled brushed_high blue_hooded fine straight open_smile none porcelain blond",
+    "note": "2023-24 Arsenal portrait: high airy blond swept top with short sides, light eyes, defined clean jaw and wide tooth smile.",
+    "reference": {
+      "title": "Ødegaard Year over Year Comparison",
+      "page": "https://www.andrewhagedorn.com/fpl/2024-2025/year-over-year/odegaard-2024-vs-2023/",
+      "image": "https://www.andrewhagedorn.com/images/players/2023-2024/player-184029.png"
+    }
+  },
+  {
+    "id": "cole_palmer_2023_24",
+    "look": "long_narrow texture_crop deep_light fine straight full_calm none fair brown",
+    "note": "Official 2023-24 Chelsea avatar: short loose swept light-brown texture, long clean face and light eyes. Avoid copying his later sharper bowl/fringe into this edition.",
+    "reference": {
+      "title": "Cole Palmer  | Profile | Official Site | Chelsea Football Club",
+      "page": "https://www.chelseafc.com/en/teams/profile/cole-palmer",
+      "image": "https://img.chelseafc.com/image/upload/f_auto%2Ch_860%2Cq_50/editorial/people/first-team/2023-24/Cole_Palmer_profile_23-24_avatar-removebg.png"
+    }
+  },
+  {
+    "id": "xavi_simons_2023_24",
+    "look": "soft_oval cornrows_nape neutral fine straight full_calm none warm black",
+    "note": "July 2023 Leipzig introduction: exposed forehead with neat parted cornrows and braided nape/ear tails, light warm skin and clean youthful cheeks; not childhood blond curls.",
+    "reference": {
+      "title": "XAVI SIMONS, DALLA CANTERA DEL BARÇA AL PSG. ORA LA CONSACRAZIONE CON IL LIPSIA | Alfredo Pedullà",
+      "page": "https://www.alfredopedulla.com/xavi-simons-dalla-cantera-del-barca-al-psg-ora-la-consacrazione-con-il-lipsia/",
+      "image": "https://static.nexilia.it/alfredopedulla/2023/07/WhatsApp-Image-2023-07-19-at-17.19.22.jpeg"
+    }
+  }
+]

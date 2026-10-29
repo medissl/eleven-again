@@ -13,13 +13,14 @@ func run() -> void:
 		ids = ["alisson_becker_2023_24","ederson_2023_24","edwin_van_der_sar_2008_09","roberto_baggio_1993_94","victor_osimhen_2022_23"]
 		prefix = "native-keepers"
 	var pages := [ids]
-	if "--batch60" in OS.get_cmdline_user_args():
-		var selection: Array = JSON.parse_string(FileAccess.get_file_as_string("res://outputs/portrait-likeness-v1/batch60-ids.json"))
-		assert(selection.size() == 60)
+	if "--batch60" in OS.get_cmdline_user_args() or "--all" in OS.get_cmdline_user_args():
+		var all_cards := "--all" in OS.get_cmdline_user_args()
+		var selection: Array = library.by_id.keys() if all_cards else JSON.parse_string(FileAccess.get_file_as_string("res://outputs/portrait-likeness-v1/batch60-ids.json"))
+		assert(selection.size() == (200 if all_cards else 60))
 		pages.clear()
 		for offset in range(0, selection.size(), 5):
 			pages.append(selection.slice(offset, offset + 5))
-		prefix = "native-batch60"
+		prefix = "native-all" if all_cards else "native-batch60"
 	for page in pages.size():
 		await capture_page(library, pages[page], prefix + ("-%02d" % [page + 1] if pages.size() > 1 else ""))
 	print("Modular portrait native CardView captures passed at 720p and 1080p; definitions unchanged.")

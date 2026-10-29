@@ -1,0 +1,42 @@
+[
+  {
+    "id": "ousmane_dembele_2024_25",
+    "look": "high_cheeks flat_buzz soft fine wide open_smile close_beard brown black",
+    "note": "2024-25 PSG portrait: very close even crop, long high cheeks, small close connected beard and broad relaxed smile.",
+    "reference": {
+      "title": "Ousmane Dembélé :: 2024/2025 - PSG - Informações e Estatísticas do Jogador",
+      "page": "https://www.ogol.com.br/jogador/ousmane-dembele/488324?epoca_id=154",
+      "image": "https://www.ogol.com.br/img/planteis/new/89/65/11528965_ousmane_dembele_20240707033609.jpg"
+    }
+  },
+  {
+    "id": "lamine_yamal_2024_25",
+    "look": "soft_oval coils_tips narrow thick_dark broad_bridge braces_smile none olive blond",
+    "note": "Official October 2024 Barcelona portrait: short dark-rooted curls with warm light tips, thick dark brows, youthful clean face and braces in his smile.",
+    "reference": {
+      "title": "Lamine Yamal | 2025/2026 player page | Forward | FC Barcelona Official website",
+      "page": "https://www.fcbarcelona.com/en/football/first-team/players/129404/lamine-yamal",
+      "image": "https://www.fcbarcelona.com/photo-resources/2024/10/13/d942d5c0-5ada-423c-baf1-4d2ba5ebe3bb/19-Lamine-M.png?height=790&width=670"
+    }
+  },
+  {
+    "id": "bukayo_saka_2023_24",
+    "look": "round_chin high_coils narrow fine broad_bridge open_smile none dark black",
+    "note": "2023-24 Arsenal portrait: high rounded tight coiled top, soft full cheeks and broad clean smile; no later braids.",
+    "reference": {
+      "title": "Bukayo Saka :: 2023/2024 - Arsenal - Informações e Estatísticas do Jogador",
+      "page": "https://www.ogol.com.br/jogador/bukayo-saka/641146?epoca_id=153",
+      "image": "https://www.ogol.com.br/img/planteis/new/31/53/8613153_bukayo_saka_20240516165020.png"
+    }
+  },
+  {
+    "id": "michael_olise_2024_25",
+    "look": "long_narrow tied_braids hooded fine prominent full_calm goatee tan black",
+    "note": "Official September 2024 Bayern portrait: tied-back loose braids with two long face-framing strands, defined long jaw and small moustache/goatee.",
+    "reference": {
+      "title": "Aufstellung: FC Bayern vs. Zagreb - Champions League 24/25",
+      "page": "https://fcbayern.com/de/spiele/profis/champions-league/2024-2025/fc-bayern-muenchen-dinamo-zagreb-17-09-2024/aufstellung",
+      "image": "https://img.fcbayern.com/image/upload/t_cms-headshot/f_auto/w_660%2Cc_fill/q_auto/v1726228393/cms/public/images/fcbayern-com/players/spielerportraits/ganzkoerper/michael-olise.png"
+    }
+  }
+]

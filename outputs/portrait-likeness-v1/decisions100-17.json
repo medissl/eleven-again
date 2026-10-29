@@ -1,0 +1,42 @@
+[
+  {
+    "id": "john_barnes_1987_88",
+    "look": "broad_jaw box_taper focused straight wide full_calm none brown black",
+    "note": "Liverpool playing-era Adidas portrait: compact dense dark crop, full strong cheeks, broad nose and clean jaw; no later shaved/grey look.",
+    "reference": {
+      "title": "John Barnes: pioneer, genius and still under-appreciated",
+      "page": "https://thesefootballtimes.co/2016/04/24/why-john-barnes-deserves-to-be-celebrated-far-and-wide/",
+      "image": "https://i0.wp.com/thesefootballtimes.co/wp-content/uploads/2016/04/John-Barnes-014.jpg?fit=2560%2C1536&ssl=1"
+    }
+  },
+  {
+    "id": "david_ginola_1998_99",
+    "look": "chiselled wavy_sweep hooded straight prominent full_calm none fair brown",
+    "note": "Tottenham Pony/HP playing-era Getty image reproduced by GQ: long flowing light-brown highlighted waves to collar, defined clean jaw and prominent bridge.",
+    "reference": {
+      "title": "El David Ginola de 2020 no se parece nada al David Ginola de los 90 | GQ España",
+      "page": "https://www.revistagq.com/noticias/articulo/david-ginola-evolucion",
+      "image": "https://media.revistagq.com/photos/5fa2cdbf203c7a71948a0962/master/w_1600%2Cc_limit/GettyImages-650403658.jpg"
+    }
+  },
+  {
+    "id": "paulo_futre_1986_87",
+    "look": "chiselled shaggy_flow focused thick straight soft_closed none olive black",
+    "note": "Porto Revigres playing-era photo: dense irregular dark shag/mullet, angular youthful face and clean jaw; no older coaching portrait.",
+    "reference": {
+      "title": "Paulo Futre recorda 'outro' FC Porto-Barcelona: «Se aquela bola nos descontos tem entrado...» | A Bola",
+      "page": "https://www.abola.pt/noticias/paulo-futre-recorda-outro-fc-porto-barcelona-se-aquela-bola-nos-descontos-tem-entrado-2023100217463438797",
+      "image": "https://sportal365images.com/process/smp-images-production/abola.pt/02102023/99c256f2-bc60-47e5-baca-8e9ff2a27393.jpg?operations=scale%28860%3A574%29"
+    }
+  },
+  {
+    "id": "francisco_gento_1959_60",
+    "look": "broad_jaw sidepart hooded fine prominent smile none fair espresso",
+    "note": "Official LaLiga playing-era Madrid photo: dark compact side waves, high forehead and strong clean jaw. This is a later playing-era face study; avoid age/grey detail on the 1959-60 version.",
+    "reference": {
+      "title": "Rest in peace, Francisco Gento | LALIGA",
+      "page": "https://www.laliga.com/en-GB/multimedia/rest-in-peace-francisco-gento",
+      "image": "https://assets.laliga.com/assets/2022/01/18/xlarge/018fea6bf6c3e7c35f2af31b5d2a61b9.jpeg"
+    }
+  }
+]

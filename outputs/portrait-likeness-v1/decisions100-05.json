@@ -1,0 +1,42 @@
+[
+  {
+    "id": "dunga_1994",
+    "look": "square_brow receded_buzz hooded straight prominent stern none fair espresso",
+    "note": "Later playing-era Nike Brazil image (four stars, not 1994): compact very short dark crop, strong squared brow/jaw and clean face. Adjacent face study only, no coaching-era grey hair.",
+    "reference": {
+      "title": "Dunga :: 2026 - Informações e Estatísticas do Jogador",
+      "page": "https://www.ogol.com.br/jogador/dunga?edicao_id=1852",
+      "image": "https://cdn-img.zerozero.pt/img/planteis/new/52/75/245275_dunga_20241110193641.jpg"
+    }
+  },
+  {
+    "id": "javier_mascherano_2010_11",
+    "look": "round_chin receded_buzz neutral straight broad_bridge full_calm close_beard olive espresso",
+    "note": "UEFA 2011-12 profile photo: very short receding dark crop, rounded broad face and close dark beard, not later fully bald appearance.",
+    "reference": {
+      "title": "A nova cara dos defesas-centrais | UEFA Champions League 2011/12 | UEFA.com",
+      "page": "https://pt.uefa.com/uefachampionsleague/news/01f9-0e7b6f08c538-1d7a5f147de0-1000--a-nova-cara-dos-defesas-centrais/",
+      "image": "https://editorial.uefa.com/resources/01f1-0e7b6f08c88e-1c13d318b50d-1000/javier_mascherano_the_central_defender_of_tomorrow_.jpeg"
+    }
+  },
+  {
+    "id": "esteban_cambiasso_2009_10",
+    "look": "full_cheeks bald deep_light fine straight open_smile fine_stubble fair brown",
+    "note": "Adjacent 2010-11 Inter portrait: completely bare scalp, full rounded cheeks, light eyes and fine chin stubble.",
+    "reference": {
+      "title": "Esteban Cambiasso - Perfil del Jugador",
+      "page": "https://www.ceroacero.es/jugador/esteban-cambiasso/1014?epoca_id=140",
+      "image": "https://www.ceroacero.es/img/planteis/new/21/47/752147_esteban_cambiasso_20251019024102.jpg"
+    }
+  },
+  {
+    "id": "vitinha_2024_25",
+    "look": "soft_oval curly_fade soft straight straight open_smile goatee fair espresso",
+    "note": "April 2025 PSG image: loose wavy top/faded sides, slim soft face, fine moustache and pointed goatee, open tooth smile.",
+    "reference": {
+      "title": "Arsenal Psg, le probabili formazioni della semifinale di Champions | Sky Sport",
+      "page": "https://sport.sky.it/calcio/champions-league/2025/04/28/arsenal-psg-probabili-formazioni-semifinali-andata",
+      "image": "https://static.sky.it/images/skysport/it/calcio/serie-a/probabili-formazioni/superscudetto/512/437858.png"
+    }
+  }
+]

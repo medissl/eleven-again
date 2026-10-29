@@ -1,0 +1,42 @@
+[
+  {
+    "id": "sergio_busquets_2010_11",
+    "look": "long_narrow short_taper hooded angled prominent full_calm fine_stubble fair espresso",
+    "note": "2010-11 Barcelona squad portrait: very long slim face, short dark compact top, prominent nose and sparse fine facial hair.",
+    "reference": {
+      "title": "Sergio Busquets :: 2010/2011 - Perfil del Jugador",
+      "page": "https://www.ceroacero.es/jugador/sergio-busquets/72432?epoca_id=140",
+      "image": "https://www.ceroacero.es/img/planteis/new/72/79/717279_sergio_busquets_20241204043053.jpg"
+    }
+  },
+  {
+    "id": "xabi_alonso_2013_14",
+    "look": "broad_jaw short_quiff deep_light straight straight full_calm close_beard_auburn fair espresso",
+    "note": "Adjacent 2012-13 Madrid portrait: compact swept brown hair and distinctly warmer auburn beard; keep those colours independent.",
+    "reference": {
+      "title": "Xabi Alonso :: 2012/2013 - Informações e Estatísticas do Jogador",
+      "page": "https://www.ogol.com.br/jogador/xabi-alonso/1040?epoca_id=142",
+      "image": "https://cdn-img.staticzz.com/img/planteis/new/34/80/1593480_xabi_alonso_20240529065909.jpg"
+    }
+  },
+  {
+    "id": "frank_rijkaard_1988_89",
+    "look": "long_square curly_mop hooded thick prominent full_calm moustache olive black",
+    "note": "Kappa/Mediolanum-era Milan portrait: dense mid-length curls to nape, defined long jaw and a narrow moustache; not later bald coaching appearance.",
+    "reference": {
+      "title": "Franklin Edmundo Rijkaard",
+      "page": "https://www.magliarossonera.it/protagonisti/Gioc-Rijkaard.html",
+      "image": "https://www.magliarossonera.it/protagonisti/img_giocR/rijkaard14.jpg"
+    }
+  },
+  {
+    "id": "didier_deschamps_1997_98",
+    "look": "broad_jaw tousled_sweep deep_light straight straight full_calm none fair dark_blond",
+    "note": "Dated 1996-97 adjacent Juventus action portrait: high loose light-brown/blond swept hair, broad clean jaw; no present-day grey/receding cut.",
+    "reference": {
+      "title": "Pavard, Thuram, Vieira... les Français sacrés champions d'Italie | Transfermarkt",
+      "page": "https://www.transfermarkt.fr/pavard-thuram-vieira-tous-les-joueurs-francais-sacres-champions-ditalie/view/news/436480",
+      "image": "https://tmssl.akamaized.net/images/foto/galerie/didier-deschamps-juventus-1996-97-1653639337-85805.jpg?lm=1653639358"
+    }
+  }
+]

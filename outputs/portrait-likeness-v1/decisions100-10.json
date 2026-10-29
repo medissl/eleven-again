@@ -1,0 +1,42 @@
+[
+  {
+    "id": "lothar_matthaus_1989_90",
+    "look": "square_brow soft_mullet hooded straight straight stern none fair brown",
+    "note": "Official Inter Misura-era archive: short brushed brown crown with longer nape/mullet, heavy square jaw and clean face.",
+    "reference": {
+      "title": "Buon compleanno, Lothar Matthäus! Cinque curiosità sull'ex nerazzurro",
+      "page": "https://www.inter.it/it/notizie/lothar-matthaeus-compleanno-2024",
+      "image": "https://intermilan.bynder.com/m/32dc2f2cbceac6b3/webimage-AD23648-Matthaus-Lothar.png"
+    }
+  },
+  {
+    "id": "jude_bellingham_2023_24",
+    "look": "long_square curly_fade hooded straight broad_bridge full_calm fine_chin olive black",
+    "note": "Official LaLiga 2023 squad photo: compact coiled crop/fade, strong long jaw, heavy lids and fine moustache/chin hair; no later braids.",
+    "reference": {
+      "title": "Official LaLiga 2023 Jude Bellingham squad image",
+      "page": "https://www.laliga.com/en-GB/player/jude-bellingham",
+      "image": "https://assets.laliga.com/squad/2023/t186/p244855/2048x2048/p244855_t186_2023_1_002_000.jpg"
+    }
+  },
+  {
+    "id": "florian_wirtz_2023_24",
+    "look": "soft_oval caesar_fade deep_light fine straight smile none fair brown",
+    "note": "May 2024 Bundesliga award photo: short straight light-brown cropped fringe, light eyes, youthful narrow lower face and clean chin.",
+    "reference": {
+      "title": "فلوريان فيرتز أفضل لاعب في الدوري الألماني موسم 2023-24 - اليوم السابع",
+      "page": "https://www.youm7.com/story/2024/5/20/%D9%81%D9%84%D9%88%D8%B1%D9%8A%D8%A7%D9%86-%D9%81%D9%8A%D8%B1%D8%AA%D8%B2-%D8%A3%D9%81%D8%B6%D9%84-%D9%84%D8%A7%D8%B9%D8%A8-%D9%81%D9%8A-%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A3%D9%84%D9%85%D8%A7%D9%86%D9%8A-%D9%85%D9%88%D8%B3%D9%85-2023-24/6582652",
+      "image": "https://img.youm7.com/ArticleImgs/2024/5/20/2682679-%D9%81%D9%8A%D8%B1%D8%AA%D8%B2-%D9%8A%D8%AD%D9%85%D9%84-%D8%AC%D8%A7%D8%A6%D8%B2%D8%A9-%D8%A3%D9%81%D8%B6%D9%84-%D9%84%D8%A7%D8%B9%D8%A8.jpg"
+    }
+  },
+  {
+    "id": "jamal_musiala_2024_25",
+    "look": "long_narrow high_coils almond fine broad_bridge soft_closed fine_chin warm black",
+    "note": "Adjacent red/white Bayern squad portrait: medium rounded tight curls/fade, light warm skin, long narrow youthful face and tiny chin hair.",
+    "reference": {
+      "title": "5 Bayern Munich players to watch at the FIFA Club World Cup 2025 | Bundesliga",
+      "page": "https://www.bundesliga.com/en/bundesliga/news/5-bayern-munich-key-players-fifa-club-world-cup-kane-musiala-32104",
+      "image": "https://assets.bundesliga.com/player/dfl-obj-002gcr-dfl-clu-00000g-dfl-sea-0001k9.png"
+    }
+  }
+]
