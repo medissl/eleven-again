@@ -1,7 +1,7 @@
 extends ColorRect
 ## Full-window presentation. Navigation is delegated to the match controller.
 signal command(action: String)
-const MatchTheme = preload("res://ui/game_theme.tres")
+static var MatchTheme: Theme = preload("res://ui/matchday_theme.gd").build()
 var content: Control
 var presenter: Control
 var model: RefCounted
@@ -31,7 +31,7 @@ class Icon:
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	color = Color(0.02, 0.075, 0.045, 0.92)
+	color = Color(MatchTheme.get_color("forest","Palette"),0.94)
 	hide()
 
 func present(next_mode: String, sim: RefCounted, hud: Control) -> void:
@@ -236,7 +236,7 @@ func _team_score(parent: Control, report: Dictionary, pixels: int, scorers: bool
 			var names: Array[String] = []
 			for event in report.events:
 				if event.kind == "goal" and event.team == team: names.append("%s %d′" % [event.get("actor_name",model.players[event.actor].name), event.minute])
-			_text(group, " · ".join(names), "Label", 15, HORIZONTAL_ALIGNMENT_CENTER).text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			_text(group, "  ".join(names), "Label", 15, HORIZONTAL_ALIGNMENT_CENTER).text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	row.move_child(score,1)
 	var align_teams := func():
 		var score_face: Font = score.get_theme_font("font")
@@ -341,6 +341,7 @@ func _events(parent: VBoxContainer, events: Array, all_events: bool = false) -> 
 		rows.add_child(row)
 		var icon = presenter.EventIcon.new()
 		icon.kind = event.kind
+		icon.entry = event
 		icon.team = event.team
 		icon.custom_minimum_size = Vector2(30,35)
 		row.add_child(icon)

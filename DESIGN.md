@@ -8,7 +8,7 @@ The user now requests a complete visual revamp and a whole-team football intelli
 
 Use Matchday Print (charcoal pine/chalk/sage with restrained brass), Barlow Semi Condensed headings and static Source Sans3 body. Preserve complete native cards/portraits, three defeat pips, real saved previews, fixed **100% interface**, 180 active regulation seconds and save/run semantics. Main menu has separate Collection and Records rows; ordinary Collection reveals only exact acquired versions. The user's final icon direction is **simple white glyphs**; discard colourful illustrated action-icon drafts. Read the football review for all positions/tactics/physics/laws; no forced goals or event quotas. Earlier historical references below are retained for context and must not override these latest decisions.
 
-Status: Phase 1 implementation, 27 October 2026. Read `~/.codex/DESIGN.md` for the standing research, critique, and rendered-output workflow.
+Runtime integration and native evidence are recorded in `reports/matchday-v4.md`. Read `~/.codex/DESIGN.md` for the standing research, critique, and rendered-output workflow. The following sections retain historical design context.
 
 ## Accepted presentation refresh — 28 October 2026
 
@@ -16,7 +16,7 @@ The user tested and accepted the current UI. The generated references and brief 
 
 The shared `ui/game_theme.tres` packages licensed Barlow Condensed headings/team names/scores, bold italic GOAL and Inter body/controls with stable numeral features. Fonts/licences are in `assets/fonts/`. Forest/ivory/coral, quiet hierarchy dividers and ivory primary/selected controls carry through live play, fullscreen pause, settings, details/log and half/final reports. Keep team groups tight around the centred score, drawn three-line menu icons and distinct action icons. No persistent yellow focus box or trailing Resume arrow; keyboard focus remains visible in ivory.
 
-Half/final reports use snapshots, scorer/key-moment lists and a possession tooltip. UI sizes are 100/115/125%, session-only. Goals use large italic type, a team diagonal sweep and 60 bounded cosmetic particles with varied trajectories/lifetimes and soft edge fades, without a bordered dialog or rectangular text exclusion.
+Half/final reports use snapshots, scorer/key-moment lists and a possession tooltip. The current interface is fixed at 100%; the earlier size selector was removed. Goals use large italic type, a team diagonal sweep and 60 bounded cosmetic particles with varied trajectories/lifetimes and soft edge fades, without a bordered dialog or rectangular text exclusion.
 
 Renderer-only settling, brief contact/possession cues, actual-position ball trails and kickoff-shape fades soften handoffs. Menus/reports have short cancellable transitions; restart clears them. Three-minute regulation and authoritative football/RNG are unchanged. The user requested stopping UI work here; future defects belong to polish. This section takes precedence over historical direction/evidence below.
 

@@ -23,12 +23,9 @@ var last_period := -1
 var rebind := ""
 var apply_display := true
 var origin_selection := "ENG"
-var collection_page := 0
 var coach_selection := ""
-var collection_known := false
-var collection_query := ""
-var collection_role := ""
-var collection_tier := ""
+var settings_section := "display"
+var record_page := 0
 var pinned_card := ""
 
 func _ready() -> void:
@@ -74,6 +71,7 @@ func clear_screen() -> void:
 	view = null
 
 func render(next: String) -> void:
+	if page == "offer" and next != "offer" and not pinned_card.is_empty() and not session.profile.discoveries.has(pinned_card): pinned_card = ""
 	if next == "discovered": next = "collection"
 	var focus_name := ""
 	var focus := get_viewport().gui_get_focus_owner()
@@ -119,9 +117,6 @@ func render(next: String) -> void:
 					offer.selected = transient.selected
 					offer.outgoing = transient.outgoing
 					offer.page = transient.page
-					if offer.replacement != null:
-						var index: int = offer.state.plan.cards.map(func(card): return card.card_id).find(offer.outgoing)
-						offer.replacement.select(index+1)
 					offer.build_cards()
 			"coaching": Screens.coaching(self,outer)
 			"result", "terminal": Screens.result(self,outer,page == "terminal")
@@ -205,11 +200,7 @@ func open_match() -> void:
 	view.external_model = session.controller.model
 	view.campaign_mode = true
 	view.team_names = [library.countries[data.origin].name,club.name]
-	var home := Color(library.countries[data.origin].home_kit)
-	var away := Color(club.home_kit)
-	if absf(home.get_luminance()-away.get_luminance()) < 0.3: away = Color(club.away_kit)
-	if absf(home.get_luminance()-away.get_luminance()) < 0.3: away = Color("ed7864") if home.get_luminance() > 0.4 else Parts.IVORY
-	view.team_kits = [home,away]
+	view.team_kits = Parts.match_kits(library,data.origin,club)
 	view.key_bindings = preferences.data.keys.duplicate()
 	view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(view)
@@ -251,47 +242,52 @@ func open_modal(node: Control) -> void:
 	modal = node
 	node.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(node)
+	if not preferences.data.motion and node.get_script() == null:
+		node.modulate.a = 0
+		node.create_tween().tween_property(node,"modulate:a",1,0.18)
 	if is_instance_valid(view): view.paused = true; view.set_process_input(false)
 
 func close_modal() -> void:
-	if is_instance_valid(modal):
+	var had_modal := is_instance_valid(modal)
+	if had_modal:
 		modal.get_parent().remove_child(modal)
 		modal.queue_free()
 	modal = null
 	rebind = ""
 	if is_instance_valid(view): view.set_process_input(true)
-	if is_instance_valid(modal_focus) and modal_focus.is_inside_tree(): modal_focus.grab_focus()
+	if had_modal and is_instance_valid(modal_focus) and modal_focus.is_inside_tree(): modal_focus.grab_focus()
 
-func panel(title: String) -> VBoxContainer:
+func panel(title: String, rect: Rect2 = Rect2(328,186,624,348)) -> VBoxContainer:
 	var cover := ColorRect.new()
-	cover.color = Parts.ThemeData.get_color("forest","Palette")
+	cover.color = Color(Parts.ThemeData.get_color("forest","Palette"),0.88)
 	open_modal(cover)
-	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for edge in ["left","right"]: margin.add_theme_constant_override("margin_"+edge,roundi(canvas.size.x*0.2))
-	for edge in ["top","bottom"]: margin.add_theme_constant_override("margin_"+edge,36)
-	cover.add_child(margin)
-	var scroll := ScrollContainer.new()
-	scroll.follow_focus = true
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	margin.add_child(scroll)
-	var inset := MarginContainer.new()
-	inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	for side in ["left","right","top","bottom"]: inset.add_theme_constant_override("margin_"+side,4)
-	scroll.add_child(inset)
-	var box := Parts.column(inset,12)
-	if not title.is_empty(): text(box,title,42,"Heading")
+	var frame := PanelContainer.new()
+	frame.position = rect.position
+	frame.size = rect.size
+	var style := preload("res://ui/matchday_theme.gd").box("panel-raised")
+	for edge in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]: style.set_content_margin(edge,24)
+	frame.add_theme_stylebox_override("panel",style)
+	cover.add_child(frame)
+	var box := Parts.column(frame,16)
+	if not title.is_empty(): text(box,title,30,"Heading")
 	return box
 
 func confirm(title: String, detail: String, commit: Callable) -> void:
 	var box := panel(title)
 	text(box,detail,19).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	button(box,"Cancel","CancelConfirmation",close_modal,true)
-	button(box,"Confirm","AcceptConfirmation",func(): close_modal(); commit.call())
+	var space := Control.new()
+	space.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	box.add_child(space)
+	var actions := Parts.row(box,16)
+	button(actions,"Cancel","CancelConfirmation",close_modal)
+	var gap := Control.new()
+	gap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	actions.add_child(gap)
+	button(actions,"Abandon run" if title.to_lower().contains("abandon") else "Start new run","AcceptConfirmation",func(): close_modal(); commit.call(),true)
 	Parts.focus_loop(modal)
 
 func menu() -> void:
-	var box := panel("RUN MENU")
+	var box := panel("Run menu",Rect2(328,130,624,460))
 	button(box,"Resume","ResumeCampaign",close_modal,true)
 	button(box,"Settings","RunSettings",settings)
 	button(box,"Save and exit to main menu","CampaignSaveExit",save_and_exit)
@@ -312,64 +308,79 @@ func inspect(id: String, comparison: String = "") -> void:
 	node.closed.connect(func(): modal = null; if is_instance_valid(modal_focus): modal_focus.grab_focus())
 
 func settings() -> void:
-	var focus := get_viewport().gui_get_focus_owner()
-	var focus_name := str(focus.name) if focus != null and is_instance_valid(modal) else ""
-	var box := panel("")
-	var heading := Parts.row(box)
-	text(heading,"SETTINGS",42,"Heading").size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	button(heading,"Back","CloseSettings",func(): close_modal(); apply_preferences(); if not is_instance_valid(view): render(page))
-	box.add_child(HSeparator.new())
-	var columns := Parts.row(box,32)
-	var general := Parts.column(columns,8)
-	var shortcuts := Parts.column(columns,8)
-	text(general,"DISPLAY AND MOTION",15,"Section")
-	for field in ["motion","effects","fullscreen"]:
-		var row := Parts.row(general,12)
-		text(row,{"motion":"Reduced motion","effects":"Celebration effects","fullscreen":"Fullscreen"}[field],17).size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var toggle := button(row,"On" if preferences.data[field] else "Off",field,func(): change_preference(field,not preferences.data[field]))
-		toggle.custom_minimum_size = Vector2(80,38)
-	text(general,"Master volume",17)
-	var volume_row := Parts.row(general,12)
-	var volume := HSlider.new()
-	volume.name = "MasterVolume"
-	volume.min_value = 0
-	volume.max_value = 1
-	volume.step = 0.1
-	volume.value = preferences.data.volume
-	volume.custom_minimum_size = Vector2(220,32)
-	volume_row.add_child(volume)
-	var volume_label := text(volume_row,"%d%%" % roundi(volume.value*100),17)
-	volume.value_changed.connect(func(value):
-		var result: Dictionary = preferences.change("volume",value)
-		if not result.ok: volume.set_value_no_signal(preferences.data.volume); message(result.error)
-		volume_label.text = "%d%%" % roundi(preferences.data.volume*100)
-		apply_preferences())
-	text(shortcuts,"SHORTCUTS",15,"Section")
-	for action in ["pause","speed1","speed2","menu"]:
-		var row := Parts.row(shortcuts,12)
-		text(row,{"pause":"Pause / resume","speed1":"1× speed","speed2":"2× speed","menu":"Match menu"}[action],17).size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button(row,OS.get_keycode_string(preferences.data.keys[action]),"Rebind"+action,func(): rebind=action; message("Press a new key. Escape cancels rebinding.")).custom_minimum_size = Vector2(110,38)
-	button(shortcuts,"Reset shortcuts","ResetShortcuts",func(): change_preference("keys",Preferences.DEFAULT_KEYS.duplicate()))
-	box.add_child(HSeparator.new())
-	text(box,preferences.error if not preferences.error.is_empty() else "Tab and Enter navigate. Escape closes menus.",14).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var focused := get_viewport().gui_get_focus_owner()
+	var focus_name := str(focused.name) if focused != null and is_instance_valid(modal) else ""
+	var cover := ColorRect.new()
+	cover.color = Parts.ThemeData.get_color("forest","Palette")
+	open_modal(cover)
+	var title: Label = text(cover,"Settings",34,"Heading")
+	title.position = Vector2(32,100)
+	var back: Button = button(cover,"Back","CloseSettings",func(): close_modal(); apply_preferences(); if not is_instance_valid(view): render(page))
+	back.position = Vector2(1112,100)
+	back.size = Vector2(136,44)
+	for index in 4:
+		var id: String = ["display","audio","controls","accessibility"][index]
+		var item: Button = button(cover,id.capitalize(),"Settings"+id.capitalize(),func(): settings_section=id; settings(),settings_section == id)
+		item.icon = load("res://assets/ui/matchday/icons/"+id+".svg")
+		item.add_theme_constant_override("icon_max_width",24)
+		item.position = Vector2(32,206+index*62)
+		item.size = Vector2(244,48)
+	var content := Parts.column(cover,24)
+	content.position = Vector2(352,202)
+	content.size = Vector2(864,392)
+	text(content,"Keyboard shortcuts" if settings_section == "controls" else settings_section.capitalize(),28,"Heading")
+	if settings_section == "controls":
+		for action in ["pause","speed1","speed2","menu"]:
+			var row := Parts.row(content,24)
+			text(row,{"pause":"Pause / resume","speed1":"Normal speed","speed2":"Double speed","menu":"Open menu"}[action],19).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			button(row,OS.get_keycode_string(preferences.data.keys[action]),"Rebind"+action,func(): rebind=action; message("Press a new key. Escape cancels rebinding.")).custom_minimum_size = Vector2(232,44)
+		button(content,"Reset shortcuts","ResetShortcuts",func(): change_preference("keys",Preferences.DEFAULT_KEYS.duplicate())).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	elif settings_section == "audio":
+		text(content,"Master volume",20)
+		var row := Parts.row(content,28)
+		var volume := HSlider.new()
+		volume.name = "MasterVolume"
+		volume.min_value = 0
+		volume.max_value = 1
+		volume.step = 0.1
+		volume.value = preferences.data.volume
+		volume.custom_minimum_size = Vector2(640,44)
+		row.add_child(volume)
+		var value: Label = text(row,"%d%%" % roundi(volume.value*100),24,"BodyStrong")
+		volume.value_changed.connect(func(amount):
+			var result: Dictionary = preferences.change("volume",amount)
+			if not result.ok: volume.set_value_no_signal(preferences.data.volume); message(result.error)
+			value.text = "%d%%" % roundi(preferences.data.volume*100)
+			apply_preferences())
+		text(content,"Adjust the game's overall sound level.",18,"Label",Color("A5B09F"))
+	else:
+		for field in (["fullscreen"] if settings_section == "display" else ["motion","effects"]):
+			var row := Parts.row(content,24)
+			var caption: String = {"motion":"Reduced motion","effects":"Celebration effects","fullscreen":"Fullscreen"}[field]
+			text(row,caption,19).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			var toggle: Button = button(row,"On" if preferences.data[field] else "Off",field,func(): change_preference(field,not preferences.data[field]))
+			toggle.icon = load("res://assets/ui/matchday/components/toggle-"+("on" if preferences.data[field] else "off")+".svg")
+			toggle.add_theme_constant_override("icon_max_width",48)
+			toggle.custom_minimum_size = Vector2(152,44)
+			toggle.tooltip_text = caption
+		text(content,"The interface uses its standard size.",18,"Label",Color("A5B09F"))
+	var line := HSeparator.new()
+	line.position = Vector2(352,634)
+	line.size.x = 864
+	cover.add_child(line)
+	text(cover,preferences.error if not preferences.error.is_empty() else "Changes save automatically. Escape goes back.",16,"Label",Color("A5B09F")).position = Vector2(352,650)
 	Parts.focus_loop(modal)
 	if not focus_name.is_empty():
 		var previous := modal.find_child(focus_name,true,false) as Control
 		if previous != null: previous.grab_focus()
 
 func record_file(record: Dictionary) -> void:
-	var box := panel("RECORD XI  "+record.peak_xi.formation)
-	text(box,"%.2f OVR  Base slot ratings before match bonuses" % (record.peak_xi.total/11.0),20,"Score")
-	button(box,"Back","CloseRecordXI",close_modal,true)
-	var scroll := ScrollContainer.new()
-	scroll.follow_focus = true
-	scroll.custom_minimum_size.y = 440
-	box.add_child(scroll)
-	var row := Parts.row(scroll)
-	for id in record.peak_xi.cards:
-		var tile := Parts.card(row,library,id,300,ui_scale())
-		tile.focus_entered.connect(func(): scroll.ensure_control_visible(tile))
-	Parts.focus_loop(modal)
+	var node = load("res://ui/record_eleven.gd").new()
+	node.record = record.duplicate(true)
+	node.library = library
+	node.reduced_motion = preferences.data.motion
+	open_modal(node)
+	node.closed.connect(func(): modal=null; if is_instance_valid(modal_focus): modal_focus.grab_focus())
 
 func change_preference(key: String, value: Variant) -> void:
 	var result: Dictionary = preferences.change(key,value)

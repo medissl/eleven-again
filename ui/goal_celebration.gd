@@ -1,6 +1,6 @@
 extends Control
 ## Match-tick driven broadcast cue: refresh never restarts its animation.
-const MatchTheme = preload("res://ui/game_theme.tres")
+static var MatchTheme: Theme = preload("res://ui/matchday_theme.gd").build()
 const Icons = preload("res://ui/match_overlay.gd")
 var title: Label
 var detail: Label

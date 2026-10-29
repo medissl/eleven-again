@@ -46,5 +46,14 @@ static func build() -> Theme:
 		line.vertical = role == "VSeparator"
 		theme.set_stylebox("separator",role,line)
 	theme.set_stylebox("panel","PanelContainer",StyleBoxEmpty.new())
+	for id in ["slider","grabber_area","grabber_area_highlight"]:
+		var track := StyleBoxFlat.new()
+		track.bg_color = Color(COLOURS.border if id == "slider" else COLOURS.brass)
+		track.content_margin_top = 2
+		track.content_margin_bottom = 2
+		theme.set_stylebox(id,"HSlider",track)
+	for id in ["grabber","grabber_highlight","grabber_disabled"]:
+		theme.set_icon(id,"HSlider",load(BASE+"components/slider-thumb.svg"))
+	theme.set_stylebox("focus","HSlider",box("focus"))
 	theme.set_stylebox("panel","TooltipPanel",box("panel"))
 	return theme

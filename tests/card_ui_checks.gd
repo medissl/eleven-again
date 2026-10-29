@@ -90,6 +90,8 @@ func run() -> void:
 		assert(is_instance_valid(archive.inspection) and archive.inspection.definition.display_name.contains("Mbappé"))
 		await picture(viewport,"file-large" if archive.ui_scale > 1 else "file")
 		await key(viewport,KEY_TAB)
+		assert(viewport.gui_get_focus_owner().name == "PinComparison","Comparison pin is keyboard accessible")
+		await key(viewport,KEY_TAB)
 		assert(viewport.gui_get_focus_owner() is LinkButton,"Source is keyboard accessible")
 		await picture(viewport,"trait-source-large" if archive.ui_scale > 1 else "trait-source")
 		await key(viewport,KEY_TAB)
@@ -105,6 +107,8 @@ func run() -> void:
 		await key(viewport,KEY_ENTER)
 		assert(archive.inspection.comparison != null and archive.inspection.comparison.card_id == archive.pinned_id)
 		await picture(viewport,"compare-large" if archive.ui_scale > 1 else "compare")
+		var compare_heading := archive.inspection.find_child("ComparisonHeading",true,false) as Label
+		assert(compare_heading != null and compare_heading.get_line_count() == 1,"Comparison title must remain one readable line")
 		await key(viewport,KEY_ESCAPE)
 		archive.tier = "bronze"
 		archive.refresh()
@@ -205,6 +209,8 @@ func preparation_flow(viewport: SubViewport) -> void:
 	await key(viewport,KEY_ENTER)
 	assert(prep.card_panel.definition.display_name == "Ward")
 	await picture(viewport,"fixture-file")
+	await key(viewport,KEY_TAB)
+	assert(viewport.gui_get_focus_owner().name == "PinComparison")
 	await key(viewport,KEY_TAB)
 	assert(viewport.gui_get_focus_owner().name == "CloseFile","A file without an external source keeps focus inside")
 	await key(viewport,KEY_ESCAPE)

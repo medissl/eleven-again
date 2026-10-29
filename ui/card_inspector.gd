@@ -7,13 +7,14 @@ var definition: Resource
 var info: Dictionary = {}
 var comparison: Resource
 var comparison_info: Dictionary = {}
+var comparison_role := ""
 var ui_scale := 1.0
 var reduced_motion := false
 var closing := false
 var owned := false
 var entrance: Tween
 
-func label(parent: Node, value: String, pixels: int = 16, role: String = "Label") -> Label:
+func label(parent: Node, value: String, pixels: int = 18, role: String = "Label") -> Label:
 	var node := Label.new()
 	node.text = value
 	node.theme_type_variation = role
@@ -26,6 +27,9 @@ func _ready() -> void:
 	theme = ThemeData
 	color = ThemeData.get_color("forest","Palette")
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	if comparison != null:
+		build_comparison()
+		return
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for edge in ["left","top","right","bottom"]: margin.add_theme_constant_override("margin_"+edge,28)
@@ -64,7 +68,6 @@ func _ready() -> void:
 	scroll.follow_focus = true
 	body.add_child(scroll)
 	var details := VBoxContainer.new()
-	var source_link: LinkButton
 	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	details.add_theme_constant_override("separation",12)
 	scroll.add_child(details)
@@ -91,7 +94,7 @@ func _ready() -> void:
 			var ability: Dictionary = definition.Traits.catalogue[definition.trait_id]
 			label(details,ability.name,26,"Score")
 			label(details,"Automatic  implemented  "+", ".join(ability.positions),13,"BodyStrong")
-			label(details,"Trigger: "+ability.trigger+"\nEffect: "+ability.effect+"\nCounterplay: "+ability.counterplay,15)
+			label(details,"Trigger: "+ability.trigger+"\nEffect: "+ability.effect+"\nCounterplay: "+ability.counterplay,18)
 			label(details,"3 uses in regulation; +1 in extra time. 10′ cooldown. Activation: %d stamina. Shared attribute bonus cap: +6." % int(ability.parameters.get("activation_stamina_cost",2)),13)
 			if definition.trait_id in ["penalty_composure","cat_reflexes"]: label(details,"Shootout: one opportunity per kick, using its separate shootout allowance.",13)
 		else: label(details,"No signature trait. Ordinary football actions remain available.",15)
@@ -105,17 +108,64 @@ func _ready() -> void:
 				link.text = "Open identity reference"
 				link.pressed.connect(func(): OS.shell_open(address))
 				details.add_child(link)
-				source_link = link
-	var last: Control = source_link if source_link != null else back
-	back.focus_previous = back.get_path_to(last)
-	back.focus_next = back.get_path_to(last)
-	last.focus_previous = last.get_path_to(back)
-	last.focus_next = last.get_path_to(back)
-	back.grab_focus()
+	preload("res://ui/campaign_parts.gd").focus_loop(self)
 	if not reduced_motion:
 		modulate.a = 0
 		entrance = create_tween()
 		entrance.tween_property(self,"modulate:a",1,0.12)
+
+func build_comparison() -> void:
+	var canvas := Control.new()
+	canvas.size = Vector2(1280,720)
+	canvas.scale = Vector2.ONE*minf(size.x/1280,size.y/720)
+	canvas.position = (size-canvas.size*canvas.scale)/2
+	add_child(canvas)
+	var heading := label(canvas,"Compare players",34,"Heading")
+	heading.name = "ComparisonHeading"
+	heading.position = Vector2(32,100)
+	heading.size = Vector2(1216,44)
+	var subtitle := label(canvas,"Compare base ratings. Match effects remain separate.",18)
+	subtitle.position = Vector2(32,152)
+	subtitle.size = Vector2(1216,32)
+	for index in 2:
+		var view := CardView.new()
+		view.custom_minimum_size = Vector2(280,392)
+		view.size = view.custom_minimum_size
+		view.position = Vector2(220+index*560,206)
+		view.bind(definition if index == 0 else comparison,info if index == 0 else comparison_info,true)
+		view.focus_mode = Control.FOCUS_NONE
+		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		canvas.add_child(view)
+	var symbol := TextureRect.new()
+	symbol.texture = load("res://assets/ui/matchday/icons/compare.svg")
+	symbol.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	symbol.position = Vector2(606,266)
+	symbol.size = Vector2(48,48)
+	canvas.add_child(symbol)
+	var context := label(canvas,comparison_role+" slot" if not comparison_role.is_empty() else definition.primary_role+"     "+comparison.primary_role,23,"Team")
+	context.position = Vector2(538,352)
+	context.size = Vector2(210,40)
+	context.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var difference := label(canvas,"Different primary roles" if definition.primary_role != comparison.primary_role else "Same primary role\nBase ratings only",18)
+	if not comparison_role.is_empty():
+		var before: int = comparison.rating(comparison_role,true)
+		var after: int = definition.rating(comparison_role,true)
+		difference.text = "%d → %d\n%+d effective OVR" % [before,after,after-before]
+	difference.position = Vector2(526,410)
+	difference.size = Vector2(236,80)
+	difference.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var note := label(canvas,"Compared player → selected player in the chosen lineup slot." if not comparison_role.is_empty() else "A slot upgrade requires a selected, legal lineup role.",16)
+	note.position = Vector2(32,652)
+	note.size = Vector2(880,32)
+	var close := Button.new()
+	close.name = "CloseFile"
+	close.text = "Close comparison"
+	close.theme_type_variation = "Primary"
+	close.position = Vector2(1008,652)
+	close.size = Vector2(240,44)
+	close.pressed.connect(dismiss)
+	canvas.add_child(close)
+	preload("res://ui/campaign_parts.gd").focus_loop(self)
 
 func stats(parent: Node, title: String, values: Dictionary, versus: Dictionary) -> void:
 	label(parent,title,13,"BodyStrong")

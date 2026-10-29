@@ -3,7 +3,7 @@ signal campaign_action(action: String)
 
 const Match = preload("res://match/match_sim.gd")
 const Hud = preload("res://ui/match_hud.gd")
-const MatchTheme = preload("res://ui/game_theme.tres")
+static var MatchTheme: Theme = preload("res://ui/matchday_theme.gd").build()
 var CREAM: Color = MatchTheme.get_color("ivory", "Palette")
 var CORAL: Color = MatchTheme.get_color("coral", "Palette")
 var AMBER: Color = MatchTheme.get_color("amber", "Palette")
@@ -19,6 +19,7 @@ var ball := Vector2.ZERO
 var hud
 var font: Font
 var turf: Texture2D
+static var shared_turf: Texture2D
 var name_rects: Array[Rect2] = []
 var overlay_mode := ""
 var overlay_parent := ""
@@ -45,6 +46,7 @@ var team_kits: Array = [Color("efe9d9"),Color("ed7864")]
 var key_bindings := {"pause":KEY_SPACE,"speed1":KEY_1,"speed2":KEY_2,"menu":KEY_ESCAPE}
 
 func _ready() -> void:
+	theme = MatchTheme
 	var seed_value := fixture_seed if fixture_seed != 0 else int(Time.get_unix_time_from_system()) ^ Time.get_ticks_usec()
 	sim = external_model if external_model != null else Match.new(seed_value)
 	font = MatchTheme.default_font
@@ -98,15 +100,23 @@ func open_preparation() -> void:
 
 func _make_turf() -> void:
 	# One reusable texture; fixed surface noise never consumes match randomness.
+	if shared_turf != null:
+		turf = shared_turf
+		return
 	var noise := FastNoiseLite.new()
 	noise.seed = 71
 	noise.frequency = 0.24
+	var detail := FastNoiseLite.new()
+	detail.seed = 73
+	detail.frequency = 1.1
 	var image := Image.create(384, 256, false, Image.FORMAT_RGB8)
 	for y in 256:
 		for x in 384:
 			var grain := noise.get_noise_2d(x, y)
-			image.set_pixel(x, y, Color(0.10 + grain * 0.035, 0.245 + grain * 0.055, 0.075 + grain * 0.025))
+			var fleck := detail.get_noise_2d(x,y)
+			image.set_pixel(x, y, Color(0.085+grain*0.026+fleck*0.006,0.215+grain*0.045+fleck*0.012,0.09+grain*0.021+fleck*0.005))
 	turf = ImageTexture.create_from_image(image)
+	shared_turf = turf
 
 func _layout() -> void:
 	if not is_instance_valid(hud): return
@@ -196,6 +206,12 @@ func _formation_opacity() -> float:
 		return clampf(sim.dead_ticks/12.0,0,1)
 	var progress := clampf((sim.ticks-formation_tick)/10.0,0,1)
 	return progress*progress*(3-2*progress)
+
+func _actor_opacity() -> float:
+	var opacity := _formation_opacity()
+	if is_instance_valid(hud.celebration) and hud.celebration.visible:
+		opacity *= 1.0-0.45*hud.celebration.opacity
+	return opacity
 
 func _required_report() -> String:
 	if sim.period == Match.Period.HALF_TIME: return "halftime"
@@ -340,8 +356,8 @@ func _draw() -> void:
 	draw_texture_rect(turf, pitch, true)
 	for stripe in 10:
 		if stripe % 2 == 0:
-			draw_rect(Rect2(pitch.position + Vector2(pitch.size.x * stripe / 10, 0), Vector2(pitch.size.x / 10, pitch.size.y)), Color(0.6, 0.7, 0.35, 0.065))
-	var line := Color("c0c8a8")
+			draw_rect(Rect2(pitch.position + Vector2(pitch.size.x * stripe / 10, 0), Vector2(pitch.size.x / 10, pitch.size.y)), Color(0.6, 0.7, 0.35, 0.045))
+	var line := Color("d0d5bd")
 	draw_rect(pitch, line, false, 1.4)
 	draw_line(_field(Vector2(52.5, 0)), _field(Vector2(52.5, 68)), line, 1.4)
 	draw_arc(_field(Vector2(52.5, 34)), 9.15 * _scale(), 0, TAU, 64, line, 1.4, true)
@@ -401,21 +417,15 @@ func _draw_traits() -> void:
 			if state.state == "success": draw_arc(position,23,0,TAU,32,Color(tint,alpha),1,true)
 		# Quiet icons retain identity off-ball; only three recent labels compete for attention.
 		var icon := position+Vector2(0,-21)
-		if state.kind in ["run","entry"]:
-			for shift in [-3,3]: draw_polyline(PackedVector2Array([icon+Vector2(shift-2,3),icon+Vector2(shift+2,0),icon+Vector2(shift-2,-3)]),Color(tint,alpha),1.3,true)
-		elif state.kind == "pass":
-			draw_line(icon+Vector2(-5,0),icon+Vector2(5,0),Color(tint,alpha),1.4,true)
-			draw_polyline(PackedVector2Array([icon+Vector2(1,-4),icon+Vector2(5,0),icon+Vector2(1,4)]),Color(tint,alpha),1.3,true)
-		elif state.kind in ["shot","save","parry"]:
-			draw_arc(icon,5,0,TAU,16,Color(tint,alpha),1.3,true)
-			draw_line(icon+Vector2(-3,-3),icon+Vector2(3,3),Color(tint,alpha),1.2,true)
-		else: draw_polyline(PackedVector2Array([icon+Vector2(-4,0),icon+Vector2(0,-5),icon+Vector2(4,0),icon+Vector2(0,5),icon+Vector2(-4,0)]),Color(tint,alpha),1.2,true)
+		var glyph: Texture2D = preload("res://ui/matchday_icons.gd").signature_icon(state.trait)
+		draw_texture_rect(glyph,Rect2(icon-Vector2(8,8),Vector2(16,16)),false,Color(CREAM,alpha))
 		if labels < 3 and sim.ticks-state.get("visual_tick",sim.ticks) < 72:
 			var title: String = state.trait.replace("_"," ").to_upper()
+			if state.state in ["failed","partial"]: title += "  "+str(state.state).to_upper()
 			var width := font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,11).x
 			var origin := Vector2(clampf(position.x-width/2,pitch.position.x+2,pitch.end.x-width-2),maxf(pitch.position.y+12,position.y-32))
 			draw_string_outline(font,origin,title,HORIZONTAL_ALIGNMENT_LEFT,-1,11,3,Color("0c2117"))
-			draw_string(font,origin,title,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color(tint,alpha))
+			draw_string(font,origin,title,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color(CREAM,alpha))
 			labels += 1
 
 func _draw_ball() -> void:
@@ -432,8 +442,8 @@ func _draw_ball() -> void:
 	draw_set_transform(ground + Vector2(0, 4), 0, Vector2(1.35, 0.5))
 	draw_circle(Vector2.ZERO, 4.7, Color(0.01,0.03,0.02,0.75*opacity))
 	draw_set_transform(Vector2.ZERO)
-	draw_circle(center, 6.2, Color(Color("102118"),opacity))
-	draw_circle(center, 5.1, Color(Color("e5e8df"),opacity))
+	draw_circle(center, 6.6, Color(Color("102118"),opacity))
+	draw_circle(center, 5.7, Color(Color("f9f7e9"),opacity))
 	if hud.effects_enabled and _ball_ink() != CREAM:
 		draw_arc(center,6.5,0,TAU,20,Color(_ball_ink(),0.85*opacity),1.3,true)
 	var patch := PackedVector2Array()
@@ -484,7 +494,7 @@ func _draw_player(index: int) -> void:
 	if not sim.players[index].active: return
 	var is_keeper: bool = sim.players[index].role == "GK"
 	var point := _field(player_positions[index])
-	var opacity := _formation_opacity()
+	var opacity := _actor_opacity()
 	var color := Color(team_kits[0] if index < 11 else team_kits[1],opacity)
 	if selected == index or sim.owner == index:
 		var transfer := 0.0 if hud.reduced_motion else 3*clampf(1-(sim.ticks-owner_tick)/10.0,0,1)
@@ -510,14 +520,14 @@ func _draw_player(index: int) -> void:
 func _draw_name(index: int) -> void:
 	if not sim.players[index].active: return
 	var point := _field(player_positions[index])
-	var player_name: String = sim.players[index].name
+	var player_name: String = preload("res://ui/player_card.gd").split_name(sim.players[index].name)[1]
 	var pixels: int = roundi(14 * hud.ui_scale)
 	while font.get_string_size(player_name,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x > 120 * hud.ui_scale and player_name.length() > 2:
 		player_name = player_name.left(player_name.length()-2) + "…"
 	var width := font.get_string_size(player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels).x
 	# A fixed below-token anchor prevents the old above/below flipping in duels.
 	var pos := point + Vector2(-width / 2, 29)
-	pos.x = clampf(pos.x, 4, size.x - 276 - width)
+	pos.x = clampf(pos.x, pitch.position.x+2, maxf(pitch.position.x+2,pitch.end.x-width-2))
 	pos.y = minf(pos.y, size.y - 4)
 	var rect := Rect2(pos + Vector2(-2, -15), Vector2(width + 4, 19))
 	var blocked := false
@@ -527,7 +537,7 @@ func _draw_name(index: int) -> void:
 	var target := 0.2 if sim.ticks < label_dim_until[index] and not important else 1.0
 	label_alpha[index] = 1.0 if important else lerpf(label_alpha[index], target, minf(get_process_delta_time() * 8, 1))
 	if not blocked or important: name_rects.append(rect)
-	var opacity := label_alpha[index]*_formation_opacity()
+	var opacity := label_alpha[index]*_actor_opacity()
 	for halo in [Vector2(-1,0),Vector2(1,0),Vector2(0,-1),Vector2(0,1)]:
 		draw_string(font, pos + halo, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels, Color(0.04,0.08,0.04,opacity))
 	draw_string(font, pos, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels, Color(CREAM, opacity))

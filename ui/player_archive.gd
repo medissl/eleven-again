@@ -193,6 +193,7 @@ func inspect(card_id: String) -> void:
 	inspection.info = catalogue.metadata(card_id)
 	inspection.ui_scale = ui_scale
 	inspection.reduced_motion = reduced_motion
+	inspection.pin_requested.connect(func(id): pinned_id=id; select(selected_id))
 	if not pinned_id.is_empty() and pinned_id != card_id:
 		inspection.comparison = catalogue.by_id[pinned_id]
 		inspection.comparison_info = catalogue.metadata(pinned_id)

@@ -2,7 +2,7 @@ extends Control
 ## Native presentation only. All actions are requests to the match controller.
 signal command(action: String)
 
-const MatchTheme = preload("res://ui/game_theme.tres")
+static var MatchTheme: Theme = preload("res://ui/matchday_theme.gd").build()
 const MatchOverlay = preload("res://ui/match_overlay.gd")
 const GoalCelebration = preload("res://ui/goal_celebration.gd")
 var CREAM: Color = MatchTheme.get_color("ivory", "Palette")
@@ -44,10 +44,11 @@ class EventRow:
 class EventIcon:
 	extends Control
 	var kind := ""
+	var entry: Dictionary = {}
 	var team := -1
 	var kit := Color.TRANSPARENT
 	func _draw() -> void:
-		var icon: Texture2D = preload("res://ui/matchday_icons.gd").event(kind)
+		var icon: Texture2D = preload("res://ui/matchday_icons.gd").for_event(entry) if not entry.is_empty() else preload("res://ui/matchday_icons.gd").event(kind)
 		draw_texture_rect(icon,Rect2(5,5,24,24),false)
 
 func _ready() -> void:
@@ -66,7 +67,7 @@ func _ready() -> void:
 	_button("speed1", "1×", "Normal viewing speed (1)")
 	_button("speed2", "2×", "Double viewing speed (2)")
 	_button("menu", "☰  Menu", "Match menu (Escape)")
-	_button("log", "All events   ›", "Full event log; pauses the match")
+	_button("log", "All events", "Full event log; pauses the match")
 	var group := ButtonGroup.new()
 	for id in ["speed1", "speed2"]:
 		buttons[id].toggle_mode = true
@@ -119,7 +120,7 @@ func _button(id: String, text: String, hint: String) -> Button:
 	button.name = id.capitalize().replace(" ", "")
 	button.text = text
 	button.tooltip_text = hint
-	button.custom_minimum_size = Vector2(40, 42)
+	button.custom_minimum_size = Vector2(44, 44)
 	if id == "pause":
 		button.text = ""
 		var state_icon := MatchOverlay.Icon.new()
@@ -139,7 +140,6 @@ func _button(id: String, text: String, hint: String) -> Button:
 			var menu_style: StyleBox = MatchTheme.get_stylebox(state,"Button").duplicate()
 			menu_style.content_margin_left = 34
 			menu_style.content_margin_right = 4
-			menu_style.border_width_bottom = 0
 			button.add_theme_stylebox_override(state,menu_style)
 	if id in ["pause","speed1","speed2"]:
 		var outline := StyleBoxFlat.new()
@@ -182,10 +182,10 @@ func arrange(field_rect: Rect2, divider_x: float) -> void:
 	_put(labels.live, Rect2(divider + 38, 94, 190, 28))
 	_put(celebration, pitch)
 	var x := divider + 12
-	_put(buttons.pause, Rect2(x, 20, 42, 42))
-	_put(buttons.speed1, Rect2(x + 54, 20, 44, 42))
-	_put(buttons.speed2, Rect2(x + 98, 20, 44, 42))
-	_put(buttons.menu, Rect2(x + 158, 20, 88, 42))
+	_put(buttons.pause, Rect2(x, 20, 44, 44))
+	_put(buttons.speed1, Rect2(x + 54, 20, 44, 44))
+	_put(buttons.speed2, Rect2(x + 98, 20, 44, 44))
+	_put(buttons.menu, Rect2(x + 158, 20, 88, 44))
 	_put(buttons.log, Rect2(divider + 14, size.y - 62, size.x - divider - 30, 42))
 	inspection.position = Vector2(divider + 20, 134)
 	inspection.size = Vector2(size.x - divider - 38, 130*ui_scale)
@@ -329,6 +329,7 @@ func _refresh_rows() -> void:
 		row.add_child(minute)
 		var icon := EventIcon.new()
 		icon.kind = event.kind
+		icon.entry = event
 		icon.team = event.team
 		if event.team >= 0: icon.kit = team_kits[event.team]
 		icon.custom_minimum_size = Vector2(34, 40)

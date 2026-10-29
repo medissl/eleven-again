@@ -103,6 +103,13 @@ static func badge(parent: Node, library: RefCounted, club: String, pixels: int) 
 	parent.add_child(node)
 	return node
 
+static func match_kits(library: RefCounted, origin: String, club: Dictionary) -> Array:
+	var home := Color(library.countries[origin].home_kit)
+	var away := Color(club.home_kit)
+	if absf(home.get_luminance()-away.get_luminance()) < 0.3: away=Color(club.away_kit)
+	if absf(home.get_luminance()-away.get_luminance()) < 0.3: away=Color("ed7864") if home.get_luminance() > 0.4 else IVORY
+	return [home,away]
+
 static func card(parent: Node, library: RefCounted, id: String, width: float, font_scale: float, known: bool = true, owned: bool = false) -> Control:
 	var node := CardView.new()
 	node.font_scale = font_scale

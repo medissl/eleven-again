@@ -3,7 +3,8 @@ extends ColorRect
 signal submitted(home: Resource, away: Resource, knockout: bool)
 signal cancelled
 const Lineup = preload("res://squad/lineup.gd")
-const ThemeData = preload("res://ui/game_theme.tres")
+const Parts = preload("res://ui/campaign_parts.gd")
+static var ThemeData: Theme = Parts.ThemeData
 var plans: Array[Resource] = [Lineup.exhibition(0),Lineup.exhibition(1)]
 var team := 0
 var page := "lineup"
@@ -21,10 +22,11 @@ var campaign_discoveries := {}
 var home_name := ""
 var scouting := ""
 var inspection_slot := 0
+var comparison_card: Resource
 
 func _ready() -> void:
 	theme = ThemeData
-	color = Color("0c2117")
+	color = ThemeData.get_color("forest","Palette")
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	rebuild()
 
@@ -52,6 +54,9 @@ func rebuild() -> void:
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
+	if campaign_mode:
+		rebuild_campaign()
+		return
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for side in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+side,30)
@@ -189,6 +194,185 @@ func rebuild() -> void:
 		controls[index].focus_previous = controls[index].get_path_to(controls[posmod(index-1,controls.size())])
 	start_button.grab_focus()
 
+func campaign_region(rect: Rect2, gap: int = 12) -> VBoxContainer:
+	var node := Parts.column(self,gap)
+	node.position = rect.position
+	node.size = rect.size
+	return node
+
+func rebuild_campaign() -> void:
+	var plan: Resource = plans[team]
+	text(self,"Match preparation",34,"Heading").position = Vector2(32,100)
+	var context := text(self,scouting.get_slice("\n",0),18)
+	context.position = Vector2(32,152)
+	context.size = Vector2(1216,30)
+	context.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	context.tooltip_text = scouting
+	for index in 3:
+		var section: String = ["lineup","set pieces","substitutions"][index]
+		var tab := Parts.button(self,section.capitalize(),"Preparation"+section.to_pascal_case(),func(): page=section; rebuild(),page == section)
+		tab.position = Vector2(32+index*196,194)
+		tab.size = Vector2(180,44)
+	var collection := Parts.button(self,"Collection","OpenCollection",open_archive)
+	collection.position = Vector2(1080,100)
+	collection.size = Vector2(168,44)
+	if page == "lineup":
+		var left := campaign_region(Rect2(48,264,212,296),4)
+		var formations := ["4-3-3","4-4-2","4-2-3-1"]
+		choice(left,"Formation",formations,formations.find(plan.formation),func(index): plan.formation=formations[index]; rebuild())
+		for field in ["attack","defence","route"]:
+			var entries: Array = {"attack":["possession","direct","counter"],"defence":["high_press","balanced","deep_block"],"route":["mixed","combinations","wide"]}[field]
+			choice(left,field.capitalize(),entries,entries.find(plan.get(field)),func(index): plan.set(field,entries[index]); update_validation())
+		choice(left,"Width",["Narrow","Standard","Wide"],[0.85,1.0,1.15].find(plan.width),func(index): plan.width=[0.85,1.0,1.15][index])
+		var detail := Parts.button(self,"Tactical details","TacticalDetails",tactical_details)
+		detail.position = Vector2(640,194)
+		detail.size = Vector2(184,44)
+		var preview = load("res://ui/formation_preview.gd").new()
+		preview.name = "LineupPitch"
+		preview.plan = plan
+		preview.editable = true
+		preview.selected = inspection_slot
+		preview.position = Vector2(304,264)
+		preview.size = Vector2(520,344)
+		add_child(preview)
+		preview.slot_selected.connect(func(slot): inspection_slot=slot; rebuild())
+		text(self,"RESERVES",18,"BodyStrong").position = Vector2(864,252)
+		var scroll := ScrollContainer.new()
+		scroll.position = Vector2(864,292)
+		scroll.size = Vector2(384,230)
+		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		scroll.follow_focus = true
+		add_child(scroll)
+		var reserves := Parts.column(scroll,8)
+		var role: String = Lineup.ROLES[plan.formation][inspection_slot]
+		for index in plan.cards.size():
+			if index in plan.starters: continue
+			var card: Resource = plan.cards[index]
+			var option := Parts.button(reserves,"%s   %s %d" % [card.display_name,card.primary_role,card.rating()],"Reserve%d" % index,func(): assign_player(index))
+			option.clip_text = true
+			option.disabled = role == "GK" and "GK" not in card.natural_roles
+			option.tooltip_text = "%s\n%s slot %d (base %d)" % [card.display_name,role,card.rating(role,true),card.rating()]
+		var picker := campaign_region(Rect2(864,536,384,72),4)
+		var entries: Array = plan.cards.map(func(card): return card.display_name+"   "+card.primary_role)
+		choice(picker,"Assign to "+role,entries,plan.starters[inspection_slot],assign_player)
+	elif page == "set pieces":
+		var rows := campaign_region(Rect2(32,264,730,340),12)
+		var names: Array = plan.starters.map(func(index): return plan.cards[index].display_name)
+		for field in ["captain","free_kick_taker","corner_taker","penalty_taker"]:
+			var row := Parts.row(rows,20)
+			text(row,field.replace("_"," ").capitalize(),19).custom_minimum_size.x = 260
+			var option := OptionButton.new()
+			option.name = field.to_pascal_case()
+			option.custom_minimum_size = Vector2(430,44)
+			for name_text in names: option.add_item(name_text)
+			option.select(plan.get(field))
+			option.item_selected.connect(func(index): plan.set(field,index))
+			row.add_child(option)
+		Parts.button(rows,"Shootout order","ShootoutOrder",shootout_order)
+		var note := text(self,"Choose takers from your available squad.\nFallbacks still follow the committed match plan.",19)
+		note.position = Vector2(820,396)
+		note.size = Vector2(400,120)
+		note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	else:
+		text(self,"Automatic substitution plan",26,"Heading").position = Vector2(32,266)
+		for index in 3:
+			var value: String = ["fresh_legs","balanced","protect_shape"][index]
+			var panel := PanelContainer.new()
+			panel.position = Vector2(32+index*414,336)
+			panel.size = Vector2(390,224)
+			panel.add_theme_stylebox_override("panel",preload("res://ui/matchday_theme.gd").box("panel-raised" if plan.substitution_plan == value else "panel"))
+			add_child(panel)
+			var tile := Parts.column(panel,24)
+			var option := Parts.button(tile,["Early","Balanced","Late"][index],"SubPlan"+str(index),func(): plan.substitution_plan=value; rebuild(),plan.substitution_plan == value)
+			option.custom_minimum_size.y = 76
+			text(tile,["Earlier fresh legs","Default timing","Keep the starting shape longer"][index],18)
+		var detail := Parts.button(self,"Bench priority and pinned changes","BenchDetails",bench_details)
+		detail.position = Vector2(32,576)
+		detail.size = Vector2(390,44)
+	inspection = text(self,"",15)
+	inspection.position = Vector2(304,610)
+	inspection.size = Vector2(520,22)
+	inspection.max_lines_visible = 1
+	inspection.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	inspect(inspection_slot)
+	var rule := HSeparator.new()
+	rule.position = Vector2(32,636)
+	rule.size.x = 1216
+	add_child(rule)
+	var back := Parts.button(self,"Back","PreparationBack",func(): cancelled.emit())
+	back.position = Vector2(32,652)
+	back.size = Vector2(148,44)
+	validation = text(self,"",15)
+	validation.position = Vector2(204,660)
+	validation.size = Vector2(532,30)
+	validation.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	var details := Parts.button(self,"Player details","PreparationPlayerDetails",func(): open_card(plan.cards[plan.starters[inspection_slot]]))
+	details.position = Vector2(776,652)
+	details.size = Vector2(184,44)
+	start_button = Parts.button(self,"Start match","CommitMatch",func():
+		if plans[0].errors().is_empty() and plans[1].errors().is_empty(): submitted.emit(plans[0].duplicate(true),plans[1].duplicate(true),knockout),true)
+	start_button.position = Vector2(1008,652)
+	start_button.size = Vector2(240,44)
+	update_validation()
+	Parts.focus_loop(self)
+
+func assign_player(index: int) -> void:
+	var plan: Resource = plans[team]
+	var previous: int = plan.starters[inspection_slot]
+	var other: int = plan.starters.find(index)
+	if other >= 0: plan.starters[other] = previous
+	plan.starters[inspection_slot] = index
+	plan.refresh_bench_order()
+	rebuild()
+
+func detail_drawer(title_text: String) -> Control:
+	var drawer = load("res://ui/matchday_drawer.gd").new()
+	drawer.title = title_text
+	open_card_panel(drawer)
+	drawer.actions.get_child(0).text = "Done"
+	return drawer
+
+func tactical_details() -> void:
+	if is_instance_valid(card_panel): return
+	var drawer = detail_drawer("Tactical details")
+	var plan: Resource = plans[team]
+	var entries := ["none","trailing_attack","leading_caution"]
+	choice(drawer.body,"Late risk",entries,entries.find(plan.late_risk),func(index): plan.late_risk=entries[index])
+	text(drawer.body,"Possession offers short support. Direct service arrives earlier. Counter uses space after recovery. High press advances the line and costs stamina; deep block protects the centre.",18).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text(drawer.body,scouting,17).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+func shootout_order() -> void:
+	if is_instance_valid(card_panel): return
+	var drawer = detail_drawer("Shootout order")
+	var plan: Resource = plans[team]
+	var names: Array = plan.starters.map(func(index): return plan.cards[index].display_name)
+	for order in 11:
+		choice(drawer.body,str(order+1),names,plan.penalty_order[order],func(index):
+			var previous: int = plan.penalty_order[order]
+			var other: int = plan.penalty_order.find(index)
+			plan.penalty_order[order] = index
+			plan.penalty_order[other] = previous
+			drawer.dismiss(); shootout_order())
+
+func bench_details() -> void:
+	if is_instance_valid(card_panel): return
+	var drawer = detail_drawer("Bench plan")
+	var plan: Resource = plans[team]
+	text(drawer.body,"Maximum five changes in three windows. No re-entry. Auto chooses a suitable available reserve.",17).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var reserves: Array = plan.bench_order.duplicate()
+	var names: Array = reserves.map(func(index): return plan.cards[index].display_name)
+	for order in reserves.size():
+		choice(drawer.body,"Priority %d" % (order+1),names,reserves.find(plan.bench_order[order]),func(index):
+			var other: int = plan.bench_order.find(reserves[index])
+			var previous: int = plan.bench_order[order]
+			plan.bench_order[order] = reserves[index]
+			plan.bench_order[other] = previous
+			drawer.dismiss(); bench_details())
+	for slot in range(1,11):
+		var choices: Array = ["Auto"]+names
+		var indices: Array = [-1]+reserves
+		choice(drawer.body,plan.cards[plan.starters[slot]].display_name,choices,maxi(0,indices.find(plan.pinned_replacements.get(slot,-1))),func(index): plan.pinned_replacements[slot]=indices[index])
+
 func lineup_row(parent: Node, slot: int) -> void:
 	var plan = plans[team]
 	var row := HBoxContainer.new()
@@ -230,7 +414,8 @@ func inspect(slot: int) -> void:
 	for key in card.attributes: stat_text += "%s %d  " % [key,card.attributes[key]]
 	if card.primary_role == "GK":
 		for key in card.keeper_attributes: stat_text += "%s %d  " % [key,card.keeper_attributes[key]]
-	inspection.text = "%s  %s  Base %d / slot %d\n%s\nTrait: %s" % [card.display_name,card.tier().capitalize(),card.rating(),card.rating(Lineup.ROLES[plan.formation][slot],true),stat_text,card.trait_id.replace("_"," ").capitalize() if not card.trait_id.is_empty() else "None"]
+	var fit: int = card.rating(Lineup.ROLES[plan.formation][slot],true)
+	inspection.text = "%s  Base %d%s\n%s\nTrait: %s" % [card.display_name,card.rating()," / slot %d (role penalty)" % fit if fit != card.rating() else "",stat_text,card.trait_id.replace("_"," ").capitalize() if not card.trait_id.is_empty() else "None"]
 	if not card.trait_id.is_empty():
 		var definition: Dictionary = card.Traits.catalogue[card.trait_id]
 		inspection.text += "  "+("Available" if Lineup.ROLES[plan.formation][slot] in definition.positions else "Unavailable in this role")
@@ -248,6 +433,12 @@ func open_card(card: Resource) -> void:
 	if campaign_library != null: inspector.info = campaign_library.metadata(card.card_id)
 	inspector.owned = true
 	inspector.ui_scale = ui_scale
+	if comparison_card != null and comparison_card != card:
+		inspector.comparison = comparison_card
+		var role: String = Lineup.ROLES[plans[team].formation][inspection_slot]
+		if role in card.natural_roles and role in comparison_card.natural_roles: inspector.comparison_role=role
+		if campaign_library != null: inspector.comparison_info = campaign_library.metadata(comparison_card.card_id)
+	inspector.pin_requested.connect(func(_id): comparison_card=card)
 	open_card_panel(inspector)
 
 func open_archive() -> void:
