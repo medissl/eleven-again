@@ -1,0 +1,42 @@
+[
+  {
+    "id": "maicon_2009_10",
+    "look": "long_broad close_shave neutral fine broad_bridge open_smile none brown black",
+    "note": "Adjacent 2010-11 Inter portrait: very close shaved scalp, strong long face and prominent smile/cheeks, clean jaw.",
+    "reference": {
+      "title": "Maicon :: 2010/2011 - Player Profile & Stats",
+      "page": "https://www.playmakerstats.com/player/maicon/5302?epoca_id=140",
+      "image": "https://cdn-img.zerozero.pt/img/planteis/new/93/68/799368_maicon_20250827223704.jpg"
+    }
+  },
+  {
+    "id": "gary_neville_1998_99",
+    "look": "long_narrow curtains_short hooded thick prominent soft_closed none fair brown",
+    "note": "Young United playing-era portrait: short parted curtains, deep-set eyes, narrow long nose and clean slim jaw; earlier Umbro shirt means exact 1998-99 exposure is not established.",
+    "reference": {
+      "title": "Portrait of Gary Neville of Manchester United before the Champions... | Manchester united, Manchester united legends, Manchester united players",
+      "page": "https://uk.pinterest.com/pin/portrait-of-gary-neville-of-manchester-united-before-the-champions--205476801740338033/",
+      "image": "https://i.pinimg.com/474x/70/a0/08/70a0088ad113effcd7a7155e8bf7cf3b.jpg"
+    }
+  },
+  {
+    "id": "lilian_thuram_1998",
+    "look": "broad_jaw bald hooded thick broad_bridge full_calm fine_stubble dark black",
+    "note": "1998 France portrait: bald rounded scalp, heavy brow, strong jaw, full lips and fine jaw stubble; do not add present-day glasses.",
+    "reference": {
+      "title": "Lilian Thuram - France 1998 | Football players, Teams, Football",
+      "page": "https://www.pinterest.com/pin/316940892499563326/",
+      "image": "https://i.pinimg.com/736x/ce/5e/96/ce5e96cd7937dffda9945b5be566e20a--lilian-thuram-football-players.jpg"
+    }
+  },
+  {
+    "id": "carlos_alberto_1970",
+    "look": "chiselled low_curls hooded fine prominent full_calm fine_stubble olive black",
+    "note": "Playing-era black-and-white close-up: dense short curls, strong nose/cheekbone and clean-to-fine-stubble jaw; colour palette is an approximation, not sampled from monochrome.",
+    "reference": {
+      "title": "Le XI du Brésil à la Coupe du Monde 1970",
+      "page": "https://www.90min.com/fr/posts/le-xi-du-bresil-a-la-coupe-du-monde-1970",
+      "image": "https://images2.minutemediacdn.com/image/upload/c_crop%2Cw_1742%2Ch_1742%2Cx_0%2Cy_247/c_fill%2Cw_720%2Car_1%3A1%2Cf_auto%2Cq_auto%2Cg_auto/images/GettyImages/mmsport/90min_fr_international_web/01gard67tv1n3xrg9x7b.jpg"
+    }
+  }
+]

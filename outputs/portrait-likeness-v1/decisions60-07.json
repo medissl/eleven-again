@@ -1,0 +1,42 @@
+[
+  {
+    "id": "antonee_robinson_2024_25",
+    "look": "long_narrow high_coils almond straight prominent soft_closed trimmed_jaw olive espresso",
+    "note": "Official Fulham portrait: high broad rounded coiled top/faded sides, lean long face and light jaw beard; no invented long locks. Modern source exact exposure unconfirmed.",
+    "reference": {
+      "title": "Fulham FC - Antonee Robinson",
+      "page": "https://www.fulhamfc.com/players/antonee-robinson",
+      "image": "https://images.webapi.fulhamfc.com/fit-in/1200x1200/22142580-76b1-11f0-a5cc-b379b687d76d.png"
+    }
+  },
+  {
+    "id": "marc_cucurella_2024_25",
+    "look": "long_narrow long_curls neutral thick straight full_calm rounded_beard fair espresso",
+    "note": "Official 2024-25 Chelsea portrait: very long wide loose curls, exposed high centre forehead, dark thick eyebrows, rounded full beard and long narrow face.",
+    "reference": {
+      "title": "Marc Cucurella | Profile | Official Site | Chelsea Football Club",
+      "page": "https://www.chelseafc.com/en/teams/profile/marc-cucurella",
+      "image": "https://img.chelseafc.com/image/upload/f_auto%2Ch_860%2Cq_50/editorial/people/first-team/2024-25/Marc_Cucurella_profile_2024-25_fever_avatar-removebg.png"
+    }
+  },
+  {
+    "id": "alejandro_balde_2024_25",
+    "look": "soft_oval high_coils almond fine broad_bridge soft_closed fine_chin brown black",
+    "note": "Official October 2024 portrait: medium/high natural coiled halo, soft narrow lower jaw, gentle closed smile and tiny chin hair; not braids.",
+    "reference": {
+      "title": "Balde | Fitxa del jugador 25/26 | Defensa | Canal Oficial FC Barcelona",
+      "page": "https://www.fcbarcelona.cat/ca/futbol/primer-equip/jugadors/68906/alejandro-balde",
+      "image": "https://www.fcbarcelona.com/photo-resources/2024/10/13/6fe656aa-472e-408d-a123-7e9e142ec3ca/03-Balde-M.png?height=790&width=670"
+    }
+  },
+  {
+    "id": "milos_kerkez_2024_25",
+    "look": "broad_jaw curly_fade neutral straight broad_bridge tooth_gap chin_patch fair espresso",
+    "note": "August 2024 Bournemouth portrait: short curly top/fade, broad square jaw, small chin patch, visible small upper-tooth gap. No blond crest.",
+    "reference": {
+      "title": "Milos Kerkez - Bournemouth - Informações e Estatísticas do Jogador",
+      "page": "https://www.ogol.com.br/jogador/milos-kerkez/815607?epoca_id=154",
+      "image": "https://www.ogol.com.br/img/planteis/new/44/32/11534432_milos_kerkez_20240817024120.png"
+    }
+  }
+]

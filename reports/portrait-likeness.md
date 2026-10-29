@@ -64,3 +64,31 @@ actual 720p/1080p CardViews passed. Captures:
 Logs: `portrait-keepers-{import,native,catalogue,card-ui}.log`.
 Next coherent group: recognizable outfield stars and the remaining position
 groups, with the same individual source/era review before replacement.
+
+## Third batch: sixty more individual corrections
+
+The user extended the request to all 200 while this batch was in progress.
+This checkpoint completes another sixty: all remaining centre-backs/full-backs,
+plus Mbappe, Haaland and Salah. Coverage is **100/200**; the final hundred are
+authorized and in progress. Twenty-four new reusable pieces bring the kit to
+**129**, including low ties, loose curls/locks, short twists, several coil/crop
+silhouettes, independent dark beard/brow pieces for dyed hair, a broad long jaw
+and a bushier moustache. Original 105 definitions are unchanged.
+
+All sixty were compared individually with observed reference images and native
+assemblies. Era caveats remain explicit: some photographs are adjacent editions
+or undated playing-era studies. Salah uses the observed close 2024 crop; older
+large curls are inappropriate to that card. Ratings, identifiers, shirts and
+all catalogue bytes remain unchanged; only the sixty selected runtime sprites
+changed relative to checkpoint 17cbf10, with the other 140 pixel-identical.
+
+The first native capture exposed stale Godot texture imports and was rejected.
+Imports were rebuilt without an additional immediate --quit. The capture script
+now checks every opaque loaded pixel against its source PNG. All sixty pass that
+check and were recaptured at both resolutions; all individual 720p cards and a
+representative full 1080p page were visually inspected. Captures are
+`outputs/portrait-likeness-v1/native-batch60-*-{1280x720,1920x1080}.png`; the three
+`native-batch60-review-*.png` sheets collect every revised native card.
+
+The remaining midfield/wing/striker reviews continue in batch100 source notes.
+No GitHub push, release, export or gameplay change is part of this work.

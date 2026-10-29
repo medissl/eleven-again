@@ -431,9 +431,21 @@
       "era": "2018-19",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_virgil_van_dijk_2018_19.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "فان ديك: الدوري الإنجليزي ليس هدف ليفربول الوحيد هذا الموسم - اليوم السابع",
+          "page": "https://www.youm7.com/story/2019/9/11/%D9%81%D8%A7%D9%86-%D8%AF%D9%8A%D9%83-%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D9%86%D8%AC%D9%84%D9%8A%D8%B2%D9%8A-%D9%84%D9%8A%D8%B3-%D9%87%D8%AF%D9%81-%D9%84%D9%8A%D9%81%D8%B1%D8%A8%D9%88%D9%84-%D8%A7%D9%84%D9%88%D8%AD%D9%8A%D8%AF-%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85/4412771",
+          "image": "https://img.youm7.com/ArticleImgs/2019/9/11/50719-%D9%81%D8%A7%D9%86-%D8%AF%D9%8A%D9%83-%D9%86%D8%AC%D9%85-%D9%84%D9%8A%D9%81%D8%B1%D8%A8%D9%88%D9%84.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "September 2019 Liverpool photo, just after edition: slick low tied hair, long broad forehead/jaw, narrow eyes, small moustache/chin beard; no loose ponytail over face."
+      ],
+      "before_sha256": "269d887a51441099846d0ee20400dc48042d19cd47cd0532eafe48227fe343f0",
+      "after_sha256": "78880f7ff76be683da6f5139cb3ba1786ad9f72463e43f152a26ef8532908258",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "william_saliba_2023_24",
@@ -441,9 +453,24 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_william_saliba_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "William Saliba - Hình ảnh của cầu thủ William Saliba",
+          "page": "https://bongda24h.vn/hinh-anh-cau-thu/william-saliba-152421.html",
+          "image": "https://static.bongda24h.vn/medias/original/2023/09/13/william-saliba-1309201958.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "September 2023 Arsenal portrait: compact square-topped coiled crop with faded sides, lean high cheeks, fine brows, small chin beard and narrow moustache."
+      ],
+      "before_sha256": "e382cdf447526f1e1a0863f4d2cebe3a59cd2d34ed077eea3accbff5f922bc07",
+      "assembly_refinements": {
+        "eyes": "eyes_hooded"
+      },
+      "after_sha256": "f8d622cfcbacb6a49d9333b0ea03a2ca7e00079541764100230b6de568e7b34f",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "ruben_dias_2020_21",
@@ -451,9 +478,21 @@
       "era": "2020-21",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_ruben_dias_2020_21.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "CHÍNH THỨC: Ruben Dias gia nhập Man City với giá 64 triệu Bảng",
+          "page": "https://thethao.vtv.vn/bong-da-quoc-te/chinh-thuc-ruben-dias-gia-nhap-man-city-voi-gia-64-trieu-bang-20200930121439198.htm",
+          "image": "https://cdn-images.vtv.vn/2020/9/30/ejhbizbxgai0ny1-16014426777941440707379.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "September 2020 signing photo: short textured sweep/faded sides, defined long jaw, straight brow and connected short beard/moustache."
+      ],
+      "before_sha256": "823e94f5ac1d5e5d49f5fa9b0992c3953332582b27785321a5b6c50b8249cbca",
+      "after_sha256": "a67b805304909908c7cfab81f3e0a21890bd0b89ba6330a39846dcc4929ca8c8",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "alessandro_bastoni_2024_25",
@@ -461,9 +500,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_alessandro_bastoni_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Alessandro Bastoni | Inter.it",
+          "page": "https://www.inter.it/zh/teams/first-team/alessandro-bastoni",
+          "image": "https://intermilan.bynder.com/m/5a757d232b75a06c/webimage-Bastoni_2x.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official Inter two-star kit portrait: dark loose curled top/short sides, long narrow clean face, prominent nose. Official image is modern; exact exposure date not established."
+      ],
+      "before_sha256": "1c6b82df4ec2bdbbee5744706ba6d9dded42d67ac5de4c832daa8cca79aed3cc",
+      "after_sha256": "d66e83ae4fdf46a393161bbc62559d395d0f41549eb5faa608ca8cc4c364b55b",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "antonio_rudiger_2023_24",
@@ -471,9 +522,21 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_antonio_rudiger_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Antonio Rüdiger LALIGA EA SPORTS | LALIGA",
+          "page": "https://www.laliga.com/en-GB/player/antonio-rudiger",
+          "image": "https://assets.laliga.com/squad/2024/t186/p102380/512x556/p102380_t186_2024_1_001_000.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "LaLiga 2024 asset: very short black crop, long broad face, dense full squared beard, fine brows and broad nose. Asset year context; kit photo exposure not dated."
+      ],
+      "before_sha256": "fd8a8114e97166c7868303ff19a5054b1ba2eccb8aee43ade63ed06ea42161fb",
+      "after_sha256": "41797aa8b7d369374e65ed2fd64258b205898d9b5c551c324444348a734268d5",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "marquinhos_2024_25",
@@ -481,9 +544,24 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_marquinhos_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Marquinhos FIFA Club World Cup 2025 | Marquinhos, Fifa, Neymar",
+          "page": "https://www.pinterest.com/pin/64950419623150775/",
+          "image": "https://i.pinimg.com/originals/c9/68/8b/c9688b067dd47e6b25b032286eb6fd3d.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2025 club tournament portrait: spread loose dark curls including sides, lean oval cheeks, neat goatee/jaw beard and moustache, wide smile."
+      ],
+      "before_sha256": "cfce9b72b79668e948f7cc6426049f0235480851a0a2d26a35c789255ae594cc",
+      "assembly_refinements": {
+        "eyes": "eyes_focused"
+      },
+      "after_sha256": "d311216bfd0cbb44a840d89caeed4208796c917906d857b7aea39d9efc5c4010",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "gabriel_magalhaes_2024_25",
@@ -491,9 +569,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_gabriel_magalhaes_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Gabriel Magalhaes lên tiếng về tài năng của Viktor Gyokeres",
+          "page": "https://bongda24h.vn/bong-da-anh/gabriel-magalhaes-len-tieng-ve-tai-nang-cua-viktor-gyokeres-172-426360.html",
+          "image": "https://static.bongda24h.vn/medias/original/2024/10/15/6gabriel_5-1510154624.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "October 2024 Arsenal portrait: short flat coiled top/fade, square broad face, fuller relaxed lips, small chin beard and fine moustache."
+      ],
+      "before_sha256": "ac7198f01c7ce5d467ae9299e39fabc888a7eccb33d9184255a28e804a1e7fa7",
+      "after_sha256": "9c8c3ce40b8b7bf21f4f385ccd75be09b25800015621ddb6b6293322c59dc6f5",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "pau_cubarsi_2024_25",
@@ -501,9 +591,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_pau_cubarsi_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Cubarsí | Fitxa del jugador 26/27 | Defensa | Canal Oficial FC Barcelona",
+          "page": "https://www.fcbarcelona.cat/ca/futbol/primer-equip/jugadors/129400/pau-cubarsi",
+          "image": "https://www.fcbarcelona.com/photo-resources/2024/10/13/593e3e8e-9a50-453b-a984-30b0a8b1af02/02-Cubarsi-M.png?height=790&width=670",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official October 2024 portrait: thick dark low fringe, soft youthful oval chin, large calm eyes and clean face; avoid mature beard or tall quiff."
+      ],
+      "before_sha256": "b75334e53de0e3bc97c2f276a697d329270df75bc48ff64261ca0507b820a19b",
+      "after_sha256": "7e16e2609e46b1cdf253f76bef421a38d067d24c1312a0ce9f40f4bcb00183f7",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "ibrahima_konate_2024_25",
@@ -511,9 +613,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_ibrahima_konate_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Ibrahima Konate lên tiếng sau khi thoát tấm thẻ đỏ",
+          "page": "https://bongda24h.vn/c1-champions-league/ibrahima-konate-len-tieng-sau-khi-thoat-tam-the-do-488-414610.html",
+          "image": "https://static.bongda24h.vn/medias/original/2024/10/15/5-ibrahima-konate-1510211545.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "October 2024 Liverpool portrait: very short close crop, long face/high cheeks, small chin patch rather than long locks, broad smile."
+      ],
+      "before_sha256": "ddb74245f2d291f07b6876c9e95e6aa8c4dd99ece6ee72e63df5ba32c0e9a036",
+      "after_sha256": "b346112c142ed494556e80e7d956852322fc70be4b439459f9aa02ef5eb46c2f",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "kim_min_jae_2022_23",
@@ -521,9 +635,24 @@
       "era": "2022-23",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_kim_min_jae_2022_23.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Kim Min-jae - Napoli - Informações e Estatísticas do Jogador",
+          "page": "https://www.ogol.com.br/jogador/kim-min-jae/556743?epoca_id=152",
+          "image": "https://cdn-img.staticzz.com/img/planteis/new/24/37/7092437_kim_min_jae_20250930073930.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Napoli Lete-kit portrait: compact upright dark crew crop, straight brows/narrow lids, broad jaw and nose, clean face. Upload date later than actual historical kit."
+      ],
+      "before_sha256": "f2eba379634155784c0f4a0c633f6c8e84c514b79a6a0a67c9e84e2a259f306d",
+      "assembly_refinements": {
+        "head": "head_full_cheeks"
+      },
+      "after_sha256": "32ba78fb8296cc75122cd04aeeaa6d07481aa026c77181cd59ce2c74d134a9b1",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "paolo_maldini_2002_03",
@@ -552,9 +681,21 @@
       "era": "1988-89",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_franco_baresi_1988_89.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Nostalgie : Baresi, la défense taille patron",
+          "page": "https://www.lebuteur.com/article/detail?id=4469&titre=baresi-la-defense-taille-patron",
+          "image": "https://cdn.lebuteur.com/data/images/article/thumbs/large-baresi-la-defense-taille-patron-5c806.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Mediolanum/adidas-era Milan portrait: high/receding frontal line, full soft wavy sides, lean pronounced cheeks and nose, clean face; avoid generic youthful full hairline."
+      ],
+      "before_sha256": "2290bae4c0971509d4cdf5c34b46105422f64269c6c7d20ac9a93c75f4043f5a",
+      "after_sha256": "80039a276896c5abe866bc50d18be607555c2abc1476eccc929451eb66d9ddbe",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "alessandro_nesta_2002_03",
@@ -562,9 +703,21 @@
       "era": "2002-03",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_alessandro_nesta_2002_03.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "UEFA Champions League (@ChampionsLeague) on X",
+          "page": "https://x.com/ChampionsLeague/status/664485227478310912",
+          "image": "https://pbs.twimg.com/media/CTi5yvHWIAIT6P0.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "UEFA-published Opel-era Milan photo: wet dark centre part, exposed ears, straight longer nape, strong brow/nose and clean long face. Exact exposure not separately dated."
+      ],
+      "before_sha256": "03123d8f1044b318c1185d92be5dde81c6275babbc06b5ac193ddde9803f72d8",
+      "after_sha256": "e75616f240ff77b179213ae3700ee7ab41f42e6531ae77e37560ee4ac44fdef6",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "fabio_cannavaro_2006",
@@ -572,9 +725,21 @@
       "era": "2006",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_fabio_cannavaro_2006.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "fabio cannavaro - JungleKey.fr Image #150",
+          "page": "https://www.junglekey.fr/search.php?adv=1&img=1&lang=fr&query=fabio+cannavaro&region=fr&start=150&type=image",
+          "image": "https://2.bp.blogspot.com/-SGLl3lw16gk/TZPNXGvTxcI/AAAAAAAAFtE/E3OcWmUcRdY/s1600/fabio-cannavaro-foto-oficial-da-selecao-italiana-1.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Inspected Italy photo is later (world-champion badge), so used only as a face study: shaved scalp, strong brow/jaw, pale eyes, clean face. Dated 25 May 2006 Getty photocall caption corroboration retained; no later wrinkles added."
+      ],
+      "before_sha256": "8f16b3b3aee76b0cfa9cd9729191e7fd6fee54fbb8838ef47acb63a9414c1e4d",
+      "after_sha256": "148adc2e1af335de759d71264bff6a3cae5440fae7dcfc5129b154c87204fa60",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "rio_ferdinand_2007_08",
@@ -582,9 +747,21 @@
       "era": "2007-08",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_rio_ferdinand_2007_08.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Rio Ferdinand :: 2007/2008 - Player Profile & Stats",
+          "page": "https://www.playmakerstats.com/player/rio-ferdinand/1577?epoca_id=137",
+          "image": "https://cdn-img.zerozero.pt/img/planteis/new/91/77/159177_rio_ferdinand_20260220223758.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2007-08 profile portrait: very close shave, high forehead, long cheeks/jaw, long nose, thin moustache/light stubble and wide smile. Not earlier cornrows."
+      ],
+      "before_sha256": "979ba9e9cfc8aa43d662b6b40fa74f1bbe25f5837dcd7ac4a8ce56ced52270c5",
+      "after_sha256": "a0897846af85f5152c8ca23df2b5e7a33057f4f7978f916c1988c90f377c5226",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "nemanja_vidic_2008_09",
@@ -592,9 +769,21 @@
       "era": "2008-09",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_nemanja_vidic_2008_09.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "A portrait of Nemanja Vidic of Manchester United taken in the team... | Manchester united legends, Manchester united, Manchester united football club",
+          "page": "https://uk.pinterest.com/pin/a-portrait-of-nemanja-vidic-of-manchester-united-taken-in-the-team--44965696270049231/",
+          "image": "https://i.pinimg.com/736x/db/76/c3/db76c344f97b7f39e1bb0c5ed6e9a41a.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Adjacent 2009-10 chevron-kit portrait: short even light-brown buzz, high forehead, blue eyes, square jaw and clean face; no pointed crop."
+      ],
+      "before_sha256": "16c0a61a7bbc019dbff3ae8fe87561ea70bc1cfb887b444fc89fc6a70ac8f79d",
+      "after_sha256": "797da6ba2e6cd778c2a022be925b9c5f1070d3574b895f22f50e812eccc02d67",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "john_terry_2004_05",
@@ -602,9 +791,21 @@
       "era": "2004-05",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_john_terry_2004_05.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "John Terry :: 2005/2006 - Player Profile & Stats",
+          "page": "https://www.playmakerstats.com/player/john-terry/1366?epoca_id=135",
+          "image": "https://cdn-img.zerozero.pt/img/planteis/new/26/37/32637_john_terry_20250424052308.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Adjacent 2005-06 gold-trim Chelsea portrait: short uneven spiky brown crown, broad jaw/cheeks, pale eyes and clean face. Keep modest crown height."
+      ],
+      "before_sha256": "c2110c84cd3c532623bb8210aab72ad1db27530f7d2cb3a029ccbd4c0d148d55",
+      "after_sha256": "72d6ba516f53f20039757422d1aedb91f67d11c91c2a54a177b093bfd77cd1c6",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "carles_puyol_2008_09",
@@ -612,9 +813,21 @@
       "era": "2008-09",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_carles_puyol_2008_09.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "David Luiz: Puyol sobre David Luiz: «Muito bom central, seria bem recebido»",
+          "page": "https://david--luiz.blogspot.com/2011/01/puyol-sobre-david-luiz-muito-bom.html",
+          "image": "https://4.bp.blogspot.com/_LrNkY1rIfTE/TTNzDGNfszI/AAAAAAAAAT8/Wq-oa4Xyz6o/s1600/puyol.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2008-09 split-colour shirt portrait: very full long loose curls to collar, exposed central forehead, light eyes, broad long clean face; short curl band is insufficient."
+      ],
+      "before_sha256": "d792065d8fafe0b4cf8fdbac6d7180efc69f8b092eea4221025c7fb680bfc07a",
+      "after_sha256": "50ca4e31a6375bb17aa97acc655b0e59ff4d2d98e6a4276197d74dd3b91dbf93",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "franz_beckenbauer_1973_74",
@@ -643,9 +856,21 @@
       "era": "1991-92",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_ronald_koeman_1991_92.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Ronald Koeman | Ronald koeman, Fc barcelona, European football",
+          "page": "https://es.pinterest.com/pin/755267800043976077/",
+          "image": "https://i.pinimg.com/originals/27/e9/3a/27e93ad90b9c096e68393edb0a93efe8.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Meyba-era Barcelona portrait: soft blond brushed-back top, pale brows/eyes, broad full cheeks/jaw and high forehead. No modern sharp fade."
+      ],
+      "before_sha256": "b979123de301120f929d7569c491e2eff340137210295a93dbfaffabccb32068",
+      "after_sha256": "64134522f0b8f6c82180168d15c2015e2f13788e932968e2dcca5277014cb0e4",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "nuno_mendes_2024_25",
@@ -653,9 +878,24 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_nuno_mendes_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Nuno Mendes FIFA Club World Cup 2025 | Psg, Futebol fotos, Neymar",
+          "page": "https://www.pinterest.com/pin/748653138096831139/",
+          "image": "https://i.pinimg.com/originals/b0/6d/41/b06d4105aca948a66fd5cc5381e09401.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2025 club portrait: close rounded black crop with short sides, slim high cheeks, broad smile and largely clean face."
+      ],
+      "before_sha256": "ee830f428d3d810d479abeb6fb7816b89a4c9cce6455a6e26006c8303cc24d18",
+      "assembly_refinements": {
+        "eyes": "eyes_focused"
+      },
+      "after_sha256": "eb7c05f6a029fbb662adba90012c741911c73f2383d1956ccdd0473d0dad387d",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "theo_hernandez_2022_23",
@@ -663,9 +903,21 @@
       "era": "2022-23",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_theo_hernandez_2022_23.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Theo Hernández :: 2023/2024 - Milan - Player Profile & Stats",
+          "page": "https://www.playmakerstats.com/player/theo-hernandez/331396?epoca_id=153",
+          "image": "https://cdn-img.zerozero.pt/img/planteis/new/86/27/8758627_theo_hernandez_20250710182918.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Adjacent 2023-24 portrait: very short bleached top/dark sides, dark brows and close dense beard, angular jaw. Hair/eyebrows/beard must not all inherit the bleach palette."
+      ],
+      "before_sha256": "52f9db5453ac14ff608beca824a80be3b9736170caaee55061f0353d503012ac",
+      "after_sha256": "0edc908e1f9faa5a9ee1ed50ef2719072895d6a87505e862cdbb6975a1df37ba",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "alphonso_davies_2019_20",
@@ -673,9 +925,21 @@
       "era": "2019-20",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_alphonso_davies_2019_20.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Bayern Munich's Alphonso Davies shares career advice and superstitions | Bundesliga",
+          "page": "https://www.bundesliga.com/en/bundesliga/news/bayern-munich-s-alphonso-davies-shares-career-advice-superstitions-12727",
+          "image": "https://assets.bundesliga.com/tachyon/sites/2/2020/09/fcb_media_davies_1920.jpg?crop=285px%2C0px%2C1350px%2C1080px&fit=540%2C540",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official Bundesliga 19-20 media photo: high upright coiled box silhouette with short sides, long face, broad open smile and short chin/jaw hair."
+      ],
+      "before_sha256": "d75536dec4fe2931a39f525f61ada21bd0c41f35132086480a32eac3e6d81f2e",
+      "after_sha256": "115f5b7ae4d300442f7b2153d0b52f1c8be05653eb4a83dd4c5ef37dca1e39ca",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "andrew_robertson_2019_20",
@@ -683,9 +947,21 @@
       "era": "2019-20",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_andrew_robertson_2019_20.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Andy Robertson - Liverpool - Informações e Estatísticas do Jogador",
+          "page": "https://www.ogol.com.br/jogador/andy-robertson/298434?epoca_id=151",
+          "image": "https://cdn-img.staticzz.com/img/planteis/new/24/82/6272482_andy_robertson_20250506230943.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Later Nike diagonal-kit face study: short swept dark top, exposed ears, narrow angular jaw, faint reddish/dark jaw stubble. Exact target-season exposure not established; avoid adding later age detail."
+      ],
+      "before_sha256": "f9ad184cb3fab3fc8854d5e45ded4ecabf920ffad67d1d05bc10ee5350637f5b",
+      "after_sha256": "992a2c2ae011a476d0de4db0e0e68a90a325adb3d3b75207984620108baedc3e",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "alejandro_grimaldo_2023_24",
@@ -693,9 +969,21 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_alejandro_grimaldo_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Die Werkself - unser Team | Bayer 04 Leverkusen",
+          "page": "https://www.bayer04.de/de-de/team/werkself/bayer-04-leverkusen",
+          "image": "https://b04-ep-media-prod.azureedge.net/pickerimages/Grimaldo_Montage_2425_639656_Q.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official 24-25 club montage, adjacent season: tidy short warm-brown quiff, slender clean cheeks/neck, small separate chin/moustache patch; no invented neck tattoo."
+      ],
+      "before_sha256": "d673629980574344fc6383e3e7c38fb2a2e1c014bbba8c91464b37009e751a9b",
+      "after_sha256": "a464cb7bb38499ace05b48b26b93f8d6844a1ccab52a3335b59e0602af6e6074",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "federico_dimarco_2024_25",
@@ -703,9 +991,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_federico_dimarco_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Equipe Inter Milan 2025-2026 - Internazionale.fr",
+          "page": "https://internazionale.fr/equipes/equipe-inter-milan-2025-2026/",
+          "image": "https://media.invisioncic.com/b334924/pages_media/Dimarco_2x_2025.webp",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Modern two-star Inter portrait: extremely short bleached crop and separate sandy-brown beard, soft round chin and high forehead. Exact photo exposure date unconfirmed."
+      ],
+      "before_sha256": "49fffbdf5ea8ec3f0bb9f70f5339bc44967872fb315d0bdbced60dfa1cc18856",
+      "after_sha256": "86a30ebfa8670804a37367c5d5fa93583b09c87235630570aed0d85368b17a3d",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "antonee_robinson_2024_25",
@@ -713,9 +1013,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_antonee_robinson_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Fulham FC - Antonee Robinson",
+          "page": "https://www.fulhamfc.com/players/antonee-robinson",
+          "image": "https://images.webapi.fulhamfc.com/fit-in/1200x1200/22142580-76b1-11f0-a5cc-b379b687d76d.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official Fulham portrait: high broad rounded coiled top/faded sides, lean long face and light jaw beard; no invented long locks. Modern source exact exposure unconfirmed."
+      ],
+      "before_sha256": "9267d81d8f666ca80fb0c93e8518c5f3b2afcc8399ed5a103d432360728246cd",
+      "after_sha256": "7e7f760f96d4032f845c9936352b96c92a873a21a155680aad0a50c30d89de7f",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "marc_cucurella_2024_25",
@@ -723,9 +1035,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_marc_cucurella_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Marc Cucurella | Profile | Official Site | Chelsea Football Club",
+          "page": "https://www.chelseafc.com/en/teams/profile/marc-cucurella",
+          "image": "https://img.chelseafc.com/image/upload/f_auto%2Ch_860%2Cq_50/editorial/people/first-team/2024-25/Marc_Cucurella_profile_2024-25_fever_avatar-removebg.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official 2024-25 Chelsea portrait: very long wide loose curls, exposed high centre forehead, dark thick eyebrows, rounded full beard and long narrow face."
+      ],
+      "before_sha256": "a26d402510d47ca698548667191c9317cc27e122bfc4453b9c3dce58b7aa478e",
+      "after_sha256": "211c4b1d7055b8d9175c0867e11ef7e839319f2c958c86c054b53c7d7071a6ae",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "alejandro_balde_2024_25",
@@ -733,9 +1057,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_alejandro_balde_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Balde | Fitxa del jugador 25/26 | Defensa | Canal Oficial FC Barcelona",
+          "page": "https://www.fcbarcelona.cat/ca/futbol/primer-equip/jugadors/68906/alejandro-balde",
+          "image": "https://www.fcbarcelona.com/photo-resources/2024/10/13/6fe656aa-472e-408d-a123-7e9e142ec3ca/03-Balde-M.png?height=790&width=670",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official October 2024 portrait: medium/high natural coiled halo, soft narrow lower jaw, gentle closed smile and tiny chin hair; not braids."
+      ],
+      "before_sha256": "835384e5d56f52e0021953ae59c91f1adcb24243ad3be4edb03840f2baa2ca5e",
+      "after_sha256": "5daeb939d66cad8499acab0588852f509f5a58fba12d9936139160064d70aa16",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "milos_kerkez_2024_25",
@@ -743,9 +1079,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_milos_kerkez_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Milos Kerkez - Bournemouth - Informações e Estatísticas do Jogador",
+          "page": "https://www.ogol.com.br/jogador/milos-kerkez/815607?epoca_id=154",
+          "image": "https://www.ogol.com.br/img/planteis/new/44/32/11534432_milos_kerkez_20240817024120.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "August 2024 Bournemouth portrait: short curly top/fade, broad square jaw, small chin patch, visible small upper-tooth gap. No blond crest."
+      ],
+      "before_sha256": "152efeeafc5dc8df81c8ab1477555f9f166ba8ae3c5ab9144faa0bdd1e6763f0",
+      "after_sha256": "941e282f09a7a4dd2231f9e680e94d59a948498a88d8be5ab718783135e9f256",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "roberto_carlos_2001_02",
@@ -774,9 +1122,21 @@
       "era": "2016-17",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_marcelo_2016_17.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Marcelo :: 2017/2018 - Player Profile & Stats",
+          "page": "https://www.playmakerstats.com/player/marcelo/30693?epoca_id=147",
+          "image": "https://cdn-img.staticzz.com/img/planteis/new/02/34/3970234_marcelo_20240924142922.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Adjacent 2017-18 Madrid portrait: very wide airy coiled halo, compact face, neat short beard/moustache and gentle smile. Needs wider volume than short generic afro."
+      ],
+      "before_sha256": "9f178cc7cd742e617930afea8c74c2de172ce383d44a2632624c2b6e076e52af",
+      "after_sha256": "386ee0374ef2fcbcc1f601e2a9afabb13dc04ff51846e5f522fbe95573eafb80",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "ashley_cole_2009_10",
@@ -784,9 +1144,21 @@
       "era": "2009-10",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_ashley_cole_2009_10.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Ashley Cole | Tag | Official Site | Chelsea Football Club",
+          "page": "https://www.chelseafc.com/en/news/tag/ashley-cole",
+          "image": "https://img.chelseafc.com/image/upload/f_auto%2Car_16%3A9%2Cw_500%2Cc_fill%2Cg_auto%2Cdpr_2.0%2Cq_90/editorial/news/2024/03/23/Cole_PL_trophy_2010_GettyImages-98940324.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official Chelsea photo labelled 2010 trophy: very close dark crop, high cheekbones, arched brows and fine facial hair. Neutral lips used rather than copying the shout."
+      ],
+      "before_sha256": "1f90e7b02e05068d9b13f3ecbdcd835f92d07eb39ad4a9f32b97b710d895b4f7",
+      "after_sha256": "7f08963792318ee944ab7398873c3e80746005e2d6058e30617c4c4a1f2c0454",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "patrice_evra_2007_08",
@@ -794,9 +1166,21 @@
       "era": "2007-08",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_patrice_evra_2007_08.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Patrice Evra  - évről évre - Starity.hu",
+          "page": "https://starity.hu/sztarok/patrice-evra/evrol-evre/",
+          "image": "https://starity.hu/images/celebs/years/13966/800x600/2008-1428069224.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2008-labelled portrait: compact dense short curls, full cheeks/square jaw, fine moustache and small chin patch, fuller relaxed lips."
+      ],
+      "before_sha256": "96072b04800151f7bf4cac9a6032e99a46d27163b8896b2e8f2c0104fbbb3778",
+      "after_sha256": "dd00fc384ec14ce4dfcb7d01b30022922879763c5b66353d7fedd74ae99501e7",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "bixente_lizarazu_1998",
@@ -804,9 +1188,21 @@
       "era": "1998",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_bixente_lizarazu_1998.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Bixente Lizarazu, footballeur de l'équipe de France de football | Équipe-France",
+          "page": "https://www.equipe-france.fr/football/bixente-lizarazu",
+          "image": "https://equipe-france.s3.2fly.io/img/personne/bixente-lizarazu-1.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "France-era portrait: spiky dark crown spread across top, lean angular face, narrow straight brows and restrained stubble. Kit suggests period context; exact exposure not established."
+      ],
+      "before_sha256": "b00c7bb8c68b03ab98e0d3c183172a19e2d2dc01cd350ce72bc0b82572315858",
+      "after_sha256": "0ba34544df01384837f3294e9307ceb73e1000c128c59a39966bcf779bd4c985",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "giacinto_facchetti_1964_65",
@@ -814,9 +1210,21 @@
       "era": "1964-65",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_giacinto_facchetti_1964_65.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Top 50 Left-Backs of All-Time - ICONIC FOOTBALL",
+          "page": "https://iconicfootball.weebly.com/top-50-left-backs-of-all-time.html",
+          "image": "https://iconicfootball.weebly.com/uploads/1/4/6/5/146537146/editor/1966-67-inter-milan-giacinto-facchetti_1.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "1966-67-labelled adjacent Inter portrait: neatly combed low side part, long clean face, strong straight brows and pronounced nose; no modern fade or beard."
+      ],
+      "before_sha256": "d539a194f60ca210bf4866cbffc2717510386715701f9494267adaf142efa186",
+      "after_sha256": "870b284f9d0ddbdac1c4219e7947bc057564958d17ab1afb805a97bef8ca2dc2",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "andreas_brehme_1990",
@@ -824,9 +1232,21 @@
       "era": "1990",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_andreas_brehme_1990.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Goodbye Andy: the strongest two-footed player, a true Interista | Inter.it",
+          "page": "https://www.inter.it/en/news/inter-remembers-andy-brehme",
+          "image": "https://intermilan.bynder.com/m/54e1dcd614cfb56c/webimage-AD01691-Brehme-Andreas.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official Inter archive playing-era image: warm light-brown/blond tousled fringe and longer nape, strong lean jaw. Rejected reunion photographs in retro 1990 shirt; do not copy their grey/receding age cues."
+      ],
+      "before_sha256": "03921c3d4e800a4cac870ad39111673299c2bd7c5323985f8176b85e9703ef8d",
+      "after_sha256": "a3847d8be5b6740b3b3c419382fb82b2a1cb925c23cb8c0ff2dd718fe661ce01",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "denis_irwin_1998_99",
@@ -834,9 +1254,21 @@
       "era": "1998-99",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_denis_irwin_1998_99.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Manchester United (@ManUtd) on X",
+          "page": "https://x.com/ManUtd/status/1447580998934437889",
+          "image": "https://pbs.twimg.com/media/FBbWsF-X0AIfomB.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Man United archive portrait is earlier adidas/Sharp era: short dense side sweep, round cheeks/square chin, pale eyes. Used as anatomy/style study; exact 1998-99 exposure not established and no later age lines added."
+      ],
+      "before_sha256": "7e5af254bbdcf79e6b0bb238f6d7f9202e6f853617545f2ccf8b065cf432814d",
+      "after_sha256": "025178cc9767fe2f354fa31c058af517e17a1e45914cf68bbc6d89292b0ffdd8",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "giovanni_van_bronckhorst_2005_06",
@@ -844,9 +1276,21 @@
       "era": "2005-06",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_giovanni_van_bronckhorst_2005_06.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Panini 11 Giovanni van Bronckhorst FC Barcelona UEFA CL 2006/07 | eBay",
+          "page": "https://www.ebay.com/itm/391750613465",
+          "image": "https://i.ebayimg.com/images/g/SzQAAOSwhQhY6z93/s-l1200.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Adjacent 2006-07 archive sticker photo: short dark sweep, light stubble, lean cheeks and strong brows; image used only as visual reference, no sticker/branding copied."
+      ],
+      "before_sha256": "9b808698c0ea766bf87c13be8869ddf9c909ebe163e5b1bf13b2a0c21ad0ea06",
+      "after_sha256": "ed460cdd8915dbf6a6bee52ff2dd80357af0a9436e76e419d935d1487ad561f6",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "jose_antonio_camacho_1981_82",
@@ -854,9 +1298,21 @@
       "era": "1981-82",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_jose_antonio_camacho_1981_82.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "El antes y el después de los protagonistas del España-Malta - Libertad Digital",
+          "page": "https://www.libertaddigital.com/deportes/futbol/2019-03-25/espana-malta-senor-clasificacion-eurocopa-1935353/",
+          "image": "https://s1.staticld.com/2019/03/25/camacho-1983.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "1983 adjacent Spain photo: thick wavy/fringed dark mop with flicked sides/nape, broad full jaw, heavy brow and clean face."
+      ],
+      "before_sha256": "5cf54a0f0652bb921f2ec2a6c855643e7a9df4161c75846b14d94eba1d96b7d7",
+      "after_sha256": "34245739d35caaf56052c01bbbddf5b3260febba92c82c9bc09b39d628d3f68f",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "achraf_hakimi_2024_25",
@@ -864,9 +1320,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_achraf_hakimi_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Achraf Hakimi :: 2024/2025 - PSG - Informações e Estatísticas do Jogador",
+          "page": "https://www.ogol.com.br/jogador/achraf-hakimi/478625?epoca_id=154",
+          "image": "https://cdn-img.zerozero.pt/img/planteis/new/07/04/11530704_achraf_hakimi_20241012234607.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "October 2024-uploaded PSG portrait: close dark textured top/fade, strong arched brow, broad angular jaw and light beard. Kit photo may precede upload."
+      ],
+      "before_sha256": "bbf8f901ce18926945190b69bf7ec7eb6f59221bf3c319c2dfeaddb88363d2b0",
+      "after_sha256": "b37e69cd6c8b0506928020e09ffca64e109cfbe7c126411d3cc50b53f2d8597d",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "trent_alexander_arnold_2019_20",
@@ -874,9 +1342,21 @@
       "era": "2019-20",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_trent_alexander_arnold_2019_20.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "ePL Invitational: Trent Alexander-Arnold's competitive juices flowing ahead of Raheem Sterling showdown | eSports News | Sky Sports",
+          "page": "https://www.skysports.com/more-sports/football/news/33554/11978221/epl-invitational-trent-alexander-arnolds-competitive-juices-flowing-ahead-of-raheem-sterling-showdown",
+          "image": "https://e0.365dm.com/20/03/1600x900/skysports-trent-alexander-arnold_4944932.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "March 2020 pinstripe Liverpool portrait: compact rounded coiled crop, lean long face, gentle brow and fine jaw/chin hair. No later long locks."
+      ],
+      "before_sha256": "307b2870c6f47440f389767b06f7c810fa2aeb841f70ffd90c05844268fd7876",
+      "after_sha256": "5b507576081340d101f26d9011ff1ec20b1dc298db15a778237ea199405ca442",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "dani_carvajal_2023_24",
@@ -884,9 +1364,21 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_dani_carvajal_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Real Madrid i-a prelungit contractul lui Dani Carvajal  | News.ro",
+          "page": "https://www.news.ro/sport/real-madrid-i-a-prelungit-contractul-lui-dani-carvajal-1922403706002024101721756681",
+          "image": "https://i0.1616.ro/media/2/2701/33670/21756681/1/dani-carvajal.png?width=1200",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "October 2024 coverage, adjacent after edition: short swept/receding hair, thick full rounded beard, strong brow and firm lips. Avoid a completely bald scalp."
+      ],
+      "before_sha256": "710d718b300f887be30e70ffc8568f68aaaf4516073d88d04b47eb865f18421f",
+      "after_sha256": "23f251b0d0111962fe694205c929ee339a28b45a2432e030912c2c93071232b6",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "jules_kounde_2024_25",
@@ -894,9 +1386,24 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_jules_kounde_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Kounde | 2025/2026 player page | Defender | FC Barcelona Official website",
+          "page": "https://www.fcbarcelona.com/en/football/first-team/players/15552/jules-kou",
+          "image": "https://www.fcbarcelona.com/photo-resources/2024/10/13/34c0073f-7235-4776-a508-8fccc377f57b/23-Kounde-M.jpg?height=470&width=470",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official October 2024 portrait: medium loose locks framing ears/nape with high exposed forehead, lean cheeks, fine chin/moustache hair; avoid uniform long straight strands."
+      ],
+      "before_sha256": "b9ca321af30df4ab398d1c86f6e81253935068df19c077687e82f65f0fa0a0cf",
+      "assembly_refinements": {
+        "eyes": "eyes_focused"
+      },
+      "after_sha256": "d12e5613911b40f2dbd415740ba4d63f3f0800d4c8084b756ac4b5a262d9bba4",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "pedro_porro_2023_24",
@@ -904,9 +1411,21 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_pedro_porro_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Spurs Defenders - Pedro Porro vs. Romero vs. Van de Ven",
+          "page": "https://www.andrewhagedorn.com/fpl/2023-2024/spurs-defenders-comparison/",
+          "image": "https://www.andrewhagedorn.com/images/players/2023-2024/player-441164.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2023-24 squad photo: short dense dark top/faded sides, broad clean jaw and smile; no invented beard or neck markings."
+      ],
+      "before_sha256": "ee9ed636d24ff3f72ef48d6957d5e0a934e34ad47b6a22a52ad2eebf3d010676",
+      "after_sha256": "abd733f5805857e0e2dc667deb7807010f58f08ec3cdb053ed9ff5f3db54ba18",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "reece_james_2021_22",
@@ -914,9 +1433,21 @@
       "era": "2021-22",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_reece_james_2021_22.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Reece James | Profile | Official Site | Chelsea Football Club",
+          "page": "https://www.chelseafc.com/en/teams/profile/reece-james",
+          "image": "https://img.chelseafc.com/image/upload/f_auto%2Ch_860%2Cq_50/editorial/people/first-team/2022-23/Reece_James_profile_avatar_final_22-23.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official adjacent 2022-23 portrait: high compact dark coils with blond tips only, dark full beard/brows, broad jaw and nose. Preserve dark roots/beard independently."
+      ],
+      "before_sha256": "d11c713dffe588ebd67c13956466b3c7aa8118c8261a40f6763c84cf758c47a4",
+      "after_sha256": "ee13340f3fe0da013f262db94a0e26e5c8e9cd5b843af8545008433cba97a6ce",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "jeremie_frimpong_2023_24",
@@ -924,9 +1455,21 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_jeremie_frimpong_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Bayer 04",
+          "page": "https://www.bayer04.de/de-de/team/werkself/bayer-04-leverkusen",
+          "image": "https://b04-ep-media-prod.azureedge.net/pickerimages/Frimpong_Montage_2425_639655_Q.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official adjacent 24-25 montage: short parted chunky twists to ear height, slender lower face, small chin hair and broad smile; not shoulder-length locks."
+      ],
+      "before_sha256": "d5e3570fc777909c170b88815cdc7d5e4e956bb69afd7b152b0df5adf9e8e6a7",
+      "after_sha256": "bf13c80a2d2559406c215a97869d856246aff025d6f169e37e989d524d853437",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "ben_white_2023_24",
@@ -934,9 +1477,21 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_ben_white_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Arsenal nhận tin cực buồn từ hậu vệ phải Ben White",
+          "page": "https://bongda24h.vn/bong-da-anh/arsenal-nhan-tin-cuc-buon-tu-ben-white-172-404863.html",
+          "image": "https://static.bongda24h.vn/medias/original/2024/10/15/4ben_white_5-1510154624.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "October 2024 adjacent portrait: short loose forward fringe/fade, high cheekbones, fine moustache and pointed close jaw beard. Exact target-season exposure not established."
+      ],
+      "before_sha256": "5107b483dfcba36c3590ebf1decfbc8a50fe3f6c8695cbaf8715823364761c79",
+      "after_sha256": "46a7805f9f4f943faa0a5660f67f6533baf26c31f336a2c72cbbdf423702dc22",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "denzel_dumfries_2024_25",
@@ -944,9 +1499,21 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_denzel_dumfries_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "denzel dumfries - Internazionale.fr",
+          "page": "https://internazionale.fr/tags/denzel-dumfries/",
+          "image": "https://media.invisioncic.com/b334924/monthly_2025_09/Dumfries_2x_2025.webp.d78f5ddb1b46cb339670ee49548d3bea.webp",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Two-star Inter portrait: short even coiled top, long broad face, full lips and small chin patch. Modern image exact exposure date unconfirmed."
+      ],
+      "before_sha256": "7e8519e8b83f9d8dcaf4e214008a06392b2aec27baee68f86dbd95f692e825f3",
+      "after_sha256": "5e6c83e1689ff0154252ad2746216e520f1e3d16822ed8db7437220723ff1986",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "diogo_dalot_2023_24",
@@ -954,9 +1521,21 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_diogo_dalot_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Diogo Dalot: Amorim đã mang đến động lực giúp MU hòa Liverpool",
+          "page": "https://bongda24h.vn/bong-da-anh/diogo-dalot-phat-bieu-cua-amorim-da-dem-ve-tran-hoa-liverpool-172-409620.html",
+          "image": "https://static.bongda24h.vn/medias/original/2024/10/17/20-diogo-dalot-1710092252.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "October 2024 adjacent portrait: short neatly swept/faded dark hair, long narrow jaw, fine stubble and open smile; no tall quiff."
+      ],
+      "before_sha256": "126bfb8d49b052d61c17682512f4d6ff237c923d1588f6a47963b5c26925c800",
+      "after_sha256": "428be3af3b6f383f3db66b945593909f6ee68bbc0fce0083374c912dafe956c0",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "cafu_2001_02",
@@ -964,9 +1543,21 @@
       "era": "2001-02",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_cafu_2001_02.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Cafu (Brasil) | Copa mundial de la fifa, Futbol brasileño, Copa del mundo",
+          "page": "https://www.pinterest.com/pin/400116748138888197/",
+          "image": "https://i.pinimg.com/originals/ab/f8/91/abf89159c66c0af6203ccfe181fcb88e.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2002 Brazil trophy photograph: short dense curls with higher frontal temples, long smiling face and pronounced cheek creases, clean jaw. No bald replacement."
+      ],
+      "before_sha256": "13e5faeacccb4a4022cbccd37515f37731d0d1e19ea65072e8e7b8b239da40b1",
+      "after_sha256": "469554bbdee8323bfe0de1066ad7bcee9ad4bbbe490e27f995462fad0e59ab2d",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "javier_zanetti_2009_10",
@@ -974,9 +1565,25 @@
       "era": "2009-10",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_javier_zanetti_2009_10.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Javier Zanetti - Informações e Estatísticas do Jogador",
+          "page": "https://www.ogol.com.br/jogador/javier-zanetti?epoca_id=139",
+          "image": "https://cdn-img.staticzz.com/img/planteis/new/20/42/462042_javier_zanetti_20250523185759.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2009-10 Inter squad portrait: compact thick swept hair, pronounced square jaw/high cheeks and clean smile."
+      ],
+      "before_sha256": "d554b7d20ff6e0dc4036a9beb50fe72767cb882eb8f64f3a32caa5f286344b7f",
+      "assembly_refinements": {
+        "hair": "hair_sidepart",
+        "head": "head_square_brow"
+      },
+      "after_sha256": "a2dab8dcd4746fceb6e5d0ef0c127f055645de83375f1c620168a6c7bfd40287",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "philipp_lahm_2012_13",
@@ -984,9 +1591,21 @@
       "era": "2012-13",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_philipp_lahm_2012_13.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Philipp Lahm - B.Z. – Die Stimme Berlins",
+          "page": "https://www.bz-berlin.de/archiv-artikel/philipp-lahm-10",
+          "image": "https://image.bz-berlin.de/data/uploads/multimedia/archive/00348/Abwehr__Philipp_Lah_348183a.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Bayern playing-era portrait: compact short textured sweep, light eyes, dark brows and clean-to-fine chin stubble. Gold-trimmed shirt is an earlier face study; do not copy its frosted colouring literally."
+      ],
+      "before_sha256": "d057cfe0ca81c0d7ea7f40a8f478fe8aff47d7bd442d6dfb54dd4959db8c1032",
+      "after_sha256": "b6b4a341adb94ece8c1648c1b4750e84b17899ddcd50443e5a7fcf1c5d7c6bf1",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "dani_alves_2010_11",
@@ -994,9 +1613,24 @@
       "era": "2010-11",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_dani_alves_2010_11.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Dani Alves :: 2010/2011 - Informações e Estatísticas do Jogador",
+          "page": "https://www.ogol.com.br/jogador/dani-alves/1051?epoca_id=140",
+          "image": "https://www.ogol.com.br/img/planteis/new/71/02/717102_dani_alves_20260218155329.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2010-11 yellow-collar Barcelona squad portrait: very close cropped top, wide cheekbones/smile and narrow jaw beard. No later blond hairstyle."
+      ],
+      "before_sha256": "335b96a7d9021e5e54bf1d8818ddb7702e888f4283993ce9e0408435679fab2a",
+      "assembly_refinements": {
+        "eyes": "eyes_focused"
+      },
+      "after_sha256": "b226be05b227232923daf9d9670dcd75c7bae456b6099a50863d39b9c92b77be",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "gianluca_zambrotta_2005_06",
@@ -1004,9 +1638,21 @@
       "era": "2005-06",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_gianluca_zambrotta_2005_06.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "CALCIATORI 2005-2006 05 06 n 158 JUVENTUS ZAMBROTTA , Figurina Panini NEW  | eBay",
+          "page": "https://www.ebay.ca/itm/161148666437",
+          "image": "https://i.ebayimg.com/images/g/QhwAAOxyTjNSgf2W/s-l1200.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2005-06 Panini Juventus face study: compact short slick top, prominent nose and close dark connected beard/moustache. References only; no sticker pixels copied."
+      ],
+      "before_sha256": "7a11c6464b2efe21f39da7c70a6cc49b35c7fd58b0803565c6a1aad07a26e48d",
+      "after_sha256": "781f6c90da5740955d7bc73db7b827edca6a3b36ee8a0b09397f11f9fa6146b4",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "maicon_2009_10",
@@ -1014,9 +1660,21 @@
       "era": "2009-10",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_maicon_2009_10.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Maicon :: 2010/2011 - Player Profile & Stats",
+          "page": "https://www.playmakerstats.com/player/maicon/5302?epoca_id=140",
+          "image": "https://cdn-img.zerozero.pt/img/planteis/new/93/68/799368_maicon_20250827223704.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Adjacent 2010-11 Inter portrait: very close shaved scalp, strong long face and prominent smile/cheeks, clean jaw."
+      ],
+      "before_sha256": "f68131c1f11a91e6074665c30bdaf4eb595c7b5889779861d01569816b12b550",
+      "after_sha256": "5d7da9327a6b50514b027bb5b942b4e7d934a8265ede7845edb8925eb57b7ef3",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "gary_neville_1998_99",
@@ -1024,9 +1682,21 @@
       "era": "1998-99",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_gary_neville_1998_99.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Portrait of Gary Neville of Manchester United before the Champions... | Manchester united, Manchester united legends, Manchester united players",
+          "page": "https://uk.pinterest.com/pin/portrait-of-gary-neville-of-manchester-united-before-the-champions--205476801740338033/",
+          "image": "https://i.pinimg.com/474x/70/a0/08/70a0088ad113effcd7a7155e8bf7cf3b.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Young United playing-era portrait: short parted curtains, deep-set eyes, narrow long nose and clean slim jaw; earlier Umbro shirt means exact 1998-99 exposure is not established."
+      ],
+      "before_sha256": "a1ac7f46f204ef55ba46c56d19e7d23d7808ce920dc628dd16d920b01715bd3a",
+      "after_sha256": "c67ab8a230c93f83a6b3e95844a46952840e6b85a83e3ccd57c92852a827b254",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "lilian_thuram_1998",
@@ -1034,9 +1704,21 @@
       "era": "1998",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_lilian_thuram_1998.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Lilian Thuram - France 1998 | Football players, Teams, Football",
+          "page": "https://www.pinterest.com/pin/316940892499563326/",
+          "image": "https://i.pinimg.com/736x/ce/5e/96/ce5e96cd7937dffda9945b5be566e20a--lilian-thuram-football-players.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "1998 France portrait: bald rounded scalp, heavy brow, strong jaw, full lips and fine jaw stubble; do not add present-day glasses."
+      ],
+      "before_sha256": "ef60d47fa4f8f90ec76530305af918530c4a4cf9f90f6435ef07cd6861df888d",
+      "after_sha256": "d18ca6ed0fe641ce939b80b9f32a40129356cef318ed5b9d759cfdd28d03fe1f",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "carlos_alberto_1970",
@@ -1044,9 +1726,21 @@
       "era": "1970",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_carlos_alberto_1970.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Le XI du Brésil à la Coupe du Monde 1970",
+          "page": "https://www.90min.com/fr/posts/le-xi-du-bresil-a-la-coupe-du-monde-1970",
+          "image": "https://images2.minutemediacdn.com/image/upload/c_crop%2Cw_1742%2Ch_1742%2Cx_0%2Cy_247/c_fill%2Cw_720%2Car_1%3A1%2Cf_auto%2Cq_auto%2Cg_auto/images/GettyImages/mmsport/90min_fr_international_web/01gard67tv1n3xrg9x7b.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Playing-era black-and-white close-up: dense short curls, strong nose/cheekbone and clean-to-fine-stubble jaw; colour palette is an approximation, not sampled from monochrome."
+      ],
+      "before_sha256": "43f56494ead8bd8cb0d8d507fe80af12471bf0e1e190c9c70e3d7b54882bc704",
+      "after_sha256": "a89671adc6693c8c5fcabaf1f4ca144d230af924b4a25005d834d98050f89300",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "giuseppe_bergomi_1989_90",
@@ -1054,9 +1748,24 @@
       "era": "1989-90",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_giuseppe_bergomi_1989_90.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Happy birthday Giuseppe Bergomi",
+          "page": "https://sempreinter.com/2014/12/22/happy-birthday-giuseppe-bergomi-2/",
+          "image": "https://sempreinter.com/wp-content/uploads/2014/12/Bergomi_Inter.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Earlier Inno-Hit-era Inter photo: dense ear-length curls, heavy dark moustache, prominent bridge and clean jaw. Exact 1989-90 exposure not established."
+      ],
+      "before_sha256": "8062cc5701f0bc89cfd67a3ae4ca4ce046281b00d428c7fecf42e97f25d072b9",
+      "assembly_refinements": {
+        "facial": "facial_bushy_moustache"
+      },
+      "after_sha256": "7ec44f5b3418521f127c03809a9da8467d12e615ed2fc66687e1432298cdf5e7",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "rodri_2022_23",
@@ -1778,9 +2487,24 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_kylian_mbappe_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Kylian Mbappé :: 2023/2024 - PSG - Player Profile & Stats",
+          "page": "https://www.playmakerstats.com/player/kylian-mbappe/394508?epoca_id=153",
+          "image": "https://cdn-img.staticzz.com/img/planteis/new/22/70/8672270_kylian_mbappe_20241202162137.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2023-24 PSG portrait: very close flat cropped top, rounded cheeks, almond eyes and broad clean smile; no mask/hair embellishments."
+      ],
+      "before_sha256": "91598dde326dde176632a28a5cb2fed78c2d227a4b8a04776700185ae5bdb3cd",
+      "assembly_refinements": {
+        "eyes": "eyes_narrow"
+      },
+      "after_sha256": "5cb3b205cbd6845498c09e02f8cd1658bc80b70ed6df86ffe8921a8338495a10",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "raphinha_2024_25",
@@ -2000,9 +2724,24 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_mohamed_salah_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Vinicius Junior được đánh giá cao hơn Mohamed Salah",
+          "page": "https://bongda24h.vn/bong-da-anh/vinicius-junior-duoc-danh-gia-cao-hon-mohamed-salah-172-405258.html",
+          "image": "https://static.bongda24h.vn/medias/original/2024/10/15/11-mohamed-salah-1510211546.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "October 2024 Liverpool portrait: close cropped hair and full rounded dark beard, strong brows and smiling eyes. Do not use his older large curly halo for this edition."
+      ],
+      "before_sha256": "08ca537a767e00d9d3d99c2b7e0d496ffca2c8ca6387cf74af71721e7ecb1e65",
+      "assembly_refinements": {
+        "eyes": "eyes_focused"
+      },
+      "after_sha256": "8a0db8db60e8722b0b67a76d476a1fd7dea5951155ea29853678c982077cda33",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "lamine_yamal_2024_25",
@@ -2212,9 +2951,25 @@
       "era": "2022-23",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_erling_haaland_2022_23.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "title": "Erling Haaland :: 2022/2023 - Manchester City - Perfil del Jugador",
+          "page": "https://www.zerozero.com.mx/jugador/erling-haaland/512741?epoca_id=152",
+          "image": "https://cdn-img.staticzz.com/img/planteis/new/14/64/6931464_erling_haaland_20260620024116.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2022-23 City portrait: pale skin, long broad clean jaw, narrow light eyes and slick blond hair tied low behind the head, not a high topknot."
+      ],
+      "before_sha256": "279447620c5d6e2ea35f75d35c5b52d0f8e21c05f4b28986d8b7f3ebec6c6e1e",
+      "assembly_refinements": {
+        "head": "head_long_square",
+        "nose": "nose_broad_bridge"
+      },
+      "after_sha256": "2d0edb7247b1c3cc7cb58cd3c14cdabb15005a50a34933ece21631ad8c35b818",
+      "verification": "96px RGBA source and opaque imported pixels checked; native CardView captured at 1280x720 and 1920x1080; individual assembly reviewed."
     },
     {
       "card_id": "harry_kane_2023_24",

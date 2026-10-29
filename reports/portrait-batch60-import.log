@@ -1,0 +1,71 @@
+WorkerThreadPool: 8 threads, 6 max low-priority.
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+Using "default" pen tablet driver...
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 2004498165
+EDITOR API HASH: 1696660745
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: C:/Users/media/AppData/Roaming/Godot/editor_settings-4.7.tres remapped: C:/Users/media/AppData/Roaming/Godot/editor_settings-4.7.tres
+Completed load for: 'C:/Users/media/AppData/Roaming/Godot/editor_settings-4.7.tres' remapped 'C:/Users/media/AppData/Roaming/Godot/editor_settings-4.7.tres' at thread -1
+EditorSettings: Load OK!
+EditorTheme: Generating new theme for the config '3810048042'.
+EditorTheme: Generating new icons.
+EditorTheme: Generating new fonts.
+EditorTheme: Generating new styles.
+Loading resource: C:/Users/media/AppData/Local/Godot/editor_doc_cache-4.7.res remapped: C:/Users/media/AppData/Local/Godot/editor_doc_cache-4.7.res
+Loaded system CA certificates
+Completed load for: 'C:/Users/media/AppData/Local/Godot/editor_doc_cache-4.7.res' remapped 'C:/Users/media/AppData/Local/Godot/editor_doc_cache-4.7.res' at thread -1
+Failed to bind socket. Error: 3.
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[  33% ] [90m[1mloading_editor_layout[22m | Reopening scenes...[39m[0m
+Loading resource: res://match/match_view.tscn remapped: res://match/match_view.tscn
+Loading resource: res://match/match_view.gd remapped: res://match/match_view.gd
+Loading resource: res://content/exhibition_roster.tres remapped: res://content/exhibition_roster.tres
+Loading resource: res://content/roster.gd remapped: res://content/roster.gd
+Completed load for: 'res://content/roster.gd' remapped 'res://content/roster.gd' at thread -1
+Loading resource: res://content/player_card.gd remapped: res://content/player_card.gd
+Completed load for: 'res://content/player_card.gd' remapped 'res://content/player_card.gd' at thread -1
+Completed load for: 'res://content/exhibition_roster.tres' remapped 'res://content/exhibition_roster.tres' at thread -1
+Loading resource: res://ui/game_theme.tres remapped: res://ui/game_theme.tres
+Loading resource: res://assets/fonts/Inter-Variable.ttf remapped: res://assets/fonts/Inter-Variable.ttf
+Loading resource: res://.godot/imported/Inter-Variable.ttf-e500b369badb17500bd3445af6919693.fontdata remapped: res://.godot/imported/Inter-Variable.ttf-e500b369badb17500bd3445af6919693.fontdata
+Completed load for: 'res://assets/fonts/Inter-Variable.ttf' remapped 'res://assets/fonts/Inter-Variable.ttf' at thread -1
+Loading resource: res://assets/fonts/BarlowCondensed-Bold.ttf remapped: res://assets/fonts/BarlowCondensed-Bold.ttf
+Loading resource: res://.godot/imported/BarlowCondensed-Bold.ttf-98705ec00425e586a00a6d7340a3c35a.fontdata remapped: res://.godot/imported/BarlowCondensed-Bold.ttf-98705ec00425e586a00a6d7340a3c35a.fontdata
+Completed load for: 'res://assets/fonts/BarlowCondensed-Bold.ttf' remapped 'res://assets/fonts/BarlowCondensed-Bold.ttf' at thread -1
+Loading resource: res://assets/fonts/BarlowCondensed-SemiBold.ttf remapped: res://assets/fonts/BarlowCondensed-SemiBold.ttf
+Loading resource: res://.godot/imported/BarlowCondensed-SemiBold.ttf-a61dd99857b2d1cd6578199d7509bfaf.fontdata remapped: res://.godot/imported/BarlowCondensed-SemiBold.ttf-a61dd99857b2d1cd6578199d7509bfaf.fontdata
+Completed load for: 'res://assets/fonts/BarlowCondensed-SemiBold.ttf' remapped 'res://assets/fonts/BarlowCondensed-SemiBold.ttf' at thread -1
+Loading resource: res://assets/fonts/BarlowCondensed-BoldItalic.ttf remapped: res://assets/fonts/BarlowCondensed-BoldItalic.ttf
+Loading resource: res://.godot/imported/BarlowCondensed-BoldItalic.ttf-0e69fd6ad5a5b42952216a4f8001fed3.fontdata remapped: res://.godot/imported/BarlowCondensed-BoldItalic.ttf-0e69fd6ad5a5b42952216a4f8001fed3.fontdata
+Completed load for: 'res://assets/fonts/BarlowCondensed-BoldItalic.ttf' remapped 'res://assets/fonts/BarlowCondensed-BoldItalic.ttf' at thread -1
+Completed load for: 'res://ui/game_theme.tres' remapped 'res://ui/game_theme.tres' at thread -1
+Completed load for: 'res://match/match_view.gd' remapped 'res://match/match_view.gd' at thread -1
+Completed load for: 'res://match/match_view.tscn' remapped 'res://match/match_view.tscn' at thread -1
+[  50% ] [90m[1mloading_editor_layout[22m | Loading central editor layout...[39m[0m
+[  66% ] [90m[1mloading_editor_layout[22m | Loading plugin window layout...[39m[0m
+[  83% ] [90m[1mloading_editor_layout[22m | Editor layout ready.[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+Failed to bind socket. Error: 3.
+Script docs haven't been properly loaded or regenerated, so don't save them to disk.
+EditorSettings: Save OK!
+XR: Clearing primary interface
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"
+Orphan StringName: Node (static: 3, total: 4)
+StringName: 1 unclaimed string names at exit.

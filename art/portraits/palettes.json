@@ -7,7 +7,13 @@
     "iris_light": "#68766F",
     "iris_blue": "#567A88",
     "mask_light": "#424A46",
-    "tattoo_ink": "#3B443F"
+    "tattoo_ink": "#3B443F",
+    "dark_hair": "#30332F",
+    "dark_hair_light": "#4A4D43",
+    "dark_hair_shadow": "#1D211E",
+    "brown_hair": "#634730",
+    "brown_hair_light": "#8A6542",
+    "brown_hair_shadow": "#3E2D23"
   },
   "skin": {
     "porcelain": {

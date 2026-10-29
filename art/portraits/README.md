@@ -33,3 +33,8 @@ not establish human approval or photographic likeness.
 
 The authoring folder is `.gdignore`d. Godot continues to load the existing baked
 PNGs from `assets/portraits/catalogue_200/`; no runtime compositor is introduced.
+
+Native verification must compare loaded opaque texture pixels with the baked PNG,
+not just dimensions. Refresh imports with `Godot --headless --editor --path . --import`
+(without an additional immediate `--quit`) before running `capture.gd`. The capture
+script rejects stale imported art, then records actual cards at both resolutions.

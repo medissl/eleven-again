@@ -1,0 +1,42 @@
+[
+  {
+    "id": "marcelo_2016_17",
+    "look": "full_cheeks wide_coils almond fine wide soft_closed close_beard tan black",
+    "note": "Adjacent 2017-18 Madrid portrait: very wide airy coiled halo, compact face, neat short beard/moustache and gentle smile. Needs wider volume than short generic afro.",
+    "reference": {
+      "title": "Marcelo :: 2017/2018 - Player Profile & Stats",
+      "page": "https://www.playmakerstats.com/player/marcelo/30693?epoca_id=147",
+      "image": "https://cdn-img.staticzz.com/img/planteis/new/02/34/3970234_marcelo_20240924142922.jpg"
+    }
+  },
+  {
+    "id": "ashley_cole_2009_10",
+    "look": "high_cheeks flat_buzz almond arched broad_bridge full_calm fine_chin tan black",
+    "note": "Official Chelsea photo labelled 2010 trophy: very close dark crop, high cheekbones, arched brows and fine facial hair. Neutral lips used rather than copying the shout.",
+    "reference": {
+      "title": "Ashley Cole | Tag | Official Site | Chelsea Football Club",
+      "page": "https://www.chelseafc.com/en/news/tag/ashley-cole",
+      "image": "https://img.chelseafc.com/image/upload/f_auto%2Car_16%3A9%2Cw_500%2Cc_fill%2Cg_auto%2Cdpr_2.0%2Cq_90/editorial/news/2024/03/23/Cole_PL_trophy_2010_GettyImages-98940324.jpg"
+    }
+  },
+  {
+    "id": "patrice_evra_2007_08",
+    "look": "broad_jaw box_taper neutral straight broad_bridge full_calm fine_chin brown black",
+    "note": "2008-labelled portrait: compact dense short curls, full cheeks/square jaw, fine moustache and small chin patch, fuller relaxed lips.",
+    "reference": {
+      "title": "Patrice Evra  - évről évre - Starity.hu",
+      "page": "https://starity.hu/sztarok/patrice-evra/evrol-evre/",
+      "image": "https://starity.hu/images/celebs/years/13966/800x600/2008-1428069224.jpg"
+    }
+  },
+  {
+    "id": "bixente_lizarazu_1998",
+    "look": "chiselled spiky_short neutral straight straight open_smile fine_stubble fair espresso",
+    "note": "France-era portrait: spiky dark crown spread across top, lean angular face, narrow straight brows and restrained stubble. Kit suggests period context; exact exposure not established.",
+    "reference": {
+      "title": "Bixente Lizarazu, footballeur de l'équipe de France de football | Équipe-France",
+      "page": "https://www.equipe-france.fr/football/bixente-lizarazu",
+      "image": "https://equipe-france.s3.2fly.io/img/personne/bixente-lizarazu-1.png"
+    }
+  }
+]

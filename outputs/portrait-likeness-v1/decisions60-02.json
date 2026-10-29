@@ -1,0 +1,42 @@
+[
+  {
+    "id": "antonio_rudiger_2023_24",
+    "look": "long_broad short_taper neutral fine broad_bridge full_calm square_beard dark black",
+    "note": "LaLiga 2024 asset: very short black crop, long broad face, dense full squared beard, fine brows and broad nose. Asset year context; kit photo exposure not dated.",
+    "reference": {
+      "title": "Antonio Rüdiger LALIGA EA SPORTS | LALIGA",
+      "page": "https://www.laliga.com/en-GB/player/antonio-rudiger",
+      "image": "https://assets.laliga.com/squad/2024/t186/p102380/512x556/p102380_t186_2024_1_001_000.png"
+    }
+  },
+  {
+    "id": "marquinhos_2024_25",
+    "look": "soft_oval wavy_crop almond arched straight open_smile close_beard olive black",
+    "note": "2025 club tournament portrait: spread loose dark curls including sides, lean oval cheeks, neat goatee/jaw beard and moustache, wide smile.",
+    "reference": {
+      "title": "Marquinhos FIFA Club World Cup 2025 | Marquinhos, Fifa, Neymar",
+      "page": "https://www.pinterest.com/pin/64950419623150775/",
+      "image": "https://i.pinimg.com/originals/c9/68/8b/c9688b067dd47e6b25b032286eb6fd3d.jpg"
+    }
+  },
+  {
+    "id": "gabriel_magalhaes_2024_25",
+    "look": "square_brow box_taper almond straight broad_bridge full_calm chin_patch tan black",
+    "note": "October 2024 Arsenal portrait: short flat coiled top/fade, square broad face, fuller relaxed lips, small chin beard and fine moustache.",
+    "reference": {
+      "title": "Gabriel Magalhaes lên tiếng về tài năng của Viktor Gyokeres",
+      "page": "https://bongda24h.vn/bong-da-anh/gabriel-magalhaes-len-tieng-ve-tai-nang-cua-viktor-gyokeres-172-426360.html",
+      "image": "https://static.bongda24h.vn/medias/original/2024/10/15/6gabriel_5-1510154624.jpg"
+    }
+  },
+  {
+    "id": "pau_cubarsi_2024_25",
+    "look": "soft_oval fringe_fade soft straight button open_smile none fair espresso",
+    "note": "Official October 2024 portrait: thick dark low fringe, soft youthful oval chin, large calm eyes and clean face; avoid mature beard or tall quiff.",
+    "reference": {
+      "title": "Cubarsí | Fitxa del jugador 26/27 | Defensa | Canal Oficial FC Barcelona",
+      "page": "https://www.fcbarcelona.cat/ca/futbol/primer-equip/jugadors/129400/pau-cubarsi",
+      "image": "https://www.fcbarcelona.com/photo-resources/2024/10/13/593e3e8e-9a50-453b-a984-30b0a8b1af02/02-Cubarsi-M.png?height=790&width=670"
+    }
+  }
+]
