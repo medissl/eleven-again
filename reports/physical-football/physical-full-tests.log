@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+FIXTURE 11027 score=[2, 0] shots=[7, 3] passes=[42, 23] tackles=[6, 3] wall_seconds=190.2
+FIXTURE 42 score=[1, 4] shots=[6, 9] passes=[41, 27] tackles=[4, 1] wall_seconds=201.9
+FIXTURE 7 score=[1, 2] shots=[11, 5] passes=[48, 27] tackles=[8, 3] wall_seconds=201.0
+FIXTURE 2026 score=[2, 0] shots=[8, 6] passes=[37, 22] tackles=[4, 5] wall_seconds=194.7
+ATTRIBUTE PAIRS PAS_error=[99.3779311180115, 60.1120492219925] touches=[74, 85] DEF_wins=[26, 40] PHY_losses=[34, 29] REF_saves=[39, 53] HAN_holds=[29, 35] DIV_saves=[0, 44]
+PHYSICAL PARRY CORNER team=0 seed=3 contact=(104.0, 37.0)
+PHYSICAL PARRY CORNER team=1 seed=3 contact=(1.0, 31.0)
+ERROR: score numerals have stable advances
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/run_tests.gd:16)
+       [1] test_view (res://tests/run_tests.gd:341)
+       [2] run (res://tests/run_tests.gd:105)
+CHECKS 110202 FAILURES 1

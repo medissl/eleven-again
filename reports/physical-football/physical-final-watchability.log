@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SEED 11027 score=[2, 0] shots=[7, 3] passes=[42, 23]
+SEED 42 score=[1, 4] shots=[6, 9] passes=[41, 27]
+SEED 7 score=[1, 2] shots=[11, 5] passes=[48, 27]
+SEED 2026 score=[2, 0] shots=[8, 6] passes=[37, 22]
+SEED 11028 score=[2, 3] shots=[6, 6] passes=[39, 28]
+SEED 11029 score=[0, 2] shots=[11, 9] passes=[38, 29]
+SEED 11030 score=[1, 0] shots=[6, 7] passes=[45, 29]
+SEED 11031 score=[2, 2] shots=[9, 7] passes=[43, 30]
+SEED 11032 score=[0, 1] shots=[7, 8] passes=[42, 33]
+SEED 11033 score=[3, 0] shots=[8, 10] passes=[37, 26]
+SEED 11034 score=[0, 3] shots=[3, 12] passes=[36, 29]
+SEED 11035 score=[2, 0] shots=[6, 7] passes=[44, 28]
+SEED 11036 score=[3, 1] shots=[7, 4] passes=[35, 27]
+SEED 11037 score=[0, 0] shots=[8, 8] passes=[41, 27]
+SEED 11038 score=[2, 1] shots=[7, 9] passes=[36, 33]
+SEED 11039 score=[1, 2] shots=[9, 4] passes=[44, 25]
+SEED 11040 score=[3, 0] shots=[9, 9] passes=[43, 30]
+SEED 11041 score=[0, 5] shots=[4, 13] passes=[38, 43]
+SEED 11042 score=[0, 3] shots=[5, 9] passes=[39, 30]
+SEED 11043 score=[1, 1] shots=[6, 9] passes=[47, 27]
+SAMPLE fixtures=20 goals_mean=2.8 shots_mean=14.85 passes_mean=69.4 scoreless=1
+EVENT_SAMPLE { "kickoff_setup": 96, "kickoff": 96, "pass": 1683, "received": 1388, "trait_activation": 611, "trait_execution": 134, "trait_result": 611, "challenge": 260, "shot": 297, "goal": 56, "tackle": 163, "block": 59, "recovery": 89, "interception": 167, "save": 52, "hold": 33, "miss": 128, "goal_kick_awarded": 140, "restart_setup": 229, "goal_kick": 139, "halftime": 20, "throw_in_awarded": 67, "throw_in": 67, "poor_touch": 29, "foul": 2, "free_kick_awarded": 2, "substitution": 156, "free_kick": 2, "header": 40, "parry": 19, "full_time": 20, "corner_awarded": 20, "corner": 20, "smother": 6, "yellow_card": 1 }
+OPPORTUNITIES unreceived_pass_arrivals=155 unfinished=0

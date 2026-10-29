@@ -1,6 +1,8 @@
 extends RefCounted
 ## Ground-plane law boundaries. Height is supplied by the flight model, never the renderer.
 const RADIUS := 0.11
+# Provisional turf resistance in field metres/s²; shared by live play and shootouts.
+const ROLL_DECELERATION := 5.0
 
 static func contact_fraction(from: Vector2, to: Vector2, centre: Vector2, radius: float) -> float:
 	var offset := from-centre

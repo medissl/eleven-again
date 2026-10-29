@@ -47,10 +47,7 @@ static func step(m) -> void:
 	if m.shootout.phase == "flight":
 		if m.ball_state == m.BallState.FLIGHT: m.advance_flight()
 		elif m.ball_state == m.BallState.LOOSE:
-			m.ball_height = maxf(0,m.ball_height-4*m.DT)
-			m.ball += m.ball_velocity*m.DT
-			m.ball_velocity *= 0.96
-			m.BallRules.resolve(m,m.previous_ball,m.ball)
+			m.advance_loose(false)
 		if m.shootout.phase == "flight" and (m.ball_state in [m.BallState.CONTROLLED,m.BallState.DEAD] or (m.ball_state == m.BallState.LOOSE and m.ball_velocity.length() < 0.4)): finish_attempt(m,false)
 		return
 	m.shootout.remaining -= 1

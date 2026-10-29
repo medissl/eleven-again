@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ATTRIBUTE PAIRS PAS_error=[99.3779311180115, 60.1120492219925] touches=[74, 85] DEF_wins=[26, 40] PHY_losses=[34, 29] REF_saves=[39, 53] HAN_holds=[29, 35] DIV_saves=[0, 44]
+PHYSICAL PARRY CORNER team=0 seed=3 contact=(104.0, 37.0)
+PHYSICAL PARRY CORNER team=1 seed=3 contact=(1.0, 31.0)
+BATCH CHECKS 521 FAILURES 0

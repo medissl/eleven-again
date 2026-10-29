@@ -297,17 +297,7 @@ func step() -> void:
 	elif ball_state == BallState.FLIGHT:
 		advance_flight()
 	elif ball_state == BallState.LOOSE:
-		ball_height = maxf(0,ball_height-4*DT)
-		ball += ball_velocity * DT
-		ball_velocity *= 0.96
-		for p in players:
-			if not p.active: continue
-			if p.id == kickoff_kicker: continue
-			if p.id == last_touch and p.role == "GK" and p.cooldown > 0: continue
-			if p.position.distance_to(ball) < 1.3:
-				if p.position.distance_to(ball) > 0.01: p.facing = p.position.direction_to(ball)
-				take_control(p.id)
-				break
+		advance_loose()
 	if ball_state not in [BallState.DEAD, BallState.KICKOFF]:
 		BallRules.resolve(self, previous_ball, ball)
 	if period_extension:
@@ -630,10 +620,11 @@ func launch_ball(aim: Vector2, velocity: float, kind: String) -> void:
 func advance_flight() -> void:
 	var from := ball
 	flight_ticks += 1
-	var progress := minf(1.03,flight_ticks*DT/flight_duration)
+	var progress := minf(1.0,flight_ticks*DT/flight_duration)
 	var destination := ball + ball_velocity * DT
-	if absf(flight_curve) > 0.001:
+	if absf(flight_curve) > 0.001 and (flight_ticks-1)*DT < flight_duration:
 		destination = (1-progress)*(1-progress)*flight_origin+2*(1-progress)*progress*flight_control+progress*progress*flight_target
+		ball_velocity = 2*((1-progress)*(flight_control-flight_origin)+progress*(flight_target-flight_control))/flight_duration
 	ball_height = maxf(0,4*flight_peak*progress*(1-progress))
 	var contact := -1
 	var first := INF
@@ -641,7 +632,7 @@ func advance_flight() -> void:
 		if not p.active: continue
 		if p.id == flight_source:
 			continue
-		if ball_height > 1.9: continue
+		if ball_height > (2.4 if p.role == "GK" else 1.9): continue
 		if flight_kind != "shot" and p.team != players[flight_source].team and flight_ticks < p.response_delay: continue
 		if flight_kind == "shot" and (p.team == players[flight_source].team or p.role == "GK"):
 			continue
@@ -654,6 +645,18 @@ func advance_flight() -> void:
 		if contact_time < first:
 			contact = p.id
 			first = contact_time
+	var boundary := BallRules.crossing(from,destination)
+	var boundary_time: float = boundary.get("fraction",INF)
+	if flight_kind == "shot" and not keeper_tested:
+		var keeper := players[keeper_id(1-players[flight_source].team)]
+		var delta_x := destination.x-from.x
+		var glove_time := (keeper.position.x-from.x)/delta_x if absf(delta_x) > 0.000001 else INF
+		if glove_time >= 0 and glove_time <= 1 and glove_time < minf(first,boundary_time):
+			keeper_tested = true
+			ball = from.lerp(destination,glove_time)
+			if absf(flight_target.y-34) <= 3.66 and keeper_save(keeper.id): return
+	if boundary_time <= first:
+		if BallRules.resolve(self,from,destination): return
 	if contact >= 0:
 		if period_extension: period_extension_contact = true
 		if Offside.involved(self,contact): return
@@ -664,7 +667,8 @@ func advance_flight() -> void:
 			last_touch = contact
 			owner = -1
 			ball_state = BallState.LOOSE
-			ball_velocity = Vector2(-ball_velocity.x * 0.35, rng.randf_range(-8, 8))
+			deflect_ball(contact,0.55)
+			players[contact].cooldown = maxi(players[contact].cooldown,10)
 			emit_event("block", contact, {"shooter": flight_source})
 			Traits.resolve(self,flight_trait_actor,flight_trait_action,"failed","shot blocked")
 			Traits.resolve(self,contact,players[contact].trait_state.get("action",-1),"success","physical block")
@@ -672,9 +676,10 @@ func advance_flight() -> void:
 			return
 		var same_team := players[contact].team == players[flight_source].team
 		var contact_point := from.lerp(destination,first)
+		ball = contact_point
 		if players[contact].position.distance_to(contact_point) > 0.01: players[contact].facing = players[contact].position.direction_to(contact_point)
-		if players[contact].role == "GK" and not same_team and oriented(players[contact].position,players[contact].team).x < 16.5 and absf(players[contact].position.y-34) < 20.16:
-			take_control(contact,"hold")
+		if players[contact].role == "GK" and not same_team and legal_hand_contact(contact):
+			keeper_delivery_contact(contact)
 			return
 		var pressure := clampf(1-players[nearest(1-players[contact].team,players[contact].position)].position.distance_to(players[contact].position)/4,0,1)
 		var skill := attribute(contact,"DRI") if same_team else attribute(contact,"DEF")
@@ -701,7 +706,8 @@ func advance_flight() -> void:
 			kickoff_kicker = -1
 			pass_pending = false
 			ball_state = BallState.LOOSE
-			ball_velocity *= 0.15*Traits.parameter(players[contact],"first_touch_error_multiplier")
+			ball_velocity *= 0.4*Traits.parameter(players[contact],"first_touch_error_multiplier")
+			players[contact].cooldown = maxi(players[contact].cooldown,10)
 			emit_event("poor_touch",contact)
 			Traits.resolve(self,flight_trait_actor,flight_trait_action,"partial","receiver could not control")
 			Traits.resolve(self,contact,receive_trait.get("action",-1),"partial" if players[contact].card.trait_id == "close_control" else "failed","first touch escaped control")
@@ -713,18 +719,69 @@ func advance_flight() -> void:
 		return
 	ball = destination
 	if flight_kind == "shot":
-		var shooter := players[flight_source]
-		var keeper := players[keeper_id(1-shooter.team)]
-		var crosses_keeper := (from.x - keeper.position.x) * (ball.x - keeper.position.x) <= 0
-		if not keeper_tested and crosses_keeper and absf(flight_target.y - 34) <= 3.66:
-			keeper_tested = true
-			if absf(ball.y - keeper.position.y) <= 5.5 and keeper_save(keeper.id):
-				return
 		BallRules.resolve(self, from, ball)
 		return
-	if ball.distance_to(flight_target) <= ball_velocity.length() * DT or (flight_target - ball).dot(ball_velocity) <= 0:
+	if progress >= 1 or (flight_target - ball).dot(ball_velocity) <= 0:
 		ball_state = BallState.LOOSE
-		ball_velocity = Vector2.ZERO
+		# The intended arrival ends; the physical ball keeps its incoming momentum.
+
+func advance_loose(recover: bool = true) -> void:
+	var from := ball
+	var destination := ball+ball_velocity*DT
+	ball_height = maxf(0,ball_height-4*DT)
+	ball_velocity = ball_velocity.move_toward(Vector2.ZERO,BallRules.ROLL_DECELERATION*DT)
+	var contact := -1
+	var first := INF
+	if recover and ball_height <= 1.9:
+		for p in players:
+			if not p.active or p.id == kickoff_kicker: continue
+			if p.id == last_touch and p.cooldown > 0: continue
+			var fraction := BallRules.contact_fraction(from,destination,p.position,1.3)
+			if fraction < first:
+				first = fraction
+				contact = p.id
+	var boundary := BallRules.crossing(from,destination)
+	if float(boundary.get("fraction",INF)) <= first:
+		if BallRules.resolve(self,from,destination): return
+	ball = destination if contact < 0 else from.lerp(destination,first)
+	if contact >= 0:
+		if players[contact].position.distance_to(ball) > 0.01: players[contact].facing = players[contact].position.direction_to(ball)
+		take_control(contact)
+
+func deflect_ball(id: int, retained: float) -> void:
+	var normal := players[id].position.direction_to(ball)
+	if normal.length_squared() < 0.01: normal = -ball_velocity.normalized()
+	ball_velocity = ball_velocity.bounce(normal)*retained
+
+func legal_hand_contact(id: int) -> bool:
+	var local := oriented(ball,players[id].team)
+	return local.x >= 0 and local.x <= 16.5 and absf(local.y-34) <= 20.16
+
+func keeper_delivery_contact(id: int) -> void:
+	var opponent := nearest(1-players[id].team,ball)
+	var pressure := clampf(1-players[opponent].position.distance_to(ball)/4,0,1)
+	var catch_chance := clampf(0.35+attribute(id,"HAN")*0.005-maxf(0,ball_velocity.length()-12)*0.012-pressure*0.2-absf(ball_height-1)*0.06,0.1,0.95)
+	if rng.randf() < catch_chance: take_control(id,"hold")
+	else: keeper_parry(id)
+
+func keeper_parry(id: int) -> void:
+	owner = -1
+	last_touch = id
+	kickoff_kicker = -1
+	restart_untouched = false
+	if pass_pending: Traits.resolve(self,flight_trait_actor,flight_trait_action,"failed","keeper deflected delivery")
+	pass_pending = false
+	ball_state = BallState.LOOSE
+	# Glancing glove contacts preserve more forward travel; central saves turn it away.
+	var normal := Vector2(direction(players[id].team),(ball.y-players[id].position.y)/1.7).normalized()
+	ball_velocity = ball_velocity.bounce(normal)*0.55 if ball_velocity.length() > 0.1 else Vector2(direction(players[id].team)*12,0)
+	players[id].cooldown = maxi(players[id].cooldown,18)
+	var deflection := Traits.activate(self,id,{"kind":"parry"})
+	if not deflection.is_empty():
+		var danger := nearest(1-players[id].team,ball,false)
+		ball_velocity.y = absf(ball_velocity.y)+6 if players[danger].position.y < ball.y else -absf(ball_velocity.y)-6
+		ball_velocity = (ball_velocity*Traits.parameter(players[id],"rebound_speed_multiplier")).limit_length(20)
+	emit_event("parry",id)
 
 func shoot(pressure: float = 0, prepared: bool = false) -> void:
 	var shooter := players[owner]
@@ -767,7 +824,7 @@ func close_opponents(id: int, radius: float) -> int:
 func keeper_save(keeper_id: int) -> bool:
 	var shooter := players[flight_source]
 	var keeper := players[keeper_id]
-	if oriented(keeper.position,keeper.team).x > 16.5 or absf(keeper.position.y-34) > 20.16: return false
+	if not legal_hand_contact(keeper_id) or ball_height > 2.4+attribute(keeper_id,"DIV")*0.005: return false
 	var reach := 2.5+attribute(keeper_id,"DIV")*0.04
 	if absf(ball.y-keeper.position.y) > reach: return false
 	var enhancement := Traits.activate(self,keeper_id,{"kind":"save","distance":keeper.position.distance_to(flight_origin),"pressure":clampf(1-keeper.position.distance_to(shooter.position)/8,0,1)})
@@ -792,21 +849,8 @@ func keeper_save(keeper_id: int) -> bool:
 		take_control(keeper_id, "hold")
 		Traits.resolve(self,keeper_id,enhancement.get("action",-1),"success","legal hand control")
 	else:
-		owner = -1
-		ball_state = BallState.LOOSE
-		ball_velocity = Vector2(-direction(shooter.team) * 12, rng.randf_range(-8, 8))
-		if absf(ball.y-34) > 1.8 and rng.randf() < 0.35:
-			var to_line := absf(oriented(Vector2(105,34),shooter.team).x-ball.x)
-			ball_velocity = Vector2(direction(shooter.team)*clampf(to_line*2,0.5,6),signf(ball.y-34)*14)
-		keeper.cooldown = 18
 		Traits.resolve(self,keeper_id,enhancement.get("action",-1),"partial","save became live rebound")
-		var deflection := Traits.activate(self,keeper_id,{"kind":"parry"})
-		if not deflection.is_empty():
-			var danger := nearest(shooter.team,keeper.position,false)
-			ball_velocity.y = 10 if players[danger].position.y < keeper.position.y else -10
-			ball_velocity = (ball_velocity*Traits.parameter(keeper,"rebound_speed_multiplier")).limit_length(20)
-		ball += ball_velocity.normalized()*0.3
-		emit_event("parry", keeper_id)
+		keeper_parry(keeper_id)
 	return true
 
 func goal_scored(shooter_id: int, scoring_team: int = -1) -> void:

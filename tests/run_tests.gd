@@ -5,6 +5,7 @@ const GameplayChecks = preload("res://tests/gameplay_checks.gd")
 const TraitChecks = preload("res://tests/trait_checks.gd")
 const RuleChecks = preload("res://tests/rule_checks.gd")
 const AttributeChecks = preload("res://tests/attribute_checks.gd")
+const PhysicalBallChecks = preload("res://tests/physical_ball_checks.gd")
 var checks := 0
 var failures: Array[String] = []
 
@@ -18,11 +19,17 @@ func _initialize() -> void:
 	call_deferred("run")
 
 func run() -> void:
+	if "--physical-only" in OS.get_cmdline_user_args():
+		PhysicalBallChecks.new().run(check)
+		print("PHYSICAL CHECKS ",checks," FAILURES ",failures.size())
+		quit(0 if failures.is_empty() else 1)
+		return
 	if "--batch-only" in OS.get_cmdline_user_args():
 		GameplayChecks.new().run(check)
 		TraitChecks.new().run(check)
 		RuleChecks.new().run(check)
 		AttributeChecks.new().run(check)
+		PhysicalBallChecks.new().run(check)
 		print("BATCH CHECKS ",checks," FAILURES ",failures.size())
 		quit(0 if failures.is_empty() else 1)
 		return
@@ -94,6 +101,7 @@ func run() -> void:
 	TraitChecks.new().run(check)
 	RuleChecks.new().run(check)
 	AttributeChecks.new().run(check)
+	PhysicalBallChecks.new().run(check)
 	if "--model-only" not in OS.get_cmdline_user_args(): await test_view()
 	print("CHECKS ", checks, " FAILURES ", failures.size())
 	quit(0 if failures.is_empty() else 1)
