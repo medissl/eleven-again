@@ -1,24 +1,24 @@
 {
   "schema_version": 2,
-  "portrait_revision": 2,
+  "portrait_revision": 3,
   "recipes": [
     {
       "id": "portrait_thibaut_courtois_2023_24",
       "label": "Thibaut Courtois",
       "artistic_study": true,
       "parts": {
-        "head": "head_long",
-        "hair": "hair_crop",
+        "head": "head_long_narrow",
+        "hair": "hair_sidepart",
         "shirt": "shirt_crew",
-        "facial": "facial_none",
-        "eyes": "eyes_neutral",
-        "brows": "brows_fine",
-        "nose": "nose_long",
-        "mouth": "mouth_calm"
+        "facial": "facial_fine_stubble",
+        "eyes": "eyes_hooded",
+        "brows": "brows_thick",
+        "nose": "nose_prominent",
+        "mouth": "mouth_full_calm"
       },
       "palettes": {
         "skin": "fair",
-        "hair": "brown",
+        "hair": "espresso",
         "shirt": "red"
       }
     },
@@ -27,18 +27,18 @@
       "label": "Alisson Becker",
       "artistic_study": true,
       "parts": {
-        "head": "head_square",
-        "hair": "hair_sidepart",
+        "head": "head_square_brow",
+        "hair": "hair_curly_fade",
         "shirt": "shirt_crew",
-        "facial": "facial_full_beard",
+        "facial": "facial_square_beard",
         "eyes": "eyes_focused",
         "brows": "brows_thick",
         "nose": "nose_straight",
         "mouth": "mouth_stern"
       },
       "palettes": {
-        "skin": "olive",
-        "hair": "brown",
+        "skin": "fair",
+        "hair": "espresso",
         "shirt": "gold"
       }
     },
@@ -47,14 +47,14 @@
       "label": "Ederson",
       "artistic_study": true,
       "parts": {
-        "head": "head_square",
-        "hair": "hair_crop",
+        "head": "head_neck_ink",
+        "hair": "hair_curly_fade",
         "shirt": "shirt_crew",
-        "facial": "facial_stubble",
-        "eyes": "eyes_focused",
+        "facial": "facial_chin_patch",
+        "eyes": "eyes_almond",
         "brows": "brows_broken",
-        "nose": "nose_straight",
-        "mouth": "mouth_asymmetric"
+        "nose": "nose_broad_bridge",
+        "mouth": "mouth_open_smile"
       },
       "palettes": {
         "skin": "olive",
@@ -67,18 +67,18 @@
       "label": "Gianluigi Donnarumma",
       "artistic_study": true,
       "parts": {
-        "head": "head_long",
-        "hair": "hair_crop",
+        "head": "head_long_broad",
+        "hair": "hair_sidepart",
         "shirt": "shirt_crew",
-        "facial": "facial_short_beard",
+        "facial": "facial_rounded_beard",
         "eyes": "eyes_narrow",
         "brows": "brows_straight",
-        "nose": "nose_long",
-        "mouth": "mouth_calm"
+        "nose": "nose_prominent",
+        "mouth": "mouth_open_smile"
       },
       "palettes": {
         "skin": "fair",
-        "hair": "black",
+        "hair": "espresso",
         "shirt": "blue"
       }
     },
@@ -87,13 +87,13 @@
       "label": "Jan Oblak",
       "artistic_study": true,
       "parts": {
-        "head": "head_square",
+        "head": "head_broad_jaw",
         "hair": "hair_sidepart",
         "shirt": "shirt_crew",
-        "facial": "facial_stubble",
+        "facial": "facial_close_beard",
         "eyes": "eyes_focused",
         "brows": "brows_thick",
-        "nose": "nose_straight",
+        "nose": "nose_prominent",
         "mouth": "mouth_stern"
       },
       "palettes": {
@@ -107,18 +107,18 @@
       "label": "Marc-André ter Stegen",
       "artistic_study": true,
       "parts": {
-        "head": "head_oval",
-        "hair": "hair_sidepart",
+        "head": "head_broad_jaw",
+        "hair": "hair_brushed_high",
         "shirt": "shirt_crew",
         "facial": "facial_none",
-        "eyes": "eyes_neutral",
+        "eyes": "eyes_blue_hooded",
         "brows": "brows_straight",
         "nose": "nose_straight",
-        "mouth": "mouth_calm"
+        "mouth": "mouth_soft_closed"
       },
       "palettes": {
-        "skin": "fair",
-        "hair": "blond",
+        "skin": "rosy",
+        "hair": "dark_blond",
         "shirt": "white"
       }
     },
@@ -127,13 +127,13 @@
       "label": "Emiliano Martínez",
       "artistic_study": true,
       "parts": {
-        "head": "head_long",
-        "hair": "hair_crop",
+        "head": "head_long_narrow",
+        "hair": "hair_short_taper",
         "shirt": "shirt_crew",
-        "facial": "facial_stubble",
-        "eyes": "eyes_narrow",
+        "facial": "facial_fine_stubble",
+        "eyes": "eyes_hooded",
         "brows": "brows_straight",
-        "nose": "nose_long",
+        "nose": "nose_prominent",
         "mouth": "mouth_calm"
       },
       "palettes": {
@@ -147,17 +147,17 @@
       "label": "Mike Maignan",
       "artistic_study": true,
       "parts": {
-        "head": "head_square",
-        "hair": "hair_buzz",
+        "head": "head_high_cheeks",
+        "hair": "hair_short_taper",
         "shirt": "shirt_crew",
-        "facial": "facial_short_beard",
-        "eyes": "eyes_focused",
+        "facial": "facial_chin_patch",
+        "eyes": "eyes_almond",
         "brows": "brows_thick",
-        "nose": "nose_straight",
-        "mouth": "mouth_stern"
+        "nose": "nose_broad_bridge",
+        "mouth": "mouth_open_smile"
       },
       "palettes": {
-        "skin": "dark",
+        "skin": "brown",
         "hair": "black",
         "shirt": "blue"
       }
@@ -167,18 +167,18 @@
       "label": "Diogo Costa",
       "artistic_study": true,
       "parts": {
-        "head": "head_oval",
-        "hair": "hair_sidepart",
+        "head": "head_chiselled",
+        "hair": "hair_short_taper",
         "shirt": "shirt_crew",
-        "facial": "facial_stubble",
-        "eyes": "eyes_neutral",
-        "brows": "brows_straight",
+        "facial": "facial_close_beard",
+        "eyes": "eyes_almond",
+        "brows": "brows_heavy_arc",
         "nose": "nose_straight",
-        "mouth": "mouth_calm"
+        "mouth": "mouth_full_calm"
       },
       "palettes": {
-        "skin": "fair",
-        "hair": "brown",
+        "skin": "olive",
+        "hair": "espresso",
         "shirt": "red"
       }
     },
@@ -187,14 +187,14 @@
       "label": "David Raya",
       "artistic_study": true,
       "parts": {
-        "head": "head_round",
-        "hair": "hair_crop",
+        "head": "head_square_brow",
+        "hair": "hair_curly_fade",
         "shirt": "shirt_crew",
-        "facial": "facial_short_beard",
-        "eyes": "eyes_soft",
-        "brows": "brows_arched",
-        "nose": "nose_button",
-        "mouth": "mouth_smile"
+        "facial": "facial_rounded_beard",
+        "eyes": "eyes_hooded",
+        "brows": "brows_heavy_arc",
+        "nose": "nose_broad_bridge",
+        "mouth": "mouth_open_smile"
       },
       "palettes": {
         "skin": "olive",
@@ -247,18 +247,18 @@
       "label": "Edwin van der Sar",
       "artistic_study": true,
       "parts": {
-        "head": "head_long",
-        "hair": "hair_sidepart",
+        "head": "head_long_narrow",
+        "hair": "hair_spiky_fine",
         "shirt": "shirt_retro",
-        "facial": "facial_none",
-        "eyes": "eyes_narrow",
-        "brows": "brows_straight",
-        "nose": "nose_long",
-        "mouth": "mouth_calm"
+        "facial": "facial_fine_stubble",
+        "eyes": "eyes_blue_hooded",
+        "brows": "brows_fine",
+        "nose": "nose_prominent",
+        "mouth": "mouth_soft_closed"
       },
       "palettes": {
         "skin": "fair",
-        "hair": "brown",
+        "hair": "dark_blond",
         "shirt": "orange"
       }
     },
@@ -267,14 +267,14 @@
       "label": "Petr Čech",
       "artistic_study": true,
       "parts": {
-        "head": "head_long",
-        "hair": "hair_buzz",
+        "head": "head_long_narrow",
+        "hair": "hair_loose_centrepart",
         "shirt": "shirt_retro",
-        "facial": "facial_none",
-        "eyes": "eyes_narrow",
+        "facial": "facial_fine_stubble",
+        "eyes": "eyes_blue_hooded",
         "brows": "brows_straight",
-        "nose": "nose_long",
-        "mouth": "mouth_calm"
+        "nose": "nose_prominent",
+        "mouth": "mouth_soft_closed"
       },
       "palettes": {
         "skin": "fair",
@@ -287,17 +287,17 @@
       "label": "Peter Schmeichel",
       "artistic_study": true,
       "parts": {
-        "head": "head_broad",
-        "hair": "hair_sidepart",
+        "head": "head_broad_jaw",
+        "hair": "hair_texture_crop",
         "shirt": "shirt_retro",
         "facial": "facial_none",
-        "eyes": "eyes_deep",
+        "eyes": "eyes_blue_hooded",
         "brows": "brows_thick",
-        "nose": "nose_wide",
-        "mouth": "mouth_calm"
+        "nose": "nose_broad_bridge",
+        "mouth": "mouth_stern"
       },
       "palettes": {
-        "skin": "porcelain",
+        "skin": "rosy",
         "hair": "blond",
         "shirt": "red"
       }
@@ -307,13 +307,13 @@
       "label": "Oliver Kahn",
       "artistic_study": true,
       "parts": {
-        "head": "head_broad",
-        "hair": "hair_crop",
+        "head": "head_square_brow",
+        "hair": "hair_brushed_high",
         "shirt": "shirt_retro",
         "facial": "facial_none",
-        "eyes": "eyes_deep",
-        "brows": "brows_angled",
-        "nose": "nose_wide",
+        "eyes": "eyes_blue_hooded",
+        "brows": "brows_thick",
+        "nose": "nose_broad_bridge",
         "mouth": "mouth_stern"
       },
       "palettes": {
@@ -347,14 +347,14 @@
       "label": "Gordon Banks",
       "artistic_study": true,
       "parts": {
-        "head": "head_oval",
+        "head": "head_broad_jaw",
         "hair": "hair_sidepart",
         "shirt": "shirt_retro",
         "facial": "facial_none",
-        "eyes": "eyes_soft",
+        "eyes": "eyes_hooded",
         "brows": "brows_straight",
-        "nose": "nose_button",
-        "mouth": "mouth_calm"
+        "nose": "nose_prominent",
+        "mouth": "mouth_full_calm"
       },
       "palettes": {
         "skin": "fair",
@@ -367,18 +367,18 @@
       "label": "Dino Zoff",
       "artistic_study": true,
       "parts": {
-        "head": "head_long",
-        "hair": "hair_sidepart",
+        "head": "head_chiselled",
+        "hair": "hair_wavy_crop",
         "shirt": "shirt_retro",
         "facial": "facial_none",
-        "eyes": "eyes_narrow",
-        "brows": "brows_straight",
-        "nose": "nose_long",
-        "mouth": "mouth_calm"
+        "eyes": "eyes_deep",
+        "brows": "brows_thick",
+        "nose": "nose_prominent",
+        "mouth": "mouth_full_calm"
       },
       "palettes": {
         "skin": "fair",
-        "hair": "black",
+        "hair": "espresso",
         "shirt": "blue"
       }
     },
@@ -387,14 +387,14 @@
       "label": "Sepp Maier",
       "artistic_study": true,
       "parts": {
-        "head": "head_long",
-        "hair": "hair_sidepart",
+        "head": "head_broad_jaw",
+        "hair": "hair_seventies_sweep",
         "shirt": "shirt_retro",
         "facial": "facial_none",
-        "eyes": "eyes_narrow",
-        "brows": "brows_straight",
-        "nose": "nose_flat",
-        "mouth": "mouth_asymmetric"
+        "eyes": "eyes_deep",
+        "brows": "brows_thick",
+        "nose": "nose_broad_bridge",
+        "mouth": "mouth_stern"
       },
       "palettes": {
         "skin": "fair",
@@ -1927,17 +1927,17 @@
       "label": "Edgar Davids",
       "artistic_study": true,
       "parts": {
-        "head": "head_broad",
-        "hair": "hair_dreads",
+        "head": "head_square_brow",
+        "hair": "hair_short_locks",
         "shirt": "shirt_retro",
         "facial": "facial_none",
-        "eyes": "eyes_deep",
+        "eyes": "eyes_focused",
         "brows": "brows_thick",
-        "nose": "nose_wide",
-        "mouth": "mouth_calm"
+        "nose": "nose_broad_bridge",
+        "mouth": "mouth_full_calm"
       },
       "palettes": {
-        "skin": "dark",
+        "skin": "brown",
         "hair": "black",
         "shirt": "orange"
       }
@@ -2747,18 +2747,18 @@
       "label": "Roberto Baggio",
       "artistic_study": true,
       "parts": {
-        "head": "head_oval",
-        "hair": "hair_pony",
+        "head": "head_chiselled",
+        "hair": "hair_curly_low_tail",
         "shirt": "shirt_retro",
-        "facial": "facial_goatee",
-        "eyes": "eyes_neutral",
+        "facial": "facial_fine_stubble",
+        "eyes": "eyes_deep_light",
         "brows": "brows_straight",
-        "nose": "nose_straight",
-        "mouth": "mouth_calm"
+        "nose": "nose_prominent",
+        "mouth": "mouth_full_calm"
       },
       "palettes": {
         "skin": "fair",
-        "hair": "brown",
+        "hair": "espresso",
         "shirt": "blue"
       }
     },
@@ -3707,18 +3707,18 @@
       "label": "Victor Osimhen",
       "artistic_study": true,
       "parts": {
-        "head": "head_long",
-        "hair": "hair_crop",
+        "head": "head_long_broad",
+        "hair": "hair_bleached_taper",
         "shirt": "shirt_crew",
-        "facial": "facial_none",
-        "eyes": "eyes_narrow",
+        "facial": "facial_protective_mask_chin",
+        "eyes": "eyes_almond",
         "brows": "brows_straight",
-        "nose": "nose_long",
-        "mouth": "mouth_calm"
+        "nose": "nose_broad_bridge",
+        "mouth": "mouth_full_calm"
       },
       "palettes": {
         "skin": "dark",
-        "hair": "platinum",
+        "hair": "blond",
         "shirt": "forest"
       }
     },

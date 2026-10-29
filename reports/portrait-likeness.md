@@ -37,3 +37,30 @@ Logs: `portrait-import.log`, `portrait-catalogue.log`, `portrait-card-ui.log`,
 Continue through the remaining roster in position groups, inspecting period
 photos and adding only needed reusable pieces. Keep the per-card ledger honest;
 distinct assemblies and passing bindings do not substitute for likeness review.
+
+## Second batch: keepers and distinctive accessories
+
+Twenty more assemblies are replaced: the remaining seventeen keepers, Edgar
+Davids, Roberto Baggio and Victor Osimhen. Coverage is now **40/200**, including
+all twenty keepers; 160 individual reviews remain. Fifteen additional pieces
+bring the editable kit to **105**. These include differentiated dense beards,
+curly fades, short tapers, brushed/spiky/wavy crops, a dyed top with dark sides,
+low curly ponytail, compact loose locks, neck-ink impression and protective mask.
+Mask eye holes explicitly remain transparent. Generic shirts and all card data
+remain unchanged, checked against the original catalogue SHA-256.
+
+Period handling matters: Čech's 2004–05 study remains helmet-free. Davids's
+inspected 2000 image visibly carries a later date and goggles; this accessory
+was not assigned to 1997–98. An initially mistaken Poland-kit reading of the
+Martínez photo was corrected after the full-body image showed the AFA crest.
+The ledger records actual sources and adjacent-year/monochrome limitations.
+The Baggio tail is supported by front and dated 1994 rear studies; Osimhen's
+mask/top reference is from the adjacent December 2023 Napoli edition.
+
+Second-batch checks: 105 pieces/200 recipes validated, 200 distinct assemblies,
+twenty new replacements only, native import, all catalogue/card UI checks and
+actual 720p/1080p CardViews passed. Captures:
+`outputs/portrait-likeness-v1/native-keepers-1280x720.png` and the 1080p equivalent.
+Logs: `portrait-keepers-{import,native,catalogue,card-ui}.log`.
+Next coherent group: recognizable outfield stars and the remaining position
+groups, with the same individual source/era review before replacement.

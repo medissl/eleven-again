@@ -5,7 +5,9 @@
     "eye_white": "#EEE8D3",
     "iris": "#27372F",
     "iris_light": "#68766F",
-    "iris_blue": "#567A88"
+    "iris_blue": "#567A88",
+    "mask_light": "#424A46",
+    "tattoo_ink": "#3B443F"
   },
   "skin": {
     "porcelain": {
@@ -71,6 +73,14 @@
       "skin_shadow": "#302019",
       "lip": "#2C1D18",
       "lip_light": "#523026"
+    },
+    "rosy": {
+      "skin": "#D6AE9D",
+      "skin_light": "#EAC8B6",
+      "skin_mid": "#BA8B7D",
+      "skin_shadow": "#986B61",
+      "lip": "#8A5752",
+      "lip_light": "#B57D72"
     }
   },
   "hair": {
@@ -113,6 +123,11 @@
       "hair": "#9F9F8A",
       "hair_light": "#CBC9B3",
       "hair_shadow": "#666B60"
+    },
+    "dark_blond": {
+      "hair": "#7C6748",
+      "hair_light": "#A68D63",
+      "hair_shadow": "#493F32"
     }
   },
   "shirt": {

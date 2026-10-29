@@ -11,9 +11,20 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_thibaut_courtois_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.laliga.com/en-GB/player/courtois",
+          "image": "https://assets.laliga.com/squad/2024/t186/p60772/512x556/p60772_t186_2024_1_001_000.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "LaLiga 2024 asset: long narrow face/neck, side-swept dark crop, thick straight brows, long nose and short jaw/moustache stubble. The source kit photo includes a later sponsor; asset year is context, not a dated exposure."
+      ],
+      "before_sha256": "7306f5f16a388af0a4a0b8ce0aa53b3c8a932b9fce9ca8c6caa6991c1d539eac",
+      "after_sha256": "cec4b1512c8088925ee4da631c1f8e25a0ff6c7da69907bb36fab4b5d35c8c4b",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "alisson_becker_2023_24",
@@ -21,9 +32,20 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_alisson_becker_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.liverpoolfc.com/team/mens/player/alisson-becker",
+          "image": "https://backend.liverpoolfc.com/sites/default/files/styles/xs/public/2023-07/pp-23-24-mens-home-body-becker.webp?itok=fWR0p7tZ",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official 2023-24 portrait: dark loose curls/fringe and a dense, wide, fairly square long beard. Broad face and straight heavy brows. Existing tapered beard/sidepart do not reproduce this silhouette."
+      ],
+      "before_sha256": "0ef07657667f40a58683c452c53f8d5675e156a20baf4b39c15f391b6cbd78ea",
+      "after_sha256": "7f21d767c731f4c6f85a1525993f088864c486a7e11b3b42d381e7ca72dd0b99",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "ederson_2023_24",
@@ -31,9 +53,20 @@
       "era": "2023-24",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_ederson_2023_24.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.playmakerstats.com/squad_builder.php?season=154&team=86",
+          "image": "https://www.playmakerstats.com/img/planteis/new/77/32/11527732_ederson_moraes_20240816211042.png",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Adjacent August 2024 photo: curly dark top, closely faded sides, small chin beard and prominent neck ink. Broad nose, angular cheeks and smiling mouth. Preserve generic kit; abstract ink impression only, no copied lettering."
+      ],
+      "before_sha256": "38c997891ae4a8fb6b909c4ac8581caec87d117a44515a62cec305c7b73c2455",
+      "after_sha256": "93e75c205672c655f8d86e7eb7de836da8c9914b0f7140060579628718130fb7",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "gianluigi_donnarumma_2024_25",
@@ -41,9 +74,20 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_gianluigi_donnarumma_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.pinterest.com/pin/776659898279518678/",
+          "image": "https://i.pinimg.com/originals/6c/74/89/6c748989ce921a14ed4dfe13ba8b7ee6.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "PSG 2025 Club World Cup portrait: short swept dark hair, long broad face, rounded dense full beard and moustache. Narrow calm eyes, long nose and broad smile."
+      ],
+      "before_sha256": "68c2077576dad5154772e583f3e4e77d135b9362238d27ec95ab59e156d3d069",
+      "after_sha256": "6fffc228cc24c87f3038467937787879ee99d7ebca4053ce1b33921d0074c083",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "jan_oblak_2020_21",
@@ -51,9 +95,20 @@
       "era": "2020-21",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_jan_oblak_2020_21.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/lancepress/2020/03/12/simeone-compara-oblak-a-messi-temos-o-melhor-goleiro-do-mundo.htm",
+          "image": "https://conteudo.imguol.com.br/c/esporte/05/2019/10/28/simeone-aponta-oblak-do-atletico-de-madri-como-melhor-goleiro-do-mundo-1572288495103_v2_1x1.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Dated 2019 photo in 2020 coverage, near the edition: high forehead, short neat brown side sweep, short reddish-brown full jaw beard, long nose and strong jaw. Replace the sparse stubble. Exact 2020-21 exposure not established."
+      ],
+      "before_sha256": "fa038924095cb9b2c25ccec7aaf54cdbc42dbf0911e55f2ad7e235cd49c43b79",
+      "after_sha256": "32bc279d51d3e1db2dd49521a1e7ac3d2ad74d56a492985ff4b8cb2f65444fe0",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "marc_andre_ter_stegen_2022_23",
@@ -61,9 +116,20 @@
       "era": "2022-23",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_marc_andre_ter_stegen_2022_23.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.fcbarcelona.com/en/news/3737247/ter-stegen-picks-his-greatest-saves-for-fc-barcelona",
+          "image": "https://www.fcbarcelona.com/fcbarcelona/photo/2023/10/13/2644d73f-86a3-4f9d-869f-3ff8ad17a98b/TER-STEGEN.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Official October 2023 photo: high brushed-back sandy/dark-blond quiff, very short sides, blue eyes, square chin and clean face. More volume than the old sidepart. Adjacent autumn after edition."
+      ],
+      "before_sha256": "dd845418f4305dcee01dd4442f3c8314694bcb3911c41f6bb7a2b3bcb6b8e274",
+      "after_sha256": "5f6c3991a8a18c2edacf1cdfeb0b15d4c459ff80773afb32002cd1303bf66797",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "emiliano_martinez_2022",
@@ -71,9 +137,20 @@
       "era": "2022",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_emiliano_martinez_2022.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.pinterest.com/pin/40039884182826331/",
+          "image": "https://i.pinimg.com/736x/f2/66/8a/f2668aedbabf721f8d8ae13c4ddf0b47.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "World Cup 2022 full-length portrait: AFA crest on shorts confirms Argentina red goalkeeper kit. Short neat dark crop with faded sides, long oval face, fine straight brows, prominent ears/nose and clean/lightly stubbled jaw. Earlier Poland-kit reading of the related angle was mistaken and is withdrawn."
+      ],
+      "before_sha256": "586f0251c9c8adf7169d74689d702fed38fda0762e3c7b2202fc4c0ea2875fc1",
+      "after_sha256": "e39d05e649417097382b39505c53e227d4201f117d9ce2553ffc97022851ee4c",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "mike_maignan_2021_22",
@@ -81,9 +158,20 @@
       "era": "2021-22",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_mike_maignan_2021_22.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.insolite-foot.fr/ac-milan-mike-maignan-gardien-vous-veut-bien",
+          "image": "https://www.insolite-foot.fr/wp-content/uploads/2022/05/FTcLNrbWIAAwnI0-e1653321146735.jpeg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2022 champions photo: close even black crop with tidy hairline, chin goatee/short jaw beard, thin moustache, broad smile and high cheeks. Keep hair low, not large curls."
+      ],
+      "before_sha256": "4df2016375cf71ccf65986b1c0e522c4dc827706cf6dcf95a78419f216b595dd",
+      "after_sha256": "c1761c79b2a46727871e2489b400bd1ca5784c93025ebc88a1f691ef2610a20e",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "diogo_costa_2024_25",
@@ -91,9 +179,20 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_diogo_costa_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.ogol.com.br/jogador/diogo-costa/284406?epoca_id=153",
+          "image": "https://cdn-img.staticzz.com/img/planteis/new/83/57/8718357_diogo_costa_20240520193050.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "May 2024 Porto portrait, adjacent edition: close even crop/fade, rounded strong brows, short squared beard/moustache, defined jaw, calm full lips. Not the old long side part."
+      ],
+      "before_sha256": "11a25a07f19426c24d0393c13559319409c026d3cd3d81a55025c52a35c5d565",
+      "after_sha256": "c99c5f1cefe28843fb8cc547ed72cad9b8327d79dc9cbd8aa62665b1c93e9b5b",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "david_raya_2024_25",
@@ -101,9 +200,20 @@
       "era": "2024-25",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_david_raya_2024_25.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://bongda24h.vn/c1-champions-league/david-raya-tin-vao-chuc-vo-dich-champions-league-cho-arsenal-488-418950.html",
+          "image": "https://static.bongda24h.vn/medias/original/2024/10/15/22raya-1510154627.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "October 2024 Arsenal portrait: short faded sides and high loose curled top, thick close rounded beard/moustache, strong angular brows, broad nose and smile. Existing low crop/short goatee understate both silhouettes."
+      ],
+      "before_sha256": "e90e5888f3f3507fb5825095aa09cf96ca907aca2bfaa258caf8ad1220a86a4a",
+      "after_sha256": "7d1fda32d1711d0f42e1bae84044093823f255d0b31de85ce0b93953c35daf2a",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "gianluigi_buffon_2005_06",
@@ -153,9 +263,20 @@
       "era": "2008-09",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_edwin_van_der_sar_2008_09.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.pinterest.com/pin/703828247994924374/",
+          "image": "https://i.pinimg.com/736x/52/dd/9e/52dd9ec35e9e6953d6c62e5cc5ac9aee.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "July 2009 Munich portrait, immediately after edition: thin spiky warm light-brown hair, longer sides/nape, long narrow face, prominent ears and nose, light eyes, faint stubble. Replace flat side part."
+      ],
+      "before_sha256": "0ccf310db35cb74e37471befc7988dfaa47832fafe31d3c34f5d82c805a270fb",
+      "after_sha256": "2348b057b02edc7c6c60d66f10285f83ba2650e48d036504e956826f4f99c06d",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "petr_cech_2004_05",
@@ -163,9 +284,20 @@
       "era": "2004-05",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_petr_cech_2004_05.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://m.allfootballapp.com/news/EPL/OTD-in-2004-The-one-and-only-Cech-joined-Chelsea-What-was-your-fav-moment/2224687",
+          "image": "https://img.allfootballapp.com/www/M00/6E/71/720x-/-/-/rB8ApF4_8RiAUVjFAALJtmnD2HQ323.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "2004 Chelsea unveiling: short brown parted/tousled hair, blue eyes, narrow angular long jaw, prominent nose and light stubble. No helmet in this edition reference; do not add later-era headgear for recognizability."
+      ],
+      "before_sha256": "9ad9d116459d543537076cbd0761d8922ae7944f99f177271596d52179786747",
+      "after_sha256": "198303936535f70cb193f1abe9eced12d28b3a61b04cd15371a436f70407f555",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "peter_schmeichel_1995_96",
@@ -173,9 +305,20 @@
       "era": "1995-96",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_peter_schmeichel_1995_96.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://sport360.com/article/football/268759/david-de-gea-masterclass-and-five-other-legendary-saves-made-by-goalkeepers",
+          "image": "https://sport360.com/wp-content/uploads/2018/02/GettyImages-1212096-1024x752.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "United Sharp Viewcam-era action photo: short pale blond brushed crop, broad pale/rosy face, prominent square jaw and heavy brow, no beard. Source is mid-1990s context, not a dated 1995-96 portrait."
+      ],
+      "before_sha256": "4eb0b2dea6f9a75c92d04f509fae95c80274f12e5138930c9f5cc221951f9c5a",
+      "after_sha256": "dc86e76ca6aa06e5950e6879ab5c90b9eb8e186a438d712c19f0e1a0bf27d3f7",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "oliver_kahn_2001_02",
@@ -183,9 +326,20 @@
       "era": "2001-02",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_oliver_kahn_2001_02.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.ladepeche.fr/article/2002/06/01/352873-sans-oliver-kahn-l-allemagne-vacille.html",
+          "image": "https://images.ladepeche.fr/api/v1/images/view/5c12595d3e4546472e3a725d/large/image.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "June 2002 coverage: upright short sandy-blond brushed crown with compact sides, long sideburns, strong broad jaw, heavy brow, pale eyes and firm lips. Keep it a broad brush, not a pointed mohawk."
+      ],
+      "before_sha256": "6af80b350ebe0c9e0bf0e6eb2d4d828dc661822ee1d8ee5167141a3335fbccbe",
+      "after_sha256": "7c1097f3a22671b851232373a4a5908323e7b3db7b7cfea40bc31124849718fd",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "lev_yashin_1963",
@@ -214,9 +368,20 @@
       "era": "1966",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_gordon_banks_1966.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.dw.com/en/world-cup-1966-english-goalkeeper-gordon-banks-dies-aged-81/a-47473664",
+          "image": "https://static.dw.com/image/47474004_1004.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Career-era monochrome portrait: compact neat side sweep, broad lower face, prominent ears, heavy upper lids, fuller long nose and restrained mouth. Monochrome source does not establish exact eye/hair colour."
+      ],
+      "before_sha256": "d1e0e909905e56590a8f9430f8c746eba09a2a2785b2ee0fe1f8fa8408c5e98a",
+      "after_sha256": "ccd2f05c5e891db326331776d82edc34a3ec5f55c72083a661a99f027d577c2b",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "dino_zoff_1982",
@@ -224,9 +389,20 @@
       "era": "1982",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_dino_zoff_1982.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://es.pinterest.com/pin/734086808000443931/",
+          "image": "https://i.pinimg.com/564x/e6/11/e7/e611e7d162cad41769651af75535c15f.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Photo captioned 5 July 1982: short dark wavy/curled mop, fuller sides and small nape, heavy deep brow, long nose, mature angular cheeks and firm mouth. Replace slick generic side part."
+      ],
+      "before_sha256": "5ca8d86642223bdea72f06512d60f66ef7d6b85a21e17ea0faf3a91f6aee0e88",
+      "after_sha256": "dd2863933b716a469cec73ddba870fb88aa39e95155532fdeb4a24cd6f7cef21",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "sepp_maier_1973_74",
@@ -234,9 +410,20 @@
       "era": "1973-74",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_sepp_maier_1973_74.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www1.wdr.de/stichtag/stichtag-sepp-maier-100.html",
+          "image": "https://images.sportschau.de/image/67152ecf-02dd-43fc-b50f-2811031bbc81/AAABlcV8IRg/AAABnR8VW9w/original/sepp-maier-100.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Career-era monochrome portrait: soft side-swept medium hair and longer flicked sides/nape, strong low brow, broad jaw/chin and fuller nose. Replace neat flat sidepart; exact 1973-74 date/colours not established."
+      ],
+      "before_sha256": "d137bcc60ca8c1632f94905b5f74a835aca3ce1f1e160af5fec6b15913247866",
+      "after_sha256": "7743b56306c5a666f3829ad8590a6619da371e945afa9ab8e70e569c24d83604",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "virgil_van_dijk_2018_19",
@@ -1037,9 +1224,20 @@
       "era": "1997-98",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_edgar_davids_1997_98.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.degaine.so/edgar-davids-est-il-le-joueur-le-plus-style-de-lhistoire-du-foot/",
+          "image": "https://i.degaine.so/petite/LzIwMjUvMTEvSUNPTlNQT1JUXzAwNzgyMl8wMDU4LXNjYWxlZC5qcGc/static/54-38/fusball-firo-10-06-1996-fusball-em-euro-europameisterschaft-1996-gruppenphase-gr.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Earlier 1996 photo: compact loose/spiky locks, broad forehead, square lean jaw, full lips and clean face; no goggles. A second inspected Netherlands image visibly says 21 June 2000 and has goggles; reject that later accessory for this 1997-98 edition."
+      ],
+      "before_sha256": "4d3a8e32abe4d420ad5d0d48e628b06a406d140f84868472fef0eb241ea0481c",
+      "after_sha256": "d06f7928a3f7c505043173cc58caa4d02eaccb276db6f86710581cd2b662abce",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "dunga_1994",
@@ -1524,9 +1722,25 @@
       "era": "1993-94",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_roberto_baggio_1993_94.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.sohu.com/a/235803330_461392",
+          "image": "https://5b0988e595225.cdn.sohucs.com/q_70%2Cc_zoom%2Cw_640/images/20180614/95769e9528ac47d38fc1d5a530655487.jpeg",
+          "visually_inspected": true
+        },
+        {
+          "page": "https://jp.pinterest.com/pin/724798133799804711/",
+          "image": "https://i.pinimg.com/736x/0c/d1/39/0cd1390b5b7ad6b5a90ed66ec27f265c.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "Italy-era front and dated 1994 rear studies: dense curled crown and low tied tail, no high topknot; light eyes, defined cheek/jaw, strong nose and restrained facial hair. Rear photo shows the tail reaching below the collar."
+      ],
+      "before_sha256": "d6ec09986c3d46e6bc43ef5f8fa748cb0c33f054b51f437c4932bc3aaefe6edd",
+      "after_sha256": "bf6caed49fa1ba74ae8f384e3f2b9f21b63a98f0d06baf0f492dc6528fedc092",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "francesco_totti_2000_01",
@@ -2048,9 +2262,20 @@
       "era": "2022-23",
       "priority": false,
       "runtime_path": "res://assets/portraits/catalogue_200/portrait_victor_osimhen_2022_23.png",
-      "status": "pending",
-      "references": [],
-      "observations": []
+      "status": "assembled_native_checked",
+      "references": [
+        {
+          "page": "https://www.90min.com/posts/victor-osimhen-signs-new-napoli-contract-release-clause",
+          "image": "https://images2.minutemediacdn.com/image/upload/c_fill%2Cw_1200%2Car_1%3A1%2Cf_auto%2Cq_auto%2Cg_auto/images/GettyImages/mmsport/90min_en_international_web/01hjbe8q1gqcg33k310y.jpg",
+          "visually_inspected": true
+        }
+      ],
+      "observations": [
+        "December 2023 Napoli photo, adjacent season: low bleached curled top over dark faded sides, black eye/cheek/bridge mask with open eye holes, long face and fine chin beard. Mask and dyed top need separate reusable piece geometry; no branding."
+      ],
+      "before_sha256": "8ec6e7899b5fd927f4996b4afca5df051072a43cfacfe0bbb9ca29bb5ec8c973",
+      "after_sha256": "bd51a9f560213c022b60703213e056adba363a364c5e1cc5e60ff113471b96dc",
+      "verification": "Second batch: individual reference/assembly board, native CardView at 720p/1080p, all 200 catalogue/card bindings passed."
     },
     {
       "card_id": "julian_alvarez_2024_25",

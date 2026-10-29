@@ -1,0 +1,92 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (20 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | portrait_alisson_becker_2023_24.png[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | portrait_david_raya_2024_25.png[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | portrait_dino_zoff_1982.png[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | portrait_diogo_costa_2024_25.png[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | portrait_ederson_2023_24.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | portrait_edgar_davids_1997_98.png[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | portrait_edwin_van_der_sar_2008_09.png[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | portrait_emiliano_martinez_2022.png[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | portrait_gianluigi_donnarumma_2024_25.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | portrait_gordon_banks_1966.png[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | portrait_jan_oblak_2020_21.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | portrait_marc_andre_ter_stegen_2022_23.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | portrait_mike_maignan_2021_22.png[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | portrait_oliver_kahn_2001_02.png[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | portrait_peter_schmeichel_1995_96.png[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | portrait_petr_cech_2004_05.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | portrait_roberto_baggio_1993_94.png[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | portrait_sepp_maier_1973_74.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | portrait_thibaut_courtois_2023_24.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | portrait_victor_osimhen_2022_23.png[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (20 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | portrait_victor_osimhen_2022_23.png[39m[0m
+[   4% ] [90m[1mreimport[22m | portrait_thibaut_courtois_2023_24.png[39m[0m
+[   9% ] [90m[1mreimport[22m | portrait_sepp_maier_1973_74.png[39m[0m
+[  14% ] [90m[1mreimport[22m | portrait_roberto_baggio_1993_94.png[39m[0m
+[  19% ] [90m[1mreimport[22m | portrait_petr_cech_2004_05.png[39m[0m
+[  23% ] [90m[1mreimport[22m | portrait_peter_schmeichel_1995_96.png[39m[0m
+[  28% ] [90m[1mreimport[22m | portrait_oliver_kahn_2001_02.png[39m[0m
+[  33% ] [90m[1mreimport[22m | portrait_mike_maignan_2021_22.png[39m[0m
+[  38% ] [90m[1mreimport[22m | portrait_marc_andre_ter_stegen_2022_23.png[39m[0m
+[  42% ] [90m[1mreimport[22m | portrait_jan_oblak_2020_21.png[39m[0m
+[  47% ] [90m[1mreimport[22m | portrait_gordon_banks_1966.png[39m[0m
+[  52% ] [90m[1mreimport[22m | portrait_gianluigi_donnarumma_2024_25.png[39m[0m
+[  57% ] [90m[1mreimport[22m | portrait_emiliano_martinez_2022.png[39m[0m
+[  61% ] [90m[1mreimport[22m | portrait_edwin_van_der_sar_2008_09.png[39m[0m
+[  66% ] [90m[1mreimport[22m | portrait_edgar_davids_1997_98.png[39m[0m
+[  71% ] [90m[1mreimport[22m | portrait_ederson_2023_24.png[39m[0m
+[  76% ] [90m[1mreimport[22m | portrait_diogo_costa_2024_25.png[39m[0m
+[  80% ] [90m[1mreimport[22m | portrait_dino_zoff_1982.png[39m[0m
+[  85% ] [90m[1mreimport[22m | portrait_david_raya_2024_25.png[39m[0m
+[  90% ] [90m[1mreimport[22m | portrait_alisson_becker_2023_24.png[39m[0m
+[  95% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (20 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[  33% ] [90m[1mloading_editor_layout[22m | Reopening scenes...[39m[0m
+[  50% ] [90m[1mloading_editor_layout[22m | Loading central editor layout...[39m[0m
+[  66% ] [90m[1mloading_editor_layout[22m | Loading plugin window layout...[39m[0m
+[  83% ] [90m[1mloading_editor_layout[22m | Editor layout ready.[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
