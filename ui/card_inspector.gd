@@ -1,7 +1,8 @@
 extends ColorRect
 signal closed
+signal pin_requested(card_id: String)
 const CardView = preload("res://ui/player_card.gd")
-const ThemeData = preload("res://ui/game_theme.tres")
+static var ThemeData: Theme = preload("res://ui/matchday_theme.gd").build()
 var definition: Resource
 var info: Dictionary = {}
 var comparison: Resource
@@ -23,7 +24,7 @@ func label(parent: Node, value: String, pixels: int = 16, role: String = "Label"
 
 func _ready() -> void:
 	theme = ThemeData
-	color = Color("0c2117")
+	color = ThemeData.get_color("forest","Palette")
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -45,7 +46,7 @@ func _ready() -> void:
 	body.add_theme_constant_override("separation",28)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	outer.add_child(body)
-	for entry in ([[definition,info],[comparison,comparison_info]] if comparison != null else [[definition,info]]):
+	for entry in ([[definition,info],[comparison,comparison_info]] if comparison != null else [[definition,info]] if definition != null else []):
 		var frame := CenterContainer.new()
 		frame.custom_minimum_size.x = 300
 		body.add_child(frame)
@@ -72,11 +73,16 @@ func _ready() -> void:
 		label(details,"This edition has not been discovered.")
 	else:
 		label(details,definition.display_name,32,"Heading")
-		label(details,str(info.get("country_name","Fictional player"))+" · "+str(info.get("version_label","Fictional"))+" · "+str(info.get("career_pool","Exhibition")))
-		label(details,"%d OVR · %s · %s" % [definition.rating(),definition.primary_role,definition.tier().capitalize()],22,"Score")
-		label(details,"Base attributes · match role and fatigue adjustments apply separately.",13)
+		var pin := Button.new()
+		pin.text = "Pin comparison"
+		pin.name = "PinComparison"
+		pin.pressed.connect(func(): pin_requested.emit(definition.card_id))
+		details.add_child(pin)
+		label(details,str(info.get("country_name","Fictional player"))+"  "+str(info.get("version_label","Fictional"))+"  "+str(info.get("career_pool","Exhibition")))
+		label(details,"%d OVR  %s  %s" % [definition.rating(),definition.primary_role,definition.tier().capitalize()],22,"Score")
+		label(details,"Base attributes  match role and fatigue adjustments apply separately.",13)
 		label(details,"Natural: "+", ".join(definition.natural_roles)+"\nFamiliar: "+(", ".join(definition.familiar_roles) if not definition.familiar_roles.is_empty() else "None"),14)
-		if comparison != null: label(details,"Changes versus "+comparison.display_name+" · "+str(comparison_info.get("version_label","Fictional")),14,"BodyStrong")
+		if comparison != null: label(details,"Changes versus "+comparison.display_name+"  "+str(comparison_info.get("version_label","Fictional")),14,"BodyStrong")
 		stats(details,"OUTFIELD",definition.attributes,comparison.attributes if comparison != null else {})
 		stats(details,"GOALKEEPING",definition.keeper_attributes,comparison.keeper_attributes if comparison != null else {})
 		if definition.primary_role != "GK": label(details,"Emergency outfield keeping uses the 35 baseline.",13)
@@ -84,7 +90,7 @@ func _ready() -> void:
 		if not definition.trait_id.is_empty():
 			var ability: Dictionary = definition.Traits.catalogue[definition.trait_id]
 			label(details,ability.name,26,"Score")
-			label(details,"Automatic · implemented · "+", ".join(ability.positions),13,"BodyStrong")
+			label(details,"Automatic  implemented  "+", ".join(ability.positions),13,"BodyStrong")
 			label(details,"Trigger: "+ability.trigger+"\nEffect: "+ability.effect+"\nCounterplay: "+ability.counterplay,15)
 			label(details,"3 uses in regulation; +1 in extra time. 10′ cooldown. Activation: %d stamina. Shared attribute bonus cap: +6." % int(ability.parameters.get("activation_stamina_cost",2)),13)
 			if definition.trait_id in ["penalty_composure","cat_reflexes"]: label(details,"Shootout: one opportunity per kick, using its separate shootout allowance.",13)

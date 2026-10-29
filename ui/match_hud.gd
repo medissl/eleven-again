@@ -47,66 +47,8 @@ class EventIcon:
 	var team := -1
 	var kit := Color.TRANSPARENT
 	func _draw() -> void:
-		var color := Color("efe9d9") if team == 0 else Color("ed7864")
-		if kit.a > 0: color = kit
-		if team < 0: color = Color("a0afa4")
-		var center := Vector2(17, 17)
-		if kind in ["goal","shootout_goal"]:
-			draw_arc(center, 10, 0, TAU, 24, color, 1.8, true)
-			draw_circle(center, 3.5, color)
-			for i in 5:
-				var point := center + Vector2.from_angle(i * TAU / 5) * 6
-				draw_line(point, center + Vector2.from_angle(i * TAU / 5) * 10, color, 1.5, true)
-		elif kind in ["save", "smother", "parry","shootout_save"]:
-			draw_set_transform(Vector2(-14, 0))
-			draw_polyline(PackedVector2Array([Vector2(23, 16), Vector2(24, 27), Vector2(38, 27), Vector2(42, 13)]), Color("f1eedb"), 1.8, true)
-			for i in 4: draw_line(Vector2(26 + i * 4, 19), Vector2(25 + i * 4, 5 + i % 2 * 3), Color("f1eedb"), 1.8, true)
-		elif kind == "tackle":
-			draw_polyline(PackedVector2Array([Vector2(3,24),Vector2(3,17),Vector2(11,18),Vector2(17,11),Vector2(22,15),Vector2(15,25),Vector2(3,24)]),color,1.8,true)
-			draw_circle(Vector2(26,9),3,color)
-		elif kind in ["shot","miss","shootout_shot","shootout_miss"]:
-			draw_polyline(PackedVector2Array([Vector2(17,26),Vector2(17,5),Vector2(31,5),Vector2(31,26)]),color,1.5,true)
-			var target := Vector2(29,1) if kind in ["miss","shootout_miss"] else Vector2(25,12)
-			draw_line(Vector2(3,26),target,color,1.8,true)
-			draw_polyline(PackedVector2Array([target-Vector2(7,0),target,target+Vector2(0,7)]),color,1.8,true)
-			draw_circle(Vector2(3,26),2.5,color)
-		elif kind == "pass":
-			draw_circle(Vector2(4,23),3,color)
-			draw_line(Vector2(10,21),Vector2(29,10),color,1.8,true)
-			draw_polyline(PackedVector2Array([Vector2(21,9),Vector2(29,10),Vector2(26,18)]),color,1.8,true)
-		elif kind == "interception":
-			draw_line(Vector2(2,22),Vector2(18,22),color,1.8,true)
-			draw_line(Vector2(18,22),Vector2(18,5),color,1.8,true)
-			draw_polyline(PackedVector2Array([Vector2(12,11),Vector2(18,5),Vector2(24,11)]),color,1.8,true)
-			draw_line(Vector2(27,18),Vector2(27,29),color,2,true)
-		elif kind == "block":
-			draw_polyline(PackedVector2Array([Vector2(6,7),Vector2(17,3),Vector2(28,7),Vector2(26,20),Vector2(17,29),Vector2(8,20),Vector2(6,7)]),color,1.8,true)
-			draw_line(Vector2(11,11),Vector2(23,23),color,1.8,true)
-		elif kind in ["kickoff", "kickoff_setup"]:
-			draw_arc(center,10,0,TAU,24,color,1.5,true)
-			draw_line(Vector2(17,3),Vector2(17,31),color,1.5,true)
-			draw_circle(center,2.5,color)
-		elif kind in ["yellow_card","red_card"]:
-			draw_rect(Rect2(10,5,14,23),Color("f0cd50") if kind == "yellow_card" else Color("ed7864"))
-		elif kind == "foul":
-			draw_arc(Vector2(13,21),7,0,TAU,20,color,1.6,true)
-			draw_polyline(PackedVector2Array([Vector2(16,15),Vector2(28,8),Vector2(31,14),Vector2(20,22)]),color,1.6,true)
-		elif kind in ["offside","corner_awarded","throw_in_awarded"]:
-			draw_line(Vector2(10,4),Vector2(10,30),color,1.7,true)
-			draw_polyline(PackedVector2Array([Vector2(10,5),Vector2(27,11),Vector2(10,17)]),color,1.7,true)
-		elif kind == "substitution":
-			for offset in [0,12]:
-				var x := 27 if offset == 0 else 7
-				var sign_x := 1 if offset == 0 else -1
-				var ink := Color("58bd7a") if offset == 0 else Color("ed7864")
-				draw_line(Vector2(7,10+offset),Vector2(27,10+offset),ink,1.7,true)
-				draw_polyline(PackedVector2Array([Vector2(x-sign_x*5,5+offset),Vector2(x,10+offset),Vector2(x-sign_x*5,15+offset)]),ink,1.7,true)
-		elif kind in ["halftime","full_time","extra_time","extra_half","shootout_start"]:
-			draw_arc(center,10,0,TAU,24,color,1.5,true)
-			draw_polyline(PackedVector2Array([Vector2(17,8),Vector2(17,17),Vector2(24,17)]),color,1.8,true)
-		else:
-			draw_line(center - Vector2(9, -6), center + Vector2(8, -6), Color("f1eedb"), 1.8, true)
-			draw_polyline(PackedVector2Array([center + Vector2(1, -8), center + Vector2(8, -6), center + Vector2(6, 1)]), Color("f1eedb"), 1.8, true)
+		var icon: Texture2D = preload("res://ui/matchday_icons.gd").event(kind)
+		draw_texture_rect(icon,Rect2(5,5,24,24),false)
 
 func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE

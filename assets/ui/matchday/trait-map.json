@@ -1,0 +1,509 @@
+{
+  "schema": 1,
+  "traits": [
+    {
+      "id": "deflector",
+      "name": "Deflector",
+      "icon": "icons/deflector",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Cyan label and keeper ring; short cyan trail only after real ball contact.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "safe_hands",
+      "name": "Safe Hands",
+      "icon": "icons/keeper-glove",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Closed-hand icon over keeper; small contracting ring on an actual hold.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "cat_reflexes",
+      "name": "Cat Reflexes",
+      "icon": "icons/keeper-glove",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Small cyan double pulse and REFLEX label; flash at actual contact.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "sweeper_keeper",
+      "name": "Sweeper Keeper",
+      "icon": "icons/formation",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Dotted forward ring and SWEEPER label; success ring on claim/clearance.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "long_throw",
+      "name": "Launch Keeper",
+      "icon": "icons/lob-pass",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Cyan release arc, LAUNCH label and fading ball streak.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "hard_tackle",
+      "name": "Hard Tackle",
+      "icon": "icons/boot-tackle",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Amber/teal aura and HARD TACKLE label; small impact ring only on contact.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "anticipator",
+      "name": "Anticipator",
+      "icon": "icons/interception",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Teal eye/chevron cue and ANTICIPATE label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "aerial_fortress",
+      "name": "Aerial Fortress",
+      "icon": "icons/aerial",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Brief upright teal ring and AERIAL label; contact burst on a clearance.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "body_block",
+      "name": "Body Block",
+      "icon": "icons/shield",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Short shield/semicircle facing the shot; BLOCK label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "accelerator",
+      "name": "Accelerator",
+      "icon": "icons/speed",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Pale-blue aura, ACCELERATOR label and short behind-token streaks.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "whipped_cross",
+      "name": "Whipped Cross",
+      "icon": "icons/crossing",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Amber curved flight streak and CROSS label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "recovery_sprint",
+      "name": "Recovery Sprint",
+      "icon": "icons/speed",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Blue backward chevrons, RECOVER label and short movement streak.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "overlap_engine",
+      "name": "Overlap Engine",
+      "icon": "icons/overlap",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Quiet blue/green lane pulse and OVERLAP label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "screen",
+      "name": "Screen",
+      "icon": "icons/shield",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Teal bar/eye icon, SCREEN label and a contact tick.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "anchor",
+      "name": "Anchor",
+      "icon": "icons/anchor",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Low stable green ring and ANCHOR label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "switch_play",
+      "name": "Switch Play",
+      "icon": "icons/cross",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Wide amber arc and SWITCH label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "bullet_pass",
+      "name": "Bullet Pass",
+      "icon": "icons/through-pass",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Golden ball with white core, short gold trail and BULLET PASS label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "wall_pass",
+      "name": "Wall Pass",
+      "icon": "icons/substitution",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Two linked small pips and ONE-TWO label; normal real ball path.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "tempo_setter",
+      "name": "Tempo Setter",
+      "icon": "icons/tempo",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Single amber pulse and TEMPO label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "press_resistant",
+      "name": "Press Resistant",
+      "icon": "icons/shield",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Tight teal/ivory ring and PRESS RESIST label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "threader",
+      "name": "Threader",
+      "icon": "icons/threader",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Narrow amber tracer and THREADER label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "third_man",
+      "name": "Third Man",
+      "icon": "icons/through-pass",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Three small connected pips and THIRD MAN label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "turn_and_go",
+      "name": "Turn and Go",
+      "icon": "icons/dribble",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Short crescent aura and TURN label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "touchline_burst",
+      "name": "Touchline Burst",
+      "icon": "icons/speed",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Pale-blue outside-lane streak and BURST label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "cutback",
+      "name": "Cutback",
+      "icon": "icons/back",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Short backwards amber streak and CUTBACK label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "cut_inside",
+      "name": "Cut Inside",
+      "icon": "icons/dribble",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Crescent movement cue and CUT INSIDE label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "close_control",
+      "name": "Close Control",
+      "icon": "icons/dribble",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Small contracting ivory ring and CONTROL label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "finesse_shot",
+      "name": "Finesse Shot",
+      "icon": "icons/finesse",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "FINESSE label and a short warm-white curved trail following actual ball positions.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "first_time_finish",
+      "name": "First-time Finish",
+      "icon": "icons/shot-target",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Brief ivory strike spark and FIRST TIME label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "power_strike",
+      "name": "Power Strike",
+      "icon": "icons/shot",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Short warm-white heavy streak, small release ring and POWER label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "poacher",
+      "name": "Poacher",
+      "icon": "icons/finisher",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Small amber near-ball pulse and POACHER label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "aerial_finisher",
+      "name": "Aerial Finisher",
+      "icon": "icons/aerial",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Upright ivory pulse, header contact spark and HEADER label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "dead_ball_artist",
+      "name": "Dead-ball Artist",
+      "icon": "icons/free-kick",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Amber stationary-ball ring and DEAD BALL label; trail after actual release.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "penalty_composure",
+      "name": "Penalty Composure",
+      "icon": "icons/penalty",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Small steady ivory ring and COMPOSED label before the kick.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "long_throw_specialist",
+      "name": "Long Throw",
+      "icon": "icons/lob-pass",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Short dotted amber arc and LONG THROW label.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    },
+    {
+      "id": "super_sub",
+      "name": "Super Substitute",
+      "icon": "icons/substitution",
+      "colour": "#F1ECDD",
+      "effect_components": [
+        "effects/ring",
+        "effects/trail",
+        "components/contact-burst"
+      ],
+      "mechanics_source": "content/traits.json",
+      "visual_contract": "Small blue entry pulse and SUPER SUB label; subdued icon during the window.",
+      "rule": "Activation/execution/result read actual state. Semantic rings/trails may differ from neutral white icon."
+    }
+  ]
+}

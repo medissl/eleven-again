@@ -22,6 +22,8 @@
 - Latest UI correction (28 October): fixed **100%** interface; remove size options and normalize legacy preferences without losing remaps/sound. `outputs/campaign-ui-match-style-v1/CODEX_PROMPT.md` and its actual match/pause baselines govern campaign presentation. Five complete recruitment cards and four market cards must fit at normal 720p with no scrolling. Preserve the native CardView, aligned signing facts, real saved previews, three defeat pips and all-screen team/shirt/score spacing. Its older enlarged-UI/size-selector wording is superseded by the user's explicit removal request.
 - Portrait feedback is deferred: Beckham's exaggerated fauxhawk and other likeness/era problems are recorded under task 6.3. Do not regenerate portraits as part of campaign/UI work.
 
+- Latest29 October scope supersedes the previous match-style-only limit: read `outputs/full-ui-revamp-v4/MATCH_UPGRADE_ADDENDUM.md` first, then its design/screen/assets/football guides. The stripped v4 match references are withdrawn. Upgrade the actual textured renderer (all22 equal visible26–28px bodies, both teams' surnames, detailed goals/ball/motion), not a rollback or flat simplification. Menu/Card/Collection references apply. See `reports/matchday-v4.md` for delivered slices and pending full UI/team/physics/law work. Profile-backed Collection replaces ordinary unrestricted catalogue navigation, with no hidden identity leaks or resets.
+
 ## Working method
 
 Use EngineeringSuite's relevant installed workflow and Ponytail for implementation simplicity. Read their actual skill files when applying them; use one primary workflow and only necessary support. If unavailable, report that and continue with ordinary local tools where possible.

@@ -10,6 +10,7 @@ var save_root := "user://campaign"
 var session: RefCounted
 var library: RefCounted
 var preferences: RefCounted
+var canvas: Control
 var screen: Control
 var modal: Control
 var view: Control
@@ -25,6 +26,10 @@ var origin_selection := "ENG"
 var collection_page := 0
 var coach_selection := ""
 var collection_known := false
+var collection_query := ""
+var collection_role := ""
+var collection_tier := ""
+var pinned_card := ""
 
 func _ready() -> void:
 	theme = Parts.ThemeData
@@ -35,31 +40,41 @@ func _ready() -> void:
 	apply_preferences()
 	if get_viewport() == get_tree().root: get_tree().auto_accept_quit = false
 	resized.connect(func(): if is_instance_valid(screen) and not is_instance_valid(view) and not is_instance_valid(modal): render(page))
+	canvas = Control.new()
+	canvas.size = Vector2(1280,720)
+	add_child(canvas)
+	resized.connect(layout_canvas)
+	layout_canvas()
 	render("main")
+
+func layout_canvas() -> void:
+	if not is_instance_valid(canvas): return
+	canvas.scale = Vector2.ONE*minf(size.x/1280,size.y/720)
+	canvas.position = (size-canvas.size*canvas.scale)/2
 
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,size),Parts.ThemeData.get_color("forest","Palette"))
-	for index in 12: draw_rect(Rect2(index*size.x/12,0,size.x/24,size.y),Color(0.03,0.12,0.08,0.2))
-	draw_rect(Rect2(Vector2(14,14),size-Vector2(28,28)),Color(0.5,0.59,0.48,0.08),false,1)
+
 
 func ui_scale() -> float: return 1.0
 func money(value: int) -> String: return "$%sm" % str(value/1000000.0).trim_suffix(".0")
-func text(parent: Node, value: String, pixels: int = 20, role: String = "Label", ink: Color = Parts.IVORY) -> Label: return Parts.label(parent,value,roundi(pixels*ui_scale()),role,ink)
+func text(parent: Node, value: String, pixels: int = 18, role: String = "Label", ink: Color = Parts.IVORY) -> Label: return Parts.label(parent,value,mini(pixels,34) if role == "Heading" else roundi(pixels*ui_scale()),role,ink)
 func button(parent: Node, caption: String, id: String, action: Callable, primary: bool = false) -> Button:
 	var node := Parts.button(parent,caption,id,action,primary)
-	node.add_theme_font_size_override("font_size",roundi(19*ui_scale()))
+	node.add_theme_font_size_override("font_size",18)
 	return node
 
 func clear_screen() -> void:
 	if is_instance_valid(screen):
-		remove_child(screen)
+		screen.get_parent().remove_child(screen)
 		screen.queue_free()
 	if is_instance_valid(view):
-		remove_child(view)
+		view.get_parent().remove_child(view)
 		view.queue_free()
 	view = null
 
 func render(next: String) -> void:
+	if next == "discovered": next = "collection"
 	var focus_name := ""
 	var focus := get_viewport().gui_get_focus_owner()
 	if next == page and focus != null: focus_name = focus.name
@@ -78,11 +93,18 @@ func render(next: String) -> void:
 	page = next
 	screen = Control.new()
 	screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(screen)
+	canvas.add_child(screen)
 	if session.blocked:
 		Screens.recovery(self)
 		return
 	if page == "main": Screens.main(self)
+	elif page == "collection":
+		var collection = load("res://ui/collection_screen.gd").new()
+		collection.library = library
+		collection.discoveries = session.profile.discoveries.duplicate(true)
+		collection.reduced_motion = preferences.data.motion
+		screen.add_child(collection)
+		collection.closed.connect(func(): render("main"))
 	else:
 		var outer := Screens.frame(self)
 		match page:
@@ -103,9 +125,9 @@ func render(next: String) -> void:
 					offer.build_cards()
 			"coaching": Screens.coaching(self,outer)
 			"result", "terminal": Screens.result(self,outer,page == "terminal")
-			"discovered", "records": LibraryScreen.build(self,outer,page)
+			"collection", "records": LibraryScreen.build(self,outer,page)
 	if is_instance_valid(status): status.queue_free()
-	status = text(self,"",14)
+	status = text(canvas,"",14)
 	status.z_index = 100
 	status.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	status.offset_top = -22
@@ -159,6 +181,7 @@ func prepare() -> void:
 	var node = load("res://ui/preparation.gd").new()
 	node.campaign_mode = true
 	node.campaign_library = library
+	node.campaign_discoveries = session.profile.discoveries.duplicate(true)
 	node.home_name = library.countries[data.origin].name
 	node.knockout = true
 	node.ui_scale = ui_scale()
@@ -189,7 +212,7 @@ func open_match() -> void:
 	view.team_kits = [home,away]
 	view.key_bindings = preferences.data.keys.duplicate()
 	view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(view)
+	canvas.add_child(view)
 	apply_preferences()
 	view.campaign_action.connect(match_action)
 	last_saved_tick = view.sim.ticks
@@ -227,12 +250,12 @@ func open_modal(node: Control) -> void:
 	modal_focus = get_viewport().gui_get_focus_owner()
 	modal = node
 	node.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(node)
+	canvas.add_child(node)
 	if is_instance_valid(view): view.paused = true; view.set_process_input(false)
 
 func close_modal() -> void:
 	if is_instance_valid(modal):
-		remove_child(modal)
+		modal.get_parent().remove_child(modal)
 		modal.queue_free()
 	modal = null
 	rebind = ""
@@ -245,7 +268,7 @@ func panel(title: String) -> VBoxContainer:
 	open_modal(cover)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for edge in ["left","right"]: margin.add_theme_constant_override("margin_"+edge,roundi(size.x*0.2))
+	for edge in ["left","right"]: margin.add_theme_constant_override("margin_"+edge,roundi(canvas.size.x*0.2))
 	for edge in ["top","bottom"]: margin.add_theme_constant_override("margin_"+edge,36)
 	cover.add_child(margin)
 	var scroll := ScrollContainer.new()
@@ -282,6 +305,8 @@ func inspect(id: String, comparison: String = "") -> void:
 	node.info = library.metadata(id)
 	node.ui_scale = ui_scale()
 	node.reduced_motion = preferences.data.motion
+	if comparison.is_empty() and not pinned_card.is_empty() and pinned_card != id: comparison = pinned_card
+	node.pin_requested.connect(func(card_id): pinned_card = card_id; message("Comparison pinned."))
 	if not comparison.is_empty(): node.comparison = library.cards[comparison]; node.comparison_info = library.metadata(comparison)
 	open_modal(node)
 	node.closed.connect(func(): modal = null; if is_instance_valid(modal_focus): modal_focus.grab_focus())
@@ -374,6 +399,7 @@ func _input(event: InputEvent) -> void:
 		rebind = ""
 		settings()
 	elif event.keycode == KEY_ESCAPE:
+		if page == "collection" and not is_instance_valid(modal): return
 		if is_instance_valid(modal):
 			if modal.has_method("open_card") and is_instance_valid(modal.card_panel): return
 			if modal.has_method("pin_selected") and is_instance_valid(modal.inspection): return
@@ -381,6 +407,6 @@ func _input(event: InputEvent) -> void:
 			else: close_modal()
 		elif is_instance_valid(view): return
 		elif page == "main": return
-		elif page in ["origin","records","discovered"]: render("main")
+		elif page in ["origin","records","collection"]: render("main")
 		else: menu()
 		get_viewport().set_input_as_handled()

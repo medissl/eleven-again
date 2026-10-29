@@ -18,40 +18,16 @@ class Icon:
 	var kind := ""
 	var ink := Color("efe9d9")
 	func _draw() -> void:
-		match kind:
-			"info":
-				draw_arc(Vector2(12,12),9,0,TAU,24,ink,1.4,true)
-				draw_circle(Vector2(12,7),1.2,ink)
-				draw_line(Vector2(12,11),Vector2(12,18),ink,1.6,true)
-			"pause":
-				for x in [8,16]: draw_line(Vector2(x,4),Vector2(x,20),ink,3,true)
-			"menu":
-				for y in [5,12,19]: draw_line(Vector2(2,y),Vector2(23,y),ink,1.7,true)
-			"kit":
-				draw_set_transform(size / 2, 0, Vector2.ONE * size.y / 34)
-				var points := PackedVector2Array([Vector2(-7,-12),Vector2(-17,-5),Vector2(-13,3),Vector2(-8,0),Vector2(-8,15),Vector2(8,15),Vector2(8,0),Vector2(13,3),Vector2(17,-5),Vector2(7,-12),Vector2(3,-8),Vector2(-3,-8)])
-				draw_colored_polygon(points,ink)
-				if ink.get_luminance() < 0.45:
-					points.append(points[0])
-					draw_polyline(points,Color("efe9d9a6"),0.7,true)
-			"resume", "continue_half", "continue_result":
-				draw_colored_polygon(PackedVector2Array([Vector2(5,3),Vector2(21,12),Vector2(5,21)]), ink)
-			"details":
-				for i in 3: draw_line(Vector2(5+i*7,21),Vector2(5+i*7,9-i*3),ink,2,true)
-			"settings", "campaign_settings":
-				draw_arc(Vector2(12,12),8,0,TAU,12,ink,1.5,true)
-				draw_arc(Vector2(12,12),3,0,TAU,16,ink,1.5,true)
-				for i in 8: draw_line(Vector2(12,12)+Vector2.from_angle(i*TAU/8)*8,Vector2(12,12)+Vector2.from_angle(i*TAU/8)*11,ink,2,true)
-			"restart", "new":
-				draw_arc(Vector2(12,12),9,0.3,TAU-0.4,28,ink,1.5,true)
-				draw_polyline(PackedVector2Array([Vector2(15,2),Vector2(21,3),Vector2(20,9)]),ink,1.5,true)
-			"quit", "save_exit":
-				draw_polyline(PackedVector2Array([Vector2(10,3),Vector2(21,3),Vector2(21,21),Vector2(10,21)]),ink,1.5,true)
-				draw_line(Vector2(2,12),Vector2(15,12),ink,1.5,true)
-				draw_polyline(PackedVector2Array([Vector2(10,7),Vector2(15,12),Vector2(10,17)]),ink,1.5,true)
-			_:
-				draw_arc(Vector2(12,12),9,0,TAU,24,ink,1.5,true)
-				draw_circle(Vector2(12,12),3,ink)
+		if kind == "kit":
+			draw_set_transform(size/2,0,Vector2.ONE*size.y/34)
+			var points := PackedVector2Array([Vector2(-7,-12),Vector2(-17,-5),Vector2(-13,3),Vector2(-8,0),Vector2(-8,15),Vector2(8,15),Vector2(8,0),Vector2(13,3),Vector2(17,-5),Vector2(7,-12),Vector2(3,-8),Vector2(-3,-8)])
+			draw_colored_polygon(points,ink)
+			if ink.get_luminance() < 0.45:
+				points.append(points[0])
+				draw_polyline(points,Color("F1ECDD99"),0.7,true)
+		else:
+			var id: String = {"resume":"play","continue_half":"play","continue_result":"forward","details":"records","log":"history","campaign_settings":"settings","restart":"restore","new":"new-run","save_exit":"save","quit":"exit"}.get(kind,kind)
+			draw_texture_rect(preload("res://ui/matchday_icons.gd").texture("icons/"+id),Rect2(0,0,24,24),false,ink)
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

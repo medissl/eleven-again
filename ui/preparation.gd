@@ -17,6 +17,7 @@ var card_panel: Control
 var reduced_motion := false
 var campaign_mode := false
 var campaign_library: RefCounted
+var campaign_discoveries := {}
 var home_name := ""
 var scouting := ""
 var inspection_slot := 0
@@ -101,8 +102,8 @@ func rebuild() -> void:
 		button.pressed.connect(func(): page=section; rebuild())
 		tabs.add_child(button)
 	var catalogue_button := Button.new()
-	catalogue_button.name = "OpenPlayerArchive"
-	catalogue_button.text = "Player archive"
+	catalogue_button.name = "OpenCollection" if campaign_mode else "OpenPlayerArchive"
+	catalogue_button.text = "Collection" if campaign_mode else "Development catalogue"
 	catalogue_button.pressed.connect(open_archive)
 	tabs.add_child(catalogue_button)
 	var scroll := ScrollContainer.new()
@@ -251,8 +252,9 @@ func open_card(card: Resource) -> void:
 
 func open_archive() -> void:
 	if is_instance_valid(card_panel): return
-	var archive = load("res://ui/player_archive.gd").new()
-	archive.ui_scale = ui_scale
+	var archive = load("res://ui/collection_screen.gd" if campaign_mode else "res://ui/player_archive.gd").new()
+	if campaign_mode: archive.library=campaign_library; archive.discoveries=campaign_discoveries.duplicate(true)
+	else: archive.ui_scale = ui_scale
 	open_card_panel(archive)
 
 func open_card_panel(panel: Control) -> void:

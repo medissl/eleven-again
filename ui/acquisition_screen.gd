@@ -25,7 +25,10 @@ func _ready() -> void:
 	selected = candidates[0] if not candidates.is_empty() else ""
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	add_theme_constant_override("separation",16)
-	app.text(self,"MARKET "+["I","II","III"][state.market.number-1] if market else "CHOOSE ONE PLAYER",48,"Heading")
+	app.text(self,"Transfer market" if market else "Choose one player",34,"Heading")
+	var introduction: Label = app.text(self,"Two signings available at this checkpoint." if market else "Add one player to your squad. This signing is free.",18)
+	introduction.add_theme_color_override("font_color",Color("A5B09F"))
+	introduction.custom_minimum_size.y = 45
 	var middle := Parts.row(self,22)
 	middle.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var left := Parts.column(middle,12)
@@ -61,7 +64,7 @@ func _ready() -> void:
 		space.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		side.add_child(space)
 		confirm = app.button(side,"Sign player","ConfirmAcquisition",func(): app.act("acquire",[selected,outgoing],revision),true)
-		confirm.custom_minimum_size.y = 50
+		confirm.custom_minimum_size.y = 44
 		var fixture: Dictionary = state.fixtures[state.wins]
 		var club: Dictionary = app.library.clubs[fixture.club_id]
 		var next_opponent: Label = app.text(left,"NEXT  %s  %.1f OVR  %s" % [club.name,app.library.xi_rating(app.library.opponent_plan(fixture.variant_id)),club.formation],15)
@@ -79,7 +82,7 @@ func _ready() -> void:
 		footer(self)
 	build_cards()
 
-func side_width() -> float: return clampf(app.size.x*0.26,300,400)
+func side_width() -> float: return 276
 
 func fact(parent: Node, caption: String, id: String) -> HBoxContainer:
 	var row := Parts.row(parent,12)
@@ -115,7 +118,7 @@ func footer(parent: Node) -> void:
 		app.button(row,"›","MarketNext",func(): change_page(1))
 	else:
 		confirm = app.button(row,"Recruit player","ConfirmAcquisition",func(): app.act("acquire",[selected,outgoing],revision),true)
-		confirm.custom_minimum_size = Vector2(220,50)
+		confirm.custom_minimum_size = Vector2(240,44)
 
 func icon(button: Button, kind: String) -> void:
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -138,10 +141,11 @@ func build_cards() -> void:
 		card_area.remove_child(child)
 		child.queue_free()
 	tiles.clear()
-	var row := Parts.row(card_area,14)
+	var spacing := 16 if market else 14
+	var row := Parts.row(card_area,spacing)
 	var ids: Array = state.market.cards.slice(page*4,page*4+4) if market else state.offer.cards
-	var available: float = app.size.x-48-(side_width()+45 if market else 0)
-	var width: float = minf(340,minf((available-14*(ids.size()-1))/maxi(1,ids.size()),(app.size.y-300-(54 if replacement != null and not market else 0))/1.4))
+	var available: float = app.canvas.size.x-64-(side_width()+45 if market else 0)
+	var width: float = minf(340,minf((available-spacing*(ids.size()-1))/maxi(1,ids.size()),(app.canvas.size.y-300-(54 if replacement != null and not market else 0))/1.4))
 	for id in ids:
 		var column := Parts.column(row,4)
 		column.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
@@ -162,6 +166,9 @@ func build_cards() -> void:
 func select(id: String) -> void:
 	var ids: Array = state.market.cards if market else state.offer.cards
 	if id not in ids: return
+	if selected != id:
+		outgoing = ""
+		if replacement != null: replacement.select(0)
 	selected = id
 	if market and page != int(ids.find(id)/4):
 		page = int(ids.find(id)/4)
@@ -170,6 +177,8 @@ func select(id: String) -> void:
 
 func change_page(offset: int) -> void:
 	page = posmod(page+offset,2)
+	outgoing = ""
+	if replacement != null: replacement.select(0)
 	selected = state.market.cards[page*4]
 	# Paging changes only the preview; saved stock and transactions remain untouched.
 	build_cards()

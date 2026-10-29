@@ -5,19 +5,23 @@ const CHAPTERS := ["GRASSROOTS","ELITE LEAGUE","WORLD INVITATIONAL"]
 const PRINCIPLES := {"short_combinations":"+3 PAS on ground passes in defensive and middle thirds.","wide_service":"+3 PAS on crosses.","counter_runners":"+3 PAC for two active seconds after controlled recovery.","first_pressure":"+3 DEF on attacking-third standing tackles with High press.","set_piece_preparation":"+3 SHO on direct free kicks and immediate corner headers.","bench_impact":"+3 PHY for substitutes for the rest of the match."}
 
 static func frame(app) -> VBoxContainer:
-	var margin := MarginContainer.new()
-	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for side in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+side,24)
-	app.screen.add_child(margin)
-	var outer := Parts.column(margin,12)
-	var header := Parts.row(outer)
+	var outer := Parts.column(app.screen,16)
+	outer.position = Vector2(32,100)
+	outer.size = Vector2(1216,596)
+	var header := Parts.row(app.screen,16)
+	header.position = Vector2(32,16)
+	header.size = Vector2(1216,44)
+	var rule := HSeparator.new()
+	rule.position = Vector2(32,76)
+	rule.size.x = 1216
+	app.screen.add_child(rule)
 	var data: Dictionary = app.session.controller.snapshot()
-	if not data.is_empty() and app.page not in ["origin","records","discovered"]:
+	if not data.is_empty() and app.page not in ["origin","records","collection"]:
 		flag(header,data.origin)
-		app.text(header,app.library.countries[data.origin].name.to_upper(),29,"Team")
+		app.text(header,app.library.countries[data.origin].name.to_upper(),23,"Team")
 		if app.page != "offer":
-			app.text(header,"WINS %d/12" % data.wins,22,"Score")
-			app.text(header,"DEFEATS %d/3" % data.defeats,22,"Score")
+			app.text(header,"%d / 12 wins" % data.wins,16,"Label")
+			app.text(header,"Defeats %d/3" % data.defeats,16,"Label")
 			pips(header,data.defeats)
 		else:
 			var space := Control.new()
@@ -29,8 +33,8 @@ static func frame(app) -> VBoxContainer:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_FILL if app.page == "offer" else Control.SIZE_EXPAND_FILL
 	header.add_child(spacer)
-	var menu: Button = app.button(header,"Back" if app.page in ["origin","records","discovered"] else "       Menu","PageMenu",func(): app.render("main") if app.page in ["origin","records","discovered"] else app.menu())
-	if app.page not in ["origin","records","discovered"]:
+	var menu: Button = app.button(header,"Back" if app.page in ["origin","records","collection"] else "       Menu","PageMenu",func(): app.render("main") if app.page in ["origin","records","collection"] else app.menu())
+	if app.page not in ["origin","records","collection"]:
 		menu.custom_minimum_size.x = 115
 		var glyph := Parts.Mark.new()
 		glyph.size = Vector2(30,28)
@@ -39,7 +43,6 @@ static func frame(app) -> VBoxContainer:
 		var align_icon := func(): glyph.position.y = (menu.size.y-28)/2
 		menu.resized.connect(align_icon)
 		align_icon.call()
-	outer.add_child(HSeparator.new())
 	return outer
 
 static func flag(parent: Node, code: String) -> void:
@@ -58,68 +61,56 @@ static func pips(parent: Node, defeats: int) -> void:
 	parent.add_child(node)
 
 static func main(app) -> void:
-	var menu_scroll := ScrollContainer.new()
-	menu_scroll.position = Vector2(32,24)
-	menu_scroll.size = Vector2(app.size.x*0.29,app.size.y-48)
-	menu_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	menu_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	menu_scroll.follow_focus = true
-	app.screen.add_child(menu_scroll)
-	var inset := MarginContainer.new()
-	inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	for side in ["left","right","top","bottom"]: inset.add_theme_constant_override("margin_"+side,4)
-	menu_scroll.add_child(inset)
-	var left := Parts.column(inset,6)
-	var title: Label = app.text(left,"ELEVEN\nAGAIN",112,"Heading")
-	title.add_theme_font_size_override("font_size",clampi(int(app.size.y*0.12),74,112))
-	title.add_theme_constant_override("line_spacing",-16)
 	var preview: Dictionary = app.session.preview()
-	if not preview.is_empty():
-		var identity := Parts.row(left)
-		flag(identity,preview.origin)
-		app.text(identity,app.library.countries[preview.origin].name.to_upper(),25,"Team")
-		var progress := Parts.row(left,10)
-		var counts: Label = app.text(progress,"%d WINS   %d/3 DEFEATS" % [preview.wins,preview.defeats],16,"Section")
-		counts.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		counts.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		pips(progress,preview.defeats)
-		app.button(left,"Continue run","ContinueRun",func(): if app.session.reload().ok: app.route(),true)
-	app.button(left,"New run","NewRun",func(): app.render("origin"),preview.is_empty())
-	app.button(left,"Player archive","PublicArchive",func():
-		var archive = load("res://ui/player_archive.gd").new()
-		archive.ui_scale = app.ui_scale()
-		archive.reduced_motion = app.preferences.data.motion
-		app.open_modal(archive)
-		archive.closed.connect(func(): app.modal=null))
-	var collection := Parts.row(left,8)
-	app.button(collection,"Discovered","Discovered",func(): app.render("discovered"))
-	app.button(collection,"Records","Records",func(): app.render("records"))
-	left.add_child(HSeparator.new())
-	app.button(left,"Settings","MainSettings",app.settings)
-	app.button(left,"Quit","QuitGame",func(): app.get_tree().quit())
-	for child in left.get_children():
-		if child is Button:
-			child.custom_minimum_size.y = 38
-			child.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	var paper := Parts.Paper.new()
-	var paper_height := 300 if preview.is_empty() else 480
-	paper.size = Vector2(app.size.x*0.39,minf(app.size.y-96,paper_height))
-	paper.position = Vector2(app.size.x*0.345,(app.size.y-paper.size.y)/2)
-	app.screen.add_child(paper)
-	var content := Parts.column(paper,14)
+	var logo := TextureRect.new()
+	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	logo.texture = load("res://assets/ui/matchday/art/wordmark.png")
+	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	logo.position = Vector2(32,58)
+	logo.size = Vector2(414,207)
+	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	app.screen.add_child(logo)
+	var actions := [["Continue run","ContinueRun",func(): if app.session.reload().ok: app.route()]] if not preview.is_empty() else []
+	actions.append_array([["New run","NewRun",func(): app.render("origin")],["Collection","Collection",func(): app.render("collection")],["Records","Records",func(): app.render("records")],["Settings","MainSettings",app.settings],["Quit","QuitGame",func(): app.get_tree().quit()]])
+	for index in actions.size():
+		var action: Array = actions[index]
+		var node: Button = app.button(app.screen,action[0],action[1],action[2],index == 0)
+		node.position = Vector2(48,298+index*56)
+		node.size = Vector2(346,44)
+		node.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		if index > 0: node.theme_type_variation = "Quiet"
 	if preview.is_empty():
-		app.text(content,"THE FIXTURE BOOK",36,"Heading",Parts.INK)
-		app.text(content,"No active run.\nChoose an origin to begin.",22,"Label",Parts.INK)
-		content.add_child(HSeparator.new())
-		app.text(content,"Twelve wins.\nThree defeats.\nOne new eleven.",30,"Score",Parts.INK)
+		var cover := TextureRect.new()
+		cover.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		cover.texture = load("res://assets/ui/matchday/art/tactical-cover.png")
+		cover.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		cover.position = Vector2(558,48)
+		cover.size = Vector2(600,600)
+		cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		app.screen.add_child(cover)
+		var caption: Label = app.text(app.screen,"Build an eleven. Make another run.",18,"Label",Color("A5B09F"))
+		caption.position = Vector2(730,650)
 	else:
-		app.text(content,CHAPTERS[preview.chapter-1],34,"Heading",Parts.INK)
+		app.text(app.screen,"YOUR RUN",16,"Section").position = Vector2(488,66)
+		var identity := Parts.row(app.screen)
+		identity.position = Vector2(488,110)
+		flag(identity,preview.origin)
+		app.text(identity,app.library.countries[preview.origin].name,30,"Heading")
+		var progress := Parts.row(app.screen)
+		progress.position = Vector2(488,154)
+		app.text(progress,"%d wins  %s" % [preview.wins,app.money(preview.cash)],18)
+		pips(progress,preview.defeats)
+		var paper := Parts.Paper.new()
+		paper.position = Vector2(488,206)
+		paper.size = Vector2(438,420)
+		app.screen.add_child(paper)
+		var content := Parts.column(paper,6)
+		app.text(content,CHAPTERS[preview.chapter-1],26,"Heading",Parts.INK)
 		fixture_rows(app,content,preview.fixtures,preview.ledger,preview.wins)
-		app.text(content,"NEXT STEP\n"+preview.step.replace("_"," ").capitalize(),17,"BodyStrong",Parts.INK)
+		app.text(content,"Next: "+preview.step.replace("_"," ").capitalize(),16,"Label",Parts.INK)
 		for index in preview.best_cards.size():
-			var width: float = minf(288,minf(app.size.x*0.19,(app.size.y-98)/2.8))
-			var card := Parts.card(app.screen,app.library,preview.best_cards[index],width,app.ui_scale(),true,true)
-			card.position = Vector2(app.size.x-width-32,40+index*(1.4*width+18))
+			var card := Parts.card(app.screen,app.library,preview.best_cards[index],200,1.0,true,true)
+			card.position = Vector2(1008,90+index*312)
 			card.pressed.connect(func(): app.inspect(preview.best_cards[index]))
 
 static func fixture_rows(app, parent: Node, fixtures: Array, ledger: Array, wins: int) -> void:
@@ -142,7 +133,7 @@ static func fixture_rows(app, parent: Node, fixtures: Array, ledger: Array, wins
 		parent.add_child(HSeparator.new())
 
 static func origins(app, outer: Node) -> void:
-	app.text(outer,"CHOOSE YOUR ORIGIN",48,"Heading")
+	app.text(outer,"Choose your origin",34,"Heading")
 	app.text(outer,"16 players   $8m   All nationalities can be recruited",18)
 	var row := Parts.row(outer,24)
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -212,9 +203,9 @@ static func board(app, outer: Node) -> void:
 	var scout_column := Parts.column(row,12)
 	scout_column.size_flags_horizontal = Control.SIZE_FILL
 	scout_column.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	scout_column.custom_minimum_size.x = minf(350,app.size.x*0.29)
+	scout_column.custom_minimum_size.x = minf(350,app.canvas.size.x*0.29)
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size.y = minf(370,app.size.y-300)
+	scroll.custom_minimum_size.y = minf(370,app.canvas.size.y-300)
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.follow_focus = true

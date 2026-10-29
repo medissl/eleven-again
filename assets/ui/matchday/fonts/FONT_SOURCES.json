@@ -1,0 +1,44 @@
+[
+  {
+    "file": "BarlowSemiCondensed-SemiBold.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowsemicondensed/BarlowSemiCondensed-SemiBold.ttf",
+    "sha256": "bd299f4bc5b44d30be8d42e9bad3a5df7d66af1cd55d0ed72a8b8916360a1424"
+  },
+  {
+    "file": "BarlowSemiCondensed-Bold.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowsemicondensed/BarlowSemiCondensed-Bold.ttf",
+    "sha256": "5bd6757e459a110da81b44532f0f43058e2dab2401688abca84f2fdbde193cbb"
+  },
+  {
+    "file": "barlowsemicondensed-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowsemicondensed/OFL.txt",
+    "sha256": "186d750eb496a4c17a76385f82be6aea2ac1cf2de074a811d63786cf374ea73f"
+  },
+  {
+    "file": "SourceSans3[wght].ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/sourcesans3/SourceSans3%5Bwght%5D.ttf",
+    "sha256": "042fe2cc0b933e328410d7acbd0aa6a1873dca5aef81875f4bc214b08825c7b9"
+  },
+  {
+    "file": "sourcesans3-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/sourcesans3/OFL.txt",
+    "sha256": "09746787287a289323b0ec3cff4d1a4a801331b82b7207c1e186f5d26619a392"
+  },
+  {
+    "file": "SourceSans3-Regular.ttf",
+    "source": "https://raw.githubusercontent.com/adobe-fonts/source-sans/release/TTF/SourceSans3-Regular.ttf",
+    "sha256": "4644c81b86ec9caaa76b634889968ed3c4f4f52f054855933acc7c2b21e53b0f"
+  },
+  {
+    "file": "SourceSans3-Semibold.ttf",
+    "source": "https://raw.githubusercontent.com/adobe-fonts/source-sans/release/TTF/SourceSans3-Semibold.ttf",
+    "sha256": "a3f4f8dcf343a8f24dc61951de93f3ba1558b15cd250ba24af8a40e957081b7d"
+  },
+  {
+    "file": "BarlowCondensed-BoldItalic.ttf",
+    "source": "existing project assets/fonts/BarlowCondensed-BoldItalic.ttf",
+    "upstream": "https://github.com/google/fonts/tree/main/ofl/barlowcondensed",
+    "licence": "barlowcondensed-OFL.txt",
+    "sha256": "d8694f65cd70c3e5e600ead37657aab0adb5f63b275d0c1f6f4a7046de222145"
+  }
+]

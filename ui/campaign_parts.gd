@@ -1,9 +1,9 @@
 extends RefCounted
-const ThemeData = preload("res://ui/game_theme.tres")
+static var ThemeData: Theme = preload("res://ui/matchday_theme.gd").build()
 const CardView = preload("res://ui/player_card.gd")
-const INK := Color("112d21")
-const IVORY := Color("efe9d9")
-const BRASS := Color("b79a55")
+const INK := Color("172219")
+const IVORY := Color("F1ECDD")
+const BRASS := Color("D4BD6A")
 
 class Paper:
 	extends PanelContainer
@@ -14,7 +14,7 @@ class Paper:
 		resized.connect(queue_redraw)
 	func _draw() -> void:
 		var polygon := PackedVector2Array([Vector2(1,1),Vector2(size.x-22,1),Vector2(size.x-1,22),size-Vector2.ONE,Vector2(1,size.y-1),Vector2(1,1)])
-		draw_colored_polygon(polygon,IVORY)
+		draw_colored_polygon(polygon,Color("DDD5BE"))
 		draw_polyline(polygon,BRASS,2,true)
 		draw_rect(Rect2(10,10,size.x-20,size.y-20),Color(0.45,0.40,0.25,0.22),false,1)
 		draw_arc(size/2, minf(size.x,size.y)*0.24,0,TAU,80,Color(0.45,0.40,0.25,0.12),1,true)
@@ -34,8 +34,11 @@ class Mark:
 				var point := Vector2(10+index*26,size.y/2)
 				if index < used: draw_circle(point,7,Color("ed7864"))
 				draw_arc(point,7,0,TAU,24,ink,1.4,true)
+				if index < used:
+					draw_line(point-Vector2(3,3),point+Vector2(3,3),INK,1.5,true)
+					draw_line(point-Vector2(3,-3),point+Vector2(3,-3),INK,1.5,true)
 		elif kind == "menu":
-			for y in [6,14,22]: draw_line(Vector2(2,y),Vector2(29,y),ink,1.7,true)
+			draw_texture_rect(load("res://assets/ui/matchday/icons/menu.svg"),Rect2(2,2,24,24),false,ink)
 		elif kind == "arrow":
 			draw_line(Vector2(2,14),Vector2(28,14),ink,2,true)
 			draw_polyline(PackedVector2Array([Vector2(19,5),Vector2(28,14),Vector2(19,23)]),ink,2,true)
@@ -73,7 +76,7 @@ static func button(parent: Node, caption: String, id: String, action: Callable, 
 	node.name = id
 	node.text = caption
 	node.theme_type_variation = "Primary" if primary else "Button"
-	node.custom_minimum_size.y = 46
+	node.custom_minimum_size.y = 44
 	node.pressed.connect(action)
 	parent.add_child(node)
 	return node

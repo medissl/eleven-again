@@ -1,5 +1,13 @@
 # Eleven Again — project design direction
 
+## Latest requested revamp — 29 October 2026
+
+Latest correction: the user rejected the v4 match/goal depiction as a downgrade and explicitly said **UPGRADE, not simplify**. Read `outputs/full-ui-revamp-v4/MATCH_UPGRADE_ADDENDUM.md` before match presentation work. Preserve native pitch richness as a floor; upgrade action/material/HUD/motion quality. All22 player bodies must have equal visible size, readable identities and external selection/trait rings. The stripped v4 match-field references are withdrawn as implementation targets.
+
+The user now requests a complete visual revamp and a whole-team football intelligence/watchability review. This supersedes the older instruction below to stop UI polish. The completed design/transparent asset handoff is **[outputs/full-ui-revamp-v4/DESIGN.md](outputs/full-ui-revamp-v4/DESIGN.md)**; start implementation with its **CODEX_PROMPT.md**, SCREEN_SPEC.md, ASSET_GUIDE.md and FOOTBALL_AI_REVIEW.md. Final native references, exact layouts, fonts and ready SVG/PNG assets are supplied there. The pack is design/reference work, not completed runtime integration.
+
+Use Matchday Print (charcoal pine/chalk/sage with restrained brass), Barlow Semi Condensed headings and static Source Sans3 body. Preserve complete native cards/portraits, three defeat pips, real saved previews, fixed **100% interface**, 180 active regulation seconds and save/run semantics. Main menu has separate Collection and Records rows; ordinary Collection reveals only exact acquired versions. The user's final icon direction is **simple white glyphs**; discard colourful illustrated action-icon drafts. Read the football review for all positions/tactics/physics/laws; no forced goals or event quotas. Earlier historical references below are retained for context and must not override these latest decisions.
+
 Status: Phase 1 implementation, 27 October 2026. Read `~/.codex/DESIGN.md` for the standing research, critique, and rendered-output workflow.
 
 ## Accepted presentation refresh — 28 October 2026
