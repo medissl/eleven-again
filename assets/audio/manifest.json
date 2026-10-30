@@ -1,0 +1,272 @@
+{
+  "admitted": "2026-10-30",
+  "assets": [
+    {
+      "file": "ui_click.ogg",
+      "sha256": "2fa929138bc3a0f432696588f66eac94b8f6d463905ec8808c6461ce4b054292",
+      "bytes": 4371,
+      "author": "Kenney",
+      "title": "interface-sounds",
+      "page": "https://kenney.nl/assets/interface-sounds",
+      "license": "CC0-1.0",
+      "source": "Audio/click_003.ogg",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "f2193d072726d6758a5f7871b2dcc54dcce0d5c35c6f0a62f92549b327c81232"
+    },
+    {
+      "file": "ui_hover.ogg",
+      "sha256": "aec0c31ea934a35936ae0d2ab8fac8123c93aa5647f935853a58dbaf90278b7a",
+      "bytes": 5468,
+      "author": "Kenney",
+      "title": "interface-sounds",
+      "page": "https://kenney.nl/assets/interface-sounds",
+      "license": "CC0-1.0",
+      "source": "Audio/select_001.ogg",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "f2193d072726d6758a5f7871b2dcc54dcce0d5c35c6f0a62f92549b327c81232"
+    },
+    {
+      "file": "ui_confirm.ogg",
+      "sha256": "33b17a9a9a2397c62b285c52c33a907fdffb476909c99e42dde603f6a7a8b12c",
+      "bytes": 14169,
+      "author": "Kenney",
+      "title": "interface-sounds",
+      "page": "https://kenney.nl/assets/interface-sounds",
+      "license": "CC0-1.0",
+      "source": "Audio/confirmation_002.ogg",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "f2193d072726d6758a5f7871b2dcc54dcce0d5c35c6f0a62f92549b327c81232"
+    },
+    {
+      "file": "ui_back.ogg",
+      "sha256": "07db973f79f6ae0f2edc34561e7592e24d0577455919fb602cb8ecc0da991dcf",
+      "bytes": 6997,
+      "author": "Kenney",
+      "title": "interface-sounds",
+      "page": "https://kenney.nl/assets/interface-sounds",
+      "license": "CC0-1.0",
+      "source": "Audio/back_001.ogg",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "f2193d072726d6758a5f7871b2dcc54dcce0d5c35c6f0a62f92549b327c81232"
+    },
+    {
+      "file": "interface-sounds-LICENSE.txt",
+      "sha256": "cefbf7ebb51b02ecf4748b1112d5c6a2d04aa0ea82e885e74680b62ea6d3a712",
+      "bytes": 574,
+      "author": "Kenney",
+      "title": "interface-sounds licence",
+      "page": "https://kenney.nl/assets/interface-sounds",
+      "license": "CC0-1.0",
+      "source": "License.txt",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "f2193d072726d6758a5f7871b2dcc54dcce0d5c35c6f0a62f92549b327c81232"
+    },
+    {
+      "file": "kick.ogg",
+      "sha256": "7d3ba0bb5e60a11b5d3e558c141303dcf494256675fbf753c0d252d2cf0481e3",
+      "bytes": 5351,
+      "author": "Kenney",
+      "title": "impact-sounds",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "license": "CC0-1.0",
+      "source": "Audio/impactSoft_medium_000.ogg",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8"
+    },
+    {
+      "file": "shot.ogg",
+      "sha256": "49e7ca88743fca974bb8676ea138b751cfd8f9033b5e7af8736c2a215d6edbc1",
+      "bytes": 6570,
+      "author": "Kenney",
+      "title": "impact-sounds",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "license": "CC0-1.0",
+      "source": "Audio/impactSoft_heavy_000.ogg",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8"
+    },
+    {
+      "file": "contact.ogg",
+      "sha256": "486988aa2d6440ffc4c62a0e8ccf3c23673ba84424bd4723378d451b7255eb5c",
+      "bytes": 8800,
+      "author": "Kenney",
+      "title": "impact-sounds",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "license": "CC0-1.0",
+      "source": "Audio/impactPunch_medium_000.ogg",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8"
+    },
+    {
+      "file": "impact-sounds-LICENSE.txt",
+      "sha256": "94283f9120e58e6a1cae5762053df42ee280d37fe34be22589c92b7dbc7b2d39",
+      "bytes": 608,
+      "author": "Kenney",
+      "title": "impact-sounds licence",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "license": "CC0-1.0",
+      "source": "License.txt",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8"
+    },
+    {
+      "file": "stadium_bed.mp3",
+      "sha256": "1eea7277ed831fd38059f5b118c15b77a54ebd305dd3a8e797f9c67289a61ae9",
+      "bytes": 1362240,
+      "author": "Gregor Quendel",
+      "title": "Free Crowd Cheering Sounds",
+      "page": "https://opengameart.org/content/free-crowd-cheering-sounds",
+      "license": "CC-BY-4.0",
+      "source": "Gregor Quendel - Free Crowd Cheering Sounds - MP3/Gregor Quendel - Crowd Cheering Sounds - 10 - Ambience.mp3",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "4438762aceadab7bf8c89acaa5009611eefbfcdb2adda78e9c1ee0b2eaffc874"
+    },
+    {
+      "file": "stadium_hype.mp3",
+      "sha256": "0b662b669767e25161319a44b19976294e98db746a7306965e082f499e22a9a6",
+      "bytes": 862080,
+      "author": "Gregor Quendel",
+      "title": "Free Crowd Cheering Sounds",
+      "page": "https://opengameart.org/content/free-crowd-cheering-sounds",
+      "license": "CC-BY-4.0",
+      "source": "Gregor Quendel - Free Crowd Cheering Sounds - MP3/Gregor Quendel - Crowd Cheering Sounds - 05 - Soft cheering - I.mp3",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "4438762aceadab7bf8c89acaa5009611eefbfcdb2adda78e9c1ee0b2eaffc874"
+    },
+    {
+      "file": "stadium_goal.mp3",
+      "sha256": "10878a490dd3f1af7877a23c33baca143a3f86f91112c5dfb59dcf83cc94e975",
+      "bytes": 562560,
+      "author": "Gregor Quendel",
+      "title": "Free Crowd Cheering Sounds",
+      "page": "https://opengameart.org/content/free-crowd-cheering-sounds",
+      "license": "CC-BY-4.0",
+      "source": "Gregor Quendel - Free Crowd Cheering Sounds - MP3/Gregor Quendel - Crowd Cheering Sounds - 04 - Strong cheering - II - Short.mp3",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "4438762aceadab7bf8c89acaa5009611eefbfcdb2adda78e9c1ee0b2eaffc874"
+    },
+    {
+      "file": "whistle_1.wav",
+      "sha256": "14955deb50b849525ab0a17ceae1d2f341adc515374a34f619c6e49bd5d3a033",
+      "bytes": 18888,
+      "author": "dklon",
+      "title": "Whistles",
+      "page": "https://opengameart.org/content/whistles",
+      "license": "CC-BY-3.0",
+      "source": "whistle_1.wav",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "2225868fbd834006ced3aab3ec7e1e7873a7d4bd180c9c1faa7d98f2acda2183"
+    },
+    {
+      "file": "whistle_2.wav",
+      "sha256": "2410c9b08bc29e1dffdb06413d6d53dd7c6447454c466f70694c1f19f02989f2",
+      "bytes": 15610,
+      "author": "dklon",
+      "title": "Whistles",
+      "page": "https://opengameart.org/content/whistles",
+      "license": "CC-BY-3.0",
+      "source": "whistle_2.wav",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "2225868fbd834006ced3aab3ec7e1e7873a7d4bd180c9c1faa7d98f2acda2183"
+    },
+    {
+      "file": "whistle_3.wav",
+      "sha256": "78b1b444acfa35a7a9be7c6e9c57b66797103d043d882ce3e874687f631265cc",
+      "bytes": 19882,
+      "author": "dklon",
+      "title": "Whistles",
+      "page": "https://opengameart.org/content/whistles",
+      "license": "CC-BY-3.0",
+      "source": "whistle_3.wav",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "2225868fbd834006ced3aab3ec7e1e7873a7d4bd180c9c1faa7d98f2acda2183"
+    },
+    {
+      "file": "whistle_4.wav",
+      "sha256": "1f97a74fb7979c6dd5e24a9c516ce6c626087663a6e16883fdc994f07892c75f",
+      "bytes": 21788,
+      "author": "dklon",
+      "title": "Whistles",
+      "page": "https://opengameart.org/content/whistles",
+      "license": "CC-BY-3.0",
+      "source": "whistle_4.wav",
+      "modifications": "Renamed only; audio bytes unchanged.",
+      "package_sha256": "2225868fbd834006ced3aab3ec7e1e7873a7d4bd180c9c1faa7d98f2acda2183"
+    },
+    {
+      "file": "menu.ogg",
+      "sha256": "bcbf3a7e6d9e05be1d15c7f59500f62236c8cb928027dd03d83f29338fbda58f",
+      "bytes": 901366,
+      "author": "wipics",
+      "title": "Menu Music",
+      "page": "https://opengameart.org/content/menu-music-1",
+      "license": "CC0-1.0",
+      "source": "https://opengameart.org/sites/default/files/menu_3.ogg",
+      "modifications": "Renamed only; audio bytes unchanged."
+    },
+    {
+      "file": "card_place.ogg",
+      "sha256": "903d5050718595e87864dd755643b476ab1a5533080dcc2dddc72570d33ba9f8",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "page": "https://kenney.nl/assets/casino-audio",
+      "modifications": "Renamed only; playback gain/pitch/sequencing applied at runtime."
+    },
+    {
+      "file": "walkout.mp3",
+      "sha256": "a98dea8138f10ce8b595c63b3fd1652e672a8425c361486234265638932953e3",
+      "author": "Sudocolon",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/hyperton",
+      "modifications": "Renamed only; playback gain/pitch/sequencing applied at runtime."
+    },
+    {
+      "file": "grass_contact.ogg",
+      "sha256": "9d49497777405d78d7cf7f2888e28277f3a23192300cfd1d79d54876b20f479f",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "modifications": "Renamed only; playback gain/pitch/sequencing applied at runtime."
+    },
+    {
+      "file": "whistle_referee.mp3",
+      "sha256": "1bc56409d3439a16fd54bc8fa83affb7e2bc69519b15ac49979d924e895910bf",
+      "author": "Rosa-Orenes256",
+      "license": "CC0-1.0",
+      "page": "https://freesound.org/s/538422/",
+      "modifications": "Renamed only; playback gain/pitch/sequencing applied at runtime."
+    },
+    {
+      "file": "football_kick.mp3",
+      "sha256": "7b5b6bd8f7567832c98f030e94783dba04108d74fef42fb24d5b2bbf1abb3949",
+      "author": "bittermelonheart",
+      "license": "CC0-1.0",
+      "page": "https://freesound.org/s/555042/",
+      "modifications": "Renamed only; playback gain/pitch/sequencing applied at runtime."
+    },
+    {
+      "file": "casino-audio-LICENSE.txt",
+      "sha256": "98528f339af4f531a6b79790b6e7f53b1ba3bd459275ebce1638a664d57ee4ec",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "page": "https://kenney.nl/assets/casino-audio",
+      "modifications": "Renamed only; playback gain/pitch/sequencing applied at runtime."
+    },
+    {
+      "file": "card_shuffle.ogg",
+      "sha256": "96c84883a30845ede723a4cf2e8369e9837e7dd4e0d4eb0212b0a7ed21b0f544",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "page": "https://kenney.nl/assets/casino-audio",
+      "modifications": "Renamed only; playback gain/pitch/sequencing applied at runtime."
+    },
+    {
+      "file": "card_slide.ogg",
+      "sha256": "006cf9822d15d7063f8899e56041f41646df30adb6fbd8b974ee5d5420012690",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "page": "https://kenney.nl/assets/casino-audio",
+      "modifications": "Renamed only; playback gain/pitch/sequencing applied at runtime."
+    }
+  ]
+}

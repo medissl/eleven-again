@@ -35,7 +35,7 @@ static func build(app, outer: Node, _page: String) -> void:
 		identity.custom_minimum_size.x = 360
 		app.text(identity,app.library.countries[record.origin].name,27,"Team")
 		app.text(identity,"Champions" if record.outcome == "won" else "%d wins   %d defeats" % [record.wins,record.defeats],17,"Label",Color("A5B09F"))
-		app.text(row,"%.2f OVR" % (record.peak_xi.total/11.0),27,"Team").size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		app.text(row,"%d OVR" % ceili(record.peak_xi.total/11.0),27,"Team").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		app.button(row,"View eleven","RecordXI_"+record.run_id,func(): app.record_file(record)).custom_minimum_size = Vector2(200,44)
 		var rule := HSeparator.new()
 		rule.position = Vector2(32,326+index*124)

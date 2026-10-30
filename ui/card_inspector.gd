@@ -27,6 +27,7 @@ func _ready() -> void:
 	theme = ThemeData
 	color = ThemeData.get_color("forest","Palette")
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	preload("res://ui/glass_panel.gd").decorate_screen(self)
 	if comparison != null:
 		build_comparison()
 		return

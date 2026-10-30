@@ -6,6 +6,8 @@ var large := false
 
 class ManualApp:
 	extends App
+	func _show_walkout(_id: String, _newly_discovered: bool) -> void:
+		route() # Transaction/lifecycle oracle; recruitment_presentation_checks exercises the full walkout.
 	func open_match() -> void:
 		super.open_match()
 		view.set_physics_process(false)
@@ -36,6 +38,8 @@ func press(app: Control, id: String) -> void:
 	await key(app.get_viewport(),KEY_ENTER)
 
 func click(app: Control, id: String) -> void:
+	var acquisition = app.screen.find_child("Acquisition",true,false) if is_instance_valid(app.screen) else null
+	if acquisition != null and acquisition.tiles.any(func(tile): return tile.get_meta("dealing",false)): await create_timer(0.9).timeout
 	var control := app.find_child(id,true,false) as Control
 	assert(control != null)
 	for down in [true,false]:
@@ -118,19 +122,21 @@ func run() -> void:
 	await press(app,"TacticalDetails")
 	assert(is_instance_valid(app.modal.card_panel) and app.modal.card_panel.find_child("LateRisk",true,false) != null)
 	await press(app,"CloseDrawer")
+	await press(app,"TeamEditing")
 	await press(app,"PreparationSetPieces")
 	await picture(app,"set-pieces")
 	await press(app,"ShootoutOrder")
 	await picture(app,"shootout-order")
 	await press(app,"CloseDrawer")
+	await press(app,"TeamEditing")
 	await press(app,"PreparationSubstitutions")
 	await picture(app,"substitutions")
 	await press(app,"BenchDetails")
 	await picture(app,"bench-plan")
 	await press(app,"CloseDrawer")
-	await press(app,"PreparationLineup")
 	assert(app.modal.plans[0].to_data() == prepared,"Navigating preparation/taker/bench drawers cannot alter the private plan")
-	await press(app,"PreparationPlayerDetails")
+	app.modal.select_slot(9)
+	await press(app,"PlayerOverview")
 	assert(is_instance_valid(app.modal.card_panel))
 	await key(viewport,KEY_ESCAPE)
 	await create_timer(0.22).timeout
@@ -299,7 +305,7 @@ func run() -> void:
 	await key(viewport,KEY_ESCAPE)
 	app.render("origin")
 	app.start_origin("ENG")
-	await press(app,"LeaveOffer")
+	await press(app,"ConfirmAcquisition")
 	for defeat in 3:
 		await press(app,"PrepareCampaign")
 		await press(app,"CommitMatch")
@@ -312,7 +318,7 @@ func run() -> void:
 	await picture(app,"three-defeats")
 	app.render("origin")
 	app.start_origin("JPN")
-	await press(app,"LeaveOffer")
+	await press(app,"ConfirmAcquisition")
 	var before_abandon: Dictionary = app.session.controller.snapshot()
 	app.menu()
 	await press(app,"AbandonRun")
@@ -342,7 +348,7 @@ func run() -> void:
 func motion(app: Control) -> void:
 	await press(app,"NewRun")
 	await press(app,"StartRun")
-	await press(app,"LeaveOffer")
+	await press(app,"ConfirmAcquisition")
 	await press(app,"PrepareCampaign")
 	await press(app,"CommitMatch")
 	await key(app.get_viewport(),KEY_2)
@@ -399,7 +405,7 @@ func probe(app: Control) -> void:
 	if "--write-ui-probe" in args:
 		await press(app,"NewRun")
 		await press(app,"StartRun")
-		await press(app,"LeaveOffer")
+		await press(app,"ConfirmAcquisition")
 		await press(app,"PrepareCampaign")
 		await press(app,"CommitMatch")
 		for tick in 777: app.view.sim.step()

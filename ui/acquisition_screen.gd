@@ -30,7 +30,7 @@ func _ready() -> void:
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	put(app.text(self,"Transfer market" if market else "Choose one player",34,"Heading"),Rect2(0,0,1216,44))
-	put(app.text(self,"Two signings available at this checkpoint." if market else "Add one player to your squad. This signing is free.",18,"Label",Color("A5B09F")),Rect2(0,54,1216,30))
+	put(app.text(self,"Two signings" if market else "Free signing",18,"Label",Color("A0B2C9")),Rect2(0,54,1216,30))
 	card_area = ScrollContainer.new()
 	card_area.name = "CandidateScroll"
 	card_area.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -72,7 +72,7 @@ func _ready() -> void:
 	var rule := HSeparator.new()
 	add_child(rule)
 	put(rule,Rect2(0,532,1216,1))
-	put(app.button(self,"Leave market" if market else "Skip","LeaveOffer",func(): app.act("close_market" if market else "skip_recruit",[],revision)),Rect2(0,552,172,44)).theme_type_variation = "Quiet"
+	if market: put(app.button(self,"Leave market","LeaveOffer",func(): app.act("close_market",[],revision)),Rect2(0,552,172,44)).theme_type_variation = "Quiet"
 	put(app.button(self,"Player details","OfferDetails",func(): app.inspect(selected,outgoing)),Rect2(186,552,180,44)).theme_type_variation = "Quiet"
 	confirm = app.button(self,"Sign player" if market else "Recruit player","ConfirmAcquisition",acquire,true)
 	put(confirm,Rect2(976,552,240,44))
@@ -108,6 +108,11 @@ func build_cards() -> void:
 			app.text(column,caption,23,"Score",Parts.BRASS).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	if market: pager.text = "%d / 2" % (page+1)
 	update_review()
+	var deal := preload("res://ui/card_deal.gd").new()
+	deal.audio = app.audio
+	deal.reduced = app.preferences.data.motion
+	add_child(deal)
+	deal.deal(tiles.duplicate())
 
 func select(id: String) -> void:
 	var ids: Array = state.market.cards if market else state.offer.cards
@@ -138,7 +143,7 @@ func update_review() -> void:
 	var used: bool = market and state.market.purchased.size() >= 2
 	var bought: bool = market and selected in state.market.purchased
 	confirm.disabled = cost > state.cash or used or bought
-	review.text = "Need %s more" % app.money(cost-state.cash) if cost > state.cash else "Both signings used" if used else "Already signed" if bought else "Squad full. Choose an outgoing player when signing." if state.plan.cards.size() == 18 else "Select a card to compare or inspect."
+	review.text = "Need %s more" % app.money(cost-state.cash) if cost > state.cash else "Both signings used" if used else "Already signed" if bought else "Squad full. Choose an outgoing player when signing." if state.plan.cards.size() == 18 else ""
 	if not market: return
 	var old: Resource = app.library.cards.get(outgoing)
 	facts.name.text = card.display_name

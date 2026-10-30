@@ -1,0 +1,5 @@
+# Production asset provenance
+
+Arena/club-crests originate in the approved outputs/fc-mobile-ui-v6 package; see its ASSETS.md. Long walkout tunnel and matching field were generated with the built-in image tool on 30 October 2026 for this project, with no people, text, cards or brands. Native animation pushes through the tunnel and blends onto the field; no player portrait was generated or edited.
+
+Fonts: licensed Saira upright/italic from the same package, packaged as compressed native FontFile .res resources. Native bake restored and compared the embedded bytes with the original TTF bytes exactly; Saira-OFL.txt is included. ui/typography.gd owns all weights/tabular figures. Flags are the same pinned MIT flag-icons 7.3.2 subset and historical public-domain URS symbol; original licence/checksums are in flags/. Shared card/ability/glass drawing is original project code.

@@ -56,57 +56,7 @@ static func pips(parent: Node, defeats: int) -> void:
 	parent.add_child(node)
 
 static func main(app) -> void:
-	var preview: Dictionary = app.session.preview()
-	var logo := TextureRect.new()
-	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	logo.texture = load("res://assets/ui/matchday/art/wordmark.png")
-	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	logo.position = Vector2(32,58)
-	logo.size = Vector2(414,207)
-	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	app.screen.add_child(logo)
-	var actions := [["Continue run","ContinueRun",func(): if app.session.reload().ok: app.route()]] if not preview.is_empty() else []
-	actions.append_array([["New run","NewRun",func(): app.render("origin")],["Collection","Collection",func(): app.render("collection")],["Records","Records",func(): app.render("records")],["Settings","MainSettings",app.settings],["Quit","QuitGame",func(): app.get_tree().quit()]])
-	for index in actions.size():
-		var action: Array = actions[index]
-		var node: Button = app.button(app.screen,action[0],action[1],action[2],index == 0)
-		node.position = Vector2(48,298+index*56)
-		node.size = Vector2(346,44)
-		node.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		if index > 0: node.theme_type_variation = "Quiet"
-	if preview.is_empty():
-		var cover := TextureRect.new()
-		cover.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		cover.texture = load("res://assets/ui/matchday/art/tactical-cover.png")
-		cover.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		cover.position = Vector2(558,48)
-		cover.size = Vector2(600,600)
-		cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		app.screen.add_child(cover)
-		var caption: Label = app.text(app.screen,"Build an eleven. Make another run.",18,"Label",Color("A5B09F"))
-		caption.position = Vector2(730,650)
-	else:
-		app.text(app.screen,"YOUR RUN",16,"Section").position = Vector2(488,66)
-		var identity := Parts.row(app.screen)
-		identity.position = Vector2(488,110)
-		flag(identity,preview.origin)
-		app.text(identity,app.library.countries[preview.origin].name,30,"Heading")
-		var progress := Parts.row(app.screen)
-		progress.position = Vector2(488,154)
-		app.text(progress,"%d wins  %s" % [preview.wins,app.money(preview.cash)],18)
-		pips(progress,preview.defeats)
-		var paper := Parts.Paper.new()
-		paper.position = Vector2(488,206)
-		paper.size = Vector2(438,420)
-		app.screen.add_child(paper)
-		var content := Parts.column(paper,6)
-		app.text(content,CHAPTERS[preview.chapter-1],26,"Heading",Parts.INK)
-		fixture_rows(app,content,preview.fixtures,preview.ledger,preview.wins)
-		app.text(content,"Next: "+preview.step.replace("_"," ").capitalize(),16,"Label",Parts.INK)
-		for index in preview.best_cards.size():
-			var card := Parts.card(app.screen,app.library,preview.best_cards[index],200,1.0,true,true)
-			card.position = Vector2(1008,90+index*312)
-			card.pressed.connect(func(): app.inspect(preview.best_cards[index]))
+	preload("res://ui/campaign_lobby.gd").main(app)
 
 static func fixture_rows(app, parent: Node, fixtures: Array, ledger: Array, wins: int) -> void:
 	for fixture in fixtures:
@@ -152,8 +102,7 @@ static func footer(app, caption: String, primary: String, id: String, action: Ca
 	next.size = Vector2(240,44)
 
 static func origins(app, outer: Node) -> void:
-	app.text(outer,"Choose your origin",34,"Heading")
-	app.text(outer,"A starting eleven. No nationality bonuses. Recruit from every country.",18,"Label",Color("A5B09F"))
+	app.text(outer,"Origin",34,"Heading")
 	var index := 0
 	for country in app.library.countries.values():
 		var option: Button = app.button(app.screen,country.name,country.id,func(): app.origin_selection=country.id; app.render("origin"),app.origin_selection == country.id)
@@ -172,63 +121,11 @@ static func origins(app, outer: Node) -> void:
 	app.screen.add_child(preview)
 	var info := region(app,Rect2(752,564,480,52),4)
 	app.text(info,app.library.countries[app.origin_selection].name+"   "+plan.formation,23,"Team")
-	app.text(info,"16 players   $8m   Starting XI %.1f OVR" % app.library.xi_rating(plan),18)
-	footer(app,"Your origin changes the starting squad.","Start run","StartRun",func(): app.start_origin(app.origin_selection))
+	app.text(info,"16 players   $8m   %d OVR" % ceili(app.library.xi_rating(plan)),18)
+	footer(app,"","Start run","StartRun",func(): app.start_origin(app.origin_selection))
 
 static func board(app, outer: Node) -> void:
-	var data: Dictionary = app.session.controller.snapshot()
-	var chapter := mini(3,int(data.wins/4.0)+1)
-	app.text(outer,CHAPTERS[chapter-1].capitalize(),34,"Heading")
-	app.text(outer,"Four fixtures. One chapter final.",18,"Label",Color("A5B09F"))
-	var index := 0
-	for fixture in data.fixtures.slice((chapter-1)*4,chapter*4):
-		var club: Dictionary = app.library.clubs[fixture.club_id]
-		var reveal: bool = fixture.stage <= data.wins+1 or club.is_boss
-		var panel := PanelContainer.new()
-		panel.position = Vector2(32+index*228,214)
-		panel.size = Vector2(212,356)
-		var style := StyleBoxFlat.new()
-		style.bg_color = Color("26392C") if fixture.stage == data.wins+1 else Color("1B2921")
-		style.border_color = Parts.BRASS if fixture.stage == data.wins+1 else Color("3B493B")
-		style.set_border_width_all(2 if fixture.stage == data.wins+1 else 1)
-		for edge in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]: style.set_content_margin(edge,20)
-		panel.add_theme_stylebox_override("panel",style)
-		app.screen.add_child(panel)
-		var tile := Parts.column(panel,18)
-		app.text(tile,"FIXTURE %d" % fixture.stage,16,"BodyStrong",Color("A5B09F"))
-		if reveal: Parts.badge(tile,app.library,club.id,80)
-		else:
-			var unknown := TextureRect.new()
-			unknown.texture = load("res://assets/ui/matchday/icons/lock.svg")
-			unknown.custom_minimum_size = Vector2(80,80)
-			unknown.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			unknown.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			tile.add_child(unknown)
-		var name: Label = app.text(tile,club.name if reveal else "Undiscovered",23,"Team")
-		name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		name.custom_minimum_size.y = 76
-		var attempts: Array = data.ledger.filter(func(item): return item.stage == fixture.stage)
-		var caption := "Next match" if fixture.stage == data.wins+1 else "Chapter final" if club.is_boss else "Not yet revealed"
-		if not attempts.is_empty(): caption = "%d – %d  %s" % [attempts.back().report.scores[0],attempts.back().report.scores[1],"Won" if attempts.back().report.winner == 0 else "Defeat"]
-		app.text(tile,caption,16,"BodyStrong",Parts.BRASS if fixture.stage == data.wins+1 else Color("A5B09F"))
-		index += 1
-	var scout := region(app,Rect2(968,236,256,334),18)
-	var club: Dictionary = app.library.clubs[data.fixtures[data.wins].club_id]
-	var name: Label = app.text(scout,club.name,28,"Heading")
-	name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	app.text(scout,"%.1f OVR   %s" % [app.library.xi_rating(app.library.opponent_plan(data.fixtures[data.wins].variant_id)),club.formation],21,"BodyStrong")
-	app.text(scout,club.attack.capitalize()+" passing",20)
-	var threat: Label = app.text(scout,club.scout_threat,17,"Label",Color("A5B09F"))
-	threat.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	threat.tooltip_text = club.scout_response
-	var stage: Dictionary = app.library.rules.stages[data.wins]
-	var reward := "Recruitment" if stage.recruit else "Coaching choice" if stage.coaching else "Championship"
-	if stage.market != null: reward += " and Market "+str(int(stage.market))
-	footer(app,"After victory: "+reward,"Prepare match","PrepareCampaign",app.prepare,"Save and exit",app.save_and_exit)
-	if not data.market.is_empty() and data.market.open:
-		var reopen: Button = app.button(app.screen,"Return to market","ReopenMarket",func(): app.act("reopen_market",[],data.revision))
-		reopen.position = Vector2(968,576)
-		reopen.size = Vector2(256,44)
+	preload("res://ui/campaign_lobby.gd").board(app,outer)
 
 static func coaching(app, outer: Node) -> void:
 	var data: Dictionary = app.session.controller.snapshot()
@@ -264,7 +161,7 @@ static func result(app, outer: Node, terminal: bool) -> void:
 		app.screen.add_child(artwork)
 		var summary := region(app,Rect2(640,248,560,310),24)
 		app.text(summary,"%d wins   %d defeats" % [data.wins,data.defeats],36,"Score")
-		app.text(summary,"Peak XI %.2f OVR" % (data.peak_xi.total/11.0),26,"Team")
+		app.text(summary,"Peak XI %d OVR" % ceili(data.peak_xi.total/11.0),26,"Team")
 		app.text(summary,"Total prizes "+app.money(data.earnings),22)
 		app.text(summary,"Your collection and records carry forward.",18,"Label",Color("A5B09F"))
 		footer(app,"Build another eleven.","New run","TerminalNewRun",func(): app.render("origin"),"Main menu",func(): app.render("main"))

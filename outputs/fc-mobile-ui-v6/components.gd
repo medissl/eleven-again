@@ -89,10 +89,11 @@ static func skin_button(node: Button) -> void:
 	surface.name = "GlassSurface"
 	surface.show_behind_parent = true
 	node.add_child(surface)
+	node.set_meta("motion_surface",surface)
 	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var refresh := func():
 		surface.surface_kind = 2 if node.theme_type_variation == "Primary" else 3 if node.theme_type_variation in ["Quiet","Tab"] else 1
-		surface.activity = 1.0 if node.has_focus() else 0.6 if node.is_pressed() else 0.3 if node.is_hovered() else 0.0
+		if not node.has_meta("motion_feedback"): surface.activity = 1.0 if node.has_focus() else 0.0
 		surface.disabled_surface = node.disabled
 		surface.queue_redraw()
 	node.draw.connect(refresh)
@@ -168,130 +169,9 @@ static func flag_view(parent: Node, code: String, rect: Rect2) -> TextureRect:
 
 class Card:
 	extends "res://ui/player_card.gd"
-	const FrameStyle = preload("res://outputs/fc-mobile-ui-v6/card_style.gd")
-	static var shared_theme: Theme
-	func _init() -> void:
-		if shared_theme == null: shared_theme = load("res://outputs/fc-mobile-ui-v6/components.gd").make_theme()
-		theme = shared_theme
-	func put(value: String, rect: Rect2, pixels: int, role: String = "Label", alignment: HorizontalAlignment = HORIZONTAL_ALIGNMENT_LEFT, tint: Color = Color(-1,-1,-1)) -> Label:
-		# Keep the definition-driven native labels; remap one common layout, not 200 cards.
-		if is_equal_approx(rect.position.y,260):
-			rect.position.y = 257
-			rect.size.y = 17
-		elif is_equal_approx(rect.position.y,278):
-			rect.position.y = 275
-			rect.size.y = 30
-			pixels = 30
-		elif is_equal_approx(rect.position.y,313) or is_equal_approx(rect.position.y,343): value = ""
-		elif rect.position.y >= 360:
-			var number := role == "Score"
-			var old_row := roundi((rect.position.y-(366 if number else 369))/23.0)
-			var old_column := roundi((rect.position.x-(58 if number else 24))/87.0)
-			var index := old_row*3+old_column
-			var x := 24+int(index/3)*136
-			var y := 311+(index%3)*33
-			rect = Rect2(x+41 if number else x,y-1 if number else y,74 if number else 40,38 if number else 34)
-			pixels = 36 if number else 16
-			role = "Score" if number else "BodyStrong"
-		var label := Label.new()
-		label.text = value
-		label.position = rect.position
-		label.size = rect.size
-		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.theme_type_variation = role
-		label.horizontal_alignment = alignment
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		label.clip_text = true
-		var face_font: Font = shared_theme.get_font("font",role)
-		var fitted := roundi(pixels*font_scale)
-		while fitted > 8 and face_font.get_height(fitted) > rect.size.y: fitted -= 1
-		var width := face_font.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,fitted).x
-		if width > rect.size.x: fitted = maxi(roundi(pixels*0.65),floori(fitted*rect.size.x/width))
-		label.add_theme_font_size_override("font_size",fitted)
-		label.add_theme_color_override("font_color",Color("F2F7FD") if tint.r < 0 else tint)
-		content.add_child(label)
-		return label
-	func bind(data: Resource, metadata: Dictionary = {}, known: bool = true, is_owned: bool = false) -> void:
-		super.bind(data,metadata,known,is_owned)
-		for item in content.get_children():
-			if item is Label and "  /  " in item.text: item.text = ""
-			if item is Label and not known and item.text in ["PLAYER ARCHIVE","Identity not discovered"]: item.text = ""
-			if item is Label and not known and item.text == "UNDISCOVERED" and item.position.y < 260: item.text = ""
-		if definition == null: return
-		if not definition.trait_id.is_empty():
-			var ability: Dictionary = definition.Traits.catalogue[definition.trait_id]
-			var badge := AbilityBadge.new()
-			badge.ability = ability
-			badge.position = Vector2(242,72)
-			badge.size = Vector2(36,36)
-			content.add_child(badge)
-		var flag_texture: Texture2D = load("res://outputs/fc-mobile-ui-v6/components.gd").flag(str(info.get("country_code","")))
-		if flag_texture != null:
-			var flag_icon := TextureRect.new()
-			flag_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			flag_icon.texture = flag_texture
-			flag_icon.position = Vector2(24,112)
-			flag_icon.size = Vector2(32,24)
-			flag_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			flag_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			content.add_child(flag_icon)
-		queue_redraw()
-	func set_selected(value: bool) -> void:
-		super.set_selected(value)
-		if is_instance_valid(status) and status.text == "KNOWN": status.text = ""
-	func _draw() -> void: FrameStyle.paint(self)
 
 class AbilityBadge:
-	extends Button
-	const Glyphs = preload("res://outputs/fc-mobile-ui-v6/ability_icons.gd")
-	var ability := {}
-	var hint: Panel
-	func _ready() -> void:
-		name = "AbilityIcon"
-		icon = Glyphs.texture(ability.id)
-		expand_icon = true
-		add_theme_constant_override("icon_max_width",32)
-		for state in ["normal","hover","pressed","focus","disabled"]: add_theme_stylebox_override(state,StyleBoxEmpty.new())
-		mouse_entered.connect(show_hint)
-		focus_entered.connect(show_hint)
-		mouse_exited.connect(dismiss_hint)
-		focus_exited.connect(dismiss_hint)
-		pressed.connect(show_hint)
-		for property in get_property_list():
-			if property.name == "accessibility_name": set("accessibility_name",ability.name+". "+ability.effect)
-	func show_hint() -> void:
-		if is_instance_valid(hint): return
-		var screen := get_viewport().get_visible_rect().size
-		var scale_factor := screen.y/720.0
-		var extent := Vector2(360,196)*scale_factor
-		var point := get_global_rect().end+Vector2(8,0)
-		point.x = clampf(point.x,8,screen.x-extent.x-8)
-		point.y = clampf(point.y,8,screen.y-extent.y-8)
-		var parts = load("res://outputs/fc-mobile-ui-v6/components.gd")
-		hint = parts.panel(get_viewport(),Rect2(point,extent))
-		hint.theme = get_parent().get_parent().theme
-		hint.z_index = 1000
-		parts.label(hint,ability.name,Rect2(Vector2(16,12)*scale_factor,Vector2(328,30)*scale_factor),roundi(18*scale_factor),"BodyStrong")
-		var effect: Label = parts.label(hint,ability.effect,Rect2(Vector2(16,50)*scale_factor,Vector2(328,132)*scale_factor),roundi(16*scale_factor))
-		effect.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		effect.vertical_alignment = VERTICAL_ALIGNMENT_TOP
-		effect.clip_text = true
-		effect.custom_minimum_size = Vector2.ZERO
-		effect.size = Vector2(328,132)*scale_factor
-		effect.set_deferred("size",Vector2(328,132)*scale_factor)
-		queue_redraw()
-	func dismiss_hint() -> void:
-		if is_instance_valid(hint): hint.queue_free()
-		hint = null
-		queue_redraw()
-	func _exit_tree() -> void: dismiss_hint()
-	func _gui_input(event: InputEvent) -> void:
-		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and is_instance_valid(hint):
-			dismiss_hint()
-			accept_event()
-	func _draw() -> void:
-		if has_focus() or is_hovered(): draw_rect(Rect2(Vector2.ONE,size-Vector2(2,2)),Color("84EBFF"),false,1.5)
+	extends "res://ui/ability_badge.gd"
 
 class Crest:
 	extends Control

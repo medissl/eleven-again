@@ -6,7 +6,7 @@ const Controller = preload("res://run/run_controller.gd")
 const State = preload("res://run/run_state.gd")
 const Profile = preload("res://persistence/profile.gd")
 const Store = preload("res://persistence/save_store.gd")
-const ACTIONS := ["acquire","skip_recruit","continue_result","close_market","reopen_market","choose_principle","commit_match","finish_match","abandon"]
+const ACTIONS := ["acquire","skip_recruit","continue_result","close_market","reopen_market","choose_principle","commit_match","update_plan","finish_match","abandon"]
 var content: RefCounted
 var store: RefCounted
 var controller: RefCounted
@@ -112,9 +112,9 @@ func persist(candidate: RefCounted) -> Dictionary:
 func act(action: String, arguments: Array, expected: int) -> Dictionary:
 	if blocked: return fail("Reload and recover the pending save before continuing.")
 	if action not in ACTIONS: return fail("Unknown campaign action.")
-	var count: int = {"acquire":2,"choose_principle":1,"commit_match":1}.get(action,0)
+	var count: int = {"acquire":2,"choose_principle":1,"commit_match":1,"update_plan":1}.get(action,0)
 	if arguments.size() != count: return fail("Invalid campaign action arguments.")
-	if action == "commit_match" and arguments[0] is not Resource: return fail("Invalid match plan argument.")
+	if action in ["commit_match","update_plan"] and arguments[0] is not Resource: return fail("Invalid match plan argument.")
 	if action in ["acquire","choose_principle"]:
 		for argument in arguments:
 			if argument is not String: return fail("Invalid signing/principle argument.")

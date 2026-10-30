@@ -107,6 +107,19 @@ func failure(message: String) -> Dictionary:
 func preparation_plan() -> Resource:
 	return Availability.plan(_state) if not _state.is_empty() else null
 
+func update_plan(plan: Resource, expected: int) -> Dictionary:
+	var error := guard(expected,["prepare"])
+	if not error.is_empty(): return failure(error)
+	if plan == null or plan.get_script() != Lineup or not plan.errors().is_empty(): return failure("Choose a legal owned squad.")
+	var owned := {}
+	for card in _state.plan.cards: owned[card.card_id]=card
+	if plan.cards.size() != owned.size(): return failure("Squad editing cannot add or release players.")
+	for card in plan.cards:
+		if not owned.has(card.card_id) or card.to_data() != owned[card.card_id]: return failure("Squad editing changed a player definition.")
+	var data := _state.duplicate(true)
+	data.plan = plan.to_data()
+	return commit(data,plan)
+
 func abandon(expected: int) -> Dictionary:
 	var error := guard(expected,["opening_recruit","prepare","match","result","recruit","market","coaching"])
 	if not error.is_empty(): return failure(error)

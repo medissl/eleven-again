@@ -1,12 +1,15 @@
 extends RefCounted
 const BASE := "res://assets/ui/matchday/"
-const COLOURS := {"forest":"111A16","surface":"1B2921","raised":"26392C","ivory":"F1ECDD","muted":"A5B09F","amber":"D4BD6A","brass":"D4BD6A","paper":"DDD5BE","ink":"172219","divider":"3B493B","border":"7B8976","coral":"D67B68","success":"8FB7A0"}
+const COLOURS := {"forest":"080E19","surface":"101D2E","raised":"1A2D45","ivory":"F2F7FD","muted":"A0B2C9","amber":"49D6F5","brass":"49D6F5","paper":"101D2E","ink":"F2F7FD","divider":"29405A","border":"466883","coral":"F17D91","success":"74D7BD"}
 
-static func box(id: String) -> StyleBoxTexture:
-	var style := StyleBoxTexture.new()
-	style.texture = load(BASE+"components/"+id+".svg")
+static func box(id: String) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color=Color("1A2D45") if "raised" in id or "hover" in id else Color("101D2E")
+	if id == "focus": style.bg_color=Color(0,0,0,0)
+	style.border_color=Color("49D6F5") if "primary" in id or id == "focus" else Color("29405A")
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(4)
 	for side in 4:
-		style.set_texture_margin(side,8)
 		style.set_content_margin(side,16 if side in [SIDE_LEFT,SIDE_RIGHT] else 8)
 	return style
 
@@ -56,4 +59,17 @@ static func build() -> Theme:
 		theme.set_icon(id,"HSlider",load(BASE+"components/slider-thumb.svg"))
 	theme.set_stylebox("focus","HSlider",box("focus"))
 	theme.set_stylebox("panel","TooltipPanel",box("panel"))
+	preload("res://ui/typography.gd").apply(theme)
+	for role in ["Button","Primary","Quiet","Tab","OptionButton","CheckButton"]:
+		if role in ["Primary","Quiet","Tab"]: theme.set_type_variation(role,"Button")
+		for state in ["normal","hover","pressed","disabled","focus"]:
+			var skin := StyleBoxFlat.new()
+			skin.bg_color = Color(0,0,0,0)
+			skin.content_margin_left = 16
+			skin.content_margin_right = 16
+			if state == "focus":
+				skin.border_color = Color("84EBFF")
+				skin.set_border_width_all(1)
+			theme.set_stylebox(state,role,skin)
+		for state in ["font_color","font_hover_color","font_pressed_color","font_focus_color"]: theme.set_color(state,role,Color("F2F7FD"))
 	return theme

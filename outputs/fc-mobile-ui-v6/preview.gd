@@ -4,6 +4,8 @@ const C = preload("res://outputs/fc-mobile-ui-v6/components.gd")
 const Model = preload("res://outputs/fc-mobile-ui-v6/model.gd")
 const Library = preload("res://content/campaign.gd")
 const Lineup = preload("res://squad/lineup.gd")
+const Motion = preload("res://ui/motion.gd")
+var audio: Node
 var model := Model.new()
 var library := Library.new()
 var origins: Array = JSON.parse_string(FileAccess.get_file_as_string(C.ROOT+"origins.json"))
@@ -43,6 +45,8 @@ var show_player_panel := false
 const FORMATIONS := ["4-3-3","4-4-2","4-2-3-1","4-1-4-1","4-2-2-2","4-3-1-2","3-4-3","3-5-2","5-3-2"]
 
 func _ready() -> void:
+	audio = preload("res://ui/audio.gd").obtain(self)
+	get_tree().node_added.connect(_motion_added)
 	DisplayServer.window_set_title("Eleven Again — The Climb / isolated design preview")
 	theme = C.make_theme()
 	canvas = Control.new()
@@ -80,6 +84,14 @@ func _ready() -> void:
 	resized.connect(layout)
 	layout()
 	go("home",false)
+
+func _motion_added(node: Node) -> void:
+	if node is Control and is_ancestor_of(node): _bind_motion.call_deferred(node.get_instance_id())
+
+func _bind_motion(id: int) -> void:
+	var node := instance_from_id(id) as Control
+	if is_instance_valid(node) and node.is_inside_tree(): Motion.bind_control(node,func(): return reduced_motion)
+	if is_instance_valid(node) and node.is_inside_tree(): audio.bind_control(node)
 
 func layout() -> void:
 	canvas.scale = Vector2.ONE*minf(size.x/1280,size.y/720)
@@ -121,6 +133,7 @@ func freeze_tree(node: Node) -> void:
 	for child in node.get_children(): freeze_tree(child)
 
 func go(next: String, animate: bool = true) -> void:
+	audio.set_match(next == "match")
 	if transition != null and transition.is_running(): transition.kill()
 	if is_instance_valid(outgoing): outgoing.queue_free()
 	outgoing = content

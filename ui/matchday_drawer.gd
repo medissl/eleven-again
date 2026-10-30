@@ -7,15 +7,26 @@ var actions := HBoxContainer.new()
 var closing := false
 var reduced_motion := false
 var entrance: Tween
+var panel_left := 848.0
+var panel_width := 432.0
 
 func _ready() -> void:
 	theme = Parts.ThemeData
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	color = Color(0,0,0,0.48)
+	var copy := BackBufferCopy.new()
+	copy.copy_mode=BackBufferCopy.COPY_MODE_VIEWPORT
+	add_child(copy)
+	var glass := preload("res://ui/glass_panel.gd").new()
+	glass.position=Vector2(panel_left,0)
+	glass.size=Vector2(panel_width,720)
+	add_child(glass)
 	var panel := PanelContainer.new()
-	panel.position = Vector2(848,0)
-	panel.size = Vector2(432,720)
-	panel.add_theme_stylebox_override("panel",preload("res://ui/matchday_theme.gd").box("panel-raised"))
+	panel.position = Vector2(panel_left,0)
+	panel.size = Vector2(panel_width,720)
+	var margins := StyleBoxEmpty.new()
+	for side in 4: margins.set_content_margin(side,24)
+	panel.add_theme_stylebox_override("panel",margins)
 	add_child(panel)
 	var column := Parts.column(panel,16)
 	Parts.label(column,title,28,"Heading")
@@ -37,7 +48,7 @@ func _ready() -> void:
 		panel.position.x += 12
 		entrance = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		entrance.tween_property(self,"modulate:a",1,0.18)
-		entrance.tween_property(panel,"position:x",848,0.18)
+		entrance.tween_property(panel,"position:x",panel_left,0.18)
 	call_deferred("focus_contents")
 
 func focus_contents() -> void:

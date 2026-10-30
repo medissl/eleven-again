@@ -1,3 +1,4 @@
+<!-- Runtime continuation: read reports/neon-matchday.md and tasks/todo.md quota checkpoint first. The normal campaign entry now uses the neon/glass runtime. Latest user request replaces goal/confetti with an actual buffered skippable replay and adds deal/walkout plus FC-inspired Squad/reserve drag UX. Preserve 180 active seconds, saves, all 200 portraits and both kit icons. Final verification remains open. -->
 # Eleven Again — Codex project instructions
 
 ## Read before working

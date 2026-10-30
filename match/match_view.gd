@@ -44,8 +44,17 @@ var campaign_mode := false
 var team_names: Array = ["Meadow XI","Harbor XI"]
 var team_kits: Array = [Color("efe9d9"),Color("ed7864")]
 var key_bindings := {"pause":KEY_SPACE,"speed1":KEY_1,"speed2":KEY_2,"menu":KEY_ESCAPE}
+var audio_enabled := true
+var audio: Node
+const Motion = preload("res://ui/motion.gd")
+var replay_history := preload("res://match/replay_buffer.gd").new()
+var goal_replay: Control
+var replays_enabled := true
+var card_library: RefCounted
 
 func _ready() -> void:
+	get_tree().node_added.connect(_motion_added)
+	if audio_enabled: audio=preload("res://ui/audio.gd").obtain(self)
 	theme = MatchTheme
 	var seed_value := fixture_seed if fixture_seed != 0 else int(Time.get_unix_time_from_system()) ^ Time.get_ticks_usec()
 	sim = external_model if external_model != null else Match.new(seed_value)
@@ -69,9 +78,18 @@ func _ready() -> void:
 	_layout()
 	_sync_state()
 	hud.apply_focus_style()
+	if is_instance_valid(audio): audio.set_match(true)
 	if fixture_seed == 0 and external_model == null: open_preparation()
 
+func _motion_added(node: Node) -> void:
+	if node is Control and is_ancestor_of(node): _bind_motion.call_deferred(node.get_instance_id())
+
+func _bind_motion(id: int) -> void:
+	var node := instance_from_id(id) as Control
+	if is_instance_valid(node) and node.is_inside_tree(): Motion.bind_control(node,func(): return is_instance_valid(hud) and hud.reduced_motion)
+
 func open_preparation() -> void:
+	if is_instance_valid(audio): audio.set_match(false)
 	var next_seed := sim.match_seed+(1 if sim.ticks > 0 else 0)
 	paused = true
 	_close_overlay(false)
@@ -92,6 +110,7 @@ func open_preparation() -> void:
 		result_dismissed = false
 		hud.event_count = -1
 		paused = false
+		if is_instance_valid(audio): audio.set_match(true)
 		_sync_state())
 	preparation.cancelled.connect(func():
 		preparation.queue_free()
@@ -129,18 +148,22 @@ func _layout() -> void:
 	queue_redraw()
 
 func _physics_process(_delta: float) -> void:
+	if is_instance_valid(goal_replay): return
 	if not paused and not sim.finished:
 		for step_index in speed:
+			var before_events := sim.events.size()
 			sim.step()
+			replay_history.capture(sim)
 			if sim.ball_state != Match.BallState.DEAD:
 				ball_roll += sim.previous_ball.distance_to(sim.ball) * 0.8
-			if sim.period == Match.Period.HALF_TIME or sim.finished: break
+			if sim.period == Match.Period.HALF_TIME or sim.finished or sim.events.slice(before_events).any(func(event): return event.kind == "goal"): break
 		_sync_state()
 
 func _sync_state() -> void:
 	if not is_instance_valid(hud): return
 	if presentation_fixture != sim.get_instance_id(): snap_presentation()
 	_consume_presentation_events()
+	if is_instance_valid(audio): audio.watch_match(sim,paused)
 	var inspected := hovered if hovered >= 0 else selected
 	var description := ""
 	if inspected >= 0:
@@ -152,7 +175,7 @@ func _sync_state() -> void:
 			var ready := "Ready" if sim.active_ticks >= p.trait_ready else "%d′ cooldown" % ceili((p.trait_ready-sim.active_ticks)*90.0/sim.regulation_ticks)
 			description += "\n%s · %d/%d · %s" % [definition.name,p.trait_uses,sim.trait_allowance,ready if p.role in definition.positions else "Role unavailable"]
 			hud.inspection.tooltip_text = definition.trigger+"\n"+definition.effect+"\nCounterplay: "+definition.counterplay
-	if overlay_mode.is_empty() and not _required_report().is_empty():
+	if not is_instance_valid(goal_replay) and overlay_mode.is_empty() and not _required_report().is_empty():
 		_open_overlay(_required_report())
 	hud.refresh(sim, paused, speed, description)
 	queue_redraw()
@@ -161,6 +184,13 @@ func snap_presentation() -> void:
 	# Discontinuous fixture loading is not a pass or a long-distance ball flight.
 	presentation_fixture = sim.get_instance_id()
 	presentation_events = sim.events.size()
+	replay_history.clear()
+	replay_history.capture(sim)
+	hud.added_period = -1
+	hud.cue.duration = 0
+	hud.cue.hide()
+	if sim.ticks == 0 and sim.ball_state == Match.BallState.KICKOFF:
+		hud.cue.consume(sim.events.back(),team_names)
 	for i in 22: player_positions[i] = sim.players[i].position
 	ball = sim.ball
 	ball_trail.clear()
@@ -172,6 +202,11 @@ func snap_presentation() -> void:
 func _consume_presentation_events() -> void:
 	for index in range(presentation_events,sim.events.size()):
 		var event: Dictionary = sim.events[index]
+		if is_instance_valid(audio) and event.tick >= sim.ticks-2: audio.consume(event)
+		if event.tick >= sim.ticks-2: hud.cue.consume(event,team_names)
+		if event.kind == "goal" and event.tick >= sim.ticks-2:
+			if replays_enabled: _show_goal_replay(event)
+			else: hud.cue.present("GOAL",str(event.get("actor_name","")).to_upper(),1.65,4)
 		if event.kind in ["kickoff_setup","shootout_setup","restart_setup"] and event.tick > 0:
 			# Briefly reveal the real reset shape; never draw a fictional flight to centre.
 			for i in 22: player_positions[i] = sim.players[i].position
@@ -188,6 +223,16 @@ func _consume_presentation_events() -> void:
 	if sim.owner != presented_owner:
 		presented_owner = sim.owner
 		if presented_owner >= 0: owner_tick = sim.ticks
+
+func _show_goal_replay(event: Dictionary) -> void:
+	if is_instance_valid(goal_replay): return
+	goal_replay = load("res://ui/goal_replay.gd").new()
+	goal_replay.match_view = self
+	goal_replay.clip = replay_history.goal_clip(sim,event)
+	add_child(goal_replay)
+	goal_replay.finished.connect(func():
+		goal_replay = null
+		_sync_state())
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(hud) or paused: return
@@ -209,8 +254,6 @@ func _formation_opacity() -> float:
 
 func _actor_opacity() -> float:
 	var opacity := _formation_opacity()
-	if is_instance_valid(hud.celebration) and hud.celebration.visible:
-		opacity *= 1.0-0.45*hud.celebration.opacity
 	return opacity
 
 func _required_report() -> String:
@@ -294,6 +337,8 @@ func _close_overlay(animate: bool = true) -> void:
 		hud.buttons.menu.grab_focus()
 
 func _restart(new_seed: bool = false) -> void:
+	if is_instance_valid(goal_replay): goal_replay.queue_free()
+	goal_replay = null
 	sim = Match.new(sim.match_seed + (1 if new_seed else 0),Match.REGULATION_SECONDS,sim.plans[0],sim.plans[1],sim.knockout)
 	selected = -1
 	hovered = -1
@@ -307,6 +352,11 @@ func _restart(new_seed: bool = false) -> void:
 	_sync_state()
 
 func _input(event: InputEvent) -> void:
+	if is_instance_valid(goal_replay):
+		if (event is InputEventMouseButton and event.pressed) or (event is InputEventKey and event.pressed and event.keycode in [KEY_ESCAPE,KEY_SPACE,KEY_ENTER]):
+			goal_replay.skip_replay()
+			get_viewport().set_input_as_handled()
+		return
 	if is_instance_valid(preparation): return
 	if event is InputEventMouseButton and event.pressed:
 		hud.keyboard_focus = false
@@ -350,14 +400,19 @@ func _scale() -> float:
 	return pitch.size.x / 105
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), Color("0c1711"))
+	draw_rect(Rect2(Vector2.ZERO, size), Color("080E19"))
 	if pitch.size.x <= 0: return
-	draw_rect(pitch.grow(9), Color("1c351b"))
+	draw_rect(pitch.grow(9), Color("0D2030"))
+	draw_rect(pitch.grow(8), Color("49D6F545"), false, 1)
 	draw_texture_rect(turf, pitch, true)
 	for stripe in 10:
 		if stripe % 2 == 0:
 			draw_rect(Rect2(pitch.position + Vector2(pitch.size.x * stripe / 10, 0), Vector2(pitch.size.x / 10, pitch.size.y)), Color(0.6, 0.7, 0.35, 0.045))
-	var line := Color("d0d5bd")
+	# Subtle floodlight falloff lives below every white field marking and every body.
+	for edge in 12:
+		var alpha := (1-edge/12.0)*0.018
+		draw_rect(Rect2(pitch.position+Vector2(edge,edge),pitch.size-Vector2(edge*2,edge*2)),Color(0.01,0.035,0.075,alpha),false,1)
+	var line := Color("DBE8DD")
 	draw_rect(pitch, line, false, 1.4)
 	draw_line(_field(Vector2(52.5, 0)), _field(Vector2(52.5, 68)), line, 1.4)
 	draw_arc(_field(Vector2(52.5, 34)), 9.15 * _scale(), 0, TAU, 64, line, 1.4, true)
@@ -499,7 +554,7 @@ func _draw_player(index: int) -> void:
 	if selected == index or sim.owner == index:
 		var transfer := 0.0 if hud.reduced_motion else 3*clampf(1-(sim.ticks-owner_tick)/10.0,0,1)
 		draw_arc(point, 17.0 if selected == index else 16.0+transfer, 0, TAU, 36, Color(AMBER,opacity), 2.0 if selected == index else 1.3, true)
-	if hud.effects_enabled and index == hud.goal_cue_actor and sim.ticks - hud.goal_cue_tick < 150:
+	if hud.effects_enabled and index == hud.goal_cue_actor and sim.ticks - hud.goal_cue_tick >= 0 and sim.ticks - hud.goal_cue_tick < 150:
 		draw_arc(point, 18 + (0 if hud.reduced_motion else sin((sim.ticks - hud.goal_cue_tick) * 0.15)), 0, TAU, 36, Color(AMBER,opacity), 1.5, true)
 	draw_circle(point + Vector2(1, 2.5), 13.8, Color(0.02,0.05,0.025,0.85*opacity))
 	draw_circle(point, 13.2, Color(Color("102315"),opacity))

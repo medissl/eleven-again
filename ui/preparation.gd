@@ -23,6 +23,9 @@ var home_name := ""
 var scouting := ""
 var inspection_slot := 0
 var comparison_card: Resource
+var squad_mode := false
+var unavailable: Array = []
+var opponent_mode := false
 
 func _ready() -> void:
 	theme = ThemeData
@@ -54,6 +57,7 @@ func rebuild() -> void:
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
+	preload("res://ui/glass_panel.gd").decorate_screen(self)
 	if campaign_mode:
 		rebuild_campaign()
 		return
@@ -202,7 +206,7 @@ func campaign_region(rect: Rect2, gap: int = 12) -> VBoxContainer:
 
 func rebuild_campaign() -> void:
 	var plan: Resource = plans[team]
-	text(self,"Match preparation",34,"Heading").position = Vector2(32,100)
+	text(self,"Squad" if squad_mode else "Match preparation",34,"Heading").position = Vector2(32,100)
 	var context := text(self,scouting.get_slice("\n",0),18)
 	context.position = Vector2(32,152)
 	context.size = Vector2(1216,30)
@@ -216,6 +220,13 @@ func rebuild_campaign() -> void:
 	var collection := Parts.button(self,"Collection","OpenCollection",open_archive)
 	collection.position = Vector2(1080,100)
 	collection.size = Vector2(168,44)
+	var highest := Parts.button(self,"Highest OVR","AutoHighestOVR",func():
+		if preload("res://squad/auto_lineup.gd").apply(plans[team],unavailable): rebuild()
+		elif is_instance_valid(validation): validation.text="No legal available XI. Match preparation supplies temporary cover.")
+	highest.position = Vector2(858,194)
+	highest.size = Vector2(214,44)
+	highest.tooltip_text = "Best legal XI by effective slot OVR. Formation and tactics stay unchanged."
+	highest.visible = not opponent_mode
 	if page == "lineup":
 		var left := campaign_region(Rect2(48,264,212,296),4)
 		var formations := ["4-3-3","4-4-2","4-2-3-1"]
@@ -230,6 +241,7 @@ func rebuild_campaign() -> void:
 		var preview = load("res://ui/formation_preview.gd").new()
 		preview.name = "LineupPitch"
 		preview.plan = plan
+		preview.card_library = campaign_library
 		preview.editable = true
 		preview.selected = inspection_slot
 		preview.position = Vector2(304,264)
@@ -309,14 +321,18 @@ func rebuild_campaign() -> void:
 	var details := Parts.button(self,"Player details","PreparationPlayerDetails",func(): open_card(plan.cards[plan.starters[inspection_slot]]))
 	details.position = Vector2(776,652)
 	details.size = Vector2(184,44)
-	start_button = Parts.button(self,"Start match","CommitMatch",func():
+	start_button = Parts.button(self,"Apply" if squad_mode else "Start match","ApplySquad" if squad_mode else "CommitMatch",func():
 		if plans[0].errors().is_empty() and plans[1].errors().is_empty(): submitted.emit(plans[0].duplicate(true),plans[1].duplicate(true),knockout),true)
 	start_button.position = Vector2(1008,652)
 	start_button.size = Vector2(240,44)
 	update_validation()
+	if opponent_mode:
+		for control in find_children("*","OptionButton",true,false): control.disabled=true
+		for control in find_children("*","Slider",true,false): control.editable=false
 	Parts.focus_loop(self)
 
 func assign_player(index: int) -> void:
+	if opponent_mode: open_card(plans[team].cards[index]); return
 	var plan: Resource = plans[team]
 	var previous: int = plan.starters[inspection_slot]
 	var other: int = plan.starters.find(index)

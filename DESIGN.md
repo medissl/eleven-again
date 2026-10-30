@@ -1,5 +1,7 @@
 # Eleven Again — project design direction
 
+Runtime continuation (30 October): [neon-matchday checkpoint](reports/neon-matchday.md). The approved visual system is integrated into the actual campaign. Latest Squad reference governs the country/OVR/tactic rail, card pitch, bottom bench and reserve drawer/drag UX. New generated long tunnel and matching field replace the line-drawn walkout. Goal/confetti is superseded by the user's actual buffered replay request. Verification limits and next steps are recorded in the report.
+
 ## Current direction — 30 October 2026
 
 The user approved the **neon/glass football direction** after requesting FC Mobile's complete graphics/styling throughout. Use [v6's native reference and contract](outputs/fc-mobile-ui-v6/README.md): floodlit arena, actual glass blur, clipped luminous edges, one Saira family, textured card pitches and original club crests. Their targeted card follow-up adds shared metallic frames, larger two-column stats and white ability icons with hover/focus details. Portraits and numerical card rules remain settled. Production integration is tracked in `tasks/todo.md` 6.6b–f; [evidence and limits](reports/fc-mobile-ui-v6.md).

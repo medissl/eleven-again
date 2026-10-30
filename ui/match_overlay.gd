@@ -32,6 +32,17 @@ class Icon:
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	color = Color(MatchTheme.get_color("forest","Palette"),0.94)
+	var copy := BackBufferCopy.new()
+	copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
+	add_child(copy)
+	var glass := preload("res://ui/glass_panel.gd").new()
+	add_child(glass)
+	glass.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	glass.offset_left = 24
+	glass.offset_top = 18
+	glass.offset_right = -24
+	glass.offset_bottom = -18
+	color.a = 0.45
 	hide()
 
 func present(next_mode: String, sim: RefCounted, hud: Control) -> void:
@@ -124,7 +135,7 @@ func _button(parent: Node, action: String, text: String, primary: bool = false) 
 			button.add_theme_stylebox_override(state, style)
 		var icon := Icon.new()
 		icon.kind = action
-		icon.ink = Color("102e20") if primary else ivory
+		icon.ink = ivory
 		icon.mouse_filter = MOUSE_FILTER_IGNORE
 		button.add_child(icon)
 		var align_icon := func(): icon.position = Vector2(12, (button.size.y - 24) / 2)
@@ -133,7 +144,7 @@ func _button(parent: Node, action: String, text: String, primary: bool = false) 
 	if primary and action in ["continue_half","continue_result","confirm_restart","confirm_new"]:
 		var arrow := _text(button, "→", "Label", 23, HORIZONTAL_ALIGNMENT_RIGHT)
 		arrow.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		arrow.add_theme_color_override("font_color", Color("102e20"))
+		arrow.add_theme_color_override("font_color", ivory)
 		arrow.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
 		arrow.offset_left = -36
 		arrow.offset_right = -12
@@ -154,7 +165,7 @@ func _focus_loop() -> void:
 func _pause_menu() -> void:
 	var left := _column(Rect2(size * Vector2(0.08,0.25), size * Vector2(0.5,0.58)))
 	_text(left, ("MATCH COMPLETE" if presenter.campaign_mode else "EXHIBITION COMPLETE") if model.finished else "MATCH PAUSED", "Section", 16, HORIZONTAL_ALIGNMENT_CENTER)
-	_text(left, "FULL TIME" if model.finished else "PAUSED", "Heading", 150, HORIZONTAL_ALIGNMENT_CENTER)
+	_text(left, "FULL TIME" if model.finished else "PAUSED", "Heading", 120, HORIZONTAL_ALIGNMENT_CENTER)
 	var score := Control.new()
 	score.custom_minimum_size.y = 90
 	left.add_child(score)
@@ -235,7 +246,7 @@ func _team_score(parent: Control, report: Dictionary, pixels: int, scorers: bool
 		if scorers:
 			var names: Array[String] = []
 			for event in report.events:
-				if event.kind == "goal" and event.team == team: names.append("%s %d′" % [event.get("actor_name",model.players[event.actor].name), event.minute])
+				if event.kind == "goal" and event.team == team: names.append("%s %s" % [event.get("actor_name",model.players[event.actor].name), event.get("clock","%d′" % event.minute)])
 			_text(group, "  ".join(names), "Label", 15, HORIZONTAL_ALIGNMENT_CENTER).text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	row.move_child(score,1)
 	var align_teams := func():
@@ -345,7 +356,7 @@ func _events(parent: VBoxContainer, events: Array, all_events: bool = false) -> 
 		icon.team = event.team
 		icon.custom_minimum_size = Vector2(30,35)
 		row.add_child(icon)
-		_text(row, "%d′" % event.minute, "Label", 17).custom_minimum_size.x = 36
+		_text(row, event.get("clock","%d′" % event.minute), "Label", 17).custom_minimum_size.x = 48
 		var copy: Array[String] = presenter.event_copy(event)
 		var lines := VBoxContainer.new()
 		lines.size_flags_horizontal = SIZE_EXPAND_FILL
@@ -358,11 +369,19 @@ func _events(parent: VBoxContainer, events: Array, all_events: bool = false) -> 
 
 func _summary() -> void:
 	var report: Dictionary = model.halftime_report if mode == "halftime" else (model.result_report if mode == "result" else model.snapshot_report())
-	var heading := _text(content, {"halftime":"HALF TIME","result":"FULL TIME","details":"MATCH DETAILS"}[mode], "Section", 17, HORIZONTAL_ALIGNMENT_CENTER)
-	_place(heading, Rect2(0, size.y * 0.055, size.x, 30))
-	var minute := _text(content, "%d′" % report.minute, "Label", 16, HORIZONTAL_ALIGNMENT_CENTER)
+	var phase := mode in ["halftime","result"]
+	var heading := _text(content, {"halftime":"HALF TIME","result":"FULL TIME","details":"MATCH DETAILS"}[mode], "Goal" if phase else "Section", 46 if phase else 17, HORIZONTAL_ALIGNMENT_CENTER)
+	heading.name = "PhaseTitle"
+	_place(heading, Rect2(0, size.y * 0.032, size.x, 64))
+	if phase and not presenter.reduced_motion:
+		heading.position.x = 30
+		heading.modulate.a = 0
+		var reveal := heading.create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		reveal.tween_property(heading,"position:x",0.0,0.38)
+		reveal.tween_property(heading,"modulate:a",1.0,0.24)
+	var minute := _text(content, report.get("clock","%d′" % report.minute), "Label", 16, HORIZONTAL_ALIGNMENT_CENTER)
 	if not report.get("penalties",[]).is_empty(): minute.text += "  ·  Penalties %d–%d" % report.penalties
-	_place(minute, Rect2(0,size.y * 0.108,size.x,25))
+	_place(minute, Rect2(0,size.y * 0.126,size.x,25))
 	var score := Control.new()
 	content.add_child(score)
 	_place(score, Rect2(size.x*0.10,size.y*0.17,size.x*0.80,size.y*0.14))
@@ -387,7 +406,8 @@ func _summary() -> void:
 		_button(footer, "continue_half" if mode == "halftime" else "continue_result", "Continue second half" if mode == "halftime" else "Continue", true).custom_minimum_size.x = 300 * scale_factor
 	var rule := HSeparator.new()
 	content.add_child(rule)
-	_place(rule,Rect2(48,size.y-92,maxf(150,size.x-120-300*scale_factor),1))
+	rule.name = "FooterDivider"
+	_place(rule,Rect2(48,size.y-116,size.x-96,1))
 
 func _log() -> void:
 	var box := _column(Rect2(size * Vector2(0.12,0.10),size * Vector2(0.76,0.74)))

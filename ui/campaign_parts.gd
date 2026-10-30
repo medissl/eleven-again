@@ -1,9 +1,9 @@
 extends RefCounted
 static var ThemeData: Theme = preload("res://ui/matchday_theme.gd").build()
 const CardView = preload("res://ui/player_card.gd")
-const INK := Color("172219")
-const IVORY := Color("F1ECDD")
-const BRASS := Color("D4BD6A")
+const INK := Color("F2F7FD")
+const IVORY := Color("F2F7FD")
+const BRASS := Color("49D6F5")
 
 class Paper:
 	extends PanelContainer
@@ -14,7 +14,7 @@ class Paper:
 		resized.connect(queue_redraw)
 	func _draw() -> void:
 		var polygon := PackedVector2Array([Vector2(1,1),Vector2(size.x-22,1),Vector2(size.x-1,22),size-Vector2.ONE,Vector2(1,size.y-1),Vector2(1,1)])
-		draw_colored_polygon(polygon,Color("DDD5BE"))
+		draw_colored_polygon(polygon,Color("101D2E"))
 		draw_polyline(polygon,BRASS,2,true)
 		draw_rect(Rect2(10,10,size.x-20,size.y-20),Color(0.45,0.40,0.25,0.22),false,1)
 		draw_arc(size/2, minf(size.x,size.y)*0.24,0,TAU,80,Color(0.45,0.40,0.25,0.12),1,true)

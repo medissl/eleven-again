@@ -18,7 +18,8 @@ enum Period { FIRST_HALF, HALF_TIME, SECOND_HALF, FULL_TIME, EXTRA_FIRST, EXTRA_
 const DT := 1.0 / 60.0
 const FIELD := Vector2(105, 68)
 const REGULATION_SECONDS := 180
-const KICKOFF_SETUP_TICKS := 12
+const KICKOFF_SETUP_TICKS := 252 # 1.2-second arrival, whistle, then three seconds before the kick.
+const RESTART_WHISTLE_TICKS := 180
 const CENTRE := FIELD / 2
 const MOVEMENT_TEMPO := 1.0
 const ANCHORS := [Vector2(6, 34), Vector2(25, 9), Vector2(21, 26),
@@ -257,6 +258,7 @@ func step() -> void:
 		p.cooldown = maxi(0, p.cooldown - 1)
 	if ball_state == BallState.KICKOFF:
 		kickoff_ticks -= 1
+		if kickoff_ticks == RESTART_WHISTLE_TICKS: emit_event("kickoff_whistle",kickoff_taker)
 		if kickoff_ticks > 0: return
 		owner = kickoff_taker
 		emit_event("kickoff", kickoff_taker)
@@ -353,7 +355,7 @@ func acknowledge_halftime() -> bool:
 	return true
 
 func snapshot_report() -> Dictionary:
-	return {"minute": display_minute(), "scores": scores.duplicate(),
+	return {"minute": display_minute(), "clock":preload("res://match/broadcast_clock.gd").read(self).text, "scores": scores.duplicate(),
 		"shots": shots.duplicate(), "on_target": shots_on_target.duplicate(),
 		"saves": saves.duplicate(), "completed": completed_passes.duplicate(),
 		"attempted": pass_attempts.duplicate(), "possession": possession_ticks.duplicate(),
@@ -389,7 +391,7 @@ func start_restart(team: int, location: Vector2, kind: String, duration: int) ->
 		pending_shot.clear()
 
 func award_restart(team: int, location: Vector2, kind: String, actor: int = -1) -> void:
-	start_restart(team, location, kind, 54)
+	start_restart(team, location, kind, RESTART_WHISTLE_TICKS if kind in ["free_kick","indirect_free_kick","penalty"] else 54)
 	if restart_counts.has(kind): restart_counts[kind][team] += 1
 	restart_taker = team * 11 if kind == "goal_kick" else nearest(team, location, false)
 	if kind == "goal_kick": restart_taker = keeper_id(team)
@@ -905,7 +907,7 @@ func challenge_carrier() -> void:
 
 func emit_event(kind: String, actor: int, extra: Dictionary = {}) -> void:
 	var event := {"kind": kind, "actor": actor, "team": players[actor].team if actor >= 0 else -1,
-		"tick": ticks, "minute": display_minute(), "position": ball}
+		"tick": ticks, "minute": display_minute(), "clock":preload("res://match/broadcast_clock.gd").read(self).text, "position": ball}
 	if actor >= 0:
 		event["actor_name"] = players[actor].name
 		event["actor_card"] = players[actor].card.card_id

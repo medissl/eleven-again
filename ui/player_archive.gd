@@ -3,7 +3,7 @@ signal closed
 const Catalogue = preload("res://content/catalogue.gd")
 const CardView = preload("res://ui/player_card.gd")
 const Inspector = preload("res://ui/card_inspector.gd")
-const ThemeData = preload("res://ui/game_theme.tres")
+static var ThemeData: Theme = preload("res://ui/matchday_theme.gd").build()
 const PAGE_SIZE := 6
 var catalogue := Catalogue.new()
 var ui_scale := 1.0

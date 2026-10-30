@@ -14,7 +14,7 @@ func _ready() -> void:
 	color = theme.get_color("forest","Palette")
 	var heading := Parts.label(self,"Record eleven",34,"Heading")
 	heading.position = Vector2(32,100)
-	var context := Parts.label(self,"%s   %s   Highest team OVR %.2f" % [library.countries[record.origin].name,record.outcome.capitalize(),record.peak_xi.total/11.0],18)
+	var context := Parts.label(self,"%s   %s   Highest team OVR %d" % [library.countries[record.origin].name,record.outcome.capitalize(),ceili(record.peak_xi.total/11.0)],18)
 	context.position = Vector2(32,152)
 	var plan = load("res://squad/lineup.gd").new()
 	plan.formation = record.peak_xi.formation

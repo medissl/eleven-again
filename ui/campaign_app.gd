@@ -6,6 +6,14 @@ const Screens = preload("res://ui/campaign_screens.gd")
 const Acquisition = preload("res://ui/acquisition_screen.gd")
 const LibraryScreen = preload("res://ui/campaign_library.gd")
 const MatchView = preload("res://match/match_view.gd")
+const Motion = preload("res://ui/motion.gd")
+const Audio = preload("res://ui/audio.gd")
+var audio: Node
+var page_motion := Motion.Swap.new()
+var modal_motion := Motion.Swap.new()
+var settings_motion := Motion.Swap.new()
+var settings_cover: Control
+var settings_content: Control
 var save_root := "user://campaign"
 var session: RefCounted
 var library: RefCounted
@@ -27,6 +35,10 @@ var coach_selection := ""
 var settings_section := "display"
 var record_page := 0
 var pinned_card := ""
+var arena: TextureRect
+var arena_shade: ColorRect
+var walkout: Control
+var arena_transition: Tween
 
 func _ready() -> void:
 	theme = Parts.ThemeData
@@ -34,12 +46,29 @@ func _ready() -> void:
 	session = Session.new(save_root) if session == null else session
 	library = session.content
 	preferences = Preferences.new(save_root)
+	audio = Audio.obtain(self)
+	get_tree().node_added.connect(_motion_added)
 	apply_preferences()
 	if get_viewport() == get_tree().root: get_tree().auto_accept_quit = false
 	resized.connect(func(): if is_instance_valid(screen) and not is_instance_valid(view) and not is_instance_valid(modal): render(page))
 	canvas = Control.new()
 	canvas.size = Vector2(1280,720)
 	add_child(canvas)
+	arena = TextureRect.new()
+	arena.texture = preload("res://assets/ui/premium/arena.png")
+	arena.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	arena.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	arena.size = Vector2(1280,720)
+	arena.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(arena)
+	arena_shade = ColorRect.new()
+	arena_shade.color = Color(0.02,0.05,0.09,0.6)
+	arena_shade.size = Vector2(1280,720)
+	arena_shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(arena_shade)
+	var arena_copy := BackBufferCopy.new()
+	arena_copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
+	canvas.add_child(arena_copy)
 	resized.connect(layout_canvas)
 	layout_canvas()
 	render("main")
@@ -55,22 +84,32 @@ func _draw() -> void:
 
 func ui_scale() -> float: return 1.0
 func money(value: int) -> String: return "$%sm" % str(value/1000000.0).trim_suffix(".0")
-func text(parent: Node, value: String, pixels: int = 18, role: String = "Label", ink: Color = Parts.IVORY) -> Label: return Parts.label(parent,value,mini(pixels,34) if role == "Heading" else roundi(pixels*ui_scale()),role,ink)
+func text(parent: Node, value: String, pixels: int = 18, role: String = "Label", ink: Color = Parts.IVORY) -> Label: return Parts.label(parent,value,roundi(pixels*ui_scale()),role,ink)
 func button(parent: Node, caption: String, id: String, action: Callable, primary: bool = false) -> Button:
 	var node := Parts.button(parent,caption,id,action,primary)
 	node.add_theme_font_size_override("font_size",18)
 	return node
 
-func clear_screen() -> void:
-	if is_instance_valid(screen):
-		screen.get_parent().remove_child(screen)
-		screen.queue_free()
-	if is_instance_valid(view):
-		view.get_parent().remove_child(view)
-		view.queue_free()
+func _motion_added(node: Node) -> void:
+	if node is Control and is_ancestor_of(node): _bind_motion.call_deferred(node.get_instance_id())
+
+func _bind_motion(id: int) -> void:
+	var node := instance_from_id(id) as Control
+	if is_instance_valid(node) and node.is_inside_tree(): Motion.bind_control(node,func(): return preferences.data.motion)
+	if is_instance_valid(node) and node.is_inside_tree(): audio.bind_control(node)
+
+func clear_screen() -> Control:
+	var old: Control = view if is_instance_valid(view) else screen
+	screen = null
 	view = null
+	return old
 
 func render(next: String) -> void:
+	audio.set_match(false)
+	if is_instance_valid(arena_shade):
+		if arena_transition != null: arena_transition.kill()
+		arena_transition=create_tween()
+		arena_transition.tween_property(arena_shade,"color:a",0.25 if next == "main" else 0.65,0.0 if preferences.data.motion else 0.22)
 	if page == "offer" and next != "offer" and not pinned_card.is_empty() and not session.profile.discoveries.has(pinned_card): pinned_card = ""
 	if next == "discovered": next = "collection"
 	var focus_name := ""
@@ -87,15 +126,14 @@ func render(next: String) -> void:
 				var owned_ids: Array = state.plan.cards.map(func(card): return card.card_id)
 				transient = {"selected":offer.selected,"outgoing":offer.outgoing if offer.outgoing in owned_ids else "","page":offer.page}
 	close_modal()
-	clear_screen()
+	var old_screen := clear_screen()
 	page = next
 	screen = Control.new()
 	screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(screen)
 	if session.blocked:
 		Screens.recovery(self)
-		return
-	if page == "main": Screens.main(self)
+	elif page == "main": Screens.main(self)
 	elif page == "collection":
 		var collection = load("res://ui/collection_screen.gd").new()
 		collection.library = library
@@ -132,9 +170,7 @@ func render(next: String) -> void:
 	if not focus_name.is_empty():
 		var old := screen.find_child(focus_name,true,false) as Control
 		if old != null and old.focus_mode == Control.FOCUS_ALL and not (old is BaseButton and old.disabled): old.grab_focus()
-	if not preferences.data.motion:
-		screen.modulate.a = 0
-		screen.create_tween().tween_property(screen,"modulate:a",1,0.17)
+	page_motion.replace(old_screen,screen,preferences.data.motion)
 	queue_redraw()
 
 func route() -> void:
@@ -151,11 +187,24 @@ func route() -> void:
 func act(action: String, args: Array, revision: int) -> void:
 	if busy: return
 	busy = true
+	var newly_discovered: bool = action == "acquire" and not session.profile.discoveries.has(args[0])
 	var result: Dictionary = session.act(action,args,revision)
 	busy = false
-	if result.ok: route()
+	if result.ok:
+		if action == "acquire": _show_walkout(args[0],newly_discovered)
+		else: route()
 	elif session.blocked: render("main")
 	else: message(result.error)
+
+func _show_walkout(id: String, newly_discovered: bool) -> void:
+	walkout = preload("res://ui/recruitment_walkout.gd").new()
+	walkout.definition=library.cards[id]
+	walkout.info=library.metadata(id)
+	walkout.audio=audio
+	walkout.reduced=preferences.data.motion
+	walkout.newly_discovered=newly_discovered
+	open_modal(walkout)
+	walkout.completed.connect(func(): walkout=null; close_modal(); route())
 
 func message(value: String) -> void:
 	if is_instance_valid(status): status.text = value
@@ -173,8 +222,10 @@ func start_origin(origin: String, confirmed: bool = false) -> void:
 func prepare() -> void:
 	var data: Dictionary = session.controller.snapshot()
 	var club: Dictionary = library.clubs[data.fixtures[data.wins].club_id]
-	var node = load("res://ui/preparation.gd").new()
+	var node = load("res://ui/squad_editor.gd").new()
 	node.campaign_mode = true
+	node.opponent_mode = true
+	node.team = 1
 	node.campaign_library = library
 	node.campaign_discoveries = session.profile.discoveries.duplicate(true)
 	node.home_name = library.countries[data.origin].name
@@ -190,13 +241,31 @@ func prepare() -> void:
 	node.submitted.connect(func(home,_away,_knockout): close_modal(); act("commit_match",[home],data.revision))
 	node.cancelled.connect(close_modal)
 
+func squad() -> void:
+	var data: Dictionary = session.controller.snapshot()
+	if data.get("step","") != "prepare": return
+	var node := preload("res://ui/squad_editor.gd").new()
+	node.campaign_mode = true
+	node.squad_mode = true
+	node.campaign_library = library
+	node.campaign_discoveries = session.profile.discoveries.duplicate(true)
+	node.plans[0] = preload("res://squad/lineup.gd").from_data(data.plan)
+	node.plans[1] = node.plans[0].duplicate(true)
+	node.unavailable = preload("res://run/availability.gd").banned(data.discipline)
+	node.reduced_motion = preferences.data.motion
+	node.scouting = library.countries[data.origin].name
+	open_modal(node)
+	node.submitted.connect(func(home,_away,_knockout): close_modal(); act("update_plan",[home],data.revision))
+	node.cancelled.connect(close_modal)
+
 func open_match() -> void:
 	close_modal()
-	clear_screen()
+	var old_screen := clear_screen()
 	page = "match"
 	var data: Dictionary = session.controller.snapshot()
 	var club: Dictionary = library.clubs[data.current_attempt.fixture.club_id]
 	view = MatchView.new()
+	view.card_library = library
 	view.external_model = session.controller.model
 	view.campaign_mode = true
 	view.team_names = [library.countries[data.origin].name,club.name]
@@ -204,6 +273,7 @@ func open_match() -> void:
 	view.key_bindings = preferences.data.keys.duplicate()
 	view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(view)
+	page_motion.replace(old_screen,view,preferences.data.motion)
 	apply_preferences()
 	view.campaign_action.connect(match_action)
 	last_saved_tick = view.sim.ticks
@@ -237,22 +307,24 @@ func _notification(what: int) -> void:
 		if not session.checkpoint().ok: render("main")
 
 func open_modal(node: Control) -> void:
-	close_modal()
-	modal_focus = get_viewport().gui_get_focus_owner()
+	var old: Control = modal if is_instance_valid(modal) else null
+	if old == null: modal_focus = get_viewport().gui_get_focus_owner()
+	settings_cover = null
+	settings_content = null
+	rebind = ""
 	modal = node
 	node.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	canvas.add_child(node)
-	if not preferences.data.motion and node.get_script() == null:
-		node.modulate.a = 0
-		node.create_tween().tween_property(node,"modulate:a",1,0.18)
+	modal_motion.replace(old,node,preferences.data.motion)
 	if is_instance_valid(view): view.paused = true; view.set_process_input(false)
 
 func close_modal() -> void:
 	var had_modal := is_instance_valid(modal)
 	if had_modal:
-		modal.get_parent().remove_child(modal)
-		modal.queue_free()
+		modal_motion.replace(modal,null,preferences.data.motion)
 	modal = null
+	settings_cover = null
+	settings_content = null
 	rebind = ""
 	if is_instance_valid(view): view.set_process_input(true)
 	if had_modal and is_instance_valid(modal_focus) and modal_focus.is_inside_tree(): modal_focus.grab_focus()
@@ -310,22 +382,40 @@ func inspect(id: String, comparison: String = "") -> void:
 func settings() -> void:
 	var focused := get_viewport().gui_get_focus_owner()
 	var focus_name := str(focused.name) if focused != null and is_instance_valid(modal) else ""
-	var cover := ColorRect.new()
-	cover.color = Parts.ThemeData.get_color("forest","Palette")
-	open_modal(cover)
-	var title: Label = text(cover,"Settings",34,"Heading")
-	title.position = Vector2(32,100)
-	var back: Button = button(cover,"Back","CloseSettings",func(): close_modal(); apply_preferences(); if not is_instance_valid(view): render(page))
-	back.position = Vector2(1112,100)
-	back.size = Vector2(136,44)
-	for index in 4:
-		var id: String = ["display","audio","controls","accessibility"][index]
-		var item: Button = button(cover,id.capitalize(),"Settings"+id.capitalize(),func(): settings_section=id; settings(),settings_section == id)
-		item.icon = load("res://assets/ui/matchday/icons/"+id+".svg")
-		item.add_theme_constant_override("icon_max_width",24)
-		item.position = Vector2(32,206+index*62)
-		item.size = Vector2(244,48)
+	if not is_instance_valid(settings_cover) or modal != settings_cover:
+		var cover := ColorRect.new()
+		cover.color = Color(Parts.ThemeData.get_color("forest","Palette"),0.55)
+		open_modal(cover)
+		settings_cover = cover
+		var copy := BackBufferCopy.new()
+		copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
+		cover.add_child(copy)
+		var surface := preload("res://ui/glass_panel.gd").new()
+		cover.add_child(surface)
+		surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		surface.offset_left = 24
+		surface.offset_top = 84
+		surface.offset_right = -24
+		surface.offset_bottom = -24
+		var title: Label = text(cover,"Settings",34,"Heading")
+		title.position = Vector2(32,100)
+		var back: Button = button(cover,"Back","CloseSettings",func(): close_modal(); apply_preferences())
+		back.position = Vector2(1112,100)
+		back.size = Vector2(136,44)
+		for index in 4:
+			var id: String = ["display","audio","controls","accessibility"][index]
+			var item: Button = button(cover,id.capitalize(),"Settings"+id.capitalize(),func(): settings_section=id; settings(),settings_section == id)
+			item.icon = load("res://assets/ui/matchday/icons/"+id+".svg")
+			item.add_theme_constant_override("icon_max_width",24)
+			item.position = Vector2(32,206+index*62)
+			item.size = Vector2(244,48)
+	for id in ["display","audio","controls","accessibility"]:
+		var tab: Button = settings_cover.find_child("Settings"+str(id).capitalize(),true,false)
+		tab.theme_type_variation = "Primary" if settings_section == id else "Button"
+	var cover := settings_cover
+	var old_content := settings_content
 	var content := Parts.column(cover,24)
+	settings_content = content
 	content.position = Vector2(352,202)
 	content.size = Vector2(864,392)
 	text(content,"Keyboard shortcuts" if settings_section == "controls" else settings_section.capitalize(),28,"Heading")
@@ -336,23 +426,24 @@ func settings() -> void:
 			button(row,OS.get_keycode_string(preferences.data.keys[action]),"Rebind"+action,func(): rebind=action; message("Press a new key. Escape cancels rebinding.")).custom_minimum_size = Vector2(232,44)
 		button(content,"Reset shortcuts","ResetShortcuts",func(): change_preference("keys",Preferences.DEFAULT_KEYS.duplicate())).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	elif settings_section == "audio":
-		text(content,"Master volume",20)
-		var row := Parts.row(content,28)
-		var volume := HSlider.new()
-		volume.name = "MasterVolume"
-		volume.min_value = 0
-		volume.max_value = 1
-		volume.step = 0.1
-		volume.value = preferences.data.volume
-		volume.custom_minimum_size = Vector2(640,44)
-		row.add_child(volume)
-		var value: Label = text(row,"%d%%" % roundi(volume.value*100),24,"BodyStrong")
-		volume.value_changed.connect(func(amount):
-			var result: Dictionary = preferences.change("volume",amount)
-			if not result.ok: volume.set_value_no_signal(preferences.data.volume); message(result.error)
-			value.text = "%d%%" % roundi(preferences.data.volume*100)
-			apply_preferences())
-		text(content,"Adjust the game's overall sound level.",18,"Label",Color("A5B09F"))
+		for field in ["volume","music_volume","effects_volume"]:
+			var row := Parts.row(content,28)
+			text(row,{"volume":"Master","music_volume":"Menu music","effects_volume":"Stadium / effects"}[field],20).custom_minimum_size.x = 180
+			var volume := HSlider.new()
+			volume.name = {"volume":"MasterVolume","music_volume":"MusicVolume","effects_volume":"EffectsVolume"}[field]
+			volume.min_value = 0
+			volume.max_value = 1
+			volume.step = 0.1
+			volume.value = preferences.data[field]
+			volume.custom_minimum_size = Vector2(480,44)
+			row.add_child(volume)
+			var value: Label = text(row,"%d%%" % roundi(volume.value*100),24,"BodyStrong")
+			volume.value_changed.connect(func(amount):
+				var result: Dictionary = preferences.change(field,amount)
+				if not result.ok: volume.set_value_no_signal(preferences.data[field]); message(result.error)
+				value.text = "%d%%" % roundi(preferences.data[field]*100)
+				apply_preferences())
+		button(content,"Audio credits","AudioCredits",audio_credits).size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	else:
 		for field in (["fullscreen"] if settings_section == "display" else ["motion","effects"]):
 			var row := Parts.row(content,24)
@@ -364,11 +455,7 @@ func settings() -> void:
 			toggle.custom_minimum_size = Vector2(152,44)
 			toggle.tooltip_text = caption
 		text(content,"The interface uses its standard size.",18,"Label",Color("A5B09F"))
-	var line := HSeparator.new()
-	line.position = Vector2(352,634)
-	line.size.x = 864
-	cover.add_child(line)
-	text(cover,preferences.error if not preferences.error.is_empty() else "Changes save automatically. Escape goes back.",16,"Label",Color("A5B09F")).position = Vector2(352,650)
+	settings_motion.replace(old_content,content,preferences.data.motion,Vector2(0,4))
 	Parts.focus_loop(modal)
 	if not focus_name.is_empty():
 		var previous := modal.find_child(focus_name,true,false) as Control
@@ -382,6 +469,13 @@ func record_file(record: Dictionary) -> void:
 	open_modal(node)
 	node.closed.connect(func(): modal=null; if is_instance_valid(modal_focus): modal_focus.grab_focus())
 
+func audio_credits() -> void:
+	var box := panel("Audio credits",Rect2(240,124,800,500))
+	var credits := text(box,"Menu Music — wipics (CC0)\nhttps://opengameart.org/content/menu-music-1\n\nInterface / Impact / Card Sounds — Kenney (CC0)\nhttps://kenney.nl/assets\n\nFree Crowd Cheering Sounds — Gregor Quendel (CC BY 4.0)\nhttps://opengameart.org/content/free-crowd-cheering-sounds\nhttps://creativecommons.org/licenses/by/4.0/\n\nReferee whistle — Rosa-Orenes256 (CC0)\nhttps://freesound.org/s/538422/\nFootball kick — bittermelonheart (CC0)\nhttps://freesound.org/s/555042/\n\nRenamed files; playback gains / pitch / sequencing adjusted.",16)
+	credits.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button(box,"Back","CloseAudioCredits",settings)
+	Parts.focus_loop(modal)
+
 func change_preference(key: String, value: Variant) -> void:
 	var result: Dictionary = preferences.change(key,value)
 	if result.ok: apply_preferences(); settings()
@@ -389,6 +483,14 @@ func change_preference(key: String, value: Variant) -> void:
 
 func apply_preferences() -> void:
 	AudioServer.set_bus_volume_db(0,linear_to_db(maxf(0.0001,preferences.data.volume)))
+	if is_instance_valid(audio):
+		audio.music_level = preferences.data.music_volume
+		audio.effects_level = preferences.data.effects_volume
+	Motion.settle_tree(self)
+	if preferences.data.motion:
+		page_motion.finish()
+		modal_motion.finish()
+		settings_motion.finish()
 	if apply_display and get_viewport() == get_tree().root: get_tree().root.mode = Window.MODE_FULLSCREEN if preferences.data.fullscreen else Window.MODE_WINDOWED
 	if is_instance_valid(view) and is_instance_valid(view.hud):
 		view.hud.effects_enabled = preferences.data.effects
@@ -400,6 +502,15 @@ func apply_preferences() -> void:
 
 func _input(event: InputEvent) -> void:
 	if not (event is InputEventKey and event.pressed and not event.echo): return
+	if is_instance_valid(walkout):
+		if event.keycode == KEY_ESCAPE: walkout.skip_intro(); get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_ENTER and walkout.stage == 0 and walkout.age < 5.2: walkout.skip_intro(); get_viewport().set_input_as_handled()
+		return
+	var focused := get_viewport().gui_get_focus_owner()
+	if event.keycode == KEY_ESCAPE and is_instance_valid(focused) and focused.has_method("dismiss_hint") and is_instance_valid(focused.hint):
+		focused.dismiss_hint()
+		get_viewport().set_input_as_handled()
+		return
 	if not rebind.is_empty():
 		get_viewport().set_input_as_handled()
 		if event.keycode != KEY_ESCAPE:
@@ -412,6 +523,9 @@ func _input(event: InputEvent) -> void:
 	elif event.keycode == KEY_ESCAPE:
 		if page == "collection" and not is_instance_valid(modal): return
 		if is_instance_valid(modal):
+			if modal.has_method("handle_cancel") and modal.handle_cancel():
+				get_viewport().set_input_as_handled()
+				return
 			if modal.has_method("open_card") and is_instance_valid(modal.card_panel): return
 			if modal.has_method("pin_selected") and is_instance_valid(modal.inspection): return
 			if modal.has_method("dismiss"): modal.dismiss()

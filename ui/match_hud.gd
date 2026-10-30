@@ -4,7 +4,7 @@ signal command(action: String)
 
 static var MatchTheme: Theme = preload("res://ui/matchday_theme.gd").build()
 const MatchOverlay = preload("res://ui/match_overlay.gd")
-const GoalCelebration = preload("res://ui/goal_celebration.gd")
+const BroadcastClock = preload("res://match/broadcast_clock.gd")
 var CREAM: Color = MatchTheme.get_color("ivory", "Palette")
 var MUTED: Color = MatchTheme.get_color("muted", "Palette")
 var CORAL: Color = MatchTheme.get_color("coral", "Palette")
@@ -29,7 +29,10 @@ var goal_event: Dictionary = {}
 var effects_enabled := true
 var reduced_motion := false
 var ui_scale := 1.0
-var celebration
+var cue: Control
+var added_period := -1
+var header_surface: Control
+var feed_surface: Control
 var keyboard_focus := false
 var no_focus := StyleBoxEmpty.new()
 var campaign_mode := false
@@ -53,6 +56,16 @@ class EventIcon:
 
 func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
+	var copy := BackBufferCopy.new()
+	copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
+	copy.show_behind_parent = true
+	add_child(copy)
+	header_surface = preload("res://ui/glass_panel.gd").new()
+	header_surface.show_behind_parent = true
+	add_child(header_surface)
+	feed_surface = preload("res://ui/glass_panel.gd").new()
+	feed_surface.show_behind_parent = true
+	add_child(feed_surface)
 	_label("home", team_names[0].to_upper(), 26, CREAM, HORIZONTAL_ALIGNMENT_RIGHT)
 	_label("away", team_names[1].to_upper(), 26, CREAM)
 	labels.home.theme_type_variation = "Team"
@@ -60,6 +73,7 @@ func _ready() -> void:
 	_label("score", "0 – 0", 46, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
 	labels.score.theme_type_variation = "Score"
 	_label("clock", "0′", 16, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	_label("added", "", 14, Color("84EBFF"), HORIZONTAL_ALIGNMENT_CENTER)
 	_label("live", "LIVE", 16, CREAM)
 	labels.live.theme_type_variation = "Section"
 	labels.live.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -81,12 +95,10 @@ func _ready() -> void:
 	event_list.add_theme_constant_override("separation", 12)
 	event_list.mouse_filter = MOUSE_FILTER_IGNORE
 	add_child(event_list)
-	celebration = GoalCelebration.new()
-	celebration.team_names = team_names.duplicate()
-	celebration.team_kits = team_kits.duplicate()
-	add_child(celebration)
-	labels.goal_title = celebration.title
-	labels.goal_detail = celebration.detail
+	cue = preload("res://ui/match_cue.gd").new()
+	add_child(cue)
+	labels.goal_title = cue.title
+	labels.goal_detail = cue.detail
 	overlay = MatchOverlay.new()
 	add_child(overlay)
 	overlay.command.connect(func(action): command.emit(action))
@@ -163,6 +175,8 @@ func _button(id: String, text: String, hint: String) -> Button:
 func arrange(field_rect: Rect2, divider_x: float) -> void:
 	pitch = field_rect
 	divider = divider_x
+	_put(header_surface,Rect2(12,6,size.x-24,72))
+	_put(feed_surface,Rect2(divider+8,86,size.x-divider-20,size.y-104))
 	var center := pitch.get_center().x
 	var face: Font = labels.home.get_theme_font("font")
 	var score_face: Font = labels.score.get_theme_font("font")
@@ -179,8 +193,9 @@ func arrange(field_rect: Rect2, divider_x: float) -> void:
 	kit_centers[0] = Vector2(labels.home.position.x-31,37)
 	kit_centers[1] = Vector2(labels.away.position.x+labels.away.size.x+31,37)
 	_put(labels.clock, Rect2(center - 110, 57 + (ui_scale - 1) * 28, 220, 27))
+	_put(labels.added,Rect2(center+90,57,118,27))
 	_put(labels.live, Rect2(divider + 38, 94, 190, 28))
-	_put(celebration, pitch)
+	_put(cue,pitch)
 	var x := divider + 12
 	_put(buttons.pause, Rect2(x, 20, 44, 44))
 	_put(buttons.speed1, Rect2(x + 54, 20, 44, 44))
@@ -203,9 +218,8 @@ func _draw() -> void:
 	_kit(kit_centers[0], team_kits[0])
 	_kit(kit_centers[1], team_kits[1])
 	draw_line(Vector2(center-22,56),Vector2(center+22,56),Color(AMBER,0.65),1)
-	draw_line(Vector2(divider, 84), Vector2(divider, size.y - 20), Color("40513d"), 1)
-	draw_line(Vector2(divider + 18, 130), Vector2(size.x - 20, 130), Color("344a36"), 1)
-	draw_line(Vector2(divider + 18, size.y - 73), Vector2(size.x - 20, size.y - 73), Color("344a36"), 1)
+	draw_line(Vector2(divider + 18, 130), Vector2(size.x - 20, 130), Color("29405A"), 1)
+	draw_line(Vector2(divider + 18, size.y - 73), Vector2(size.x - 20, size.y - 73), Color("29405A"), 1)
 	draw_circle(Vector2(divider + 24, 108), 5, status_color)
 
 func _kit(center: Vector2, color: Color) -> void:
@@ -219,7 +233,14 @@ func _kit(center: Vector2, color: Color) -> void:
 func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String) -> void:
 	model = sim
 	labels.score.text = "%d – %d" % sim.scores
-	labels.clock.text = "%d′%s" % [sim.display_minute(), " · FT" if sim.finished else (" · HT" if sim.period == 1 else "")]
+	var clock := BroadcastClock.read(sim)
+	labels.clock.text = clock.text
+	var live_period: bool=sim.period in [sim.Period.FIRST_HALF,sim.Period.SECOND_HALF,sim.Period.EXTRA_FIRST,sim.Period.EXTRA_SECOND]
+	labels.added.text = "+%d MIN" % clock.minimum if clock.added and not sim.finished and live_period else ""
+	if clock.added and clock.period != added_period and not sim.finished and live_period:
+		added_period = clock.period
+		cue.present("+%d ADDED MINUTES" % clock.minimum,"",1.8,3)
+	labels.clock.tooltip_text = "Minimum +%d′ added for stopped play." % clock.minimum if clock.added else ""
 	if event_count != sim.events.size():
 		goal_cue_tick = -1000
 		goal_cue_actor = -1
@@ -229,13 +250,16 @@ func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String)
 				goal_cue_tick = event.tick
 				goal_cue_actor = event.actor
 				goal_event = event
-	celebration.sync(sim,goal_event,reduced_motion,effects_enabled,overlay.is_active())
+	cue.reduced = reduced_motion
+	cue.blocked = overlay.is_active()
+	if sim.ball_state == sim.BallState.KICKOFF and sim.kickoff_ticks <= sim.RESTART_WHISTLE_TICKS and cue.title.text == "KICK-OFF":
+		cue.detail.text = "Play starts in %d" % maxi(1,ceili(sim.kickoff_ticks/60.0))
 	if sim.finished:
-		labels.clock.text = "FULL TIME · %d′" % sim.display_minute()
+		labels.clock.text = "FULL TIME · "+clock.text
 	elif sim.period == 1:
 		labels.clock.text = "HALF TIME · %d–%d" % sim.scores
 	if not sim.shootout.is_empty(): labels.clock.text = "PEN %d–%d · %d′" % [sim.shootout.goals[0],sim.shootout.goals[1],sim.display_minute()]
-	elif sim.period in [sim.Period.EXTRA_FIRST,sim.Period.EXTRA_SECOND]: labels.clock.text = "ET · %d′" % sim.display_minute()
+	elif sim.period in [sim.Period.EXTRA_FIRST,sim.Period.EXTRA_SECOND]: labels.clock.text = "ET · "+clock.text
 	labels.live.text = "FULL TIME" if sim.finished else ("PAUSED" if paused else "LIVE")
 	status_color = MUTED if sim.finished else (AMBER if paused else Color("58bd7a"))
 	queue_redraw()
@@ -321,7 +345,7 @@ func _refresh_rows() -> void:
 		row.add_theme_constant_override("separation", 7)
 		event_list.add_child(row)
 		var minute := Label.new()
-		minute.text = "%d′" % event.minute
+		minute.text = event.get("clock","%d′" % event.minute)
 		minute.custom_minimum_size.x = 32
 		minute.add_theme_font_size_override("font_size", 16)
 		minute.vertical_alignment = VERTICAL_ALIGNMENT_TOP

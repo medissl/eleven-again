@@ -2,8 +2,8 @@ extends Button
 ## One native 5:7 archive template. Definitions and portraits never contain rendered text.
 const Catalogue = preload("res://content/catalogue.gd")
 const CardData = preload("res://content/player_card.gd")
-const MatchTheme = preload("res://ui/game_theme.tres")
-const STYLES := {"bronze":["18352a","b8875e"],"silver":["18352a","b6c4bd"],"gold":["18352a","d9b95b"],"legend":["f0ead8","b69a54"],"unknown":["18221e","77796e"]}
+static var MatchTheme: Theme = preload("res://ui/matchday_theme.gd").build()
+const FrameStyle = preload("res://ui/card_style.gd")
 var definition: Resource
 var info: Dictionary = {}
 var discovered := true
@@ -15,8 +15,12 @@ var status: Label
 var ink := Color("f0ead8")
 var accent := Color("b69a54")
 var face := Color("18352a")
+var reveal_flash := 0.0
+var legend_reveal := false
 
 func _init() -> void:
+	set_process(false)
+	ready.connect(layout_card)
 	theme = MatchTheme
 	custom_minimum_size = Vector2(240,336)
 	focus_mode = Control.FOCUS_ALL
@@ -43,9 +47,9 @@ func bind(card: Resource, metadata: Dictionary = {}, known: bool = true, is_owne
 	content.size = Vector2(300,420)
 	add_child(content)
 	var tier: String = definition.tier() if definition != null else "unknown"
-	face = Color(STYLES[tier][0])
-	accent = Color(STYLES[tier][1])
-	ink = Color("18291f") if tier == "legend" else Color("f0ead8")
+	face = Color("0C1929")
+	accent = Color(FrameStyle.PALETTES[tier][0])
+	ink = Color("F2F7FD")
 	put("%d" % definition.rating() if definition != null else "?",Rect2(23,12,86,69),58,"Score")
 	put(definition.primary_role if definition != null else "—",Rect2(25,76,65,28),24,"Score")
 	put(str(info.get("version_label","FICTIONAL")) if definition != null else "",Rect2(112,19,160,26),12,"Label",HORIZONTAL_ALIGNMENT_RIGHT)
@@ -62,21 +66,34 @@ func bind(card: Resource, metadata: Dictionary = {}, known: bool = true, is_owne
 	content.add_child(portrait)
 	put(tier.to_upper() if definition != null else "UNDISCOVERED",Rect2(27,230,213,23),16,"Score",HORIZONTAL_ALIGNMENT_LEFT,Color("18291f"))
 	var names: Array = split_name(definition.display_name) if definition != null else ["PLAYER ARCHIVE","UNDISCOVERED"]
-	put(names[0].to_upper(),Rect2(24,260,251,19),12)
-	put(names[1].to_upper(),Rect2(24,278,252,34),32,"Score")
-	put(str(info.get("country_code","Fictional"))+"  /  "+definition.primary_role if definition != null else "Identity not discovered",Rect2(24,313,251,21),12)
+	put(names[0].to_upper() if definition != null else "",Rect2(24,257,251,17),12)
+	put(names[1].to_upper(),Rect2(24,275,252,30),30,"Score")
 	var ability: String = CardData.Traits.catalogue[definition.trait_id].name if definition != null and not definition.trait_id.is_empty() else ("No signature trait" if definition != null else "—")
-	put(ability,Rect2(24,343,252,25),14)
+	if definition != null and not definition.trait_id.is_empty():
+		var badge := preload("res://ui/ability_badge.gd").new()
+		badge.ability = CardData.Traits.catalogue[definition.trait_id]
+		badge.position = Vector2(242,72)
+		badge.size = Vector2(36,36)
+		content.add_child(badge)
+	if definition != null:
+		var flag := TextureRect.new()
+		flag.texture = preload("res://ui/flags.gd").texture(str(info.get("country_code","")))
+		flag.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		flag.position = Vector2(24,112)
+		flag.size = Vector2(32,24)
+		flag.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		flag.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		content.add_child(flag)
 	var keys: Array = ["REF","HAN","POS","DIV","KIC","PHY"] if definition != null and definition.primary_role == "GK" else CardData.STATS
 	for index in 6:
-		var x := 24+(index%3)*87
-		var y := 369+(index/3)*23
-		put(keys[index],Rect2(x,y,34,21),11)
+		var x := 24+int(index/3)*136
+		var y := 311+(index%3)*33
+		put(keys[index],Rect2(x,y,40,34),16,"BodyStrong")
 		var value: String = "—"
 		if definition != null:
 			value = str(int(definition.attributes[keys[index]] if keys[index] in CardData.STATS else definition.keeper_attributes[keys[index]]))
-		put(value,Rect2(x+34,y-3,43,25),24,"Score",HORIZONTAL_ALIGNMENT_RIGHT)
-	tooltip_text = definition.display_name+" Â· "+str(info.get("version_label","Fictional"))+" Â· "+tier.capitalize()+" Â· "+ability if definition != null else "Undiscovered player"
+		put(value,Rect2(x+41,y-1,74,38),36,"Score",HORIZONTAL_ALIGNMENT_RIGHT)
+	tooltip_text = "  ".join([definition.display_name,str(info.get("version_label","Fictional")),tier.capitalize(),ability]) if definition != null else "Undiscovered player"
 	for property in get_property_list():
 		if property.name == "accessibility_name": set("accessibility_name",tooltip_text)
 	set_selected(button_pressed)
@@ -110,9 +127,18 @@ static func split_name(full_name: String) -> Array[String]:
 	return [" ".join(words.slice(0,cut))," ".join(words.slice(cut))]
 
 func set_selected(value: bool) -> void:
+	if value and not button_pressed:
+		reveal_flash = 0.7
+		legend_reveal = false
+		set_process(true)
 	set_pressed_no_signal(value)
-	if is_instance_valid(status): status.text = "SELECTED" if value else ("UNAVAILABLE" if disabled else ("OWNED" if owned else ("KNOWN" if definition != null else "")))
+	if is_instance_valid(status): status.text = "SELECTED" if value else ("UNAVAILABLE" if disabled else "")
 	queue_redraw()
+
+func _process(delta: float) -> void:
+	reveal_flash = maxf(0,reveal_flash-delta*1.6)
+	queue_redraw()
+	if reveal_flash == 0: set_process(false)
 
 func layout_card() -> void:
 	if not is_instance_valid(content): return
@@ -128,23 +154,4 @@ func layout_card() -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	if not is_instance_valid(content): return
-	draw_set_transform(content.position,0,content.scale)
-	var polygon := PackedVector2Array([Vector2(0,0),Vector2(278,0),Vector2(300,22),Vector2(300,420),Vector2(0,420)])
-	draw_colored_polygon(polygon,face.lightened(0.04) if is_hovered() and not disabled else face)
-	polygon.append(polygon[0])
-	draw_polyline(polygon,accent,1.5,true)
-	draw_line(Vector2(10,8),Vector2(10,412),accent,1,true)
-	draw_arc(Vector2(156,137),87,0,TAU,64,Color(accent,0.17),1,true)
-	if portrait.texture == null:
-		draw_circle(Vector2(156,127),33,Color(ink,0.13))
-		draw_arc(Vector2(156,215),61,PI,TAU,32,Color(ink,0.13),42,true)
-	draw_rect(Rect2(18,231,264,21),accent)
-	var tier: String = definition.tier() if definition != null else "unknown"
-	for index in (2 if tier == "silver" else 1): draw_line(Vector2(242,240+index*4),Vector2(272,240+index*4),face,1,true)
-	if tier == "gold":
-		for x in range(244,275,7): draw_line(Vector2(x,246),Vector2(x+4,237),face,1,true)
-	if tier == "legend": draw_line(Vector2(258,234),Vector2(258,250),face,1,true)
-	draw_line(Vector2(24,338),Vector2(276,338),accent,1,true)
-	if button_pressed or has_focus(): draw_polyline(PackedVector2Array([Vector2(3,3),Vector2(277,3),Vector2(297,23),Vector2(297,417),Vector2(3,417),Vector2(3,3)]),ink,2,true)
-	draw_set_transform(Vector2.ZERO)
+	FrameStyle.paint(self)

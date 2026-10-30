@@ -332,6 +332,7 @@ func test_view() -> void:
 		view.free()
 		return
 	view.fixture_seed = 11027
+	view.replays_enabled = false # Fixed-tick oracle; actual buffered replay is covered by replay_checks.gd.
 	root.add_child(view)
 	view.set_physics_process(false)
 	check(not view.paused, "exhibition enters play without a second kickoff button")
@@ -448,10 +449,10 @@ func test_view() -> void:
 	check(view.sim.scores == [0, 0] and view.sim.active_ticks == 0 and view.sim.events.size() == 1, "restart clears scores events and clock")
 	view.sim.goal_scored(9)
 	view._sync_state()
-	check(view.hud.labels.goal_title.visible and "ARDEN" in view.hud.labels.goal_detail.text and view.hud.goal_event.score == [1,0], "goal celebration names the actual scorer and event score")
-	var activations: int = view.hud.celebration.activation_count
+	check(view.hud.cue.title.text == "GOAL" and "ARDEN" in view.hud.cue.detail.text and view.hud.goal_event.score == [1,0], "goal fallback names the actual scorer and event score")
+	var activations: int = view.hud.cue.activation_count
 	for repeat_refresh in 10: view._sync_state()
-	check(view.hud.celebration.activation_count == activations, "HUD refresh never replays the goal entrance")
+	check(view.hud.cue.activation_count == activations, "HUD refresh never replays the goal entrance")
 	var celebration_state: Array = view.sim.signature()
 	view._on_command("menu")
 	view._on_command("settings")
@@ -462,17 +463,17 @@ func test_view() -> void:
 	view._on_command("resume")
 	view.paused = true
 	for frame in 10: view._physics_process(Match.DT)
-	check(view.sim.signature() == celebration_state and view.hud.labels.goal_title.visible, "pause also freezes the event celebration")
+	check(view.sim.signature() == celebration_state, "pause freezes the scored match state")
 	view.paused = false
 	for tick in 150: view.sim.step()
 	view._sync_state()
-	check(not view.hud.labels.goal_title.visible and view.sim.ball_state == Match.BallState.KICKOFF, "celebration expires into legal kickoff setup without a second button")
+	check(view.sim.ball_state == Match.BallState.KICKOFF, "goal stoppage becomes legal kickoff setup without a second button")
 	view.sim.take_control(0, "parry")
 	view._sync_state()
 	check(view.hud.event_list.get_child(0).get_child(2).get_child(1).text == "Live rebound", "keeper parries remain visible in the recent feed")
 	view._restart()
-	check(not view.hud.labels.goal_title.visible and view.hud.goal_event.is_empty(), "restarting clears every celebration cue")
-	check(view.hud.celebration.particles.is_empty(), "restart releases all cosmetic confetti state")
+	check(view.hud.cue.title.text != "GOAL" and view.hud.goal_event.is_empty(), "restarting clears every goal cue")
+	check(view.hud.find_child("GoalCelebration",true,false) == null, "withdrawn confetti presentation is not instantiated")
 	var origin: Vector2 = view.player_positions[5]
 	view.sim.players[5].position = origin + Vector2(1,0)
 	var unchanged_model: Array = view.sim.signature()
