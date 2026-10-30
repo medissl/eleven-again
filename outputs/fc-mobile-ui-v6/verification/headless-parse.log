@@ -1,0 +1,1 @@
+Godot 4.7.2: components, card_style, ability_icons, model, preview, match_reference and verify pass headless --check-only. Glass shader compiled in both native GL runs.

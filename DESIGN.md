@@ -1,6 +1,12 @@
 # Eleven Again — project design direction
 
-## Latest requested revamp — 29 October 2026
+## Current direction — 30 October 2026
+
+The user approved the **neon/glass football direction** after requesting FC Mobile's complete graphics/styling throughout. Use [v6's native reference and contract](outputs/fc-mobile-ui-v6/README.md): floodlit arena, actual glass blur, clipped luminous edges, one Saira family, textured card pitches and original club crests. Their targeted card follow-up adds shared metallic frames, larger two-column stats and white ability icons with hover/focus details. Portraits and numerical card rules remain settled. Production integration is tracked in `tasks/todo.md` 6.6b–f; [evidence and limits](reports/fc-mobile-ui-v6.md).
+
+Preserve the actual rich match renderer, every field marking, both uniform-colour icons, compact score alignment, full cards/200 settled portraits, saved progress and 180 active seconds. The preview guards visible kit/marking pixels at both sizes. The new graphic language supersedes older menu palettes below; the existing match-preservation and privacy requirements remain.
+
+## Previous requested revamp — 29 October 2026
 
 Latest correction: the user rejected the v4 match/goal depiction as a downgrade and explicitly said **UPGRADE, not simplify**. Read `outputs/full-ui-revamp-v4/MATCH_UPGRADE_ADDENDUM.md` before match presentation work. Preserve native pitch richness as a floor; upgrade action/material/HUD/motion quality. All22 player bodies must have equal visible size, readable identities and external selection/trait rings. The stripped v4 match-field references are withdrawn as implementation targets.
 
