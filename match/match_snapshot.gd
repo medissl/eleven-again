@@ -14,10 +14,13 @@ static func capture(m) -> Dictionary:
 			var value = player.get(key)
 			state[key] = value.duplicate(true) if value is Array or value is Dictionary else value
 		data.players.append(state)
+	if m.analytics.enabled:
+		data.schema=3
+		data.analytics=m.analytics.duplicate(true)
 	return data
 
 static func restore(data: Dictionary) -> RefCounted:
-	if data.get("schema") not in [1,2] or data.get("engine") != Engine.get_version_info().string: return null
+	if data.get("schema") not in [1,2,3] or data.get("engine") != Engine.get_version_info().string: return null
 	if data.get("state") is not Dictionary or data.get("plans") is not Array or data.plans.size() != 2 or data.get("players") is not Array or data.players.size() != 22 or data.get("rng") is not int: return null
 	if data.plans[0] is not Dictionary or data.plans[1] is not Dictionary: return null
 	var Lineup = load("res://squad/lineup.gd")
@@ -27,7 +30,8 @@ static func restore(data: Dictionary) -> RefCounted:
 	for key in FIELDS:
 		if key == "principles" and data.schema == 1: continue
 		if not data.state.has(key): return null
-	if data.schema == 2 and not load("res://match/coaching.gd").valid(data.state.principles): return null
+	if data.schema >= 2 and not load("res://match/coaching.gd").valid(data.state.principles): return null
+	if data.schema == 3 and not load("res://match/match_analytics.gd").valid(data.get("analytics")): return null
 	if data.state.regulation_ticks is not int or data.state.regulation_ticks < 120 or data.state.regulation_ticks > 43200 or data.state.match_seed is not int: return null
 	var model = load("res://match/match_sim.gd").new(data.state.match_seed,roundi(data.state.regulation_ticks/60.0),home,away)
 	for key in FIELDS:
@@ -48,4 +52,5 @@ static func restore(data: Dictionary) -> RefCounted:
 		if model.players[index].id != index or model.players[index].team != int(index/11.0) or not model.players[index].position.is_finite(): return null
 	if model.owner < -1 or model.owner >= 22 or not model.ball.is_finite(): return null
 	model.rng.state = data.rng
+	if data.schema == 3: model.analytics=data.analytics.duplicate(true)
 	return model

@@ -11,6 +11,7 @@ const Discipline = preload("res://match/discipline.gd")
 const Shootout = preload("res://match/shootout.gd")
 const Restarts = preload("res://match/restarts.gd")
 const Coaching = preload("res://match/coaching.gd")
+const Analytics = preload("res://match/match_analytics.gd")
 const ATTRIBUTE_FIELDS := {"PAC":"pace","SHO":"shooting","PAS":"passing","DRI":"dribbling","DEF":"defence","PHY":"physical","REF":"reflexes","HAN":"handling","POS":"positioning","DIV":"diving","KIC":"kicking"}
 
 enum BallState { CONTROLLED, FLIGHT, LOOSE, DEAD, KICKOFF }
@@ -70,6 +71,7 @@ class Footballer:
 
 var players: Array[Footballer] = []
 var rng := RandomNumberGenerator.new()
+var analytics: Dictionary = Analytics.empty()
 var match_seed: int
 var ticks := 0
 var active_ticks := 0
@@ -572,6 +574,7 @@ func pass_to(receiver: int, pressure: float = 0, delivery_kind: String = "pass")
 	var pass_context := {"kind":"pass","delivery":delivery_kind,"ground":delivery_kind not in ["cross","keeper_throw"] and current_restart != "throw_in" and not (plans[passer.team].attack == "direct" and length > 32)}
 	var delivery := attribute(passer.id,"KIC") if passer.role == "GK" and oriented(passer.position,passer.team).x < 16.5 else attribute(passer.id,"PAS",0,pass_context)
 	var accuracy := clampf(0.88 + 0.002 * (delivery - 80) - 0.10 * pressure - 0.18 * minf(length / 55, 1) - 0.12 * lane_risk(ball, aim, passer.team), 0.25, 0.98)
+	Analytics.probability(analytics,active_ticks,passer.card.card_id,"pass_accuracy",accuracy,accuracy)
 	if rng.randf() > accuracy:
 		aim += Vector2(rng.randf_range(-4.5, 4.5), rng.randf_range(-4.5, 4.5))*Traits.parameter(passer,"aim_dispersion_multiplier")
 	pass_attempts[passer.team] += 1
@@ -802,6 +805,7 @@ func shoot(pressure: float = 0, prepared: bool = false) -> void:
 		return
 	var shooting := attribute(shooter.id,"SHO",0,context)
 	var accuracy := clampf(0.30 + 0.004 * (shooting - 60) + 0.32 * shot_quality - 0.16 * pressure, 0.15, 0.95)
+	Analytics.probability(analytics,active_ticks,shooter.card.card_id,"shot_accuracy",accuracy,accuracy)
 	if period != Period.SHOOTOUT: shots[shooter.team] += 1
 	var target_y := 34 + rng.randf_range(-3.2, 3.2)*Traits.parameter(shooter,"aim_dispersion_multiplier")
 	var on_target := rng.randf() < accuracy
@@ -839,6 +843,7 @@ func keeper_save(keeper_id: int) -> bool:
 		Traits.resolve(self,keeper_id,enhancement.get("action",-1),"failed","shot arrived before reaction")
 		return false
 	var chance := clampf(0.90 - 0.65 * shot_quality + 0.003 * (attribute(keeper_id,"REF") - 80) - 0.002 * (attribute(shooter.id,"SHO") - 80), 0.10, 0.95)
+	Analytics.probability(analytics,active_ticks,keeper.card.card_id,"keeper_save",chance,chance)
 	if rng.randf() >= chance:
 		Traits.resolve(self,keeper_id,enhancement.get("action",-1),"failed","save attempt beaten")
 		return false
@@ -901,6 +906,7 @@ func challenge_carrier() -> void:
 	var enhancement := Traits.activate(self,defender.id,{"kind":"tackle","legal_angle":angle <= 0.45})
 	Traits.activate(self,attacker.id,{"kind":"shield","pressure":1.0,"opponents":close_opponents(attacker.id,5)})
 	var clean_win := clampf(0.48 + 0.004 * (attribute(defender.id,"DEF",0,{"kind":"standing_tackle"}) - attribute(attacker.id,"DRI")) + 0.0015*(attribute(defender.id,"PHY")-attribute(attacker.id,"PHY")) + 0.10 * angle, 0.12, 0.85)
+	Analytics.probability(analytics,active_ticks,defender.card.card_id,"standing_tackle",clean_win,clean_win)
 	if rng.randf() < clean_win:
 		attacker.cooldown = 60
 		tackles[defender.team] += 1

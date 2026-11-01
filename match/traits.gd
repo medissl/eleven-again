@@ -54,7 +54,10 @@ static func activate(m, id: int, context: Dictionary) -> Dictionary:
 	var player = m.players[id]
 	if not player.active: return {}
 	var trait_id: String = player.card.trait_id
-	if not catalogue.has(trait_id) or not eligible(trait_id,context): return {}
+	if not catalogue.has(trait_id): return {}
+	var context_eligible: bool=eligible(trait_id,context) and player.role in catalogue[trait_id].positions
+	m.Analytics.opportunity(m.analytics,player.card.card_id,trait_id,str(context.get("kind","")),m.active_ticks,context_eligible,context_eligible and player.trait_uses < m.trait_allowance and m.active_ticks >= player.trait_ready and player.trait_state.get("state","") != "active")
+	if not context_eligible: return {}
 	if player.role not in catalogue[trait_id].positions: return {}
 	var penalty_mode: bool = m.period == m.Period.SHOOTOUT
 	if penalty_mode:
