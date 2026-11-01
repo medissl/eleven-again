@@ -36,6 +36,7 @@ static func summary(events: Array, data: Dictionary = {}) -> Dictionary:
 	for event in data.get("probabilities",[]):
 		for source in event.sources:
 			if source.get("applied",0.0) == 0: continue
+			if source.id == "player_traits_and_coaching": continue
 			managers[source.id]=managers.get(source.id,0)+1
 	var rows: Array=players.values()
 	rows.sort_custom(func(a,b): return a.activations > b.activations if a.activations != b.activations else a.card < b.card)
@@ -45,8 +46,16 @@ static func valid(data: Variant) -> bool:
 	if data is not Dictionary or data.get("enabled") is not bool or data.get("opportunities") is not Dictionary or data.get("probabilities") is not Array: return false
 	for row in data.opportunities.values():
 		if row is not Dictionary: return false
+		for key in ["card","trait","kind"]:
+			if row.get(key) is not String: return false
 		for key in ["checks","eligible","ready","last_tick"]:
 			if row.get(key) is not int or row[key] < -1: return false
+		if row.checks < 0 or row.eligible < 0 or row.ready < 0 or row.ready > row.eligible or row.eligible > row.checks: return false
 	for row in data.probabilities:
 		if row is not Dictionary or row.get("base") is not float or row.get("value") is not float or not is_finite(row.base) or not is_finite(row.value) or row.get("sources") is not Array: return false
+		if row.get("tick") is not int or row.tick < 0 or row.get("actor_card") is not String or row.get("kind") is not String or row.base < 0 or row.base > 1 or row.value < 0 or row.value > 1: return false
+		for source in row.sources:
+			if source is not Dictionary or source.get("id") is not String: return false
+			for key in ["requested","applied"]:
+				if source.get(key) is not float or not is_finite(source[key]): return false
 	return true

@@ -26,4 +26,12 @@ static func read(model: RefCounted) -> Dictionary:
 	var added: bool = elapsed >= boundary and minimum > 0
 	var minute := mini(end_minute,minutes[period]+floori(elapsed*90.0/model.regulation_ticks))
 	var extra := maxi(1,floori((elapsed-boundary)*90.0/model.regulation_ticks)) if added else 0
-	return {"text":"%d′%s" % [minute," +%d" % extra if added else ""],"added":added,"minimum":minimum,"lost_ticks":lost[period],"period":period,"active_ticks":active}
+	return {"text":"%d′%s" % [minute," +%d" % extra if added else ""],"added":added,"minimum":minimum,"lost_ticks":lost[period],"period":period,"active_ticks":active,"elapsed_seconds":floori(elapsed*5400.0/model.regulation_ticks),"boundary_seconds":roundi(lengths[period]*5400),"start_minute":minutes[period]}
+
+static func live_text(clock: Dictionary) -> String:
+	var seconds: int=mini(clock.elapsed_seconds,clock.boundary_seconds)
+	var text := "%02d:%02d" % [clock.start_minute+seconds/60,seconds%60]
+	if clock.added:
+		var extra: int=maxi(0,clock.elapsed_seconds-clock.boundary_seconds)
+		text+=" +%02d:%02d" % [extra/60,extra%60]
+	return text

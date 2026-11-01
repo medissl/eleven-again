@@ -1,0 +1,9 @@
+# Master brief implementation checkpoint — 1 November 2026
+
+New Run now uses the versioned v3 roguelite. Existing saves retain the old controller, data and economy. Phases1–5 have implemented native systems and focused evidence; Phase6 calibration/performance/human-play/export acceptance remains open. See `docs/HANDOFF_2026-11-01.md` for the complete entry points, current tests, preserved requirements, adapted Legacy nodes and exact continuation commands.
+
+Native screenshots live in `reports/master-brief/`. The four pitch captures show the final requested smaller unboxed names, moving seconds clock, continuous penalty-area edges and complete generated goals. The underlying problem was fractional white strokes after a2x/3x world transform, plus source/net strands lost during point-sampled asset admission. Stroke alignment and contrast/coverage admission fix those causes. Authoritative football remains unchanged.
+
+Pinning/comparison screens and their shortcuts were removed across player overview, archive, Collection, squad preparation and record XI. All200 catalogue bindings, privacy states and keyboard/Back tests still pass. Recruitment now has exactly one highest-Gold/Legend tunnel in a four-card pack, skippable and acknowledged before playback; no extra recruitment scene follows signing.
+
+Evidence includes130,674 existing assertions with zero failures,1,520 economy checks,183 Legacy checks,600,000 tier samples and160 deterministic position packs,14 conditional Manager effect cases, complete native viewing-mode parity, actual saved match/result/Manager flows, transaction interruption recovery and fresh-process continuation. Pixel acceptance uses actual rendered/imported pixels, not only compilation. Initial four exploratory policy runs are explicitly insufficient for balance acceptance; do not infer difficulty or enjoyment from that sample.

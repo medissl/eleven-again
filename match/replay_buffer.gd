@@ -11,18 +11,22 @@ func capture(model: RefCounted) -> void:
 	var facing := PackedVector2Array()
 	var names := PackedStringArray()
 	var roles := PackedStringArray()
+	var cards := PackedStringArray()
+	var traits := []
 	var active := 0
 	for player in model.players:
 		positions.append(player.position)
 		facing.append(player.facing)
 		names.append(player.name)
 		roles.append(player.role)
+		cards.append(player.card.card_id)
+		traits.append(player.trait_state.duplicate(true))
 		if player.active: active |= 1 << player.id
 	var sounds: Array[String] = []
 	for index in range(event_cursor,model.events.size()):
 		if model.events[index].kind in ["pass","cross","shot","save","parry","block","tackle"]: sounds.append(model.events[index].kind)
 	event_cursor = model.events.size()
-	frames.append({"tick":model.ticks,"active_tick":model.active_ticks,"positions":positions,"facing":facing,"names":names,"roles":roles,"active":active,"ball":model.ball,"height":model.ball_height,"owner":model.owner,"state":model.ball_state,"scores":model.scores.duplicate(),"sounds":sounds})
+	frames.append({"tick":model.ticks,"active_tick":model.active_ticks,"positions":positions,"facing":facing,"names":names,"roles":roles,"cards":cards,"traits":traits,"flight_actor":model.flight_trait_actor,"last_touch":model.last_touch,"flight_kind":model.flight_kind,"velocity":model.ball_velocity,"active":active,"ball":model.ball,"height":model.ball_height,"owner":model.owner,"state":model.ball_state,"scores":model.scores.duplicate(),"sounds":sounds})
 	if frames.size() > LIMIT: frames.pop_front()
 
 func goal_clip(model: RefCounted, event: Dictionary) -> Dictionary:

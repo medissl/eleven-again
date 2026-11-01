@@ -28,5 +28,5 @@ func _initialize() -> void:
 	for id in preload("res://ui/ability_icons.gd").PATHS:
 		var icon: Texture2D=preload("res://ui/ability_icons.gd").texture(id)
 		assert(icon.get_size() == Vector2(24,24))
-	print("ARCADE ASSETS: 54 imported images, 40 distinct badges, 32-colour/binary-alpha admission, stable score numerals and 36 ability icons passed")
+	print("ARCADE ASSETS: ",manifest.assets.size()," imported images, 40 distinct badges, 32-colour/binary-alpha admission, stable score numerals and 36 ability icons passed")
 	quit()

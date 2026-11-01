@@ -1,0 +1,37 @@
+extends SceneTree
+const Session=preload("res://persistence/campaign_session.gd")
+const Runner=preload("res://match/fast_forward.gd")
+func _initialize() -> void:
+	var args := OS.get_cmdline_user_args()
+	assert(args.size() == 2 and args[0] in ["write","read"])
+	var path := "user://master_probe_"+args[1]
+	var session := Session.new(path)
+	if args[0] == "write":
+		assert(session.new_run("ENG",47,"probe_"+args[1],false,true).ok)
+		var data: Dictionary=session.controller.snapshot()
+		assert(session.act("acquire",[data.offer.cards[0],""],data.revision).ok)
+		assert(session.act("commit_match",[session.controller.preparation_plan()],session.controller.revision()).ok)
+		var runner := Runner.new(session.controller.model)
+		while not runner.advance(500,0): pass
+		assert(session.act("finish_match",[],session.controller.revision()).ok)
+		assert(session.act("continue_result",[],session.controller.revision()).ok)
+		data=session.controller.snapshot()
+		assert(data.step == "manager")
+		assert(session.act("choose_manager",[data.manager_offer[0],""],data.revision).ok)
+		assert(session.act("set_viewing_mode",["highlights"],session.controller.revision()).ok)
+		assert(session.act("commit_match",[session.controller.preparation_plan()],session.controller.revision()).ok)
+		for tick in 300: session.controller.model.step()
+		assert(session.checkpoint().ok)
+		assert(session.controller.snapshot().match_snapshot.schema == 4)
+		for tick in 600: session.controller.model.step()
+		var file := FileAccess.open(path+"/oracle.bin",FileAccess.WRITE)
+		file.store_var({"signature":session.controller.model.signature(),"analytics":session.controller.model.analytics})
+		file.close()
+		print("MASTER PROBE WRITE: real first-match reward/Manager, second match schema4 snapshot saved at tick300; future600-tick oracle recorded")
+	else:
+		assert(not session.blocked and session.controller.snapshot().view_mode == "highlights")
+		var oracle: Dictionary=FileAccess.open(path+"/oracle.bin",FileAccess.READ).get_var()
+		for tick in 600: session.controller.model.step()
+		assert(session.controller.model.signature() == oracle.signature and session.controller.model.analytics == oracle.analytics)
+		print("MASTER PROBE READ: fresh process exactly reproduces 600 future ticks, RNG, Manager state and analytics; viewing mode preserved")
+	quit()

@@ -22,7 +22,6 @@ var campaign_discoveries := {}
 var home_name := ""
 var scouting := ""
 var inspection_slot := 0
-var comparison_card: Resource
 var squad_mode := false
 var unavailable: Array = []
 var opponent_mode := false
@@ -450,12 +449,6 @@ func open_card(card: Resource) -> void:
 	if campaign_library != null: inspector.info = campaign_library.metadata(card.card_id)
 	inspector.owned = true
 	inspector.ui_scale = ui_scale
-	if comparison_card != null and comparison_card != card:
-		inspector.comparison = comparison_card
-		var role: String = Lineup.ROLES[plans[team].formation][inspection_slot]
-		if role in card.natural_roles and role in comparison_card.natural_roles: inspector.comparison_role=role
-		if campaign_library != null: inspector.comparison_info = campaign_library.metadata(comparison_card.card_id)
-	inspector.pin_requested.connect(func(_id): comparison_card=card)
 	open_card_panel(inspector)
 
 func open_archive() -> void:

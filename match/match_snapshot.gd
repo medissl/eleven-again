@@ -17,10 +17,15 @@ static func capture(m) -> Dictionary:
 	if m.analytics.enabled:
 		data.schema=3
 		data.analytics=m.analytics.duplicate(true)
+	if m.manager_cards != [[],[]]:
+		data.schema=4
+		data.analytics=m.analytics.duplicate(true)
+		data.manager_cards=m.manager_cards.duplicate(true)
+		data.manager_state=m.manager_state.duplicate(true)
 	return data
 
 static func restore(data: Dictionary) -> RefCounted:
-	if data.get("schema") not in [1,2,3] or data.get("engine") != Engine.get_version_info().string: return null
+	if data.get("schema") not in [1,2,3,4] or data.get("engine") != Engine.get_version_info().string: return null
 	if data.get("state") is not Dictionary or data.get("plans") is not Array or data.plans.size() != 2 or data.get("players") is not Array or data.players.size() != 22 or data.get("rng") is not int: return null
 	if data.plans[0] is not Dictionary or data.plans[1] is not Dictionary: return null
 	var Lineup = load("res://squad/lineup.gd")
@@ -31,7 +36,8 @@ static func restore(data: Dictionary) -> RefCounted:
 		if key == "principles" and data.schema == 1: continue
 		if not data.state.has(key): return null
 	if data.schema >= 2 and not load("res://match/coaching.gd").valid(data.state.principles): return null
-	if data.schema == 3 and not load("res://match/match_analytics.gd").valid(data.get("analytics")): return null
+	if data.schema >= 3 and not load("res://match/match_analytics.gd").valid(data.get("analytics")): return null
+	if data.schema == 4 and not load("res://match/manager_cards.gd").valid(data.get("manager_cards"),data.get("manager_state")): return null
 	if data.state.regulation_ticks is not int or data.state.regulation_ticks < 120 or data.state.regulation_ticks > 43200 or data.state.match_seed is not int: return null
 	var model = load("res://match/match_sim.gd").new(data.state.match_seed,roundi(data.state.regulation_ticks/60.0),home,away)
 	for key in FIELDS:
@@ -52,5 +58,8 @@ static func restore(data: Dictionary) -> RefCounted:
 		if model.players[index].id != index or model.players[index].team != int(index/11.0) or not model.players[index].position.is_finite(): return null
 	if model.owner < -1 or model.owner >= 22 or not model.ball.is_finite(): return null
 	model.rng.state = data.rng
-	if data.schema == 3: model.analytics=data.analytics.duplicate(true)
+	if data.schema >= 3: model.analytics=data.analytics.duplicate(true)
+	if data.schema == 4:
+		model.manager_cards=data.manager_cards.duplicate(true)
+		model.manager_state=data.manager_state.duplicate(true)
 	return model

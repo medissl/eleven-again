@@ -1,6 +1,6 @@
 # Eleven Again — implementation design and audit
 
-Status: master brief v1.0 adopted for phased implementation,1November2026. **Phase0 source/data audit complete; current native baseline gate remains open.** Initial targets are not calibrated rules. Runtime still uses the existing campaign; no new economy, pack or permanent-power system is enabled by these documents.
+Status:1November2026. **Phases0–5 systems are implemented and native-tested; Phase6 calibration/performance/playtest/export acceptance remains open.** New Run uses `campaign_roguelite_v3`; old saves retain their original controllers. Read `HANDOFF_2026-11-01.md` and `reports/master-brief-implementation.md` for the actual current state. Architecture tables below preserve the initial audit baseline; they are not a claim that the new systems remain absent.
 
 ## Authority and preservation
 
@@ -51,7 +51,7 @@ Draft packs reveal4, sign exactly1 or take a bounded voucher. Standard/Position/
 
 ## Explicit reversible assumptions
 
-1. New-mode tag reserved as `campaign_roguelite_v3`; existing version tags stay frozen. `content/campaign/master_balance_v1.json` prepares the targets but is deliberately **not loaded by the runtime** until its admission tests and save migration pass.
+1. New-mode tag is `campaign_roguelite_v3`; existing version tags stay frozen. `content/campaign/master_balance_v1.json` is now loaded by the admitted new-mode runtime, with initial targets explicitly uncalibrated.
 2. New-mode starting coins=0, since the brief specifies no opening purse. This is a tuning assumption. Never convert an existing $m balance by guessing an exchange rate. Existing16-player starter squads remain intact.
 3. Preserve the existing opening signing as a separately labelled starter-scout choice restricted to the current Silver band, adapted to4 candidates in the new mode. It is not one of the six earned Standard packs and cannot silently change their advertised Legend math.
 4. A unique-node receipt caps repeatable reward. A first final loss can pay its consolation once; a later final win can top up that node to its win reward, rather than pay both rewards repeatedly. Marks likewise top up unique-node loss→win credit, then award championship/act completion once. This bounded interpretation needs explicit interruption/replay tests.

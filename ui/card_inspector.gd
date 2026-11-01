@@ -1,13 +1,9 @@
 extends ColorRect
 signal closed
-signal pin_requested(card_id: String)
 const CardView = preload("res://ui/player_card.gd")
 static var ThemeData: Theme = preload("res://ui/matchday_theme.gd").build()
 var definition: Resource
 var info: Dictionary = {}
-var comparison: Resource
-var comparison_info: Dictionary = {}
-var comparison_role := ""
 var ui_scale := 1.0
 var reduced_motion := false
 var closing := false
@@ -28,9 +24,6 @@ func _ready() -> void:
 	color = ThemeData.get_color("forest","Palette")
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	preload("res://ui/glass_panel.gd").decorate_screen(self)
-	if comparison != null:
-		build_comparison()
-		return
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for edge in ["left","top","right","bottom"]: margin.add_theme_constant_override("margin_"+edge,28)
@@ -51,7 +44,7 @@ func _ready() -> void:
 	body.add_theme_constant_override("separation",28)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	outer.add_child(body)
-	for entry in ([[definition,info],[comparison,comparison_info]] if comparison != null else [[definition,info]] if definition != null else []):
+	for entry in ([[definition,info]] if definition != null else []):
 		var frame := CenterContainer.new()
 		frame.custom_minimum_size.x = 300
 		body.add_child(frame)
@@ -79,19 +72,14 @@ func _ready() -> void:
 		var identity := HBoxContainer.new()
 		details.add_child(identity)
 		label(identity,definition.display_name,32,"Heading").size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var pin := Button.new()
-		pin.text = "Pin comparison"
-		pin.name = "PinComparison"
-		pin.pressed.connect(func(): pin_requested.emit(definition.card_id))
-		pin.custom_minimum_size = Vector2(164,44)
-		identity.add_child(pin)
 		label(details,str(info.get("country_name","Fictional player"))+"  /  "+str(info.get("version_label","Exhibition")),20)
-		label(details,"%d OVR  %s  %s" % [definition.rating(),definition.primary_role,definition.tier().capitalize()],22,"Score")
+		label(details,"%d OVR  %s  %s" % [definition.rating(),definition.primary_role,str(info.get("tier",definition.tier())).capitalize()],22,"Score")
+		if not info.get("run_training",[]).is_empty():
+			label(details,"RUN TRAINING  "+" / ".join(info.run_training.map(func(row): return "%s %d→%d" % [row.stat,row.before,row.after])),17)
 		label(details,"Positions  "+" / ".join(definition.natural_roles)+( "    Secondary  "+" / ".join(definition.familiar_roles) if not definition.familiar_roles.is_empty() else ""),18)
-		if comparison != null: label(details,"Changes versus "+comparison.display_name+"  "+str(comparison_info.get("version_label","Fictional")),14,"BodyStrong")
-		if definition.primary_role == "GK": stats(details,"GOALKEEPING",definition.keeper_attributes,{})
-		stats(details,"OUTFIELD",definition.attributes,comparison.attributes if comparison != null else {})
-		if definition.primary_role != "GK": stats(details,"GOALKEEPING",definition.keeper_attributes,{})
+		if definition.primary_role == "GK": stats(details,"GOALKEEPING",definition.keeper_attributes)
+		stats(details,"OUTFIELD",definition.attributes)
+		if definition.primary_role != "GK": stats(details,"GOALKEEPING",definition.keeper_attributes)
 		details.add_child(HSeparator.new())
 		if not definition.trait_id.is_empty():
 			var ability: Dictionary = definition.Traits.catalogue[definition.trait_id]
@@ -116,60 +104,7 @@ func _ready() -> void:
 		entrance = create_tween()
 		entrance.tween_property(self,"modulate:a",1,0.12)
 
-func build_comparison() -> void:
-	var canvas := Control.new()
-	canvas.size = Vector2(1280,720)
-	canvas.scale = Vector2.ONE*minf(size.x/1280,size.y/720)
-	canvas.position = (size-canvas.size*canvas.scale)/2
-	add_child(canvas)
-	var heading := label(canvas,"Compare players",34,"Heading")
-	heading.name = "ComparisonHeading"
-	heading.position = Vector2(32,100)
-	heading.size = Vector2(1216,44)
-	var subtitle := label(canvas,"Compare base ratings. Match effects remain separate.",18)
-	subtitle.position = Vector2(32,152)
-	subtitle.size = Vector2(1216,32)
-	for index in 2:
-		var view := CardView.new()
-		view.custom_minimum_size = Vector2(280,392)
-		view.size = view.custom_minimum_size
-		view.position = Vector2(220+index*560,206)
-		view.bind(definition if index == 0 else comparison,info if index == 0 else comparison_info,true)
-		view.focus_mode = Control.FOCUS_NONE
-		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		canvas.add_child(view)
-	var symbol := TextureRect.new()
-	symbol.texture = preload("res://ui/matchday_icons.gd").texture("icons/compare")
-	symbol.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	symbol.position = Vector2(606,266)
-	symbol.size = Vector2(48,48)
-	canvas.add_child(symbol)
-	var context := label(canvas,comparison_role+" slot" if not comparison_role.is_empty() else definition.primary_role+"     "+comparison.primary_role,23,"Team")
-	context.position = Vector2(538,352)
-	context.size = Vector2(210,40)
-	context.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var difference := label(canvas,"Different primary roles" if definition.primary_role != comparison.primary_role else "Same primary role\nBase ratings only",18)
-	if not comparison_role.is_empty():
-		var before: int = comparison.rating(comparison_role,true)
-		var after: int = definition.rating(comparison_role,true)
-		difference.text = "%d → %d\n%+d effective OVR" % [before,after,after-before]
-	difference.position = Vector2(526,410)
-	difference.size = Vector2(236,80)
-	difference.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var note := label(canvas,"Compared player → selected player in the chosen lineup slot." if not comparison_role.is_empty() else "A slot upgrade requires a selected, legal lineup role.",16)
-	note.position = Vector2(32,652)
-	note.size = Vector2(880,32)
-	var close := Button.new()
-	close.name = "CloseFile"
-	close.text = "Close comparison"
-	close.theme_type_variation = "Primary"
-	close.position = Vector2(1008,652)
-	close.size = Vector2(240,44)
-	close.pressed.connect(dismiss)
-	canvas.add_child(close)
-	preload("res://ui/campaign_parts.gd").focus_loop(self)
-
-func stats(parent: Node, title: String, values: Dictionary, versus: Dictionary) -> void:
+func stats(parent: Node, title: String, values: Dictionary) -> void:
 	label(parent,title,18,"BodyStrong")
 	var grid := GridContainer.new()
 	grid.columns = 6
@@ -181,12 +116,9 @@ func stats(parent: Node, title: String, values: Dictionary, versus: Dictionary) 
 		key_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 		key_label.custom_minimum_size = Vector2(48,34)
 		var value := str(int(values[key]))
-		if not versus.is_empty():
-			var delta: int = values[key]-versus[key]
-			value += " (%+d)" % delta
 		var number := label(grid,value,28,"Score")
 		number.autowrap_mode = TextServer.AUTOWRAP_OFF
-		number.custom_minimum_size = Vector2(90 if not versus.is_empty() else 64,38)
+		number.custom_minimum_size = Vector2(64,38)
 
 func dismiss() -> void:
 	if closing: return

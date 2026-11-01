@@ -3,6 +3,26 @@
   "generator": "OpenAI image_gen",
   "assets": [
     {
+      "key": "legacy_hex",
+      "source": "res://art/arcade/sources/legacy-hex-v1.png",
+      "size": [
+        64,
+        56
+      ],
+      "original_source": "C:/Users/media/.codex/generated_images/01a187b7-d1b6-7f31-b81e-f82cfec08c63/exec-40d215b8-6f01-494c-b17e-4d39b8041c5c.png",
+      "prompt": "One reusable EMPTY hexagonal button face sprite for Eleven Again's Manager Legacy board. Original premium 16-bit retro football management UI. Plain regular flat-top hexagon, symmetrical, front view, navy centre #17253B #233A50, restrained cream #FFF4D2 thin stepped rim, one-pixel muted teal #31596A bottom edge, subtle 2-shade pixel bevel. Completely empty centre for live UI icons, no symbols no text no letters, no rivets no decoration no shine no neon no glow no gradients. Crisp intentionally hand-pixelled clusters, 64x56 logical pixel construction to be downsampled nearest neighbour. Single isolated hexagonal UI tile on genuinely transparent background with generous padding. Flat top and bottom, upper left/right sloping edges; visible clean uncluttered silhouette. Match a navy cream gold arcade football game's existing pixel buttons."
+    },
+    {
+      "key": "scout_pack",
+      "source": "res://art/arcade/sources/scout-pack-v1.png",
+      "size": [
+        64,
+        88
+      ],
+      "original_source": "C:/Users/media/.codex/generated_images/01a187b7-d1b6-7f31-b81e-f82cfec08c63/exec-d533b4fd-bbae-4b8d-984c-02d5d32dc6fc.png",
+      "prompt": "Production game sprite for Eleven Again, an original retro football roguelite. A single sealed football scouting card foil pack, upright front view with tiny visible side, simple chunky pixel-art construction like a carefully drawn 16-bit console inventory item. Navy blue wrapper, cream seam, restrained gold stripe, small plain white football emblem in centre, no letters or numbers, no logos, no player portrait. Grounded and readable silhouette, modest two-tone stepped shading, no neon, no glow, no confetti, no realistic shiny reflections, no gradients or blur. Looks handcrafted with a limited palette: navy #101827 #17253B #233A50, teal #31596A #64979A, cream #FFF4D2, gold #F5CE65 #D99C3A. Large clean pixels, 64x88 logical pixel design, intended for nearest-neighbour game UI. One item centred, generous transparent margin, genuinely transparent background. Do not add scenery or labels."
+    },
+    {
       "key": "background",
       "source": "res://art/arcade/sources/exec-59165e14-f82c-4460-9850-16fe83b5ed57.png",
       "size": [
@@ -663,12 +683,15 @@
     },
     {
       "key": "goal",
-      "source": "res://art/arcade/sources/exec-12e8d8c6-3ee8-4d3a-9a80-cf23120555e5.png",
+      "source": "res://art/arcade/sources/goal-net-v2.png",
       "size": [
-        12,
-        36
+        10,
+        28
       ],
-      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-12e8d8c6-3ee8-4d3a-9a80-cf23120555e5.png"
+      "original_source": "C:/Users/media/.codex/generated_images/01a187b7-d1b6-7f31-b81e-f82cfec08c63/exec-0fbf6013-def7-4090-94c5-eb65e47656c9.png",
+      "previous_original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-12e8d8c6-3ee8-4d3a-9a80-cf23120555e5.png",
+      "prompt": "Production pixel sprite: ONE complete small top-down football goal net, viewed straight from above. Transparent background. A clean narrow rectangular net with the OPENING ON THE RIGHT. Whole bright cream rectangular goal frame visible: straight thin top bar, straight thin bottom bar, straight thin left BACK bar, straight thin right FRONT crossbar connecting the two right goalposts. Four complete connected edges, no missing top/bottom edges, no protruding vertical poles, no isolated middle horizontal bar. Inside rectangle: exactly three evenly spaced subtle muted teal horizontal net strings and two evenly spaced vertical net strings, all stop at the frame. Entire goal fits comfortably in transparent padding. No perspective, no trapezoid, no shading planes, no shadow, no field, no ball, no glow, no text. A restrained hand-pixelled 16-bit football sprite, intended logical 16px wide by40px tall. Crisp flat 1-pixel frame, simple readable net; cream #FFF4D2 frame and teal #64979A/#31596A mesh on transparency. It must read as a complete rectangular mesh football net even when tiny, not two poles.",
+      "coverage": true
     },
     {
       "key": "node",
@@ -681,13 +704,16 @@
     },
     {
       "key": "goal_flipped",
-      "source": "res://art/arcade/sources/exec-12e8d8c6-3ee8-4d3a-9a80-cf23120555e5.png",
+      "source": "res://art/arcade/sources/goal-net-v2.png",
       "size": [
-        12,
-        36
+        10,
+        28
       ],
       "flip": true,
-      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-12e8d8c6-3ee8-4d3a-9a80-cf23120555e5.png"
+      "original_source": "C:/Users/media/.codex/generated_images/01a187b7-d1b6-7f31-b81e-f82cfec08c63/exec-0fbf6013-def7-4090-94c5-eb65e47656c9.png",
+      "previous_original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-12e8d8c6-3ee8-4d3a-9a80-cf23120555e5.png",
+      "prompt": "Production pixel sprite: ONE complete small top-down football goal net, viewed straight from above. Transparent background. A clean narrow rectangular net with the OPENING ON THE RIGHT. Whole bright cream rectangular goal frame visible: straight thin top bar, straight thin bottom bar, straight thin left BACK bar, straight thin right FRONT crossbar connecting the two right goalposts. Four complete connected edges, no missing top/bottom edges, no protruding vertical poles, no isolated middle horizontal bar. Inside rectangle: exactly three evenly spaced subtle muted teal horizontal net strings and two evenly spaced vertical net strings, all stop at the frame. Entire goal fits comfortably in transparent padding. No perspective, no trapezoid, no shading planes, no shadow, no field, no ball, no glow, no text. A restrained hand-pixelled 16-bit football sprite, intended logical 16px wide by40px tall. Crisp flat 1-pixel frame, simple readable net; cream #FFF4D2 frame and teal #64979A/#31596A mesh on transparency. It must read as a complete rectangular mesh football net even when tiny, not two poles.",
+      "coverage": true
     }
   ],
   "prompts": [

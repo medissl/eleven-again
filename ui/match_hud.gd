@@ -66,9 +66,11 @@ func _ready() -> void:
 	_label("away", team_names[1].to_upper(), 26, CREAM)
 	labels.home.theme_type_variation = "Team"
 	labels.away.theme_type_variation = "Team"
-	_label("score", "0 – 0", 46, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	_label("score", "0 – 0", 38, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
 	labels.score.theme_type_variation = "Score"
-	_label("clock", "0′", 16, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	_label("clock", "00:00", 18, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
+	labels.clock.theme_type_variation="Score"
+	labels.clock.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
 	_label("added", "", 14, Color("FFF4D2"), HORIZONTAL_ALIGNMENT_CENTER)
 	_label("live", "LIVE", 16, CREAM)
 	labels.live.theme_type_variation = "Section"
@@ -173,7 +175,7 @@ func _button(id: String, text: String, hint: String) -> Button:
 func arrange(field_rect: Rect2, divider_x: float) -> void:
 	pitch = field_rect
 	divider = divider_x
-	_put(header_surface,Rect2(12,6,size.x-24,72))
+	_put(header_surface,Rect2(12,6,size.x-24,84))
 	_put(feed_surface,Rect2(divider+8,86,size.x-divider-20,size.y-104))
 	var center := pitch.get_center().x
 	var face: Font = labels.home.get_theme_font("font")
@@ -187,11 +189,11 @@ func arrange(field_rect: Rect2, divider_x: float) -> void:
 		label.add_theme_font_size_override("font_size",pixels)
 		var width := minf(maximum_name,ceilf(face.get_string_size(label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x)+2)
 		_put(label,Rect2(center-score_width/2-20-width if team == 0 else center+score_width/2+20,18,width,38))
-	_put(labels.score, Rect2(center - score_width/2, 2, score_width, 57))
+	_put(labels.score,Rect2(center-score_width/2,4,score_width,54))
 	kit_centers[0] = Vector2(labels.home.position.x-31,37)
 	kit_centers[1] = Vector2(labels.away.position.x+labels.away.size.x+31,37)
-	_put(labels.clock, Rect2(center - 110, 57 + (ui_scale - 1) * 28, 220, 27))
-	_put(labels.added,Rect2(center+90,57,118,27))
+	_put(labels.clock,Rect2(center-124,60+(ui_scale-1)*28,248,26))
+	_put(labels.added,Rect2(center+142,60,118,26))
 	_put(labels.live, Rect2(divider + 38, 94, 190, 28))
 	_put(cue,pitch)
 	var x := divider + 12
@@ -230,7 +232,7 @@ func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String)
 	model = sim
 	labels.score.text = "%d – %d" % sim.scores
 	var clock := BroadcastClock.read(sim)
-	labels.clock.text = clock.text
+	labels.clock.text = BroadcastClock.live_text(clock)
 	var live_period: bool=sim.period in [sim.Period.FIRST_HALF,sim.Period.SECOND_HALF,sim.Period.EXTRA_FIRST,sim.Period.EXTRA_SECOND]
 	labels.added.text = "+%d MIN" % clock.minimum if clock.added and not sim.finished and live_period else ""
 	if clock.added and clock.period != added_period and not sim.finished and live_period:
@@ -256,7 +258,7 @@ func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String)
 	elif sim.period == 1:
 		labels.clock.text = "HALF TIME · %d–%d" % sim.scores
 	if not sim.shootout.is_empty(): labels.clock.text = "PEN %d–%d · %d′" % [sim.shootout.goals[0],sim.shootout.goals[1],sim.display_minute()]
-	elif sim.period in [sim.Period.EXTRA_FIRST,sim.Period.EXTRA_SECOND]: labels.clock.text = "ET · "+clock.text
+	elif sim.period in [sim.Period.EXTRA_FIRST,sim.Period.EXTRA_SECOND]: labels.clock.text = "ET "+BroadcastClock.live_text(clock)
 	labels.live.text = "FULL TIME" if sim.finished else ("PAUSED" if paused else "LIVE")
 	status_color = MUTED if sim.finished else (AMBER if paused else Color("58bd7a"))
 	queue_redraw()

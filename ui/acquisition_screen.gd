@@ -73,7 +73,7 @@ func _ready() -> void:
 	add_child(rule)
 	put(rule,Rect2(0,532,1216,1))
 	if market: put(app.button(self,"Leave market","LeaveOffer",func(): app.act("close_market",[],revision)),Rect2(0,552,172,44)).theme_type_variation = "Quiet"
-	put(app.button(self,"Player details","OfferDetails",func(): app.inspect(selected,outgoing)),Rect2(186,552,180,44)).theme_type_variation = "Quiet"
+	put(app.button(self,"Player details","OfferDetails",func(): app.inspect(selected)),Rect2(186,552,180,44)).theme_type_variation = "Quiet"
 	confirm = app.button(self,"Sign player" if market else "Recruit player","ConfirmAcquisition",acquire,true)
 	put(confirm,Rect2(976,552,240,44))
 	build_cards()

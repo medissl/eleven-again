@@ -6,16 +6,23 @@ func _initialize() -> void:
 	var palette: Array[Color] = []
 	for hex in colours: palette.append(Color(hex))
 	for asset in manifest.assets:
+		var args := OS.get_cmdline_user_args()
+		if not args.is_empty() and asset.key not in args: continue
 		var image := Image.load_from_file(asset.source)
 		assert(image != null and not image.is_empty())
 		image.convert(Image.FORMAT_RGBA8)
+		if asset.get("coverage",false):
+			for y in image.get_height():
+				for x in image.get_width():
+					if image.get_pixel(x,y).a < 0.75: image.set_pixel(x,y,Color.TRANSPARENT)
 		if asset.has("cell"):
 			var cell_size := Vector2i(image.get_width()/5,image.get_height()/4)
 			image = image.get_region(Rect2i(Vector2i(int(asset.cell)%5,int(asset.cell)/5)*cell_size,cell_size))
-		if asset.has("cell") or asset.key in ["logo","pawn","lock","trophy","button","button_primary","goal","goal_flipped","node"]:
+		if asset.has("cell") or asset.key in ["logo","pawn","lock","trophy","button","button_primary","goal","goal_flipped","node","scout_pack","legacy_hex"]:
 			var used := image.get_used_rect()
 			image = image.get_region(used)
-		image.resize(asset.size[0],asset.size[1],Image.INTERPOLATE_NEAREST)
+		if asset.get("coverage",false): image=coverage_resize(image,Vector2i(asset.size[0],asset.size[1]))
+		else: image.resize(asset.size[0],asset.size[1],Image.INTERPOLATE_NEAREST)
 		var cache := {}
 		for y in image.get_height():
 			for x in image.get_width():
@@ -32,11 +39,32 @@ func _initialize() -> void:
 						if delta < distance: distance=delta; nearest=candidate
 					cache[key]=nearest
 				image.set_pixel(x,y,cache[key])
-		if asset.key in ["goal","goal_flipped"]: retain_largest_component(image)
+		if asset.key in ["goal","goal_flipped"] and not asset.get("coverage",false): retain_largest_component(image)
 		if asset.get("flip",false): image.flip_x()
 		assert(image.save_png("res://assets/ui/arcade/"+asset.key+".png") == OK)
 		print("NORMALIZED ",asset.key," ",image.get_size())
 	quit()
+
+func coverage_resize(source: Image, extent: Vector2i) -> Image:
+	# Thin generated net strands need area coverage; a nearest sample can miss an entire strand.
+	var result := Image.create(extent.x,extent.y,false,Image.FORMAT_RGBA8)
+	for y in extent.y:
+		for x in extent.x:
+			var colour := Vector3.ZERO
+			var brightness := -1.0
+			var count := 0
+			var area := 0
+			for sy in range(y*source.get_height()/extent.y,(y+1)*source.get_height()/extent.y):
+				for sx in range(x*source.get_width()/extent.x,(x+1)*source.get_width()/extent.x):
+					area+=1
+					var pixel := source.get_pixel(sx,sy)
+					if pixel.a < 0.75: continue
+					var light := pixel.r*0.2126+pixel.g*0.7152+pixel.b*0.0722
+					if light > brightness: brightness=light; colour=Vector3(pixel.r,pixel.g,pixel.b)
+					count+=1
+			if count > 0 and float(count)/maxi(1,area) >= 0.12:
+				result.set_pixel(x,y,Color(colour.x,colour.y,colour.z,1))
+	return result
 
 func retain_largest_component(image: Image) -> void:
 	var seen := {}

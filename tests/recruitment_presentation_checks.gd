@@ -22,6 +22,7 @@ func run() -> void:
 	viewport.render_target_update_mode=SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	var app := App.new()
+	app.master_new_runs=false # Frozen legacy presentation fixture.
 	app.apply_display=false
 	app.save_root="user://recruitment_presentation_"+str(Time.get_ticks_usec())
 	viewport.add_child(app)
@@ -43,11 +44,13 @@ func run() -> void:
 	var old_generation: int=app.session.profile.generation
 	offer.acquire()
 	await frames(45)
-	check(is_instance_valid(app.walkout) and app.session.controller.snapshot().plan.cards.size() == 17,"Signing commits once before the tunnel presentation")
+	check(not is_instance_valid(app.walkout) and app.session.controller.snapshot().plan.cards.size() == 17,"Low-rarity signing commits without a tunnel")
 	var acquired: Dictionary=app.session.controller.snapshot()
 	check(app.session.profile.generation == old_generation+1 and app.session.profile.discoveries.has(id),"Owned card and discovery are durably published together")
 	check(not app.session.act("acquire",[id,""],revision).ok and app.session.controller.snapshot() == acquired,"Duplicate signing during walkout cannot charge or grant twice")
 	check(Session.new(app.save_root).controller.snapshot() == acquired,"A fresh session resumes the committed signing during its presentation")
+	var gold: Resource=app.library.recruits.filter(func(card): return card.tier() == "gold")[0]
+	app._show_walkout(gold.card_id,false) # Authored Gold presentation fixture; no extra recruitment transaction.
 	check(not app.walkout.card.visible and not app.walkout.confirm.visible,"Suspense conceals the card and prevents early confirmation")
 	app.walkout.age=3.0
 	await frames(2)

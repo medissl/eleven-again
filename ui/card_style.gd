@@ -3,7 +3,7 @@ extends RefCounted
 const PALETTES := {"bronze":["D99C3A","EDC4A0","5B3829"],"silver":["A8C8BF","E1E8CF","31596A"],"gold":["F5CE65","FFF4D2","A46430"],"legend":["9B58AC","EAD1ED","633D67"],"unknown":["62816A","A8C8BF","233A50"]}
 static func paint(card: Control) -> void:
 	if not is_instance_valid(card.content): return
-	var tier: String=card.definition.tier() if card.definition != null else "unknown"
+	var tier: String=card.display_tier()
 	var accent:=Color(PALETTES[tier][0])
 	card.draw_set_transform(card.content.position,0,card.content.scale)
 	card.draw_rect(Rect2(0,0,300,420),Color("101827"))

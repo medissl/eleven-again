@@ -20,7 +20,7 @@ static func frame(app) -> VBoxContainer:
 		flag(header,data.origin)
 		app.text(header,app.library.countries[data.origin].name.to_upper(),23,"Team")
 		if app.page != "offer":
-			app.text(header,"%d / 12 wins" % data.wins,16,"Label")
+			app.text(header,"%d / 12 nodes" % data.node if data.has("node") else "%d / 12 wins" % data.wins,16,"Label")
 			app.text(header,"Defeats %d/3" % data.defeats,16,"Label")
 			pips(header,data.defeats)
 		else:

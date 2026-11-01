@@ -143,7 +143,7 @@ func _layout() -> void:
 	_layout_pixel_layer()
 	if not is_instance_valid(hud): return
 	var divider := size.x - 270
-	var top: float = 86 + (hud.ui_scale - 1) * 50
+	var top: float = 98 + (hud.ui_scale - 1) * 50
 	var available := Rect2(40, top, divider - 80, size.y - top - 22)
 	var factor := minf(available.size.x / 105, available.size.y / 68)
 	pitch = Rect2(available.get_center() - Vector2(105, 68) * factor / 2, Vector2(105, 68) * factor)
@@ -430,23 +430,25 @@ func _paint_pitch() -> void:
 	for edge in 12:
 		var alpha := (1-edge/12.0)*0.018
 		world.draw_rect(Rect2(pitch.position+Vector2(edge,edge),pitch.size-Vector2(edge*2,edge*2)),Color(0.01,0.035,0.075,alpha),false,1)
+	for end in 2: _draw_goal(end) # Net texture stays below the actual goal/touchline marking.
 	var line := Color("DBE8DD")
-	world.draw_rect(pitch, line, false, 1.4)
-	world.draw_line(_field(Vector2(52.5, 0)), _field(Vector2(52.5, 68)), line, 1.4)
-	world.draw_arc(_field(Vector2(52.5, 34)), 9.15 * _scale(), 0, TAU, 64, line, 1.4, true)
-	world.draw_circle(_field(Vector2(52.5, 34)), 2.2, line)
+	var stroke := float(maxi(1,roundi(size.y/360.0)))
+	# One full low-resolution pixel, aligned to that grid. Subpixel 1.4px strokes disappeared at 2x/3x.
+	world.draw_rect(Rect2(_mark_point(Vector2.ZERO),_mark_point(Vector2(105,68))-_mark_point(Vector2.ZERO)),line,false,stroke)
+	world.draw_line(_mark_point(Vector2(52.5,0)),_mark_point(Vector2(52.5,68)),line,stroke,false)
+	world.draw_arc(_mark_point(Vector2(52.5,34)),snappedf(9.15*_scale(),stroke),0,TAU,96,line,stroke,false)
+	world.draw_circle(_mark_point(Vector2(52.5,34)),stroke,line)
 	for end in 2:
 		var x := 0.0 if end == 0 else 88.5
-		world.draw_rect(Rect2(_field(Vector2(x, 13.84)), Vector2(16.5, 40.32) * _scale()), line, false, 1.4)
+		world.draw_rect(Rect2(_mark_point(Vector2(x,13.84)),_mark_point(Vector2(x+16.5,54.16))-_mark_point(Vector2(x,13.84))),line,false,stroke)
 		x = 0.0 if end == 0 else 99.5
-		world.draw_rect(Rect2(_field(Vector2(x, 24.84)), Vector2(5.5, 18.32) * _scale()), line, false, 1.4)
+		world.draw_rect(Rect2(_mark_point(Vector2(x,24.84)),_mark_point(Vector2(x+5.5,43.16))-_mark_point(Vector2(x,24.84))),line,false,stroke)
 		var spot := Vector2(11 if end == 0 else 94, 34)
-		world.draw_circle(_field(spot), 2, line)
-		world.draw_arc(_field(spot), 9.15 * _scale(), -0.93 if end == 0 else PI - 0.93, 0.93 if end == 0 else PI + 0.93, 32, line, 1.4, true)
-		_draw_goal(end)
+		world.draw_circle(_mark_point(spot),stroke,line)
+		world.draw_arc(_mark_point(spot),snappedf(9.15*_scale(),stroke),-0.93 if end == 0 else PI-0.93,0.93 if end == 0 else PI+0.93,48,line,stroke,false)
 	for point in [Vector2(0,0),Vector2(105,0),Vector2(105,68),Vector2(0,68)]:
 		var start := 0.0 if point == Vector2.ZERO else (PI / 2 if point.y == 0 else (PI if point.x > 0 else PI * 1.5))
-		world.draw_arc(_field(point), _scale(), start, start + PI / 2, 12, line, 1.1, true)
+		world.draw_arc(_mark_point(point),snappedf(_scale(),stroke),start,start+PI/2,12,line,stroke,false)
 	if not hud.reduced_motion and sim.ticks-impact_tick >= 0 and sim.ticks-impact_tick < 10:
 		var phase := (sim.ticks-impact_tick)/10.0
 		world.draw_arc(_field(impact_position),7+phase*9,0,TAU,24,Color(CREAM,0.3*(1-phase)),1.2,true)
@@ -533,12 +535,17 @@ func _ball_ink() -> Color:
 	if sim.ball_state == Match.BallState.LOOSE and sim.last_touch >= 0 and sim.players[sim.last_touch].trait_state.get("trait","") == "deflector" and sim.players[sim.last_touch].trait_state.get("state","") == "active": return Color("7bd2cf")
 	return CREAM
 
+func _mark_point(point: Vector2) -> Vector2:
+	var step := float(maxi(1,roundi(size.y/360.0)))
+	return (_field(point)/step).floor()*step+Vector2.ONE*step*0.5
+
 func _draw_goal(end: int) -> void:
-	var depth := minf(3.2 * _scale(),pitch.position.x-4.0)
-	var mouth_x := pitch.position.x if end == 0 else pitch.end.x
+	var step := float(maxi(1,roundi(size.y/360.0)))
+	var depth := floorf(minf(3.2*_scale(),pitch.position.x-8)/step)*step
+	var mouth_x := _mark_point(Vector2(0 if end == 0 else 105,34)).x
 	var net_x := mouth_x - depth if end == 0 else mouth_x
-	var top := _field(Vector2(0, 30.34)).y
-	var bottom := _field(Vector2(0, 37.66)).y
+	var top := floorf(_field(Vector2(0,30.34)).y/step)*step
+	var bottom := ceilf(_field(Vector2(0,37.66)).y/step)*step
 	var net := Rect2(net_x, top, depth, bottom - top)
 	var recoil := 0.0
 	var age: int = sim.ticks - hud.goal_cue_tick
@@ -548,7 +555,7 @@ func _draw_goal(end: int) -> void:
 			recoil = sin(age * 0.3) * exp(-age / 25.0) * 2.0
 	var sprite: Texture2D=preload("res://assets/ui/arcade/goal.png") if end == 0 else preload("res://assets/ui/arcade/goal_flipped.png")
 	# The sprite's bright mouth remains aligned to the real goal line.
-	world.draw_texture_rect(sprite,Rect2(net.position,net.size+Vector2(recoil,0)),false)
+	world.draw_texture_rect(sprite,Rect2(Vector2(snappedf(net.position.x,step),net.position.y),net.size+Vector2(snappedf(recoil,step),0)),false)
 
 func _draw_player(index: int) -> void:
 	if not sim.players[index].active: return
@@ -572,7 +579,7 @@ func _draw_player(index: int) -> void:
 func _draw_name(index: int) -> void:
 	if not sim.players[index].active: return
 	var point := _field(player_positions[index])
-	var pixels: int = roundi(18 * hud.ui_scale)
+	var pixels: int = roundi(14 * hud.ui_scale)
 	var metrics: Dictionary = name_metrics.get(index,{})
 	if metrics.get("source","") != sim.players[index].name or metrics.get("pixels",0) != pixels:
 		var surname: String = preload("res://ui/player_card.gd").split_name(sim.players[index].name)[1]
@@ -583,10 +590,10 @@ func _draw_name(index: int) -> void:
 	var player_name: String = metrics.text
 	var width: float = metrics.width
 	# A fixed below-token anchor prevents the old above/below flipping in duels.
-	var pos := point + Vector2(-width / 2, 29)
+	var pos := point + Vector2(-width / 2, 25)
 	pos.x = clampf(pos.x, pitch.position.x+2, maxf(pitch.position.x+2,pitch.end.x-width-2))
 	pos.y = minf(pos.y, size.y - 4)
-	var rect := Rect2(pos + Vector2(-2, -15), Vector2(width + 4, 19))
+	var rect := Rect2(pos + Vector2(-1,-12),Vector2(width+2,15))
 	var blocked := false
 	for existing in name_rects: blocked = blocked or existing.intersects(rect)
 	var important := index == sim.owner or index == selected
@@ -595,7 +602,7 @@ func _draw_name(index: int) -> void:
 	label_alpha[index] = 1.0 if important else lerpf(label_alpha[index], target, minf(get_process_delta_time() * 8, 1))
 	if not blocked or important: name_rects.append(rect)
 	var opacity := label_alpha[index]*_actor_opacity()
-	type_layer.draw_rect(Rect2(pos+Vector2(-3,-13),Vector2(width+6,18)),Color("101827",opacity*0.84))
+	type_layer.draw_string_outline(preload("res://ui/typography.gd").face("Bold"),pos,player_name,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels,1,Color("101827",opacity*0.85))
 	type_layer.draw_string(preload("res://ui/typography.gd").face("Bold"),pos,player_name,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels,Color(CREAM,opacity))
 
 func _paint_names() -> void:

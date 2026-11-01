@@ -28,6 +28,12 @@ static func valid(record: Variant, content: RefCounted, eligible_ids: Array) -> 
 
 static func summary(data: Dictionary) -> Dictionary:
 	var result := {"run_id":data.run_id,"origin":data.origin,"content_version":data.content_version,"balance_version":"campaign_v1_unmeasured","outcome":data.step if data.step in ["won","lost","abandoned"] else "active","wins":data.wins,"defeats":data.defeats,"earnings":data.earnings,"peak_xi":data.peak_xi.duplicate(true),"goal_difference":0,"goals_by_card":{}}
+	if data.get("content_version") == "campaign_roguelite_v3":
+		result.balance_version="master_v1_unmeasured"
+		result.completed_nodes=data.node
+		result.reward_receipts=data.reward_receipts.duplicate(true)
+		result.legacy_marks=load("res://run/manager_legacy.gd").marks(data)
+		result.marks_receipts=data.marks_receipts.duplicate(true)
 	for attempt in data.ledger:
 		result.goal_difference += int(attempt.report.scores[0])-int(attempt.report.scores[1])
 		for event in attempt.report.events:

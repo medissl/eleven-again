@@ -80,7 +80,7 @@ func run() -> void:
 		assert(archive.selected_id == archive.tiles[0].definition.card_id)
 		archive.tier = "bronze"
 		archive.refresh()
-		assert(archive.results.is_empty() and archive.pin.disabled and archive.inspect_button.disabled)
+		assert(archive.results.is_empty() and archive.inspect_button.disabled)
 		archive.clear_filters()
 		archive.search.text = "Mbappé"
 		archive.refresh()
@@ -93,8 +93,6 @@ func run() -> void:
 		if viewport.gui_get_focus_owner().name == "AbilityIcon":
 			assert(is_instance_valid(viewport.gui_get_focus_owner().hint),"Ability glyph remains keyboard accessible")
 			await key(viewport,KEY_TAB)
-		assert(viewport.gui_get_focus_owner().name == "PinComparison","Comparison pin is keyboard accessible")
-		await key(viewport,KEY_TAB)
 		assert(viewport.gui_get_focus_owner() is LinkButton,"Source is keyboard accessible")
 		await picture(viewport,"trait-source-large" if archive.ui_scale > 1 else "trait-source")
 		await key(viewport,KEY_TAB)
@@ -103,23 +101,18 @@ func run() -> void:
 		assert(not is_instance_valid(archive.inspection))
 		archive.clear_filters()
 		archive.select(archive.tiles[0].definition.card_id)
-		await click(viewport,archive.pin)
-		assert(not archive.pinned_id.is_empty())
 		archive.select(archive.tiles[1].definition.card_id)
 		archive.tiles[1].grab_focus()
 		await key(viewport,KEY_ENTER)
-		assert(archive.inspection.comparison != null and archive.inspection.comparison.card_id == archive.pinned_id)
-		await picture(viewport,"compare-large" if archive.ui_scale > 1 else "compare")
-		var compare_heading := archive.inspection.find_child("ComparisonHeading",true,false) as Label
-		assert(compare_heading != null and compare_heading.get_line_count() == 1,"Comparison title must remain one readable line")
+		assert(archive.inspection.definition.card_id == archive.tiles[1].definition.card_id)
+		assert(archive.inspection.find_child("PinComparison",true,false) == null,"Player overview has no pin comparison control")
+		await picture(viewport,"single-player-large" if archive.ui_scale > 1 else "single-player")
 		await key(viewport,KEY_ESCAPE)
 		archive.tier = "bronze"
 		archive.refresh()
-		assert(not archive.pin.disabled)
-		await click(viewport,archive.pin)
 		archive.find_child("ClearFilters",true,false).grab_focus()
 		await key(viewport,KEY_TAB)
-		assert(viewport.gui_get_focus_owner().name == "ArchiveBack","Empty results and cleared comparison retain modal focus")
+		assert(viewport.gui_get_focus_owner().name == "ArchiveBack","Empty results retain modal focus")
 		archive.clear_filters()
 		archive.reduced_motion = false
 		archive.inspect(archive.selected_id)
@@ -136,7 +129,7 @@ func run() -> void:
 		await render_states(viewport,library)
 		await preparation_flow(viewport)
 		viewport.queue_free()
-	print("CARD UI: 200 bindings, hidden/missing art, search/pages, mouse pin, keyboard inspect/Back and comparison passed")
+	print("CARD UI: 200 bindings, hidden/missing art, search/pages, single-player overview without pinning, keyboard inspect/Back passed")
 	quit()
 
 func render_states(viewport: SubViewport, library: RefCounted) -> void:
@@ -214,8 +207,6 @@ func preparation_flow(viewport: SubViewport) -> void:
 	await picture(viewport,"fixture-file")
 	await key(viewport,KEY_TAB)
 	if viewport.gui_get_focus_owner().name == "AbilityIcon": await key(viewport,KEY_TAB)
-	assert(viewport.gui_get_focus_owner().name == "PinComparison")
-	await key(viewport,KEY_TAB)
 	assert(viewport.gui_get_focus_owner().name == "CloseFile","A file without an external source keeps focus inside")
 	await key(viewport,KEY_ESCAPE)
 	assert(not is_instance_valid(prep.card_panel) and prep.plans[0].to_data() == plan and match_view.sim.signature() == before)

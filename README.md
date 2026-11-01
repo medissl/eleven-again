@@ -1,5 +1,9 @@
 # Eleven Again
 
+**Current checkpoint — 1 November:** start with [the next-chat handoff](docs/HANDOFF_2026-11-01.md). New Run now uses the pixel v3 roguelite: four-card scouting, coin economy/training, scheduled campaign routes, Manager Cards, permanent Legacy and same-simulator viewing modes. Continue preserves older runs' original rules. Pin comparison is removed; the live clock, smaller unboxed field names, white lines and goals have been corrected. The200-player portrait milestone stays settled. Phase6 large-run calibration, performance and playtest/export acceptance remain unfinished; see [implementation evidence](reports/master-brief-implementation.md).
+
+**Latest continuation:** read [CONTINUE_GAME_DEVELOPMENT.md](CONTINUE_GAME_DEVELOPMENT.md). The 200-player/146-piece portrait milestone is complete; football quality, flow, final presentation/audio, calibration and optimization remain unfinished. Some older status paragraphs below are historical; use the handoff and current reports for the next development chat.
+
 An offline PC football squad-building roguelike in Godot. The native twelve-win campaign is now playable, alongside the original match/preparation sandbox.
 
 ## Current state

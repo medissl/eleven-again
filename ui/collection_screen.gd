@@ -6,7 +6,6 @@ var library: RefCounted
 var discoveries := {}
 var reduced_motion := false
 var inspection: Control
-var pinned_id := ""
 var query := ""
 var role := ""
 var tier := ""
@@ -125,11 +124,7 @@ func open_file(id: String) -> void:
 	if not id.is_empty() and discoveries.has(id):
 		inspection.definition = library.cards[id]
 		inspection.info = library.metadata(id)
-		if not pinned_id.is_empty() and pinned_id != id:
-			inspection.comparison = library.cards[pinned_id]
-			inspection.comparison_info = library.metadata(pinned_id)
 	inspection.reduced_motion = reduced_motion
-	inspection.pin_requested.connect(func(card_id): if discoveries.has(card_id): pinned_id=card_id)
 	add_child(inspection)
 	inspection.closed.connect(func(): inspection=null; if is_instance_valid(focused): focused.grab_focus())
 

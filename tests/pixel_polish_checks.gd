@@ -28,6 +28,7 @@ func run() -> void:
 		viewport.render_target_update_mode=SubViewport.UPDATE_ALWAYS
 		root.add_child(viewport)
 		var app := App.new()
+		app.master_new_runs=false # Existing five-card fixture; new drafts have separate native coverage.
 		app.apply_display=false
 		app.save_root="user://pixel_polish_"+str(Time.get_ticks_usec())
 		viewport.add_child(app)

@@ -25,6 +25,7 @@ static func targets(m) -> void:
 		shift += late_risk(m,p.team)*5
 		if not attacking and plan.defence == "deep_block": shift -= 10
 		if not attacking and plan.defence == "high_press": shift += 8
+		if not attacking and m.Managers.has(m,p.team,"high_press") and m.display_minute() < 30: shift += 3
 		var target := Vector2(clampf(anchor.x+shift,10,96),clampf(34+(anchor.y-34)*plan.width+(local.y-34)*0.12,4,64))
 		p.job = "support" if attacking else "hold shape"
 		if p.role == "GK":
@@ -152,6 +153,7 @@ static func action(m) -> void:
 		var risk: float = m.lane_risk(m.ball,p.position,carrier.team)
 		var space := minf(12,p.position.distance_to(m.players[m.nearest(1-p.team,p.position)].position))
 		var candidate: float = progress*(0.55 if plan.attack == "direct" else 0.35)+space*0.55+(m.chance_quality(p.position,p.team)-quality)*18-length*0.10-risk*14
+		candidate+=m.Managers.pass_preference(m,p.team,absf(p.position.y-34) > 15)
 		candidate *= 0.75+m.attribute(carrier.id,"PAS")/300
 		candidate -= maxf(0,70-m.attribute(p.id,"DRI"))*0.06
 		if plan.attack == "possession" and length < 20: candidate += 3

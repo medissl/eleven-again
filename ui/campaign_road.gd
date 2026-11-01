@@ -3,7 +3,7 @@ const Lobby = preload("res://ui/campaign_lobby.gd")
 const CENTRES := [Vector2(116,574),Vector2(270,536),Vector2(444,564),Vector2(622,516),Vector2(700,430),Vector2(538,390),Vector2(358,436),Vector2(188,382),Vector2(218,280),Vector2(370,246),Vector2(536,286),Vector2(584,190)]
 static func build(app) -> void:
 	var data: Dictionary = app.session.controller.snapshot()
-	var current: int = data.wins
+	var current: int = data.get("node",data.wins)
 	app.road_stage = clampi(app.road_stage,current,mini(11,current+1))
 	var selected: int = app.road_stage
 	Lobby.copy(app,app.screen,"THE ROAD",Rect2(32,98,700,50),36,"Heading")
@@ -61,13 +61,15 @@ static func build(app) -> void:
 	if rule.recruit: rewards.append("Signing")
 	if rule.market != null: rewards.append("Market")
 	if rule.coaching: rewards.append("Coaching")
-	Lobby.copy(app,app.screen,"After victory: "+" + ".join(rewards),Rect2(44,606,728,28),16,"Section")
+	Lobby.copy(app,app.screen,"Next node unlocks after this match. Three defeats end the run." if data.has("node") else "After victory: "+" + ".join(rewards),Rect2(44,606,728,28),16,"Section")
 	Lobby.action(app,app.screen,"Squad","CampaignSquad",Rect2(32,652,172,44),app.squad)
 	Lobby.action(app,app.screen,"Save and exit","PageBack",Rect2(222,652,208,44),app.save_and_exit).theme_type_variation="Quiet"
 	if selected != current:
 		Lobby.action(app,app.screen,"Return to current match","NextRoadMatch",Rect2(840,646,408,50),func(): app.road_stage=current; app.render("board"),true)
 	else: Lobby.action(app,app.screen,"Prepare match","PrepareCampaign",Rect2(840,646,408,50),app.prepare,true)
-	if not data.market.is_empty() and data.market.open:
+	if data.has("node"):
+		Lobby.action(app,app.screen,"Scouting","MasterScouting",Rect2(468,652,224,44),func(): app.render("master_scout"))
+	elif not data.market.is_empty() and data.market.open:
 		Lobby.action(app,app.screen,"Market","ReopenMarket",Rect2(468,652,224,44),func(): app.act("reopen_market",[],data.revision))
 static func nation_flag(crest: TextureRect, club: Dictionary) -> void:
 	var texture := preload("res://ui/flags.gd").texture(club.get("country_code",""))

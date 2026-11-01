@@ -1,0 +1,10 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+FIXTURE 11027 score=[0, 0] shots=[4, 10] passes=[30, 23] tackles=[4, 5] wall_seconds=195.6
+FIXTURE 42 score=[2, 1] shots=[4, 4] passes=[37, 26] tackles=[2, 3] wall_seconds=215.6
+FIXTURE 7 score=[2, 0] shots=[4, 3] passes=[41, 24] tackles=[8, 5] wall_seconds=208.0
+FIXTURE 2026 score=[0, 1] shots=[5, 4] passes=[33, 20] tackles=[2, 8] wall_seconds=201.3
+ATTRIBUTE PAIRS PAS_error=[99.3779311180115, 60.1120492219925] touches=[74, 85] DEF_wins=[26, 40] PHY_losses=[34, 29] REF_saves=[39, 53] HAN_holds=[29, 35] DIV_saves=[0, 44]
+PHYSICAL PARRY CORNER team=0 seed=3 contact=(104.0, 37.0)
+PHYSICAL PARRY CORNER team=1 seed=3 contact=(1.0, 31.0)
+CHECKS 130674 FAILURES 0

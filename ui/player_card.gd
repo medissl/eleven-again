@@ -18,6 +18,11 @@ var face := Color("18352a")
 var reveal_flash := 0.0
 var legend_reveal := false
 
+func display_tier() -> String:
+	if definition == null: return "unknown"
+	var authored: String=info.get("tier",definition.tier())
+	return authored if FrameStyle.PALETTES.has(authored) else definition.tier()
+
 func _init() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	set_process(false)
@@ -47,7 +52,7 @@ func bind(card: Resource, metadata: Dictionary = {}, known: bool = true, is_owne
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	content.size = Vector2(300,420)
 	add_child(content)
-	var tier: String = definition.tier() if definition != null else "unknown"
+	var tier: String = display_tier()
 	face = Color("101827")
 	accent = Color(FrameStyle.PALETTES[tier][0])
 	ink = Color("FFF4D2")

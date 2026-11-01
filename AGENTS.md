@@ -1,6 +1,8 @@
 <!-- Runtime continuation: latest commission is docs/ELEVEN_AGAIN_CODEX_MASTER_BRIEF.md. Read the full specification, docs/ELEVEN_AGAIN_DESIGN.md, docs/ELEVEN_AGAIN_BALANCE.md and tasks/master-brief-checkpoint.json. Source audit is done; native baseline/latest margin fixes remain pending due automatic approval review usage failure. Preserve cards, 180 active seconds, physical football and legacy saves. -->
 # Eleven Again — Codex project instructions
 
+- **Latest continuation (1 November): read `docs/HANDOFF_2026-11-01.md` first.** New Run now uses schema4 / `campaign_roguelite_v3`; existing schema3 runs keep their legacy controller. Master-brief phases1–5 systems are implemented; M6 calibration/performance/human-play/export remain open. User feedback removes pin comparison, restricts pack tunnels to one highest Gold/Legend, requests smaller field names without backgrounds, and fixes the seconds clock/white pitch lines/complete goals. Keep the current pixel direction and settled200 portraits. The user authorized pushing this checkpoint and requested a new-chat handoff; do not treat that as perpetual future push/merge authorization.
+
 ## Read before working
 
 - Latest user commission (1 November): implement "docs/ELEVEN_AGAIN_CODEX_MASTER_BRIEF.md" in its phases. Read it completely and use "tasks/todo.md" M0–M6 as the tracker. The master implementation scope supersedes the earlier visual-only restriction. Finish the pending native baseline before new mechanics. Keep historical cards/portraits, the current physical simulator,180 active regulation seconds and compatible old saves. See "docs/ELEVEN_AGAIN_DESIGN.md" for verified architecture and adaptations.

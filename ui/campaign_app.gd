@@ -36,11 +36,16 @@ var settings_section := "display"
 var record_page := 0
 var road_stage := -1
 var road_token_stage := -1
-var pinned_card := ""
 var arena: TextureRect
 var arena_shade: ColorRect
 var walkout: Control
 var arena_transition: Tween
+var master_new_runs := true # Existing saves retain their original controller and economy.
+var pending_pack_focus := ""
+var market_offer_page := 0
+var manager_offer_page := 0
+
+func is_master() -> bool: return session != null and session.controller.snapshot().get("content_version") == "campaign_roguelite_v3"
 
 func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -86,7 +91,7 @@ func _draw() -> void:
 
 
 func ui_scale() -> float: return 1.0
-func money(value: int) -> String: return "$%sm" % str(value/1000000.0).trim_suffix(".0")
+func money(value: int) -> String: return "%d coins" % value if is_master() else "$%sm" % str(value/1000000.0).trim_suffix(".0")
 func text(parent: Node, value: String, pixels: int = 18, role: String = "Label", ink: Color = Parts.IVORY) -> Label: return Parts.label(parent,value,roundi(pixels*ui_scale()),role,ink)
 func button(parent: Node, caption: String, id: String, action: Callable, primary: bool = false) -> Button:
 	var node := Parts.button(parent,caption,id,action,primary)
@@ -113,7 +118,6 @@ func render(next: String) -> void:
 		if arena_transition != null: arena_transition.kill()
 		arena_transition=create_tween()
 		arena_transition.tween_property(arena_shade,"color:a",0.08 if next == "main" else 0.25,0.0 if preferences.data.motion else 0.22)
-	if page == "offer" and next != "offer" and not pinned_card.is_empty() and not session.profile.discoveries.has(pinned_card): pinned_card = ""
 	if next == "discovered": next = "collection"
 	var focus_name := ""
 	var focus := get_viewport().gui_get_focus_owner()
@@ -146,6 +150,7 @@ func render(next: String) -> void:
 		collection.closed.connect(func(): render("main"))
 	else:
 		var outer := Screens.frame(self)
+		if page.begins_with("master_"): preload("res://ui/roguelite_screens.gd").build(self)
 		match page:
 			"origin": Screens.origins(self,outer)
 			"board": Screens.board(self,outer)
@@ -178,6 +183,22 @@ func render(next: String) -> void:
 
 func route() -> void:
 	var data: Dictionary = session.controller.snapshot()
+	if is_master():
+		match data.step:
+			"opening_recruit","recruit":
+				pending_pack_focus=""
+				if not data.offer.presentation_seen:
+					pending_pack_focus=preload("res://run/draft_packs.gd").focus_card(data.offer.cards.map(func(id): return library.cards[id]))
+					var seen: Dictionary=session.act("reveal_pack",[],data.revision)
+					if not seen.ok: message(seen.error); return
+				render("master_draft")
+			"market": render("master_market")
+			"route": render("master_route")
+			"manager": render("master_manager")
+			"result","won","lost","abandoned": render("master_result")
+			"prepare": road_stage=data.node; render("board")
+			"match": open_match() if data.view_mode == "live" else resolve_match()
+		return
 	match data.get("step",""):
 		"match": open_match()
 		"prepare": road_stage=data.wins; render("board")
@@ -190,11 +211,12 @@ func route() -> void:
 func act(action: String, args: Array, revision: int) -> void:
 	if busy: return
 	busy = true
-	var newly_discovered: bool = action == "acquire" and not session.profile.discoveries.has(args[0])
+	var newly_discovered: bool = action in ["acquire","sign_market"] and not session.profile.discoveries.has(args[0])
 	var result: Dictionary = session.act(action,args,revision)
 	busy = false
 	if result.ok:
-		if action == "acquire": _show_walkout(args[0],newly_discovered)
+		if action == "sign_market" and library.cards[args[0]].tier() in ["gold","legend"]: _show_walkout(args[0],newly_discovered)
+		elif action == "acquire" and not is_master() and library.cards[args[0]].tier() in ["gold","legend"]: _show_walkout(args[0],newly_discovered)
 		else: route()
 	elif session.blocked: render("main")
 	else: message(result.error)
@@ -210,6 +232,16 @@ func _show_walkout(id: String, newly_discovered: bool) -> void:
 	open_modal(walkout)
 	walkout.completed.connect(func(): walkout=null; close_modal(); route())
 
+func pack_walkout(id: String) -> void:
+	if id.is_empty() or preferences.data.motion: return
+	walkout=preload("res://ui/recruitment_walkout.gd").new()
+	walkout.definition=library.cards[id]; walkout.info=library.metadata(id)
+	walkout.audio=audio; walkout.reduced=false; walkout.effects_enabled=preferences.data.effects
+	walkout.newly_discovered=not session.profile.discoveries.has(id)
+	open_modal(walkout)
+	walkout.confirm.text="View pack"
+	walkout.completed.connect(func(): walkout=null; close_modal())
+
 func message(value: String) -> void:
 	if is_instance_valid(status): status.text = value
 
@@ -219,13 +251,14 @@ func start_origin(origin: String, confirmed: bool = false) -> void:
 		confirm("Replace this run?","The active squad and funds will end. Discoveries and records remain.",func(): start_origin(origin,true))
 		return
 	var seed_value := int(Time.get_unix_time_from_system()) ^ Time.get_ticks_usec()
-	var result: Dictionary = session.new_run(origin,seed_value,str(Time.get_ticks_usec())+"_"+str(seed_value),confirmed)
+	var result: Dictionary = session.new_run(origin,seed_value,str(Time.get_ticks_usec())+"_"+str(seed_value),confirmed,master_new_runs)
 	if result.ok: route()
 	else: message(result.error)
 
 func prepare() -> void:
 	var data: Dictionary = session.controller.snapshot()
-	var club: Dictionary = library.clubs[data.fixtures[data.wins].club_id]
+	var progress: int=data.get("node",data.wins)
+	var club: Dictionary = library.clubs[data.fixtures[progress].club_id]
 	var node = load("res://ui/squad_editor.gd").new()
 	node.campaign_mode = true
 	node.opponent_mode = true
@@ -237,13 +270,45 @@ func prepare() -> void:
 	node.ui_scale = ui_scale()
 	node.reduced_motion = preferences.data.motion
 	node.plans[0] = session.controller.preparation_plan()
-	node.plans[1] = library.opponent_plan(data.fixtures[data.wins].variant_id)
+	node.plans[1] = library.opponent_plan(data.fixtures[progress].variant_id)
 	var missing: Array = data.plan.cards.filter(func(card): return data.discipline.get(card.person_id,{}).get("ban",0) > 0).map(func(card): return card.display_name)
 	node.scouting = club.name+"  "+club.formation+"\n"+club.scout_threat+" "+club.scout_response
 	if not missing.is_empty(): node.scouting += "\nUnavailable: "+", ".join(missing)+". Anonymous academy cover is temporary."
 	open_modal(node)
-	node.submitted.connect(func(home,_away,_knockout): close_modal(); act("commit_match",[home],data.revision))
+	node.submitted.connect(func(home,_away,_knockout): close_modal(); select_viewing_mode(home,data.revision) if is_master() else act("commit_match",[home],data.revision))
 	node.cancelled.connect(close_modal)
+
+func select_viewing_mode(plan: Resource, revision: int) -> void:
+	var box := panel("MATCH VIEW",Rect2(328,170,624,382))
+	text(box,"The same match resolves in every mode.",20)
+	for mode in ["Live","Key Highlights","Instant Result"]:
+		button(box,mode,"ViewingMode"+mode.replace(" ",""),func():
+			var choice: Dictionary=session.act("set_viewing_mode",[{"Live":"live","Key Highlights":"highlights","Instant Result":"instant"}[mode]],revision)
+			if not choice.ok: message(choice.error); return
+			var result: Dictionary=session.act("commit_match",[plan],session.controller.revision())
+			if not result.ok: message(result.error); return
+			close_modal()
+			if mode == "Live": open_match(); return
+			resolve_match(),mode == "Live")
+	button(box,"Back","CancelViewingMode",close_modal)
+	Parts.focus_loop(modal)
+
+func resolve_match() -> void:
+	close_modal()
+	audio.set_match(true)
+	var old_screen := clear_screen()
+	page="master_resolve"
+	var resolver := preload("res://ui/match_resolver.gd").new()
+	resolver.audio=audio
+	var data: Dictionary=session.controller.snapshot()
+	resolver.model=session.controller.model; resolver.highlights=data.view_mode == "highlights" and not preferences.data.motion
+	var club: Dictionary=library.clubs[data.current_attempt.fixture.club_id]
+	resolver.team_names=[library.countries[data.origin].name,club.name]
+	resolver.team_kits=Parts.match_kits(library,data.origin,club)
+	screen=resolver; canvas.add_child(screen)
+	page_motion.replace(old_screen,screen,preferences.data.motion)
+	resolver.completed.connect(func(): act("finish_match",[],session.controller.revision()))
+	last_saved_tick=resolver.model.ticks; last_period=resolver.model.period
 
 func squad() -> void:
 	var data: Dictionary = session.controller.snapshot()
@@ -289,12 +354,16 @@ func match_action(action: String) -> void:
 	elif action == "save_exit": save_and_exit()
 
 func _process(_delta: float) -> void:
-	if not is_instance_valid(view) or session.blocked: return
-	if view.sim.ticks-last_saved_tick >= 600 or view.sim.period != last_period:
+	if session == null or session.blocked: return
+	var model: RefCounted=view.sim if is_instance_valid(view) else session.controller.model if page == "master_resolve" else null
+	if model == null: return
+	if model.ticks-last_saved_tick >= 600 or model.period != last_period:
 		var result: Dictionary = session.checkpoint()
-		last_saved_tick = view.sim.ticks
-		last_period = view.sim.period
-		if not result.ok: view.paused = true; render("main")
+		last_saved_tick = model.ticks
+		last_period = model.period
+		if not result.ok:
+			if is_instance_valid(view): view.paused=true
+			render("main")
 
 func save_and_exit() -> void:
 	var data: Dictionary = session.controller.snapshot()
@@ -359,7 +428,7 @@ func confirm(title: String, detail: String, commit: Callable) -> void:
 	var gap := Control.new()
 	gap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	actions.add_child(gap)
-	button(actions,"Abandon run" if title.to_lower().contains("abandon") else "Start new run","AcceptConfirmation",func(): close_modal(); commit.call(),true)
+	button(actions,"Abandon run" if title.to_lower().contains("abandon") else "Start new run" if title.to_lower().contains("replace") else "Confirm","AcceptConfirmation",func(): close_modal(); commit.call(),true)
 	Parts.focus_loop(modal)
 
 func menu() -> void:
@@ -371,15 +440,18 @@ func menu() -> void:
 	button(box,"Abandon run","AbandonRun",func(): confirm("Abandon this run?","Discoveries and records remain. This squad and its funds will end.",func(): act("abandon",[],session.controller.revision())))
 	Parts.focus_loop(modal)
 
-func inspect(id: String, comparison: String = "") -> void:
+func inspect(id: String) -> void:
 	var node = load("res://ui/card_inspector.gd").new()
 	node.definition = library.cards[id]
 	node.info = library.metadata(id)
+	if is_master():
+		var data: Dictionary=session.controller.snapshot()
+		var owned: Array=data.plan.cards.filter(func(card): return card.card_id == id)
+		if not owned.is_empty():
+			node.definition=preload("res://content/player_card.gd").from_data(owned[0]); node.owned=true
+			node.info.run_training=data.training.filter(func(row): return row.card_id == id)
 	node.ui_scale = ui_scale()
 	node.reduced_motion = preferences.data.motion
-	if comparison.is_empty() and not pinned_card.is_empty() and pinned_card != id: comparison = pinned_card
-	node.pin_requested.connect(func(card_id): pinned_card = card_id; message("Comparison pinned."))
-	if not comparison.is_empty(): node.comparison = library.cards[comparison]; node.comparison_info = library.metadata(comparison)
 	open_modal(node)
 	node.closed.connect(func(): modal = null; if is_instance_valid(modal_focus): modal_focus.grab_focus())
 
@@ -532,7 +604,7 @@ func _input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 				return
 			if modal.has_method("open_card") and is_instance_valid(modal.card_panel): return
-			if modal.has_method("pin_selected") and is_instance_valid(modal.inspection): return
+			if "inspection" in modal and is_instance_valid(modal.inspection): return
 			if modal.has_method("dismiss"): modal.dismiss()
 			else: close_modal()
 		elif is_instance_valid(view): return

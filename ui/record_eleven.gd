@@ -7,7 +7,6 @@ var reduced_motion := false
 var card_panel: Control
 var selected := 0
 var selection: Label
-var comparison_card: Resource
 
 func _ready() -> void:
 	theme = Parts.ThemeData
@@ -55,12 +54,6 @@ func open_card() -> void:
 	card_panel.info = library.metadata(card.card_id)
 	card_panel.owned = true
 	card_panel.reduced_motion = reduced_motion
-	if comparison_card != null and comparison_card != card:
-		card_panel.comparison = comparison_card
-		var role: String = preload("res://squad/lineup.gd").ROLES[record.peak_xi.formation][selected]
-		if role in card.natural_roles and role in comparison_card.natural_roles: card_panel.comparison_role=role
-		card_panel.comparison_info = library.metadata(comparison_card.card_id)
-	card_panel.pin_requested.connect(func(_id): comparison_card=card)
 	add_child(card_panel)
 	card_panel.closed.connect(func(): card_panel=null; find_child("InspectRecordPlayer",true,false).grab_focus())
 

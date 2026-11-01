@@ -26,7 +26,7 @@ static func main(app) -> void:
 	if not preview.is_empty(): entries.append(["CONTINUE","ContinueRun",func(): if app.session.reload().ok: app.route()])
 	entries.append(["PLAY" if preview.is_empty() else "NEW RUN","NewRun",func(): app.render("origin")])
 	if not data.is_empty() and data.step == "prepare": entries.append(["SQUAD","HomeSquad",app.squad])
-	entries.append_array([["COLLECTION","Collection",func(): app.render("collection")],["RECORDS","Records",func(): app.render("records")],["SETTINGS","MainSettings",app.settings],["QUIT","QuitGame",func(): app.get_tree().quit()]])
+	entries.append_array([["MANAGER LEGACY","ManagerLegacy",func(): app.render("master_legacy")],["COLLECTION","Collection",func(): app.render("collection")],["RECORDS","Records",func(): app.render("records")],["SETTINGS","MainSettings",app.settings],["QUIT","QuitGame",func(): app.get_tree().quit()]])
 	for index in entries.size():
 		var entry: Array = entries[index]
 		var item := MenuAction.new()

@@ -1,5 +1,7 @@
 # Arcade presentation assets — 1 November 2026
 
+Latest update:56 admitted images. Added generated scouting pack and Legacy hex, and replaced the incomplete goal with a complete simple generated net plus its mirror. Three new source PNGs join the15 historical vendored sources. Exact prompts/source paths are in `sources.json`. Goal normalization preserves thin-strand coverage and bright frame contrast; imported opaque pixels, frame edges and four native pitch sizes are verified. No player portrait was regenerated.
+
 Production artwork uses the32 colours in `palette.json`, binary alpha and nearest filtering. Portraits, factual flags and kit colours retain their existing data and palettes. This is16-bit art direction, not a claim of an indexed32-colour framebuffer.
 
 `sources.json` records the actual OpenAI image_gen prompts, original local output paths, target sizes and row-major atlas cells for all40 new fictional crests. Generated originals remain in the recorded generated-images folder and15 exact inputs are vendored under `art/arcade/sources/` with `.gdignore`; the source mapping uses portable project paths and retains original provenance paths. `tools/normalize_arcade_art.gd` admits those sources to production PNGs; it resizes/quantizes artwork without regenerating portraits. The normal game needs only the admitted files and no external service. The vendored source PNGs make deterministic normalization portable; no new image generation is needed to reproduce the admitted PNGs.

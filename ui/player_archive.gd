@@ -14,13 +14,11 @@ var pool := ""
 var order := "name"
 var page := 0
 var selected_id := ""
-var pinned_id := ""
 var results: Array[Resource] = []
 var grid: GridContainer
 var search: LineEdit
 var count: Label
 var page_label: Label
-var pin: Button
 var previous: Button
 var next: Button
 var tiles: Array[Control] = []
@@ -114,7 +112,6 @@ func _ready() -> void:
 	var space := Control.new()
 	space.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	footer.add_child(space)
-	pin = button(footer,"Pin selected to compare",pin_selected)
 	inspect_button = button(footer,"Inspect selected",func(): inspect(selected_id))
 	inspect_button.name = "InspectSelected"
 	refresh()
@@ -172,19 +169,13 @@ func show_page() -> void:
 func select(card_id: String) -> void:
 	selected_id = card_id
 	for tile in tiles: tile.set_selected(tile.definition.card_id == card_id)
-	pin.disabled = selected_id.is_empty() and pinned_id.is_empty()
 	inspect_button.disabled = selected_id.is_empty()
-	pin.text = "Clear comparison: "+catalogue.by_id[pinned_id].display_name if not pinned_id.is_empty() else "Pin selected to compare"
 	var back := find_child("ArchiveBack",true,false) as Button
 	var clear := find_child("ClearFilters",true,false) as Button
-	for control in [inspect_button,pin,next,previous,clear]: control.focus_next = NodePath("")
-	var last: Control = inspect_button if not inspect_button.disabled else (pin if not pin.disabled else clear)
+	for control in [inspect_button,next,previous,clear]: control.focus_next = NodePath("")
+	var last: Control = inspect_button if not inspect_button.disabled else clear
 	back.focus_previous = back.get_path_to(last)
 	last.focus_next = last.get_path_to(back)
-
-func pin_selected() -> void:
-	pinned_id = selected_id if pinned_id.is_empty() else ""
-	select(selected_id)
 
 func inspect(card_id: String) -> void:
 	if is_instance_valid(inspection) or not catalogue.by_id.has(card_id): return
@@ -194,10 +185,6 @@ func inspect(card_id: String) -> void:
 	inspection.info = catalogue.metadata(card_id)
 	inspection.ui_scale = ui_scale
 	inspection.reduced_motion = reduced_motion
-	inspection.pin_requested.connect(func(id): pinned_id=id; select(selected_id))
-	if not pinned_id.is_empty() and pinned_id != card_id:
-		inspection.comparison = catalogue.by_id[pinned_id]
-		inspection.comparison_info = catalogue.metadata(pinned_id)
 	add_child(inspection)
 	inspection.closed.connect(func():
 		inspection = null

@@ -77,6 +77,7 @@ func run() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	var app := ManualApp.new()
+	app.master_new_runs=false # Frozen legacy five-card/twelve-win UI continuation coverage.
 	app.save_root = "user://campaign_ui_test_"+str(Time.get_ticks_usec())
 	app.apply_display = false
 	viewport.add_child(app)

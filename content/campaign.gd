@@ -65,7 +65,7 @@ func _init() -> void:
 		metadata_by_id.clear()
 
 static func supports_version(value: Variant) -> bool:
-	return value in [VERSION,LEGACY_VERSION]
+	return value in [VERSION,LEGACY_VERSION,"campaign_roguelite_v3"]
 
 func install_road_rivals() -> void:
 	var records: Array = read_data("road_rivals").get("rivals",[])

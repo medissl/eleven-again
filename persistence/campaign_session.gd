@@ -3,6 +3,7 @@ extends RefCounted
 # ponytail: one game process owns the slot; add an OS lock if simultaneous instances are supported.
 const Campaign = preload("res://content/campaign.gd")
 const Controller = preload("res://run/run_controller.gd")
+const RogueController = preload("res://run/roguelite_controller.gd")
 const State = preload("res://run/run_state.gd")
 const Profile = preload("res://persistence/profile.gd")
 const Store = preload("res://persistence/save_store.gd")
@@ -14,6 +15,9 @@ var profile: Dictionary = Profile.empty()
 var blocked := false
 var recovery_used := false
 var last_error := ""
+
+func controller_for(data: Dictionary) -> RefCounted:
+	return RogueController.new(content) if data.get("content_version") == "campaign_roguelite_v3" else Controller.new(content)
 
 func _init(root: String = "user://campaign", library: RefCounted = null, backend: RefCounted = null) -> void:
 	content = library if library != null else Campaign.new()
@@ -27,8 +31,13 @@ func run_valid(value: Variant) -> bool:
 func profile_valid(value: Variant) -> bool:
 	return Profile.error(value,content).is_empty()
 
+func profile_covers_run(run: Dictionary, saved_profile: Dictionary) -> bool:
+	if run.get("content_version") != "campaign_roguelite_v3": return true
+	var purchased: Array=saved_profile.get("legacy",{}).get("purchased",[])
+	return run.legacy.all(func(id): return id in purchased)
+
 func journal_valid(value: Variant) -> bool:
-	return value is Dictionary and value.get("schema") == 1 and value.get("pending") is bool and value.get("generation") is int and value.generation > 0 and value.get("transaction_id") is String and run_valid(value.get("run")) and profile_valid(value.get("profile")) and value.run.disk_generation == value.generation and value.profile.generation == value.generation and value.run.transaction_id == value.transaction_id and value.profile.transaction_id == value.transaction_id
+	return value is Dictionary and value.get("schema") == 1 and value.get("pending") is bool and value.get("generation") is int and value.generation > 0 and value.get("transaction_id") is String and run_valid(value.get("run")) and profile_valid(value.get("profile")) and profile_covers_run(value.run,value.profile) and value.run.disk_generation == value.generation and value.profile.generation == value.generation and value.run.transaction_id == value.transaction_id and value.profile.transaction_id == value.transaction_id
 
 func fail(message: String, stop: bool = false) -> Dictionary:
 	last_error = message
@@ -70,8 +79,9 @@ func reload() -> Dictionary:
 	if not run_file.ok and run_file.status != "missing": return fail("The active run needs recovery.",true)
 	if not profile_file.ok and profile_file.status != "missing": return fail("The profile needs recovery.",true)
 	if run_file.ok and (not profile_file.ok or run_file.data.disk_generation != profile_file.data.generation or run_file.data.transaction_id != profile_file.data.transaction_id): return fail("Run/profile transaction generations do not match.",true)
+	if run_file.ok and not profile_covers_run(run_file.data,profile_file.data): return fail("The run's Legacy snapshot is not owned by this profile.",true)
 	if not run_file.ok and profile_file.ok and profile_file.data.generation != 0: return fail("The run checkpoint is missing; refusing to replace existing progress.",true)
-	var loaded_controller := Controller.new(content)
+	var loaded_controller := controller_for(run_file.data if run_file.ok else {})
 	if run_file.ok:
 		var restored: Dictionary = loaded_controller.restore(run_file.data)
 		if not restored.ok: return fail(restored.error,true)
@@ -81,11 +91,12 @@ func reload() -> Dictionary:
 	last_error = ""
 	return {"ok":true,"recovered":recovery_used}
 
-func persist(candidate: RefCounted) -> Dictionary:
+func persist(candidate: RefCounted, legacy_purchase: String = "") -> Dictionary:
 	if blocked: return fail("Reload and recover the pending save before continuing.")
 	var disk_profile: Dictionary = store.read("profile",profile_valid)
 	if (disk_profile.ok and disk_profile.data != profile) or (not disk_profile.ok and (disk_profile.status != "missing" or profile.generation != 0)): return fail("The disk profile changed or needs recovery. Reload before saving.",true)
 	var data: Dictionary = candidate.snapshot()
+	if not profile_covers_run(data,profile): return fail("The run contains unowned Legacy options.")
 	var error := State.error(data,content)
 	if not error.is_empty(): return fail(error)
 	var generation: int = profile.generation+1
@@ -93,6 +104,10 @@ func persist(candidate: RefCounted) -> Dictionary:
 	data.disk_generation = generation
 	data.transaction_id = transaction_id
 	var updated := Profile.project(profile,data,generation,transaction_id,Time.get_datetime_string_from_system(true)+"Z")
+	if not legacy_purchase.is_empty():
+		if not updated.has("legacy"): return fail("Earn Legacy Marks in a new campaign first.")
+		var purchase_error := Profile.Legacy.purchase(updated.legacy,legacy_purchase)
+		if not purchase_error.is_empty(): return fail(purchase_error)
 	if not profile_valid(updated): return fail("The resulting profile is invalid.")
 	var journal := {"schema":1,"pending":true,"generation":generation,"transaction_id":transaction_id,"run":data,"profile":updated}
 	for entry in [["journal",journal,journal_valid],["run",data,run_valid],["profile",updated,profile_valid]]:
@@ -111,6 +126,12 @@ func persist(candidate: RefCounted) -> Dictionary:
 
 func act(action: String, arguments: Array, expected: int) -> Dictionary:
 	if blocked: return fail("Reload and recover the pending save before continuing.")
+	if controller is RogueController:
+		var candidate := RogueController.new(content)
+		var restored: Dictionary=candidate.restore(controller.snapshot())
+		if not restored.ok: return fail(restored.error)
+		var result: Dictionary=candidate.perform(action,arguments,expected)
+		return persist(candidate) if result.ok else result
 	if action not in ACTIONS: return fail("Unknown campaign action.")
 	var count: int = {"acquire":2,"choose_principle":1,"commit_match":1,"update_plan":1}.get(action,0)
 	if arguments.size() != count: return fail("Invalid campaign action arguments.")
@@ -127,11 +148,11 @@ func act(action: String, arguments: Array, expected: int) -> Dictionary:
 	if not result.ok: return result
 	return persist(candidate)
 
-func new_run(origin: String, seed_value: int, run_id: String, replace_confirmed: bool = false) -> Dictionary:
+func new_run(origin: String, seed_value: int, run_id: String, replace_confirmed: bool = false, master: bool = false) -> Dictionary:
 	if blocked: return fail("Recover existing save files before starting a run.")
 	if profile.runs.has(run_id) or run_id.is_empty(): return fail("Choose a new unique run identity.")
-	var candidate := Controller.new(content)
-	var created: Dictionary = candidate.start(origin,seed_value,run_id)
+	var candidate: RefCounted=RogueController.new(content) if master else Controller.new(content)
+	var created: Dictionary = candidate.start(origin,seed_value,run_id,profile.get("legacy",{}).get("purchased",[])) if master else candidate.start(origin,seed_value,run_id)
 	if not created.ok: return created
 	var current: Dictionary = controller.snapshot()
 	if not current.is_empty() and current.step not in ["won","lost","abandoned"]:
@@ -143,6 +164,11 @@ func new_run(origin: String, seed_value: int, run_id: String, replace_confirmed:
 func checkpoint() -> Dictionary:
 	return persist(controller)
 
+func buy_legacy(id: String, expected_generation: int) -> Dictionary:
+	if blocked or expected_generation != profile.generation: return fail("Reload the current Legacy board before buying.")
+	if not profile.has("legacy") or controller.snapshot().is_empty(): return fail("Earn Legacy Marks in a new campaign first.")
+	return persist(controller,id)
+
 func preview() -> Dictionary:
 	if blocked: return {}
 	# Deliberately read the valid disk head, never an unsaved in-memory candidate.
@@ -152,5 +178,6 @@ func preview() -> Dictionary:
 	if data.disk_generation != profile.generation or data.transaction_id != profile.transaction_id: return {}
 	var owned: Array = data.plan.cards.map(func(card): return content.cards[card.card_id])
 	owned.sort_custom(func(a,b): return a.rating() > b.rating() if a.rating() != b.rating() else a.card_id < b.card_id)
-	var chapter := mini(3,int(data.wins/4.0)+1)
-	return {"run_id":data.run_id,"origin":data.origin,"wins":data.wins,"defeats":data.defeats,"cash":data.cash,"step":data.step,"best_cards":owned.slice(0,2).map(func(card): return card.card_id),"chapter":chapter,"fixtures":data.fixtures.slice((chapter-1)*4,chapter*4),"ledger":data.ledger.duplicate(true),"next_opponent":data.fixtures[data.wins].club_id,"transaction_id":data.transaction_id}
+	var progress: int=data.get("node",data.wins)
+	var chapter := mini(3,int(progress/4.0)+1)
+	return {"run_id":data.run_id,"origin":data.origin,"wins":data.wins,"defeats":data.defeats,"cash":data.cash,"step":data.step,"best_cards":owned.slice(0,2).map(func(card): return card.card_id),"chapter":chapter,"fixtures":data.fixtures.slice((chapter-1)*4,chapter*4),"ledger":data.ledger.duplicate(true),"next_opponent":data.fixtures[mini(progress,11)].club_id,"transaction_id":data.transaction_id}

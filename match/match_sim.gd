@@ -12,6 +12,8 @@ const Shootout = preload("res://match/shootout.gd")
 const Restarts = preload("res://match/restarts.gd")
 const Coaching = preload("res://match/coaching.gd")
 const Analytics = preload("res://match/match_analytics.gd")
+const Managers = preload("res://match/manager_cards.gd")
+const Modifiers = preload("res://match/probability_modifiers.gd")
 const ATTRIBUTE_FIELDS := {"PAC":"pace","SHO":"shooting","PAS":"passing","DRI":"dribbling","DEF":"defence","PHY":"physical","REF":"reflexes","HAN":"handling","POS":"positioning","DIV":"diving","KIC":"kicking"}
 
 enum BallState { CONTROLLED, FLIGHT, LOOSE, DEAD, KICKOFF }
@@ -72,6 +74,24 @@ class Footballer:
 var players: Array[Footballer] = []
 var rng := RandomNumberGenerator.new()
 var analytics: Dictionary = Analytics.empty()
+var manager_cards: Array=[[],[]]
+var manager_state: Array=Managers.empty()
+
+func unmodified_attribute(id: int, key: String) -> float:
+	var p=players[id]
+	var base: float=p.get(ATTRIBUTE_FIELDS[key])
+	if key in ["REF","HAN","POS","DIV","KIC"] and "GK" not in p.card.natural_roles: base=35
+	return clampf(base*(p.card.familiarity(p.role) if p.role != "GK" else 1.0)*(0.88+0.12*clampf(p.stamina/100.0,0,1)),1,120)
+
+func probability(id: int, kind: String, base: float, enhanced: float, context: Dictionary = {}, minimum: float = 0.05, maximum: float = 0.95) -> float:
+	if manager_cards == [[],[]]:
+		Analytics.probability(analytics,active_ticks,players[id].card.card_id,kind,enhanced,enhanced)
+		return enhanced
+	var contributions: Array=[{"id":"player_traits_and_coaching","amount":enhanced-base}]
+	contributions.append_array(Managers.contributions(self,id,kind,context))
+	var resolved := Modifiers.resolve(base,contributions,minimum,maximum)
+	Analytics.probability(analytics,active_ticks,players[id].card.card_id,kind,resolved.base,resolved.value,resolved.sources)
+	return resolved.value
 var match_seed: int
 var ticks := 0
 var active_ticks := 0
@@ -357,11 +377,12 @@ func acknowledge_halftime() -> bool:
 	return true
 
 func snapshot_report() -> Dictionary:
-	return {"minute": display_minute(), "clock":preload("res://match/broadcast_clock.gd").read(self).text, "scores": scores.duplicate(),
+	var report := {"minute": display_minute(), "clock":preload("res://match/broadcast_clock.gd").read(self).text, "scores": scores.duplicate(),
 		"shots": shots.duplicate(), "on_target": shots_on_target.duplicate(),
 		"saves": saves.duplicate(), "completed": completed_passes.duplicate(),
 		"attempted": pass_attempts.duplicate(), "possession": possession_ticks.duplicate(),
 		"events": events.duplicate(true),"forfeit_team":forfeit_team,"penalties":shootout.get("goals",[]).duplicate(),"winner":winner()}
+	return report
 
 func start_restart(team: int, location: Vector2, kind: String, duration: int) -> void:
 	if kind == "penalty" and period_boundary_due():
@@ -497,7 +518,7 @@ func move_players() -> void:
 		p.position = (p.position+p.velocity*DT).clamp(Vector2(1, 1), FIELD - Vector2.ONE)
 		var effort := p.velocity.length()/maxf(movement_speed,0.01)
 		var intensity := 1.35 if plans[p.team].defence == "high_press" else (0.75 if plans[p.team].defence == "deep_block" else 1.0)
-		p.stamina = maxf(0,p.stamina-effort*intensity*(1.0-p.physical/240.0)*85.0/regulation_ticks*Traits.parameter(p,"stamina_drain_multiplier"))
+		p.stamina = maxf(0,p.stamina-effort*intensity*(1.0-p.physical/240.0)*85.0/regulation_ticks*Traits.parameter(p,"stamina_drain_multiplier")*Managers.fatigue(self,p.team))
 
 func take_control(id: int, kind: String = "recovery") -> void:
 	var hand_claim := kind in ["hold","smother"]
@@ -538,6 +559,7 @@ func take_control(id: int, kind: String = "recovery") -> void:
 	if players[id].trait_state.get("trait","") in ["screen","anticipator","close_control"]:
 		Traits.resolve(self,id,players[id].trait_state.action,"success","actual controlled touch")
 	emit_event(kind, id)
+	Managers.control(self,id,kind)
 	if hand_claim and kind not in ["hold","smother"]: emit_event("hold",id)
 
 func lane_risk(from: Vector2, to: Vector2, team: int, ignore_keeper: bool = false) -> float:
@@ -574,7 +596,11 @@ func pass_to(receiver: int, pressure: float = 0, delivery_kind: String = "pass")
 	var pass_context := {"kind":"pass","delivery":delivery_kind,"ground":delivery_kind not in ["cross","keeper_throw"] and current_restart != "throw_in" and not (plans[passer.team].attack == "direct" and length > 32)}
 	var delivery := attribute(passer.id,"KIC") if passer.role == "GK" and oriented(passer.position,passer.team).x < 16.5 else attribute(passer.id,"PAS",0,pass_context)
 	var accuracy := clampf(0.88 + 0.002 * (delivery - 80) - 0.10 * pressure - 0.18 * minf(length / 55, 1) - 0.12 * lane_risk(ball, aim, passer.team), 0.25, 0.98)
-	Analytics.probability(analytics,active_ticks,passer.card.card_id,"pass_accuracy",accuracy,accuracy)
+	var raw_delivery := unmodified_attribute(passer.id,"KIC" if passer.role == "GK" and oriented(passer.position,passer.team).x < 16.5 else "PAS")
+	var raw_accuracy := clampf(0.88+0.002*(raw_delivery-80)-0.10*pressure-0.18*minf(length/55,1)-0.12*lane_risk(ball,aim,passer.team),0.25,0.98)
+	var manager_context := {"progress":(aim.x-ball.x)*direction(passer.team),"central":absf(aim.y-34) <= 15,"wide":absf(aim.y-34) > 15,"length":length,"delivery":delivery_kind}
+	accuracy=probability(passer.id,"pass_accuracy",raw_accuracy,accuracy,manager_context)
+	Managers.pass_started(self,passer.id,manager_context)
 	if rng.randf() > accuracy:
 		aim += Vector2(rng.randf_range(-4.5, 4.5), rng.randf_range(-4.5, 4.5))*Traits.parameter(passer,"aim_dispersion_multiplier")
 	pass_attempts[passer.team] += 1
@@ -694,7 +720,9 @@ func advance_flight() -> void:
 		if ball_height > 0.6:
 			Traits.activate(self,contact,{"kind":"aerial","defending":not same_team,"descending":progress > 0.5})
 			var opponent := nearest(1-players[contact].team,players[contact].position)
-			if players[opponent].position.distance_to(contact_point) < 1.4 and rng.randf() > clampf(0.5+(attribute(contact,"PHY")-attribute(opponent,"PHY"))*0.005,0.15,0.85): contact = opponent
+			if players[opponent].position.distance_to(contact_point) < 1.4:
+				var aerial_chance := probability(contact,"aerial_contest",clampf(0.5+(unmodified_attribute(contact,"PHY")-unmodified_attribute(opponent,"PHY"))*0.005,0.15,0.85),clampf(0.5+(attribute(contact,"PHY")-attribute(opponent,"PHY"))*0.005,0.15,0.85))
+				if rng.randf() > aerial_chance: contact=opponent
 			ball = from.lerp(destination,first)
 			if players[contact].position.distance_to(ball) > 0.01: players[contact].facing = players[contact].position.direction_to(ball)
 			take_control(contact,"aerial_win")
@@ -705,7 +733,10 @@ func advance_flight() -> void:
 				shoot(pressure)
 			else: emit_event("header",contact)
 			return
-		if (ball_velocity.length() > 27 or pressure > 0.6) and rng.randf() > clampf(0.65+skill*0.003-pressure*0.12-ball_velocity.length()*0.002,0.4,0.98):
+		var difficult := ball_velocity.length() > 27 or pressure > 0.6
+		var control_chance := clampf(0.65+skill*0.003-pressure*0.12-ball_velocity.length()*0.002,0.4,0.98)
+		if difficult: control_chance=probability(contact,"receive_control" if same_team else "interception_control",clampf(0.65+unmodified_attribute(contact,"DRI" if same_team else "DEF")*0.003-pressure*0.12-ball_velocity.length()*0.002,0.4,0.98),control_chance)
+		if difficult and rng.randf() > control_chance:
 			ball = from.lerp(destination,first)
 			last_touch = contact
 			kickoff_kicker = -1
@@ -805,7 +836,7 @@ func shoot(pressure: float = 0, prepared: bool = false) -> void:
 		return
 	var shooting := attribute(shooter.id,"SHO",0,context)
 	var accuracy := clampf(0.30 + 0.004 * (shooting - 60) + 0.32 * shot_quality - 0.16 * pressure, 0.15, 0.95)
-	Analytics.probability(analytics,active_ticks,shooter.card.card_id,"shot_accuracy",accuracy,accuracy)
+	accuracy=probability(shooter.id,"shot_accuracy",clampf(0.30+0.004*(unmodified_attribute(shooter.id,"SHO")-60)+0.32*shot_quality-0.16*pressure,0.15,0.95),accuracy,context)
 	if period != Period.SHOOTOUT: shots[shooter.team] += 1
 	var target_y := 34 + rng.randf_range(-3.2, 3.2)*Traits.parameter(shooter,"aim_dispersion_multiplier")
 	var on_target := rng.randf() < accuracy
@@ -948,6 +979,7 @@ func signature() -> Array:
 	result.append([knockout,trait_allowance,shootout.duplicate(true),flight_on_target_recorded])
 	result.append([last_control_team,flight_serial,period_extension,period_extension_contact])
 	result.append(principles.duplicate(true))
+	if manager_cards != [[],[]]: result.append([manager_cards.duplicate(true),manager_state.duplicate(true)])
 	for p in players:
 		result.append([p.position, p.target, p.cooldown, p.card.card_id, p.role, p.stamina, p.velocity, p.facing, p.ready_tick,p.trait_state.duplicate(true),p.trait_uses,p.trait_ready,p.response_delay,p.run_ready_tick,p.entered_tick,p.active,p.yellows,p.shootout_trait_used,p.anchor_override])
 	return result

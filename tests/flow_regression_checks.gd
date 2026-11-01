@@ -25,6 +25,7 @@ func run() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	root.add_child(viewport)
 	var app := App.new()
+	app.master_new_runs=false # Exercise the existing save's legacy route.
 	app.apply_display = false
 	app.save_root = "user://flow_repair_"+str(Time.get_ticks_usec())
 	viewport.add_child(app)

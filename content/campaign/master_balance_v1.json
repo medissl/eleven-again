@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "initial_master_brief_targets_not_runtime_admitted_or_calibrated",
+  "status": "runtime_v3_initial_targets_uncalibrated",
   "campaign_version": "campaign_roguelite_v3",
   "regulation_active_seconds": 180,
   "starting_coins": 0,
@@ -38,7 +38,7 @@
   "batch_runs_per_policy_minimum": 1000,
   "batch_runs_per_policy_preferred": 5000,
   "notes": [
-    "This configuration is not loaded by the live campaign controller.",
+    "Loaded only by the versioned campaign_roguelite_v3 controller; calibration remains open.",
     "Keep campaign_v1 and campaign_road_v2 rules unchanged for existing saves.",
     "Starting coins zero is an explicit reversible assumption; existing legacy funds are not converted.",
     "Proc numbers are measurement targets; do not replace native deterministic eligibility blindly.",

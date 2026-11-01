@@ -11,6 +11,7 @@ const STEPS := ["opening_recruit","prepare","match","result","recruit","market",
 static func error(data: Variant, content: RefCounted) -> String:
 	if data is not Dictionary: return "Run is not a dictionary."
 	if not plain_finite(data): return "Run contains unsupported or non-finite values."
+	if data.get("content_version") == "campaign_roguelite_v3": return load("res://run/roguelite_rules.gd").validate(data,content)
 	for key in ["schema","revision","seed","wins","defeats","cash","earnings"]:
 		if data.get(key) is not int: return "Invalid run integer: "+key
 	for key in ["content_version","run_id","origin","step","offers_rng","markets_rng","attempts_rng","coaching_rng"]:
@@ -108,6 +109,7 @@ static func error(data: Variant, content: RefCounted) -> String:
 		if model == null or model.match_seed != attempt.seed or not model.knockout or model.regulation_ticks != model.REGULATION_SECONDS*60 or model.plans[0].to_data() != attempt.home_plan or model.plans[1].to_data() != content.opponent_plan(attempt.fixture.variant_id).to_data(): return "Invalid match snapshot."
 		if model.period not in model.Period.values() or model.ball_state not in model.BallState.values() or model.ticks < 0 or model.active_ticks < 0: return "Invalid football state."
 		if model.principles != [data.principles,[]]: return "Changed coaching principles."
+		if model.manager_cards != [[],[]]: return "Manager Cards are unavailable in legacy runs."
 		for player in model.players:
 			var approved: bool = content.cards.has(player.card.card_id) and content.cards[player.card.card_id].to_data() == player.card.to_data()
 			if not approved and not (player.team == 0 and Availability.is_academy(player.card.to_data(),data.run_id)): return "Changed match player definition."
