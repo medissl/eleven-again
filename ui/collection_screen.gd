@@ -16,10 +16,15 @@ var results: Array = []
 var tiles: Array[Control] = []
 var filter_panel: Control
 var body: Control
+var grid: Control
+var search: LineEdit
+var page_label: Label
+var discovery_label: Label
 
 func _ready() -> void:
 	theme = Parts.ThemeData
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	build_chrome()
 	refresh()
 
 func label(value: String, rect: Rect2, pixels: int = 18, style: String = "Label") -> Label:
@@ -34,16 +39,15 @@ func button(value: String, id: String, rect: Rect2, callback: Callable, primary:
 	node.size = rect.size
 	return node
 
-func refresh() -> void:
-	if is_instance_valid(body): remove_child(body); body.queue_free()
+func build_chrome() -> void:
 	body = Control.new()
 	body.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(body)
 	label("ELEVEN AGAIN",Rect2(32,20,600,32),23,"Team")
 	button("Back","CollectionBack",Rect2(1136,16,112,44),func(): closed.emit(); queue_free())
 	label("Collection",Rect2(32,100,600,48),34,"Heading")
-	label("Discovered %d / %d" % [discoveries.size(),library.recruits.size()],Rect2(32,152,600,28),18)
-	var search := LineEdit.new()
+	discovery_label = label("",Rect2(32,152,600,28),18)
+	search = LineEdit.new()
 	search.name = "CollectionSearch"
 	search.placeholder_text = "Search discovered players"
 	search.text = query
@@ -55,19 +59,36 @@ func refresh() -> void:
 	button("Filter","CollectionFilter",Rect2(1160,110,88,44),filters)
 	button("All cards","CollectionAll",Rect2(32,186,134,44),func(): known_only=false; query=""; role=""; tier=""; page=0; refresh(),not known_only)
 	button("Discovered","AcquiredOnly",Rect2(178,186,152,44),func(): known_only=true; page=0; refresh(),known_only)
+	button("Previous","CollectionPrevious",Rect2(904,650,134,44),func(): page-=1; refresh())
+	page_label = label("",Rect2(1040,658,76,32))
+	button("Next","CollectionNext",Rect2(1128,650,120,44),func(): page+=1; refresh())
+	grid = Control.new()
+	grid.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	grid.mouse_filter = MOUSE_FILTER_IGNORE
+	body.add_child(grid)
+
+func refresh() -> void:
+	for child in grid.get_children():
+		grid.remove_child(child)
+		child.queue_free()
+	discovery_label.text = "Discovered %d / %d" % [discoveries.size(),library.recruits.size()]
+	search.text = query
+	body.get_node("CollectionAll").theme_type_variation = "Button" if known_only else "Primary"
+	body.get_node("AcquiredOnly").theme_type_variation = "Primary" if known_only else "Button"
 	results = visible_cards()
 	var pages := maxi(1,ceili(results.size()/12.0))
-	page = clampi(page,0,pages-1)
+	page = posmod(page,pages)
+	page_label.text = "%d / %d" % [page+1,pages]
 	tiles.clear()
 	for index in mini(12,results.size()-page*12):
 		var card: Resource = results[page*12+index]
 		var known: bool = discoveries.has(card.card_id)
 		var tile: Control
-		if known: tile = Parts.card(body,library,card.card_id,128,1.0,true)
+		if known: tile = Parts.card(grid,library,card.card_id,128,1.0,true)
 		else:
 			tile = Button.new()
 			tile.custom_minimum_size = Vector2(128,179.2)
-			body.add_child(tile)
+			grid.add_child(tile)
 			for image in [["components/card-back.svg",Rect2(0,0,128,179.2)],["components/portrait-anonymous.svg",Rect2(26,24,76,76)]]:
 				var art := TextureRect.new()
 				art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -90,11 +111,9 @@ func refresh() -> void:
 	for index in tiles.size():
 		for pair in [["focus_neighbor_left",index-1],["focus_neighbor_right",index+1],["focus_neighbor_top",index-6],["focus_neighbor_bottom",index+6]]:
 			if pair[1] >= 0 and pair[1] < tiles.size(): tiles[index].set(pair[0],tiles[index].get_path_to(tiles[pair[1]]))
-	if results.is_empty(): label("No discovered players match. Clear search or filters.",Rect2(32,272,1100,80),22)
-	label("Recruit players during a run to reveal their cards.",Rect2(32,654,760,32),18)
-	button("Previous","CollectionPrevious",Rect2(904,650,134,44),func(): page=posmod(page-1,pages); refresh())
-	label("%d / %d" % [page+1,pages],Rect2(1040,658,76,32))
-	button("Next","CollectionNext",Rect2(1128,650,120,44),func(): page=posmod(page+1,pages); refresh())
+	if results.is_empty():
+		var empty := Parts.label(grid,"No discovered players match. Clear search or filters.",22)
+		empty.position = Vector2(32,272)
 	Parts.focus_loop(body)
 
 func visible_cards() -> Array:

@@ -21,7 +21,6 @@ func rebuild_campaign() -> void:
 	popup=null
 	var plan: Resource=plans[team]
 	label_at("OPPOSITION" if opponent_mode else "MY TEAM",Rect2(32,22,720,52),34,"Heading")
-	action("Collection","OpenCollection",Rect2(1040,24,208,44),open_archive)
 	var sidebar := preload("res://ui/glass_panel.gd").new()
 	sidebar.position=Vector2(24,94)
 	sidebar.size=Vector2(216,526)

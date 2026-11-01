@@ -9,6 +9,7 @@ var bed: AudioStreamPlayer
 var hype: AudioStreamPlayer
 var walkout: AudioStreamPlayer
 var in_walkout := false
+var walkout_energy := 0.0
 var in_match := false
 var music_level := 0.65
 var effects_level := 0.8
@@ -94,16 +95,17 @@ func gain(player: AudioStreamPlayer, target: float, delta: float) -> void:
 func _process(delta: float) -> void:
 	crowd_energy = lerpf(crowd_energy,target_energy,1-exp(-delta*(2.2 if target_energy > crowd_energy else 0.9)))
 	gain(menu,0.0 if in_match or in_walkout else music_level*0.32,delta)
-	gain(walkout,music_level*0.4 if in_walkout else 0.0,delta)
-	gain(bed,effects_level*0.22 if in_match else 0.0,delta)
-	gain(hype,effects_level*crowd_energy*0.34 if in_match else 0.0,delta)
+	gain(walkout,music_level*(0.14+walkout_energy*0.34) if in_walkout else 0.0,delta)
+	gain(bed,effects_level*(0.10+walkout_energy*0.12) if in_walkout else effects_level*0.22 if in_match else 0.0,delta)
+	gain(hype,effects_level*walkout_energy*0.58 if in_walkout else effects_level*crowd_energy*0.34 if in_match else 0.0,delta)
 
 func set_walkout(value: bool) -> void:
 	in_walkout = value
+	if not value: walkout_energy = 0
 	if value and not walkout.playing: walkout.play()
 
 func reveal_sting(seconds: float) -> void:
-	play("goal",-17)
+	play("goal",-9)
 	var voice: AudioStreamPlayer
 	for candidate in voices:
 		if candidate.playing and candidate.stream == stream(FILES.goal): voice=candidate
@@ -143,6 +145,7 @@ func play(cue: String, db: float = -9, pitch: float = 1.0) -> void:
 	voice.play()
 
 func whistle(count: int = 1) -> void:
+	whistle_generation += 1 # A new referee sequence cancels any unfinished previous pattern.
 	var generation := whistle_generation
 	for index in count:
 		if generation != whistle_generation or not in_match: return
@@ -151,6 +154,7 @@ func whistle(count: int = 1) -> void:
 
 func consume(event: Dictionary) -> void:
 	match str(event.kind):
+		"kickoff_setup": whistle_generation += 1
 		"kickoff_whistle", "foul", "offside": whistle()
 		"halftime", "extra_half": whistle(2)
 		"full_time": whistle(3)

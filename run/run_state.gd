@@ -19,12 +19,12 @@ static func error(data: Variant, content: RefCounted) -> String:
 		if data.get(key) is not Array: return "Invalid run list: "+key
 	for key in ["plan","offer","market","current_attempt","match_snapshot","peak_xi","discipline","abandoned_attempt"]:
 		if data.get(key) is not Dictionary: return "Invalid run state: "+key
-	if data.schema != 3 or data.content_version != Campaign.VERSION: return "Unsupported campaign version."
+	if data.schema != 3 or not Campaign.supports_version(data.content_version): return "Unsupported campaign version."
 	if not content.errors.is_empty() or not content.countries.has(data.origin) or data.run_id.is_empty(): return "Missing origin/content."
 	if data.step not in STEPS or data.revision < 1 or data.wins < 0 or data.wins > 12 or data.defeats < 0 or data.defeats > 3 or data.cash < 0: return "Invalid progress."
 	if (data.step == "won") != (data.wins == 12) or (data.step == "lost") != (data.defeats == 3): return "Invalid terminal state."
 	if data.wins == 12 and data.defeats == 3: return "Conflicting terminal state."
-	if data.fixtures != content.itinerary(data.seed): return "Frozen fixtures changed."
+	if data.fixtures != content.itinerary(data.seed,data.content_version): return "Frozen fixtures changed."
 	for name in ["offers","markets","attempts","coaching"]:
 		if not data[name+"_rng"].is_valid_int(): return "Invalid RNG state."
 	var plan: Resource = Lineup.from_data(data.plan)

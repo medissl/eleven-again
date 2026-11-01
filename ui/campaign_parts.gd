@@ -125,7 +125,9 @@ static func focus_loop(parent: Node) -> void:
 		var current := controls[index]
 		current.focus_next = current.get_path_to(controls[(index+1)%controls.size()])
 		current.focus_previous = current.get_path_to(controls[posmod(index-1,controls.size())])
-	if not controls.is_empty(): controls[0].grab_focus()
+	# Rebuilding a grid must not steal focus from its persistent pager/Back controls.
+	var focused := parent.get_viewport().gui_get_focus_owner()
+	if not controls.is_empty() and (focused == null or not parent.is_ancestor_of(focused)): controls[0].grab_focus()
 
 static func collect(node: Node, result: Array[Control]) -> void:
 	if node is Control and node.visible and node.focus_mode == Control.FOCUS_ALL and not (node is BaseButton and node.disabled): result.append(node)

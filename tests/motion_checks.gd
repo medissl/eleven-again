@@ -47,7 +47,7 @@ func run() -> void:
 	app.settings_section = "audio"
 	app.settings()
 	check(app.modal == shell and app.settings_content != body,"Category changes retain the production settings shell")
-	check(body.process_mode == Node.PROCESS_MODE_DISABLED and body.modulate.a == 1,"Outgoing category is opaque and inactive")
+	check(body.process_mode == Node.PROCESS_MODE_DISABLED and not body.visible,"Outgoing category is hidden and inactive before replacement")
 	for section in ["controls","accessibility","audio","display"]:
 		app.settings_section = section
 		app.settings()
@@ -66,7 +66,7 @@ func run() -> void:
 	await frames(2)
 	var old := app.screen
 	app.render("records")
-	check(old.modulate.a == 1 and old.process_mode == Node.PROCESS_MODE_DISABLED,"Scene transition retains an opaque noninteractive outgoing screen")
+	check(not old.visible and old.process_mode == Node.PROCESS_MODE_DISABLED,"Scene transition cannot layer two pages or receive outgoing input")
 	check(old.find_child("StartRun",true,false) == null,"Old controls cannot shadow new control lookup or receive duplicate actions")
 	await frames(20)
 	check(not is_instance_valid(old) and app.screen.modulate.a == 1,"Transition disposes the outgoing page and settles completely")

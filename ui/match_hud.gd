@@ -252,8 +252,9 @@ func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String)
 				goal_event = event
 	cue.reduced = reduced_motion
 	cue.blocked = overlay.is_active()
-	if sim.ball_state == sim.BallState.KICKOFF and sim.kickoff_ticks <= sim.RESTART_WHISTLE_TICKS and cue.title.text == "KICK-OFF":
-		cue.detail.text = "Play starts in %d" % maxi(1,ceili(sim.kickoff_ticks/60.0))
+	if sim.ball_state == sim.BallState.KICKOFF and sim.kickoff_ticks <= sim.RESTART_WHISTLE_TICKS:
+		var count := str(maxi(1,ceili(sim.kickoff_ticks/60.0)))
+		if cue.title.text != count: cue.present(count,"KICK-OFF",1.05,2)
 	if sim.finished:
 		labels.clock.text = "FULL TIME · "+clock.text
 	elif sim.period == 1:

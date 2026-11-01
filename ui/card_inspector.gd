@@ -40,7 +40,7 @@ func _ready() -> void:
 	margin.add_child(outer)
 	var header := HBoxContainer.new()
 	outer.add_child(header)
-	label(header,"PLAYER FILE",32,"Heading").size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label(header,"PLAYER OVERVIEW",32,"Heading").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var back := Button.new()
 	back.name = "CloseFile"
 	back.text = "Back"
@@ -76,32 +76,33 @@ func _ready() -> void:
 		label(details,"UNDISCOVERED",32,"Heading")
 		label(details,"This edition has not been discovered.")
 	else:
-		label(details,definition.display_name,32,"Heading")
+		var identity := HBoxContainer.new()
+		details.add_child(identity)
+		label(identity,definition.display_name,32,"Heading").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var pin := Button.new()
 		pin.text = "Pin comparison"
 		pin.name = "PinComparison"
 		pin.pressed.connect(func(): pin_requested.emit(definition.card_id))
-		details.add_child(pin)
-		label(details,str(info.get("country_name","Fictional player"))+"  "+str(info.get("version_label","Fictional"))+"  "+str(info.get("career_pool","Exhibition")))
+		pin.custom_minimum_size = Vector2(164,44)
+		identity.add_child(pin)
+		label(details,str(info.get("country_name","Fictional player"))+"  /  "+str(info.get("version_label","Exhibition")),20)
 		label(details,"%d OVR  %s  %s" % [definition.rating(),definition.primary_role,definition.tier().capitalize()],22,"Score")
-		label(details,"Base attributes  match role and fatigue adjustments apply separately.",13)
-		label(details,"Natural: "+", ".join(definition.natural_roles)+"\nFamiliar: "+(", ".join(definition.familiar_roles) if not definition.familiar_roles.is_empty() else "None"),14)
+		label(details,"Positions  "+" / ".join(definition.natural_roles)+( "    Secondary  "+" / ".join(definition.familiar_roles) if not definition.familiar_roles.is_empty() else ""),18)
 		if comparison != null: label(details,"Changes versus "+comparison.display_name+"  "+str(comparison_info.get("version_label","Fictional")),14,"BodyStrong")
+		if definition.primary_role == "GK": stats(details,"GOALKEEPING",definition.keeper_attributes,{})
 		stats(details,"OUTFIELD",definition.attributes,comparison.attributes if comparison != null else {})
-		stats(details,"GOALKEEPING",definition.keeper_attributes,comparison.keeper_attributes if comparison != null else {})
-		if definition.primary_role != "GK": label(details,"Emergency outfield keeping uses the 35 baseline.",13)
+		if definition.primary_role != "GK": stats(details,"GOALKEEPING",definition.keeper_attributes,{})
 		details.add_child(HSeparator.new())
 		if not definition.trait_id.is_empty():
 			var ability: Dictionary = definition.Traits.catalogue[definition.trait_id]
 			label(details,ability.name,26,"Score")
-			label(details,"Automatic  implemented  "+", ".join(ability.positions),13,"BodyStrong")
-			label(details,"Trigger: "+ability.trigger+"\nEffect: "+ability.effect+"\nCounterplay: "+ability.counterplay,18)
-			label(details,"3 uses in regulation; +1 in extra time. 10′ cooldown. Activation: %d stamina. Shared attribute bonus cap: +6." % int(ability.parameters.get("activation_stamina_cost",2)),13)
+			label(details,ability.effect,20)
+			label(details,"Activates: "+ability.trigger+"\nCounter: "+ability.counterplay,18)
+			label(details,"3 uses  /  10′ cooldown  /  %d stamina\n+1 use in extra time. Shared attribute bonus cap +6." % int(ability.parameters.get("activation_stamina_cost",2)),17)
 			if definition.trait_id in ["penalty_composure","cat_reflexes"]: label(details,"Shootout: one opportunity per kick, using its separate shootout allowance.",13)
 		else: label(details,"No signature trait. Ordinary football actions remain available.",15)
-		label(details,"Original provisional game ratings. Portraits are modular likeness studies.",13)
 		if info.has("identity_reference_id"):
-			label(details,"Source: "+str(info.get("reference_title",info.identity_reference_id))+"\n"+str(info.get("reference_note",info.get("reference_scope","").replace("_"," "))),13)
+			label(details,"Identity reference: "+str(info.get("reference_title",info.identity_reference_id))+"\n"+str(info.get("reference_note",info.get("reference_scope","").replace("_"," "))),16)
 			var address: String = info.get("reference_url","")
 			if address.begins_with("https://"):
 				var link := LinkButton.new()
@@ -169,23 +170,23 @@ func build_comparison() -> void:
 	preload("res://ui/campaign_parts.gd").focus_loop(self)
 
 func stats(parent: Node, title: String, values: Dictionary, versus: Dictionary) -> void:
-	label(parent,title,13,"BodyStrong")
+	label(parent,title,18,"BodyStrong")
 	var grid := GridContainer.new()
 	grid.columns = 6
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.add_theme_constant_override("h_separation",12)
 	parent.add_child(grid)
 	for key in values:
-		var key_label := label(grid,key,13)
+		var key_label := label(grid,key,18,"BodyStrong")
 		key_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-		key_label.custom_minimum_size = Vector2(34,26)
+		key_label.custom_minimum_size = Vector2(48,34)
 		var value := str(int(values[key]))
 		if not versus.is_empty():
 			var delta: int = values[key]-versus[key]
 			value += " (%+d)" % delta
-		var number := label(grid,value,20,"Score")
+		var number := label(grid,value,28,"Score")
 		number.autowrap_mode = TextServer.AUTOWRAP_OFF
-		number.custom_minimum_size = Vector2(90 if not versus.is_empty() else 40,26)
+		number.custom_minimum_size = Vector2(90 if not versus.is_empty() else 64,38)
 
 func dismiss() -> void:
 	if closing: return

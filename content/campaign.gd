@@ -3,7 +3,8 @@ extends RefCounted
 const Card = preload("res://content/player_card.gd")
 const Lineup = preload("res://squad/lineup.gd")
 const Catalogue = preload("res://content/catalogue.gd")
-const VERSION := "campaign_v1"
+const VERSION := "campaign_road_v2"
+const LEGACY_VERSION := "campaign_v1"
 const ROOT := "res://content/campaign/"
 var errors: Array[String] = []
 var cards: Dictionary = {}
@@ -14,6 +15,7 @@ var recruits: Array[Resource] = []
 var metadata_by_id: Dictionary = {}
 var rules: Dictionary = {}
 var weights: Dictionary = {}
+var road_aliases := {}
 
 func _init() -> void:
 	rules = read_data("run_rules")
@@ -53,6 +55,7 @@ func _init() -> void:
 		if clubs.has(club.id): errors.append("Duplicate club")
 		clubs[club.id] = club
 	validate()
+	if errors.is_empty(): install_road_rivals()
 	if not errors.is_empty():
 		cards.clear()
 		recruits.clear()
@@ -60,6 +63,34 @@ func _init() -> void:
 		clubs.clear()
 		variants.clear()
 		metadata_by_id.clear()
+
+static func supports_version(value: Variant) -> bool:
+	return value in [VERSION,LEGACY_VERSION]
+
+func install_road_rivals() -> void:
+	var records: Array = read_data("road_rivals").get("rivals",[])
+	if records.size() != 16: errors.append("Incomplete road opposition"); return
+	for record in records:
+		if not clubs.has(record.source) or clubs.has(record.id) or road_aliases.has(record.source) or not str(record.id).is_valid_identifier():
+			errors.append("Invalid road rival identity"); continue
+		var club: Dictionary = clubs[record.source].duplicate(true)
+		club.id = record.id
+		club.name = record.name
+		club.legacy_source = record.source
+		club.opposition_kind = record.kind
+		club.country_code = record.get("country","")
+		club.home_kit = "#"+record.primary
+		club.away_kit = "#"+record.accent
+		clubs[club.id] = club
+		road_aliases[record.source] = club.id
+		if not ResourceLoader.exists(badge_path(club.id)): errors.append("Missing original road crest")
+		for variant in variants.values():
+			if variant.team_id != record.source: continue
+			var copy: Dictionary = variant.duplicate(true)
+			copy.id = str(variant.id).replace(record.source,club.id)
+			copy.team_id = club.id
+			variants[copy.id] = copy
+			if opponent_plan(copy.id) == null: errors.append("Invalid road opponent plan")
 
 func read_data(file: String) -> Dictionary:
 	var data = JSON.parse_string(FileAccess.get_file_as_string(ROOT+file+".json"))
@@ -126,17 +157,19 @@ static func xi_rating(plan: Resource) -> float:
 	for slot in 11: total += plan.cards[plan.starters[slot]].rating(Lineup.ROLES[plan.formation][slot],true)
 	return total/11.0
 
-func itinerary(seed_value: int) -> Array:
+func itinerary(seed_value: int, version: String = VERSION) -> Array:
 	if not errors.is_empty(): return []
+	if not supports_version(version): return []
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed_value
 	var result: Array = []
 	for chapter in range(1,4):
-		var ordinary: Array = clubs.values().filter(func(club): return club.chapter == chapter and not club.is_boss)
-		var finals: Array = clubs.values().filter(func(club): return club.chapter == chapter and club.is_boss)
+		var ordinary: Array = clubs.values().filter(func(club): return not club.has("legacy_source") and club.chapter == chapter and not club.is_boss)
+		var finals: Array = clubs.values().filter(func(club): return not club.has("legacy_source") and club.chapter == chapter and club.is_boss)
 		for offset in 4:
 			var pool: Array = finals if offset == 3 else ordinary
 			var club: Dictionary = pool.pop_at(rng.randi_range(0,pool.size()-1))
+			if version == VERSION and road_aliases.has(club.id): club = clubs[road_aliases[club.id]]
 			var stage := (chapter-1)*4+offset+1
 			result.append({"stage":stage,"club_id":club.id,"variant_id":"%s_stage_%02d" % [club.id,stage]})
 	return result
@@ -153,6 +186,7 @@ func metadata(card_id: String) -> Dictionary:
 	return info
 
 func badge_path(club_id: String) -> String:
+	if clubs.has(club_id) and clubs[club_id].has("legacy_source"): return "res://assets/badges/road/"+club_id+".svg"
 	return "res://assets/badges/campaign/"+club_id+".svg" if clubs.has(club_id) and club_id.is_valid_identifier() else ""
 
 func price(ovr: int) -> int:

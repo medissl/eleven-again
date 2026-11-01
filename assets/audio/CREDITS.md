@@ -15,4 +15,4 @@ Licences permit reuse and adaptation; this game does not imply the artists endor
 - Football kick: bittermelonheart, CC0, https://freesound.org/people/bittermelonheart/sounds/555042/ . Public embedded HQ MP3 preview, https://cdn.freesound.org/previews/555/555042_11910076-hq.mp3 . Pass/dribble/shot cues use different gains/pitches; save/tackle also layer the credited Kenney recordings.
 - Card handling: Kenney Casino Audio 1.1, CC0, https://kenney.nl/assets/casino-audio . card-shuffle.ogg, card-place-2.ogg, card-slide-1.ogg; original licence included.
 - Walkout music: Hyperton by Sudocolon, CC0, https://opengameart.org/content/hyperton . Original Hyperton.mp3 renamed walkout.mp3. The earlier dklon recordings remain as unused source variants; runtime uses the real referee recording above.
-`nVendored licence text is retained with line endings/trailing whitespace normalized; audio payload bytes are unchanged.
+Vendored licence text is retained with line endings/trailing whitespace normalized; audio payload bytes are unchanged.

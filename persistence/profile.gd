@@ -30,7 +30,7 @@ static func error(data: Variant, content: RefCounted) -> String:
 			seen.append(run_id)
 	for id in data.runs:
 		var record = data.runs[id]
-		if record is not Dictionary or record.get("run_id") != id or record.get("origin") not in content.countries or record.get("content_version") != content.VERSION or record.get("balance_version") is not String or record.get("outcome") not in ["active","won","lost","abandoned"]: return "Invalid run record."
+		if record is not Dictionary or record.get("run_id") != id or record.get("origin") not in content.countries or not content.supports_version(record.get("content_version")) or record.get("balance_version") is not String or record.get("outcome") not in ["active","won","lost","abandoned"]: return "Invalid run record."
 		for key in ["wins","defeats","earnings","goal_difference"]:
 			if record.get(key) is not int: return "Invalid record value."
 		if record.wins < 0 or record.wins > 12 or record.defeats < 0 or record.defeats > 3: return "Invalid record progress."

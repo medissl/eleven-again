@@ -48,21 +48,50 @@ func run() -> void:
 	check(app.session.profile.generation == old_generation+1 and app.session.profile.discoveries.has(id),"Owned card and discovery are durably published together")
 	check(not app.session.act("acquire",[id,""],revision).ok and app.session.controller.snapshot() == acquired,"Duplicate signing during walkout cannot charge or grant twice")
 	check(Session.new(app.save_root).controller.snapshot() == acquired,"A fresh session resumes the committed signing during its presentation")
+	check(not app.walkout.card.visible and not app.walkout.confirm.visible,"Suspense conceals the card and prevents early confirmation")
+	app.walkout.age=3.0
+	await frames(2)
 	await capture(viewport,"walkout-position",height)
-	await frames(64)
+	app.walkout.age=6.0
+	await frames(2)
 	await capture(viewport,"walkout-country",height)
-	await frames(66)
+	app.walkout.age=9.0
+	await frames(2)
 	await capture(viewport,"walkout-playstyle",height)
-	await frames(160)
+	app.walkout.age=12.3
+	await frames(4)
+	await capture(viewport,"walkout-climax",height)
+	for down in [true,false]:
+		var key := InputEventKey.new()
+		key.keycode=KEY_ENTER; key.pressed=down
+		viewport.push_input(key)
+	check(app.walkout.confirm.visible and viewport.gui_get_focus_owner() == app.walkout.confirm,"Enter skips intro and places keyboard focus on the sole Confirm action")
+	var recorder := AudioEffectRecord.new()
+	recorder.format = AudioStreamWAV.FORMAT_16_BITS
+	AudioServer.add_bus_effect(0,recorder)
+	recorder.set_recording_active(true)
+	app.walkout.age=14.0
+	await frames(60)
 	check(app.walkout.confirm.visible and app.audio.in_walkout,"Walkout reaches the actual card reveal with its own music")
+	check(app.audio.hype.playing and app.audio.hype.volume_db > -20 and app.audio.bed.playing,"Walkout has a continuous audible stadium build, not only truncated cheer snippets")
 	check(app.walkout.card.content.scale.x > 0 and app.walkout.card.portrait.size.x > 0,"Revealed native card has a nonzero rendered layout")
+	recorder.set_recording_active(false)
+	var mix: AudioStreamWAV = recorder.get_recording()
+	var peak := 0
+	if mix != null:
+		for offset in range(0,mix.data.size()-2,2): peak=maxi(peak,absi(mix.data.decode_s16(offset)))
+		mix.save_to_wav("res://reports/recruitment/walkout-mix-%d.wav" % height)
+	check(mix != null and mix.data.size() > 10000 and peak > 100 and peak < 32767,"Native walkout crowd/music produces audible unclipped PCM")
+	AudioServer.remove_bus_effect(0,AudioServer.get_bus_effect_count(0)-1)
 	await capture(viewport,"walkout-reveal",height)
-	app.walkout.confirm_player()
-	await frames(12)
-	await capture(viewport,"recruited",height)
-	app.walkout.confirm_player()
+	var cinematic: Control=app.walkout
+	for down in [true,false]:
+		var key := InputEventKey.new()
+		key.keycode=KEY_ENTER; key.pressed=down
+		viewport.push_input(key)
+	cinematic.confirm_player()
 	await frames(24)
-	check(app.page == "board" and not is_instance_valid(app.walkout) and app.session.controller.snapshot() == acquired,"Confirm then Continue returns to the saved campaign without another transaction")
+	check(app.page == "board" and not is_instance_valid(app.walkout) and app.session.controller.snapshot() == acquired,"One Confirm returns directly to campaign; duplicate Confirm cannot repeat a transaction or show another recruited scene")
 	await capture(viewport,"pyramid",height)
 	app.squad()
 	await frames(25)
@@ -102,7 +131,7 @@ func run() -> void:
 	var proof := preload("res://ui/recruitment_walkout.gd").new()
 	proof.definition=legend; proof.info=app.library.metadata(legend.card_id); proof.audio=app.audio; proof.newly_discovered=true
 	app.canvas.add_child(proof)
-	proof.age=4.1
+	proof.age=12.3
 	await frames(12)
 	await capture(viewport,"legend-reveal",height)
 	check(proof.card.legend_reveal and proof.headline.text == "LEGEND DISCOVERED","Legend climax uses the shared purple frame, glow and truthful discovery text")

@@ -90,6 +90,9 @@ func run() -> void:
 		assert(is_instance_valid(archive.inspection) and archive.inspection.definition.display_name.contains("Mbappé"))
 		await picture(viewport,"file-large" if archive.ui_scale > 1 else "file")
 		await key(viewport,KEY_TAB)
+		if viewport.gui_get_focus_owner().name == "AbilityIcon":
+			assert(is_instance_valid(viewport.gui_get_focus_owner().hint),"Ability glyph remains keyboard accessible")
+			await key(viewport,KEY_TAB)
 		assert(viewport.gui_get_focus_owner().name == "PinComparison","Comparison pin is keyboard accessible")
 		await key(viewport,KEY_TAB)
 		assert(viewport.gui_get_focus_owner() is LinkButton,"Source is keyboard accessible")
@@ -210,6 +213,7 @@ func preparation_flow(viewport: SubViewport) -> void:
 	assert(prep.card_panel.definition.display_name == "Ward")
 	await picture(viewport,"fixture-file")
 	await key(viewport,KEY_TAB)
+	if viewport.gui_get_focus_owner().name == "AbilityIcon": await key(viewport,KEY_TAB)
 	assert(viewport.gui_get_focus_owner().name == "PinComparison")
 	await key(viewport,KEY_TAB)
 	assert(viewport.gui_get_focus_owner().name == "CloseFile","A file without an external source keeps focus inside")

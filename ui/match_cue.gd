@@ -39,7 +39,7 @@ func consume(event: Dictionary, teams: Array) -> void:
 	var who: String = teams[team] if team in [0,1] else ""
 	match str(event.kind):
 		"kickoff_setup": present("KICK-OFF",who,1.2,2)
-		"kickoff_whistle": present("KICK-OFF","",3.0,2)
+		"kickoff_whistle": present("KICK-OFF","",0.55,2)
 		"offside": present("OFFSIDE",event.get("actor_name",""),1.65,2)
 		"foul": present("FOUL",event.get("actor_name",""),1.65,1)
 		"yellow_card": present("YELLOW CARD",event.get("actor_name",""),1.8,3,Color("E5C66D"))

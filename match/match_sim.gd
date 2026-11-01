@@ -18,7 +18,7 @@ enum Period { FIRST_HALF, HALF_TIME, SECOND_HALF, FULL_TIME, EXTRA_FIRST, EXTRA_
 const DT := 1.0 / 60.0
 const FIELD := Vector2(105, 68)
 const REGULATION_SECONDS := 180
-const KICKOFF_SETUP_TICKS := 252 # 1.2-second arrival, whistle, then three seconds before the kick.
+const KICKOFF_SETUP_TICKS := 252 # 1.2-second arrival, three-second countdown, then whistle and kick.
 const RESTART_WHISTLE_TICKS := 180
 const CENTRE := FIELD / 2
 const MOVEMENT_TEMPO := 1.0
@@ -258,8 +258,8 @@ func step() -> void:
 		p.cooldown = maxi(0, p.cooldown - 1)
 	if ball_state == BallState.KICKOFF:
 		kickoff_ticks -= 1
-		if kickoff_ticks == RESTART_WHISTLE_TICKS: emit_event("kickoff_whistle",kickoff_taker)
 		if kickoff_ticks > 0: return
+		emit_event("kickoff_whistle",kickoff_taker)
 		owner = kickoff_taker
 		emit_event("kickoff", kickoff_taker)
 		current_restart = "kickoff"
@@ -748,7 +748,11 @@ func advance_loose(recover: bool = true) -> void:
 	ball = destination if contact < 0 else from.lerp(destination,first)
 	if contact >= 0:
 		if players[contact].position.distance_to(ball) > 0.01: players[contact].facing = players[contact].position.direction_to(ball)
-		take_control(contact)
+		# A legal loose-ball collection is a hand claim, not an outfield first touch.
+		var backpass := flight_source >= 0 and last_touch == flight_source and players[flight_source].team == players[contact].team and flight_kind in ["pass","through","one_two","cutback","keeper_throw","throw_in"]
+		if players[contact].role == "GK" and legal_hand_contact(contact) and not backpass:
+			keeper_delivery_contact(contact)
+		else: take_control(contact)
 
 func deflect_ball(id: int, retained: float) -> void:
 	var normal := players[id].position.direction_to(ball)
@@ -884,9 +888,14 @@ func challenge_carrier() -> void:
 			attacker.cooldown = 60
 			take_control(keeper.id, "smother")
 			return
-	var defender := players[nearest(1 - attacker.team, ball, false)]
-	if defender.cooldown > 0 or defender.position.distance_to(ball) > 1.8:
-		return
+	var defender_id := -1
+	var distance := 1.8
+	for candidate in players:
+		if not candidate.active or candidate.team == attacker.team or candidate.role == "GK" or candidate.cooldown > 0: continue
+		var gap := candidate.position.distance_to(ball)
+		if gap <= distance: distance=gap; defender_id=candidate.id
+	if defender_id < 0: return
+	var defender := players[defender_id]
 	defender.cooldown = 48
 	var angle := (attacker.position - defender.position).normalized().dot(Vector2(direction(attacker.team), 0))
 	var enhancement := Traits.activate(self,defender.id,{"kind":"tackle","legal_angle":angle <= 0.45})
@@ -913,7 +922,7 @@ func emit_event(kind: String, actor: int, extra: Dictionary = {}) -> void:
 		event["actor_card"] = players[actor].card.card_id
 		event["flight"] = flight_serial
 		if players[actor].trait_state.get("state","") == "active": event["action"] = players[actor].trait_state.action
-	event.merge(extra)
+	event.merge(extra,true) # Explicit scoring-team data must override the actor's team on own goals.
 	events.append(event)
 
 func signature() -> Array:

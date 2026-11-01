@@ -34,6 +34,8 @@ var origin_selection := "ENG"
 var coach_selection := ""
 var settings_section := "display"
 var record_page := 0
+var road_stage := -1
+var road_token_stage := -1
 var pinned_card := ""
 var arena: TextureRect
 var arena_shade: ColorRect
@@ -177,7 +179,7 @@ func route() -> void:
 	var data: Dictionary = session.controller.snapshot()
 	match data.get("step",""):
 		"match": open_match()
-		"prepare": render("board")
+		"prepare": road_stage=data.wins; render("board")
 		"opening_recruit", "recruit", "market": render("offer")
 		"coaching": render("coaching")
 		"result": render("result")
@@ -202,6 +204,7 @@ func _show_walkout(id: String, newly_discovered: bool) -> void:
 	walkout.info=library.metadata(id)
 	walkout.audio=audio
 	walkout.reduced=preferences.data.motion
+	walkout.effects_enabled=preferences.data.effects
 	walkout.newly_discovered=newly_discovered
 	open_modal(walkout)
 	walkout.completed.connect(func(): walkout=null; close_modal(); route())
@@ -504,7 +507,7 @@ func _input(event: InputEvent) -> void:
 	if not (event is InputEventKey and event.pressed and not event.echo): return
 	if is_instance_valid(walkout):
 		if event.keycode == KEY_ESCAPE: walkout.skip_intro(); get_viewport().set_input_as_handled()
-		elif event.keycode == KEY_ENTER and walkout.stage == 0 and walkout.age < 5.2: walkout.skip_intro(); get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_ENTER and not walkout.confirm.visible: walkout.skip_intro(); get_viewport().set_input_as_handled()
 		return
 	var focused := get_viewport().gui_get_focus_owner()
 	if event.keycode == KEY_ESCAPE and is_instance_valid(focused) and focused.has_method("dismiss_hint") and is_instance_valid(focused.hint):

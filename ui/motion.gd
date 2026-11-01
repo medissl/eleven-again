@@ -3,6 +3,10 @@ extends RefCounted
 
 static func bind_control(control: Control, reduced: Callable) -> void:
 	if not (control is BaseButton or control is Slider or control is LineEdit) or control.has_meta("motion_feedback"): return
+	var viewport := control.get_viewport()
+	if not viewport.has_meta("motion_input"):
+		viewport.set_meta("motion_input",true)
+		viewport.add_child(InputMode.new())
 	if control is Button: preload("res://ui/glass_panel.gd").button(control)
 	var feedback := Feedback.new()
 	feedback.name = "MotionFeedback"
@@ -24,6 +28,18 @@ static func freeze(node: Node) -> void:
 	for child in node.get_children(): freeze(child)
 	node.process_mode = Node.PROCESS_MODE_DISABLED
 
+class InputMode:
+	extends Node
+	func _input(event: InputEvent) -> void:
+		var viewport := get_viewport()
+		var keyboard: bool = viewport.get_meta("keyboard_navigation",false)
+		var next := keyboard
+		if event is InputEventKey and event.pressed: next = true
+		elif event is InputEventMouseButton or event is InputEventMouseMotion: next = false
+		if next == keyboard: return
+		viewport.set_meta("keyboard_navigation",next)
+		get_tree().call_group("motion_feedback","input_mode_changed")
+
 class Feedback:
 	extends Node
 	var control: Control
@@ -34,6 +50,7 @@ class Feedback:
 	var base_scale := Vector2.ONE
 	var base_tint := Color.WHITE
 	func _ready() -> void:
+		add_to_group("motion_feedback")
 		base_scale = control.scale
 		base_tint = control.self_modulate
 		control.mouse_entered.connect(refresh)
@@ -46,11 +63,20 @@ class Feedback:
 			control.toggled.connect(func(_pressed): refresh())
 		control.resized.connect(func(): control.pivot_offset=control.size/2)
 		control.pivot_offset = control.size/2
+		input_mode_changed()
+	func input_mode_changed() -> void:
+		if not is_inside_tree() or get_viewport() == null: return
+		var keyboard: bool = get_viewport().get_meta("keyboard_navigation",false)
+		if control.get_meta("game_control",false): control.add_theme_stylebox_override("focus",StyleBoxEmpty.new())
+		elif keyboard: control.remove_theme_stylebox_override("focus")
+		else: control.add_theme_stylebox_override("focus",StyleBoxEmpty.new())
 		refresh(true)
 	func refresh(immediate: bool = false) -> void:
+		if not is_inside_tree() or get_viewport() == null: return
 		if tween != null: tween.kill()
 		var disabled: bool = control is BaseButton and control.disabled
-		var active := not disabled and (control.has_focus() or control.get_global_rect().has_point(control.get_global_mouse_position()))
+		var keyboard: bool = get_viewport().get_meta("keyboard_navigation",false)
+		var active := not disabled and (control.has_focus() if keyboard else control.get_global_rect().has_point(control.get_global_mouse_position()))
 		var target := 0.0 if disabled else 0.55 if down else 1.0 if active else 0.0
 		if immediate or reduced.call():
 			apply(target)
@@ -87,22 +113,19 @@ class Swap:
 		outgoing = old
 		current = incoming
 		if is_instance_valid(old):
-			old.modulate.a = 1
-			old.position = old.get_meta("motion_destination",old.position)
+			# Never composite two sets of live text, pitches or controls. The arena/chrome stays put.
+			old.hide()
 			load("res://ui/motion.gd").freeze(old)
+			old.queue_free()
 		if reduced:
 			if is_instance_valid(old): old.queue_free()
 			if is_instance_valid(incoming): incoming.modulate.a=1
 			return
-		var owner: Control = incoming if is_instance_valid(incoming) else old
-		if not is_instance_valid(owner): return
-		tween = owner.create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		if not is_instance_valid(incoming): return
+		tween = incoming.create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		if is_instance_valid(incoming):
 			var destination := incoming.position
 			incoming.set_meta("motion_destination",destination)
-			incoming.modulate.a = 0
+			incoming.modulate.a = 1
 			incoming.position += offset
-			tween.tween_property(incoming,"modulate:a",1.0,0.2)
-			tween.tween_property(incoming,"position",destination,0.2)
-		else: tween.tween_property(old,"modulate:a",0.0,0.14)
-		tween.finished.connect(func(): if is_instance_valid(old): old.queue_free())
+			tween.tween_property(incoming,"position",destination,0.16)

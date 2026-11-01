@@ -29,7 +29,7 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2(-5,-5),size+Vector2(10,10)),Color.WHITE)
 
 static func button(node: Button) -> void:
-	if node.has_meta("motion_surface") or node.has_method("layout_card") or node.name in ["AbilityIcon","PossessionInfo"]: return
+	if node.get_meta("game_control",false) or node.has_meta("motion_surface") or node.has_method("layout_card") or node.name in ["AbilityIcon","PossessionInfo"]: return
 	var glass := preload("res://ui/glass_panel.gd").new()
 	glass.name = "GlassSurface"
 	glass.show_behind_parent = true

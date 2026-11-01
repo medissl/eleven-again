@@ -11,6 +11,7 @@ static func late_risk(m, team: int) -> float:
 static func targets(m) -> void:
 	var previous_jobs: Array = m.players.map(func(p): return p.job)
 	var control: int = m.control_team()
+	var onside := [onside_limit(m,0),onside_limit(m,1)]
 	if not m.combination.is_empty() and (m.active_ticks > m.combination.expires or control != m.combination.team): m.combination.clear()
 	for p in m.players:
 		if not p.active: continue
@@ -32,13 +33,19 @@ static func targets(m) -> void:
 			p.job = "cover goal"
 		elif attacking:
 			if p.role == "ST":
-				target = Vector2(clampf(local.x+14,58,96),28 if local.y > 34 else 40)
+				var lane := 28.0 if local.y > 34 else 40.0
+				if plan.formation == "4-4-2": lane = 27.0 if p.id%11 == 9 else 41.0
+				# Bend into a different channel over time; deterministic, with no extra RNG stream.
+				target = Vector2(clampf(local.x+14,58,96),lane+sin(m.active_ticks/100.0+p.id)*3)
 				p.job = "depth run"
 			elif p.role in ["LW","RW"]:
 				target.x = clampf(local.x+(18 if countering else 12),48,95)
-				if local.x > 60: target.y = 20 if p.role == "LW" else 48
+				if local.x > 60: target.y = (12 if p.role == "LW" else 56) if plan.route == "wide" else (20 if p.role == "LW" else 48)
 				p.job = "width outlet"
-			elif p.role in ["CM","AM"]:
+			elif p.role == "AM":
+				target = Vector2(clampf(local.x+6,40,88),clampf(34+(local.y-34)*0.35,22,46))
+				p.job = "between lines"
+			elif p.role == "CM":
 				target = Vector2(clampf(local.x-(5 if plan.attack == "possession" else 11),28,84),clampf(local.y+(-10 if p.id%2 == 0 else 10),12,56))
 				p.job = "triangle support"
 			elif p.role == "DM":
@@ -48,6 +55,22 @@ static func targets(m) -> void:
 				target.x = clampf(local.x+6,45,91)
 				p.job = "overlap"
 			if plan.attack == "counter" and not countering and p.role in ["LB","RB","CM","DM"]: target.x -= 5
+		elif p.role in ["LB","RB","CB","DM"]:
+			# Track a runner on this side rather than watching the goalkeeper from a fixed anchor.
+			var danger := -1
+			var distance := 19.0
+			for opponent in m.players:
+				if not opponent.active or opponent.team == p.team or opponent.role == "GK" or opponent.id == m.owner: continue
+				var runner: Vector2 = m.oriented(opponent.position,p.team)
+				if runner.x > 50 or absf(runner.y-target.y) > 17: continue
+				var gap: float = p.position.distance_to(opponent.position)
+				if gap < distance: distance=gap; danger=opponent.id
+			if danger >= 0:
+				var runner: Vector2 = m.oriented(m.players[danger].position,p.team)
+				target = Vector2(maxf(5,runner.x-2.5),lerpf(runner.y,34,0.1))
+				p.job = "track runner"
+		if attacking and m.owner >= 0 and p.role in ["ST","LW","RW","AM"]:
+			target.x = minf(target.x,onside[p.team])
 		p.target = m.oriented(target,p.team)
 	if m.owner >= 0:
 		var carrier = m.players[m.owner]
@@ -57,12 +80,24 @@ static func targets(m) -> void:
 		if carrier.position.distance_to(ahead.position) < 5 and (ahead.position.x-carrier.position.x)*m.direction(carrier.team) > 0: target.y = clampf(local.y+(-6 if local.y > 34 else 6),6,62)
 		carrier.target = m.oriented(target,carrier.team)
 		carrier.job = "carry"
+		if carrier.role == "GK":
+			carrier.target = carrier.position
+			carrier.job = "distribute"
+		elif local.x < 88:
+			var alternative := Vector2(target.x,clampf(local.y+(-7 if local.y < 34 else 7),6,62))
+			if m.lane_risk(carrier.position,m.oriented(alternative,carrier.team),carrier.team)+0.08 < m.lane_risk(carrier.position,carrier.target,carrier.team):
+				carrier.target = m.oriented(alternative,carrier.team)
+				carrier.job = "carry into space"
 		var chaser: int = m.nearest(1-carrier.team,m.ball,false)
 		if m.plans[1-carrier.team].defence != "deep_block" or m.oriented(m.ball,1-carrier.team).x < 55:
-			m.players[chaser].target = m.ball
+			m.players[chaser].target = (m.ball+carrier.velocity*0.25).clamp(Vector2(1,1),m.FIELD-Vector2.ONE)
 			m.players[chaser].job = "press"
 		var cover: int = m.nearest(1-carrier.team,m.ball,false,chaser)
-		m.players[cover].target = (m.ball+m.oriented(Vector2(0,34),1-carrier.team))*0.5
+		var defending: int = 1-carrier.team
+		var ball_local: Vector2 = m.oriented(m.ball,defending)
+		var gap := 4.5 if m.plans[defending].defence == "high_press" else 9.0 if m.plans[defending].defence == "deep_block" else 7.0
+		var cover_local := Vector2(maxf(4,ball_local.x-gap),lerpf(ball_local.y,34,0.3))
+		m.players[cover].target = m.oriented(cover_local,defending)
 		m.players[cover].job = "cover presser"
 	elif m.ball_state in [m.BallState.LOOSE,m.BallState.FLIGHT]:
 		for team in 2:
@@ -83,6 +118,14 @@ static func targets(m) -> void:
 			p.job = "third-man run" if key == "third" else "one-two run"
 	for p in m.players:
 		if p.job == "third-man run" and previous_jobs[p.id] != p.job: p.run_ready_tick = m.active_ticks+12
+
+static func onside_limit(m, team: int) -> float:
+	var defenders: Array[float] = []
+	for player in m.players:
+		if player.active and player.team != team: defenders.append(m.oriented(player.position,team).x)
+	if defenders.size() < 2: return 96.0
+	defenders.sort()
+	return maxf(52.0,maxf(m.oriented(m.ball,team).x,defenders[-2])-1.2)
 
 static func action(m) -> void:
 	if m.owner < 0: return

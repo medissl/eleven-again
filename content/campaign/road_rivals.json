@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "note": "Original rival identities. New national opposition uses fictional invitational XIs, with frozen authored opponent strength and tactics. No official club names, crests or roster affiliation.",
+  "rivals": [
+    {"source":"northridge_fc","id":"barcelini","name":"FC Barcelini","kind":"club","primary":"193C82","accent":"B44667","symbol":0},
+    {"source":"riverdale_united","id":"rive_athletic","name":"Rive Athletic","kind":"club","primary":"112A50","accent":"5FE3F3","symbol":1},
+    {"source":"ironvale_rovers","id":"isar_union","name":"Isar Union","kind":"club","primary":"A52343","accent":"F0E9DB","symbol":2},
+    {"source":"coppergate_fc","id":"forge_sporting","name":"Forge Sporting","kind":"club","primary":"252633","accent":"DA9C6A","symbol":3},
+    {"source":"redwood_athletic","id":"torino_nera","name":"Torino Nera","kind":"club","primary":"171D2D","accent":"EDEFF5","symbol":0},
+    {"source":"seabrook_city","id":"milano_vela","name":"Milano Vela","kind":"club","primary":"231E31","accent":"EE5969","symbol":1},
+    {"source":"crown_athletic","id":"real_monteluz","name":"Real Monteluz","kind":"club","primary":"DDDCE8","accent":"B9994E","symbol":2},
+    {"source":"regent_united","id":"manchester_vale","name":"Manchester Vale","kind":"club","primary":"66AFCB","accent":"E9F4F7","symbol":3},
+    {"source":"aurora_union","id":"national_france","name":"France","kind":"nation","country":"FRA","primary":"162D65","accent":"F0ECE4","symbol":1},
+    {"source":"azul_sol","id":"national_brazil","name":"Brazil","kind":"nation","country":"BRA","primary":"176A52","accent":"EBD05A","symbol":0},
+    {"source":"kintsugi_fc","id":"national_japan","name":"Japan","kind":"nation","country":"JPN","primary":"14335F","accent":"E76776","symbol":2},
+    {"source":"atlas_city","id":"national_england","name":"England","kind":"nation","country":"ENG","primary":"EEEEEA","accent":"BA354E","symbol":3},
+    {"source":"crimson_vale","id":"national_argentina","name":"Argentina","kind":"nation","country":"ARG","primary":"80B5D4","accent":"F2EFE6","symbol":1},
+    {"source":"obsidian_rovers","id":"national_portugal","name":"Portugal","kind":"nation","country":"POR","primary":"832C44","accent":"83C9A1","symbol":0},
+    {"source":"meridian_xi","id":"national_spain","name":"Spain","kind":"nation","country":"ESP","primary":"8C283D","accent":"E4BB51","symbol":2},
+    {"source":"eclipse_athletic","id":"national_germany","name":"Germany","kind":"nation","country":"GER","primary":"292936","accent":"E8BE5B","symbol":3}
+  ]
+}

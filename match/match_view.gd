@@ -38,6 +38,9 @@ var presented_owner := -1
 var impact_tick := -1000
 var impact_position := Vector2.ZERO
 var ball_trail: Array[Vector2] = []
+var trail_times: Array[float] = []
+var trail_clock := 0.0
+var name_metrics := {}
 var preparation: Control
 var external_model: RefCounted
 var campaign_mode := false
@@ -194,6 +197,7 @@ func snap_presentation() -> void:
 	for i in 22: player_positions[i] = sim.players[i].position
 	ball = sim.ball
 	ball_trail.clear()
+	trail_times.clear()
 	formation_tick = -1000
 	impact_tick = -1000
 	owner_tick = -1000
@@ -213,9 +217,11 @@ func _consume_presentation_events() -> void:
 			ball = sim.ball
 			formation_tick = sim.ticks
 			ball_trail.clear()
+			trail_times.clear()
 		elif event.kind == "goal":
 			ball = sim.ball # The crossing and score stay visually aligned.
 			ball_trail.clear()
+			trail_times.clear()
 		elif event.kind in ["received","recovery","tackle","interception","save","block"]:
 			impact_tick = event.tick
 			impact_position = event.position
@@ -239,10 +245,18 @@ func _process(delta: float) -> void:
 	# A few milliseconds of render-only settling, with no anticipation or overshoot.
 	for i in 22: player_positions[i] = player_positions[i].lerp(sim.players[i].position,1-exp(-delta*65))
 	ball = ball.lerp(sim.ball,1-exp(-delta*100))
+	trail_clock += delta
 	if _has_ball_trail() and not hud.reduced_motion:
-		if ball_trail.is_empty() or ball_trail.back().distance_to(ball) > 0.02: ball_trail.append(ball)
-		while ball_trail.size() > 4: ball_trail.pop_front()
-	else: ball_trail.clear()
+		if ball_trail.is_empty() or ball_trail.back().distance_to(ball) > 0.02:
+			ball_trail.append(ball)
+			trail_times.append(trail_clock)
+		var carrying: bool = sim.ball_state == Match.BallState.CONTROLLED
+		while not ball_trail.is_empty() and (trail_clock-trail_times[0] > (0.1 if carrying else 0.22) or ball.distance_to(ball_trail[0]) > (1.8 if carrying else 8.0) or ball_trail.size() > 24):
+			ball_trail.pop_front()
+			trail_times.pop_front()
+	else:
+		ball_trail.clear()
+		trail_times.clear()
 	queue_redraw()
 
 func _formation_opacity() -> float:
@@ -433,8 +447,13 @@ func _draw() -> void:
 		var phase := (sim.ticks-impact_tick)/10.0
 		draw_arc(_field(impact_position),7+phase*9,0,TAU,24,Color(CREAM,0.3*(1-phase)),1.2,true)
 	if _has_ball_trail() and not hud.reduced_motion:
-		for index in range(1,ball_trail.size()):
-			draw_line(_field(ball_trail[index-1]),_field(ball_trail[index]),Color(_ball_ink(),0.08+index*0.035),1.4,true)
+		var points := PackedVector2Array()
+		var colors := PackedColorArray()
+		for index in ball_trail.size():
+			var weight := float(index)/maxi(1,ball_trail.size()-1)
+			points.append(_field(ball_trail[index]))
+			colors.append(Color(_ball_ink(),weight*0.62))
+		if points.size() > 1: draw_polyline_colors(points,colors,2.8,true)
 	for i in 22:
 		if i != sim.owner and i != selected: _draw_player(i)
 	if sim.owner >= 0 and sim.owner != selected: _draw_player(sim.owner)
@@ -510,7 +529,7 @@ func _draw_ball() -> void:
 	draw_circle(center + Vector2(-1.6, -2.0), 0.9, Color(1,1,1,0.8*opacity))
 
 func _has_ball_trail() -> bool:
-	return sim.ball_state == Match.BallState.FLIGHT or (sim.ball_state == Match.BallState.LOOSE and sim.ball_velocity.length() > 2 and _ball_ink() != CREAM)
+	return sim.ball_state == Match.BallState.FLIGHT or (sim.ball_state == Match.BallState.LOOSE and sim.ball_velocity.length() > 2) or (sim.ball_state == Match.BallState.CONTROLLED and sim.owner >= 0 and sim.players[sim.owner].velocity.length() > 1.5)
 
 func _ball_ink() -> Color:
 	if not hud.effects_enabled: return CREAM
@@ -568,18 +587,22 @@ func _draw_player(index: int) -> void:
 	var number_pos := point + Vector2(-font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x / 2, 5)
 	var light_number: bool = is_keeper or team_kits[0 if index < 11 else 1].get_luminance() < 0.45
 	if light_number:
-		for offset in [Vector2(-0.7,0),Vector2(0.7,0),Vector2(0,-0.7),Vector2(0,0.7)]:
-			draw_string(font, number_pos + offset, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(Color("27432d"),opacity))
+		draw_string_outline(font,number_pos,number,HORIZONTAL_ALIGNMENT_LEFT,-1,14,1,Color(Color("27432d"),opacity))
 	draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM if light_number else Color("102315"),opacity))
 
 func _draw_name(index: int) -> void:
 	if not sim.players[index].active: return
 	var point := _field(player_positions[index])
-	var player_name: String = preload("res://ui/player_card.gd").split_name(sim.players[index].name)[1]
 	var pixels: int = roundi(14 * hud.ui_scale)
-	while font.get_string_size(player_name,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x > 120 * hud.ui_scale and player_name.length() > 2:
-		player_name = player_name.left(player_name.length()-2) + "…"
-	var width := font.get_string_size(player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels).x
+	var metrics: Dictionary = name_metrics.get(index,{})
+	if metrics.get("source","") != sim.players[index].name or metrics.get("pixels",0) != pixels:
+		var surname: String = preload("res://ui/player_card.gd").split_name(sim.players[index].name)[1]
+		while font.get_string_size(surname,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x > 120*hud.ui_scale and surname.length() > 2:
+			surname = surname.left(surname.length()-2)+"…"
+		metrics = {"source":sim.players[index].name,"pixels":pixels,"text":surname,"width":font.get_string_size(surname,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x}
+		name_metrics[index] = metrics
+	var player_name: String = metrics.text
+	var width: float = metrics.width
 	# A fixed below-token anchor prevents the old above/below flipping in duels.
 	var pos := point + Vector2(-width / 2, 29)
 	pos.x = clampf(pos.x, pitch.position.x+2, maxf(pitch.position.x+2,pitch.end.x-width-2))
@@ -593,6 +616,5 @@ func _draw_name(index: int) -> void:
 	label_alpha[index] = 1.0 if important else lerpf(label_alpha[index], target, minf(get_process_delta_time() * 8, 1))
 	if not blocked or important: name_rects.append(rect)
 	var opacity := label_alpha[index]*_actor_opacity()
-	for halo in [Vector2(-1,0),Vector2(1,0),Vector2(0,-1),Vector2(0,1)]:
-		draw_string(font, pos + halo, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels, Color(0.04,0.08,0.04,opacity))
+	draw_string_outline(font,pos,player_name,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels,1,Color(0.04,0.08,0.04,opacity))
 	draw_string(font, pos, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels, Color(CREAM, opacity))

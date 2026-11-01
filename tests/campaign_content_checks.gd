@@ -41,5 +41,5 @@ func _initialize() -> void:
 	for anchor in content.rules.price_anchors_millions: assert(content.price(int(anchor[0])) == int(anchor[1])*1000000)
 	assert(content.price(64) == -1 and content.price(121) == -1)
 	assert(content.price(76) == 6000000 and content.price(77) == 7000000)
-	print("CAMPAIGN CONTENT: 1356 definitions, 66 plans, 300 acquisition cards, 24 badges and 100 seeded twelve-fixture itineraries passed")
+	print("CAMPAIGN CONTENT: 1356 definitions, 300 acquisition cards, ",content.clubs.size()," badges and 100 seeded twelve-fixture itineraries passed")
 	quit()
