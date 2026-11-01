@@ -49,4 +49,4 @@ func _exit_tree() -> void: dismiss_hint()
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and is_instance_valid(hint): dismiss_hint(); accept_event()
 func _draw() -> void:
-	if has_focus() or is_hovered(): draw_rect(Rect2(Vector2.ONE,size-Vector2(2,2)),Color("84EBFF"),false,1.5)
+	if has_focus() or is_hovered(): draw_rect(Rect2(Vector2.ONE,size-Vector2(2,2)),Color("FFF4D2"),false,1.5)

@@ -21,6 +21,9 @@ func _ready() -> void:
 	external_model.ball = Vector2(-1000,-1000)
 	external_model.ball_state = Match.BallState.DEAD
 	super._ready()
+	world_image.hide()
+	world_viewport.render_target_update_mode=SubViewport.UPDATE_DISABLED
+	type_layer.hide()
 	font = preload("res://ui/campaign_parts.gd").ThemeData.default_font
 	hud.hide()
 	set_process(false)
@@ -57,7 +60,7 @@ func _layout() -> void:
 	if is_instance_valid(card_pitch):
 		card_pitch.position = Vector2(14,8)
 		card_pitch.size = size-Vector2(28,16)
-		var width := clampf(size.x*0.105,46,96) if squad_editor == null else 78.0
+		var width := clampf(size.x*0.085,40,80) if squad_editor == null else 78.0
 		var diagrams := {
 			"4-3-3":[Vector2(.5,.88),Vector2(.15,.67),Vector2(.38,.69),Vector2(.62,.69),Vector2(.85,.67),Vector2(.5,.48),Vector2(.28,.37),Vector2(.72,.37),Vector2(.15,.10),Vector2(.5,.10),Vector2(.85,.10)],
 			"4-4-2":[Vector2(.5,.99),Vector2(.15,.80),Vector2(.38,.80),Vector2(.62,.80),Vector2(.85,.80),Vector2(.15,.40),Vector2(.38,.40),Vector2(.62,.40),Vector2(.85,.40),Vector2(.36,.00),Vector2(.64,.00)],
@@ -71,13 +74,12 @@ func _layout() -> void:
 			var projected: Vector2 = card_pitch.project(Vector2(68-point.y,105-point.x))
 			projected.y=48+(105-point.x)/105.0*(size.y-104)
 			card.position=card_pitch.position+projected-card.size/2
-			if squad_editor != null:
-				var normalized: Vector2=diagrams[plan.formation][slot]
-				card.position=Vector2(14+normalized.x*(size.x-28),66+normalized.y*(size.y-136))-card.size/2
+			var normalized: Vector2=diagrams[plan.formation][slot]
+			card.position=Vector2(14+normalized.x*(size.x-28),(36 if squad_editor == null else 66)+normalized.y*(size.y-(90 if squad_editor == null else 136)))-card.size/2
 	queue_redraw()
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO,size),Color("080E1980"))
+	draw_rect(Rect2(Vector2.ZERO,size),Color("10182780"))
 
 func _gui_input(event: InputEvent) -> void:
 	if not editable: return

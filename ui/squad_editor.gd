@@ -28,6 +28,9 @@ func rebuild_campaign() -> void:
 	var code: String=str(campaign_library.metadata(plan.cards[plan.starters[0]].card_id).get("country_code","")) if campaign_library != null else ""
 	var country := TextureRect.new()
 	country.texture=preload("res://ui/flags.gd").texture(code)
+	if opponent_mode:
+		for club in campaign_library.clubs.values():
+			if club.name == scanning_name(): country.texture=load(campaign_library.badge_path(club.id)); break
 	country.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
 	country.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	country.position=Vector2(40,110)
@@ -62,18 +65,18 @@ func rebuild_campaign() -> void:
 	var bench: Array=plan.bench_order
 	for order in bench.size():
 		var index: int=bench[order]
-		var card := slot_card(index,-1,72)
+		var card := slot_card(index,-1,64)
 		card.name="BenchCard"+str(index)
-		card.position=Vector2(292+order*108,546)
+		card.position=Vector2(292+order*104,540)
 		add_child(card)
 	var divider := HSeparator.new()
-	divider.position=Vector2(32,644)
+	divider.position=Vector2(32,634)
 	divider.size.x=1216
 	add_child(divider)
-	action("Back","PreparationBack",Rect2(32,660,148,44),func(): cancelled.emit())
-	inspection=label_at("",Rect2(268,660,620,44),15)
-	validation=label_at("",Rect2(268,636,690,24),14)
-	start_button=action("Apply" if squad_mode else "Start match","ApplySquad" if squad_mode else "CommitMatch",Rect2(1008,660,240,44),func():
+	action("Back","PreparationBack",Rect2(32,650,148,44),func(): cancelled.emit())
+	inspection=label_at("",Rect2(268,650,620,44),15)
+	validation=label_at("",Rect2(268,626,690,24),14)
+	start_button=action("Apply" if squad_mode else "Start match","ApplySquad" if squad_mode else "CommitMatch",Rect2(1008,650,240,44),func():
 		if plans[0].errors().is_empty() and plans[1].errors().is_empty(): submitted.emit(plans[0].duplicate(true),plans[1].duplicate(true),knockout),true)
 	update_validation()
 	validation.text="" if start_button.disabled == false else validation.text

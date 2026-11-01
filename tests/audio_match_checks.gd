@@ -80,8 +80,8 @@ func run() -> void:
 	viewport.add_child(view)
 	view.set_physics_process(false)
 	var audio: Node = view.audio
-	for file in ["menu.ogg","stadium_bed.mp3","stadium_hype.mp3"]+Audio.FILES.values():
-		var sound: AudioStream = audio.stream(file,file in ["menu.ogg","stadium_bed.mp3","stadium_hype.mp3"])
+	for file in ["arcade/menu.wav","stadium_bed.mp3","stadium_hype.mp3"]+Audio.FILES.values():
+		var sound: AudioStream = audio.stream(file,file in ["arcade/menu.wav","stadium_bed.mp3","stadium_hype.mp3"])
 		check(sound != null and sound.get_length() > 0,"Native decoder reads licensed asset: "+file)
 	var recorder := AudioEffectRecord.new()
 	recorder.format = AudioStreamWAV.FORMAT_16_BITS

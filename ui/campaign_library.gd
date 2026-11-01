@@ -7,7 +7,7 @@ static func build(app, outer: Node, _page: String) -> void:
 	var history := Profile.ranked(app.session.profile)
 	if history.is_empty():
 		var art := TextureRect.new()
-		art.texture = load("res://assets/ui/matchday/art/trophy-album.png")
+		art.texture = load("res://assets/ui/arcade/trophy.png")
 		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		art.position = Vector2(132,242)

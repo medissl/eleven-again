@@ -25,6 +25,7 @@ const REVEAL_TIME := 12.0
 const CONFIRM_TIME := 13.7
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = MOUSE_FILTER_STOP
 	theme = preload("res://ui/matchday_theme.gd").build()
@@ -34,15 +35,15 @@ func _ready() -> void:
 	resized.connect(layout)
 	layout()
 	pitch = TextureRect.new()
-	pitch.texture = preload("res://assets/ui/premium/walkout-field.png")
+	pitch.texture = preload("res://assets/ui/arcade/field.png")
 	pitch.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	pitch.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	pitch.size = Vector2(1280,720)
-	pitch.modulate = Color(0.75,0.85,1.0)
+	pitch.modulate = Color.WHITE
 	pitch.mouse_filter = MOUSE_FILTER_IGNORE
 	canvas.add_child(pitch)
 	tunnel = TextureRect.new()
-	tunnel.texture = preload("res://assets/ui/premium/walkout-tunnel.png")
+	tunnel.texture = preload("res://assets/ui/arcade/tunnel.png")
 	var motion_material := ShaderMaterial.new()
 	motion_material.shader = preload("res://assets/ui/premium/tunnel_motion.gdshader")
 	tunnel.material = motion_material
@@ -58,14 +59,14 @@ func _ready() -> void:
 	canvas.add_child(shade)
 	atmosphere = Atmosphere.new()
 	atmosphere.size = Vector2(1280,720)
-	atmosphere.ink = Color("BF7CFF") if definition.tier() == "legend" else Color("74E9FF")
+	atmosphere.ink = Color("9B58AC") if definition.tier() == "legend" else Color("FFF4D2")
 	canvas.add_child(atmosphere)
 	caption = Label.new()
 	caption.position = Vector2(160,104)
 	caption.size = Vector2(960,32)
 	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	caption.add_theme_font_size_override("font_size",18)
-	caption.modulate = Color("A9D4E8")
+	caption.modulate = Color("A8C8BF")
 	canvas.add_child(caption)
 	headline = Label.new()
 	headline.position = Vector2(180,250)
@@ -75,9 +76,9 @@ func _ready() -> void:
 	headline.theme_type_variation = "Heading"
 	headline.add_theme_font_override("font",preload("res://ui/typography.gd").face("Bold"))
 	headline.add_theme_font_size_override("font_size",112)
-	headline.add_theme_color_override("font_outline_color",Color("173850"))
+	headline.add_theme_color_override("font_outline_color",Color("101827"))
 	headline.add_theme_constant_override("outline_size",2)
-	headline.add_theme_color_override("font_shadow_color",Color("134C70B0"))
+	headline.add_theme_color_override("font_shadow_color",Color("10182700"))
 	headline.add_theme_constant_override("shadow_offset_y",3)
 	headline.mouse_filter = MOUSE_FILTER_IGNORE
 	canvas.add_child(headline)
@@ -160,7 +161,7 @@ func _process(delta: float) -> void:
 			card.legend_reveal=true
 			card.set_process(true)
 	if is_instance_valid(audio): audio.walkout_energy = 1.0 if reveal == 3 else lerpf(0.1,0.95,rush) if reveal == -2 else clampf(age/14.0,0.08,0.75)
-	shade.color = Color(0.01,0.02,0.04,0.10 if reduced else lerpf(1.0,0.24,smoothstep(0.3,2.5,age)))
+	shade.color = Color(0.04,0.08,0.06,0.10 if reduced else lerpf(1.0,0.24,smoothstep(0.3,2.5,age)))
 	if reveal == -2: shade.color.a = lerpf(0.72,0.10,rush)
 	atmosphere.age = age
 	atmosphere.reduced = reduced
@@ -200,37 +201,26 @@ class Atmosphere:
 	var age := 0.0
 	var reduced := false
 	var effects_enabled := true
-	var ink := Color("74E9FF")
+	var ink := Color("FFF4D2")
 	func _init() -> void: mouse_filter = MOUSE_FILTER_IGNORE
 	func _draw() -> void:
 		draw_rect(Rect2(0,0,1280,20),Color("03070D"))
 		draw_rect(Rect2(0,700,1280,20),Color("03070D"))
 		if reduced or not effects_enabled: return
-		if age < 10.6:
-			for index in 5:
-				var light := smoothstep(0.4+index*0.25,1.5+index*0.25,age)
-				var depth := index/5.0
-				for side in [-1,1]:
-					var top := Vector2(640+side*lerpf(580,90,depth),lerpf(45,284,depth))
-					var bottom := Vector2(640+side*lerpf(490,72,depth),lerpf(680,396,depth))
-					draw_line(top,bottom,Color(ink,light*0.08),9*(1-depth),true)
-					draw_line(top,bottom,Color(ink,light*0.32),2*(1-depth),true)
-			return
+		if age < 10.6: return
 		if age < REVEAL_TIME: return
 		var time := age-REVEAL_TIME
 		var fade := clampf(1-time/2.5,0,1)
 		draw_set_transform(Vector2(640,604))
-		draw_circle(Vector2.ZERO,125,Color(ink,0.09*fade))
+		pass # No glossy pool of light; pixel confetti marks the reveal.
 		for index in 72:
 			var phase := index*2.399963
 			var point := Vector2(cos(phase)*(100+index*5)*minf(1,time*2),-250-time*(120+index%9*12)+time*time*115-index%11*15)
 			var spin := phase+time*(2+index%5)
 			var axis := Vector2.from_angle(spin)*Vector2(3.0,2.0+sin(time*4+phase))
 			var side := axis.orthogonal()*0.55
-			var color := Color.WHITE if index%3 == 0 else ink if index%3 == 1 else Color("9DEBE2")
+			var color := Color.WHITE if index%3 == 0 else ink if index%3 == 1 else Color("F5CE65")
 			draw_colored_polygon(PackedVector2Array([point-axis-side,point+axis-side,point+axis+side,point-axis+side]),Color(color,fade))
-		for side in [-1,1]:
-			draw_colored_polygon(PackedVector2Array([Vector2(side*430,-540),Vector2(side*320,-540),Vector2(side*120,10)]),Color(ink,fade*0.09))
 		draw_set_transform(Vector2.ZERO)
 func _exit_tree() -> void:
 	if is_instance_valid(audio): audio.set_walkout(false)

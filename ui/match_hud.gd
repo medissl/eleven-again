@@ -56,10 +56,6 @@ class EventIcon:
 
 func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
-	var copy := BackBufferCopy.new()
-	copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
-	copy.show_behind_parent = true
-	add_child(copy)
 	header_surface = preload("res://ui/glass_panel.gd").new()
 	header_surface.show_behind_parent = true
 	add_child(header_surface)
@@ -73,7 +69,7 @@ func _ready() -> void:
 	_label("score", "0 – 0", 46, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
 	labels.score.theme_type_variation = "Score"
 	_label("clock", "0′", 16, CREAM, HORIZONTAL_ALIGNMENT_CENTER)
-	_label("added", "", 14, Color("84EBFF"), HORIZONTAL_ALIGNMENT_CENTER)
+	_label("added", "", 14, Color("FFF4D2"), HORIZONTAL_ALIGNMENT_CENTER)
 	_label("live", "LIVE", 16, CREAM)
 	labels.live.theme_type_variation = "Section"
 	labels.live.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -108,7 +104,7 @@ func _box(color: Color, border: Color, padding: int = 10) -> StyleBoxFlat:
 	style.bg_color = color
 	style.border_color = border
 	style.set_border_width_all(1)
-	style.set_corner_radius_all(4)
+	style.set_corner_radius_all(0)
 	style.content_margin_left = padding
 	style.content_margin_right = padding
 	style.content_margin_top = padding
@@ -148,7 +144,7 @@ func _button(id: String, text: String, hint: String) -> Button:
 		menu_icon.mouse_filter = MOUSE_FILTER_IGNORE
 		button.add_child(menu_icon)
 		button.resized.connect(func(): menu_icon.position = Vector2(5,(button.size.y-24)/2))
-		for state in ["normal","hover"]:
+		for state in ["normal","hover","pressed","disabled","focus"]:
 			var menu_style: StyleBox = MatchTheme.get_stylebox(state,"Button").duplicate()
 			menu_style.content_margin_left = 34
 			menu_style.content_margin_right = 4
@@ -158,10 +154,12 @@ func _button(id: String, text: String, hint: String) -> Button:
 		outline.bg_color = Color(0,0,0,0)
 		outline.border_color = Color(CREAM,0.65)
 		outline.set_border_width_all(1)
-		outline.set_corner_radius_all(4)
+		outline.set_corner_radius_all(0)
 		outline.content_margin_left = 6
 		outline.content_margin_right = 6
-		button.add_theme_stylebox_override("normal",outline)
+		outline.content_margin_top = 8
+		outline.content_margin_bottom = 8
+		for state in ["normal","hover","pressed","disabled","focus"]: button.add_theme_stylebox_override(state,outline.duplicate())
 	if id in ["speed1", "speed2"]:
 		var pressed: StyleBox = MatchTheme.get_stylebox("pressed", "Button").duplicate()
 		pressed.content_margin_left = 6
@@ -218,17 +216,15 @@ func _draw() -> void:
 	_kit(kit_centers[0], team_kits[0])
 	_kit(kit_centers[1], team_kits[1])
 	draw_line(Vector2(center-22,56),Vector2(center+22,56),Color(AMBER,0.65),1)
-	draw_line(Vector2(divider + 18, 130), Vector2(size.x - 20, 130), Color("29405A"), 1)
-	draw_line(Vector2(divider + 18, size.y - 73), Vector2(size.x - 20, size.y - 73), Color("29405A"), 1)
+	draw_line(Vector2(divider + 18, 130), Vector2(size.x - 20, 130), Color("31596A"), 1)
+	draw_line(Vector2(divider + 18, size.y - 73), Vector2(size.x - 20, size.y - 73), Color("31596A"), 1)
 	draw_circle(Vector2(divider + 24, 108), 5, status_color)
 
 func _kit(center: Vector2, color: Color) -> void:
-	var points := PackedVector2Array([Vector2(-7,-12),Vector2(-17,-5),Vector2(-13,3),Vector2(-8,0),Vector2(-8,15),Vector2(8,15),Vector2(8,0),Vector2(13,3),Vector2(17,-5),Vector2(7,-12),Vector2(3,-8),Vector2(-3,-8)])
-	for i in points.size(): points[i] += center
-	draw_colored_polygon(points, color)
+	var icon := preload("res://ui/pixel_art.gd").texture("res://assets/ui/arcade/kit.svg",Vector2i(16,16))
 	if color.get_luminance() < 0.45:
-		points.append(points[0])
-		draw_polyline(points,Color(CREAM,0.65),0.9,true)
+		for offset in [Vector2(-2,0),Vector2(2,0),Vector2(0,-2),Vector2(0,2)]: draw_texture_rect(icon,Rect2(center-Vector2(16,16)+offset,Vector2(32,32)),false,CREAM)
+	draw_texture_rect(icon,Rect2(center-Vector2(16,16),Vector2(32,32)),false,color)
 
 func refresh(sim: RefCounted, paused: bool, speed: int, inspection_text: String) -> void:
 	model = sim

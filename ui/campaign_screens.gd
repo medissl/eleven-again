@@ -29,14 +29,14 @@ static func frame(app) -> VBoxContainer:
 			header.add_child(space)
 		app.text(header,app.money(data.cash),28,"Score")
 		if app.page == "offer" and data.step == "market": app.text(header,"SIGNINGS %d/2" % data.market.purchased.size(),22,"Score")
-	else: app.text(header,"ELEVEN AGAIN",30,"Team")
+	else: Parts.brand(header)
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_FILL if app.page == "offer" else Control.SIZE_EXPAND_FILL
 	header.add_child(spacer)
 	var menu: Button = app.button(header,"Back" if app.page in ["origin","records","collection"] else "Menu","PageMenu",func(): app.render("main") if app.page in ["origin","records","collection"] else app.menu())
 	if app.page not in ["origin","records","collection"]:
 		menu.custom_minimum_size.x = 115
-		menu.icon = load("res://assets/ui/matchday/icons/menu.svg")
+		menu.icon = preload("res://ui/matchday_icons.gd").texture("icons/menu")
 		menu.add_theme_constant_override("icon_max_width",24)
 	return outer
 
@@ -108,7 +108,7 @@ static func origins(app, outer: Node) -> void:
 		var option: Button = app.button(app.screen,country.name,country.id,func(): app.origin_selection=country.id; app.render("origin"),app.origin_selection == country.id)
 		option.position = Vector2(32+(index%3)*228,218+(index/3)*170)
 		option.size = Vector2(212,148)
-		option.icon = load("res://assets/ui/matchday/flags/"+country.id+".svg")
+		option.icon = preload("res://ui/flags.gd").texture(country.id)
 		option.add_theme_constant_override("icon_max_width",36)
 		option.add_theme_constant_override("h_separation",8)
 		option.add_theme_font_size_override("font_size",18)
@@ -116,6 +116,7 @@ static func origins(app, outer: Node) -> void:
 	var plan: Resource = app.library.country_plan(app.origin_selection)
 	var preview = load("res://ui/formation_preview.gd").new()
 	preview.plan = plan
+	preview.card_library = app.library
 	preview.position = Vector2(736,210)
 	preview.size = Vector2(512,344)
 	app.screen.add_child(preview)
@@ -153,7 +154,7 @@ static func result(app, outer: Node, terminal: bool) -> void:
 	app.text(outer,{"won":"Champions","lost":"Run ended","abandoned":"Run abandoned"}.get(data.step,"Match result"),34,"Heading")
 	if terminal:
 		var artwork := TextureRect.new()
-		artwork.texture = load("res://assets/ui/matchday/art/trophy-album.png")
+		artwork.texture = load("res://assets/ui/arcade/trophy.png")
 		artwork.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		artwork.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		artwork.position = Vector2(64,200)

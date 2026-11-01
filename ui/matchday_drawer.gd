@@ -14,9 +14,6 @@ func _ready() -> void:
 	theme = Parts.ThemeData
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	color = Color(0,0,0,0.48)
-	var copy := BackBufferCopy.new()
-	copy.copy_mode=BackBufferCopy.COPY_MODE_VIEWPORT
-	add_child(copy)
 	var glass := preload("res://ui/glass_panel.gd").new()
 	glass.position=Vector2(panel_left,0)
 	glass.size=Vector2(panel_width,720)

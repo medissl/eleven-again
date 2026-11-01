@@ -1,0 +1,773 @@
+{
+  "generated_on": "2026-11-01",
+  "generator": "OpenAI image_gen",
+  "assets": [
+    {
+      "key": "background",
+      "source": "res://art/arcade/sources/exec-59165e14-f82c-4460-9850-16fe83b5ed57.png",
+      "size": [
+        640,
+        360
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-59165e14-f82c-4460-9850-16fe83b5ed57.png"
+    },
+    {
+      "key": "board",
+      "source": "res://art/arcade/sources/exec-d6cba97a-823f-471d-beb6-fa73ef24b7ff.png",
+      "size": [
+        400,
+        224
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-d6cba97a-823f-471d-beb6-fa73ef24b7ff.png"
+    },
+    {
+      "key": "logo",
+      "source": "res://art/arcade/sources/exec-b1efac68-5431-4341-b972-0cb0af62feaf.png",
+      "size": [
+        256,
+        128
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-b1efac68-5431-4341-b972-0cb0af62feaf.png"
+    },
+    {
+      "key": "pawn",
+      "source": "res://art/arcade/sources/exec-69807b77-f4e7-4bd6-8678-ee3f84d82496.png",
+      "size": [
+        24,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-69807b77-f4e7-4bd6-8678-ee3f84d82496.png"
+    },
+    {
+      "key": "lock",
+      "source": "res://art/arcade/sources/exec-be114af4-288b-429d-81eb-3f4779c3a399.png",
+      "size": [
+        16,
+        20
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-be114af4-288b-429d-81eb-3f4779c3a399.png"
+    },
+    {
+      "key": "tunnel",
+      "source": "res://art/arcade/sources/exec-ec4d87fa-10bd-48e3-84dd-4891c08b53c1.png",
+      "size": [
+        640,
+        360
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-ec4d87fa-10bd-48e3-84dd-4891c08b53c1.png"
+    },
+    {
+      "key": "field",
+      "source": "res://art/arcade/sources/exec-a2ce5d5f-e39f-4d63-877b-b60f1dd031d2.png",
+      "size": [
+        640,
+        360
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-a2ce5d5f-e39f-4d63-877b-b60f1dd031d2.png"
+    },
+    {
+      "key": "trophy",
+      "source": "res://art/arcade/sources/exec-7631a7f9-1a9a-4092-964c-d21c3e246ae9.png",
+      "size": [
+        48,
+        64
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-7631a7f9-1a9a-4092-964c-d21c3e246ae9.png"
+    },
+    {
+      "key": "badges/marshgate_fc",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 0,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/briar_crown",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 1,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/fenwick_town",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 2,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/ashford_rovers",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 3,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/meadow_xi",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 4,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/quarry_united",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 5,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/riverdale_united",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 6,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/foundry_athletic",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 7,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/aurora_union",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 8,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/harbor_xi",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 9,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/azul_sol",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 10,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/coppergate_fc",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 11,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/northridge_fc",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 12,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/redwood_athletic",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 13,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/regent_united",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 14,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/atlas_city",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 15,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/ironvale_rovers",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 16,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/seabrook_city",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 17,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/kintsugi_fc",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 18,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/obsidian_rovers",
+      "source": "res://art/arcade/sources/exec-195e1500-582b-4c88-8b3f-a25220994a81.png",
+      "cell": 19,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-195e1500-582b-4c88-8b3f-a25220994a81.png"
+    },
+    {
+      "key": "badges/barcelini",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 0,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/rive_athletic",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 1,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/isar_union",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 2,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/forge_sporting",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 3,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/torino_nera",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 4,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/milano_vela",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 5,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/real_monteluz",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 6,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/manchester_vale",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 7,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/national_japan",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 8,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/national_brazil",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 9,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/national_argentina",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 10,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/national_germany",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 11,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/national_portugal",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 12,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/national_england",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 13,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/national_france",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 14,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/national_spain",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 15,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/crown_athletic",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 16,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/meridian_xi",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 17,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/eclipse_athletic",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 18,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "badges/crimson_vale",
+      "source": "res://art/arcade/sources/exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png",
+      "cell": 19,
+      "grid": [
+        5,
+        4
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-aed69cfe-9d27-4bbc-bbbd-154925d0462c.png"
+    },
+    {
+      "key": "button",
+      "source": "res://art/arcade/sources/exec-ab9f38d5-d65a-4aa9-b754-8f2a9ef7e7a5.png",
+      "size": [
+        96,
+        24
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-ab9f38d5-d65a-4aa9-b754-8f2a9ef7e7a5.png"
+    },
+    {
+      "key": "button_primary",
+      "source": "res://art/arcade/sources/exec-8ff0a432-056d-4909-98d7-549c1db5182f.png",
+      "size": [
+        96,
+        24
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-8ff0a432-056d-4909-98d7-549c1db5182f.png"
+    },
+    {
+      "key": "panel",
+      "source": "res://art/arcade/sources/exec-545dbb1c-df95-477e-9b7b-83631ff71c9f.png",
+      "size": [
+        320,
+        180
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-545dbb1c-df95-477e-9b7b-83631ff71c9f.png"
+    },
+    {
+      "key": "goal",
+      "source": "res://art/arcade/sources/exec-12e8d8c6-3ee8-4d3a-9a80-cf23120555e5.png",
+      "size": [
+        12,
+        36
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-12e8d8c6-3ee8-4d3a-9a80-cf23120555e5.png"
+    },
+    {
+      "key": "node",
+      "source": "res://art/arcade/sources/exec-2dd55b6b-e3e5-44ce-927e-4a3100c74899.png",
+      "size": [
+        48,
+        40
+      ],
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-2dd55b6b-e3e5-44ce-927e-4a3100c74899.png"
+    },
+    {
+      "key": "goal_flipped",
+      "source": "res://art/arcade/sources/exec-12e8d8c6-3ee8-4d3a-9a80-cf23120555e5.png",
+      "size": [
+        12,
+        36
+      ],
+      "flip": true,
+      "original_source": "C:\\Users\\media\\.codex\\generated_images\\01a187b7-d1b6-7f31-b81e-f82cfec08c63\\exec-12e8d8c6-3ee8-4d3a-9a80-cf23120555e5.png"
+    }
+  ],
+  "prompts": [
+    [
+      [
+        "arcade_background",
+        {
+          "transparent_background": false,
+          "prompt": "Authentic clean 16-bit console-era pixel art for a retro-modern football game. Crisp square pixel clusters, hard pixel edges, no anti-aliasing, no blur, no vector curves, no painterly texture, no glow, no glossy 3D. Saturated but restrained palette: deep navy #101827 #17253B #233A50, grass #335A41 #3F8050 #55AA5B #8AC66B, warm cream #FFF4D2, gold #F5CE65, coral #D45A5A, purple #9B58AC. Clear professional readable forms, limited colour ramps, very sparse dithering. Wide 16:9 football stadium lobby background, inspired by classic football arcade title screens. Bright rich green pitch in the lower half, navy empty evening sky in upper half, pixel stands framing both sides, modest warm stadium lights rendered as simple pixel blocks. Entire LEFT THIRD stays dark and uncluttered for real menu text. No people, no player portraits, no letters, no logo, no UI or menu buttons. Compose as if drawn on a 320x180 pixel canvas, then nearest-neighbour enlarged."
+        }
+      ],
+      [
+        "arcade_board",
+        {
+          "transparent_background": false,
+          "prompt": "Authentic clean 16-bit console-era pixel art for a retro-modern football game. Crisp square pixel clusters, hard pixel edges, no anti-aliasing, no blur, no vector curves, no painterly texture, no glow, no glossy 3D. Saturated but restrained palette: deep navy #101827 #17253B #233A50, grass #335A41 #3F8050 #55AA5B #8AC66B, warm cream #FFF4D2, gold #F5CE65, coral #D45A5A, purple #9B58AC. Clear professional readable forms, limited colour ramps, very sparse dithering. A simple football roguelike board background, wide 16:9. Slightly top-down trapezoidal dark-green training-ground board with a restrained dark-navy pixel frame. The central 90 percent is OPEN EMPTY muted green turf, so real route nodes and a pawn can be overlaid. Only tiny pixel props on the extreme perimeter: one round association-football ball, two cones and a modest corner of spectator seating. No trees or elaborate scenery, no text, no path, no nodes, no icons, no pawn, no lock, no cards, no UI. Calm readable board-game environment with grounded football character. Base-art feel around 400x224 pixels, enlarged crisply."
+        }
+      ],
+      [
+        "arcade_logo",
+        {
+          "transparent_background": true,
+          "prompt": "Authentic clean 16-bit console-era pixel art for a retro-modern football game. Crisp square pixel clusters, hard pixel edges, no anti-aliasing, no blur, no vector curves, no painterly texture, no glow, no glossy 3D. Saturated but restrained palette: deep navy #101827 #17253B #233A50, grass #335A41 #3F8050 #55AA5B #8AC66B, warm cream #FFF4D2, gold #F5CE65, coral #D45A5A, purple #9B58AC. Clear professional readable forms, limited colour ramps, very sparse dithering. Original PIXEL TYPOGRAPHY game logo, exact words ELEVEN on the first line and AGAIN on the second. Chunky readable athletic pixel lettering with strong step-shaped corners. Warm cream main letters, a restrained golden-yellow lower edge and dark-navy hard 2-pixel shadow. Compact forward energy and balanced spacing, confident indie football-game branding. Truly transparent background, full wordmark centered with generous clear margins. No football object, no crest, no extra icon, no extra words, no slogan. A clean pixel logo designed on a 256x128 canvas, nearest-neighbour enlarged. No grunge, scratches or stray particles."
+        }
+      ],
+      [
+        "arcade_pawn",
+        {
+          "transparent_background": true,
+          "prompt": "Authentic clean 16-bit console-era pixel art for a retro-modern football game. Crisp square pixel clusters, hard pixel edges, no anti-aliasing, no blur, no vector curves, no painterly texture, no glow, no glossy 3D. Saturated but restrained palette: deep navy #101827 #17253B #233A50, grass #335A41 #3F8050 #55AA5B #8AC66B, warm cream #FFF4D2, gold #F5CE65, coral #D45A5A, purple #9B58AC. Clear professional readable forms, limited colour ramps, very sparse dithering. One simple board-game pawn sprite, front three-quarter view. Traditional round head, tapered stem and flat weighted base, golden yellow #F5CE65 with one ochre shadow shade and a crisp dark-navy pixel outline. Strong readable silhouette, whole pawn centered on transparent background. Intended as a 24x32-pixel game sprite enlarged with nearest-neighbour. No football sphere head, no glow, no shiny metal, no scenery, no text or extra objects. A small practical playing piece, not a character."
+        }
+      ],
+      [
+        "arcade_lock",
+        {
+          "transparent_background": true,
+          "prompt": "Authentic clean 16-bit console-era pixel art for a retro-modern football game. Crisp square pixel clusters, hard pixel edges, no anti-aliasing, no blur, no vector curves, no painterly texture, no glow, no glossy 3D. Saturated but restrained palette: deep navy #101827 #17253B #233A50, grass #335A41 #3F8050 #55AA5B #8AC66B, warm cream #FFF4D2, gold #F5CE65, coral #D45A5A, purple #9B58AC. Clear professional readable forms, limited colour ramps, very sparse dithering. One simple locked-stop padlock sprite. Warm cream U-shaped shackle, dark-slate blue rectangular body with one clear black pixel keyhole. Bold simple front-view silhouette, transparent background, whole icon centered with generous padding. Intended as a 16x20-pixel sprite enlarged with nearest-neighbour. Two or three flat colour shades only. No metal reflection, no neon, no glow, no extra detail, no text or other objects."
+        }
+      ]
+    ],
+    [
+      [
+        "tunnel",
+        "Authentic professional 16-bit football video game pixel art, crisp square pixel clusters, hard edges, no antialiasing, no glossy neon, no photographic or painterly textures, restrained dithering. Shared palette navy #101827 #17253B #233A50, grass #335A41 #3F8050 #55AA5B, cream #FFF4D2, gold #F5CE65, coral #F28768, purple #9B58AC. Landscape 16:9 background for a player walkout. Long empty football stadium tunnel with strong central vanishing point, dark navy walls, simple cream rectangular practical ceiling lights, repeating structural bays, grass football field and small stadium stands visible through distant exit. No people, text, logos, signs, fog or lens flare. Camera at walking height. Art should read at 640x360."
+      ],
+      [
+        "field",
+        "Authentic professional 16-bit football video game pixel art, crisp square pixel clusters, hard edges, no antialiasing, no glossy neon, no photographic or painterly textures, restrained dithering. Shared palette navy #101827 #17253B #233A50, grass #335A41 #3F8050 #55AA5B, cream #FFF4D2, gold #F5CE65, coral #F28768, purple #9B58AC. Landscape 16:9 empty football stadium field backdrop for card reveal. Symmetrical front-on view low from touchline towards opposite goal, clear green turf foreground taking bottom half, modest navy spectator stands and warm cream floodlights, dark blue evening sky. No people in foreground, text or logos. Calm readable composition. 640x360 pixel game background."
+      ],
+      [
+        "trophy",
+        "Authentic professional 16-bit football video game pixel art, crisp square pixel clusters, hard edges, no antialiasing, no glossy neon, no photographic or painterly textures, restrained dithering. Shared palette navy #101827 #17253B #233A50, grass #335A41 #3F8050 #55AA5B, cream #FFF4D2, gold #F5CE65, coral #F28768, purple #9B58AC. A single original small generic football trophy icon, golden cup with two handles on simple navy plinth, cream highlights and gold body, symmetrical clear silhouette. Transparent background, no text, no ground, no glow, no official competition shapes. Deliberate 48x64 pixel sprite artwork, enlarged nearest neighbour."
+      ]
+    ],
+    [
+      "Create an atlas of EXACTLY 20 original fictional football club crest sprites arranged in a STRICT uniform 5 columns by 4 rows grid. Transparent background. Each cell has one complete centered crest and wide transparent padding so sprites NEVER touch or cross cell boundaries. All 20 cells occupied. No text, letters, numbers, labels or real team logos. Professional authentic 16-bit pixel art, bold 2-pixel navy outline, flat limited colours, crisp square clusters, NO gradient, antialias, neon, gloss or 3D. Cream #FFF4D2, navy #101827 #233A50, green #3F8050, gold #F5CE65, coral #D45A5A, purple #9B58AC. Each badge visibly different silhouette/colours and a single readable emblem, simple enough at 32x32 pixels. Emblems in row-major order: gate, crown, reed, bridge, oak leaf; hill, river wave, anvil, star, anchor; sun, castle, mountain, bird, laurel; shield stripe, tower, wing, wheat, diamond.",
+      "Create an atlas of EXACTLY 20 original fictional football club crest sprites arranged in a STRICT uniform 5 columns by 4 rows grid. Transparent background. Each cell has one complete centered crest and wide transparent padding so sprites NEVER touch or cross cell boundaries. All 20 cells occupied. No text, letters, numbers, labels or real team logos. Professional authentic 16-bit pixel art, bold 2-pixel navy outline, flat limited colours, crisp square clusters, NO gradient, antialias, neon, gloss or 3D. Cream #FFF4D2, navy #101827 #233A50, green #3F8050, gold #F5CE65, coral #D45A5A, purple #9B58AC. Each badge visibly different silhouette/colours and a single readable emblem, simple enough at 32x32 pixels. Emblems in row-major order: red-blue split ball, gold lily, black-gold eagle, blue fleur, red-black stripes; blue-red chevron, white crown, red ship, red sun, green diamond; blue white sun, yellow cross, green white ball, red white rose, blue silver star; purple crown, gold globe, red castle, silver wing, white laurel. "
+    ],
+    [
+      [
+        "button",
+        "Professional restrained 16-bit pixel art for a football management game. Crisp square clusters, hard edges, no gradients, glow, antialiasing, realistic metal or text. Palette navy #101827 #17253B #233A50 #31596A, muted blue #446C7A, cream #FFF4D2, gold #F5CE65. One empty horizontal UI button sprite on transparent background. Rectangular 4:1 aspect, 96x24 logical pixels enlarged. Navy-blue inset face, visible 2-pixel cream-blue top/left highlight and thick very dark bottom/right shadow, stepped two-pixel corners, tactile console-game pushbutton. Large calm blank middle; no icons. Border thickness stays even. Sprite fills canvas except transparent outer two pixels."
+      ],
+      [
+        "button_primary",
+        "Professional restrained 16-bit pixel art for a football management game. Crisp square clusters, hard edges, no gradients, glow, antialiasing, realistic metal or text. Palette navy #101827 #17253B #233A50 #31596A, muted blue #446C7A, cream #FFF4D2, gold #F5CE65. One empty horizontal primary UI button sprite on transparent background. Rectangular4:1 aspect,96x24 logical pixels enlarged. Muted golden face with cream top/left pixel highlight, ochre bottom/right shadow and navy outer2-pixel outline, stepped corners. Tactile retro football arcade pushbutton. Blank middle, no icons. No curved/glossy edges. Sprite fills canvas except transparent outer2pixels."
+      ],
+      [
+        "panel",
+        "Professional restrained 16-bit pixel art for a football management game. Crisp square clusters, hard edges, no gradients, glow, antialiasing, realistic metal or text. Palette navy #101827 #17253B #233A50 #31596A, muted blue #446C7A, cream #FFF4D2, gold #F5CE65. One empty rectangular navy football arcade scoreboard panel sprite, 16:9, logical320x180. Opaque dark navy inset face with very subtle sparse pixel grain. A neat stepped double border: muted blue top/left bevel, deep dark bottom/right edge, tiny cream corner rivets, restrained gold corner tabs. Thin pixel horizontal header inset along top32pixels. Center90% blank calm dark navy space for UI, no text, icons, markings or scenery. Flat2D crafted game UI asset."
+      ],
+      [
+        "goal",
+        "Professional restrained 16-bit pixel art for a football management game. Crisp square clusters, hard edges, no gradients, glow, antialiasing, realistic metal or text. Palette navy #101827 #17253B #233A50 #31596A, muted blue #446C7A, cream #FFF4D2, gold #F5CE65. A single top-down football goal sprite on transparent background, viewed exactly from above. The opening is the full vertical RIGHT edge, net extends LEFT in a rectangular trapezoid box. Cream2-pixel top and bottom sidebars, bright right upright goal-line crossbar, sparse navy-white square net mesh within. Exactly 24x48 logical pixels enlarged, clean rectangular silhouette no ground or ball, no perspective outside top-down, no shadow beyond bounding box."
+      ],
+      [
+        "node",
+        "Professional restrained 16-bit pixel art for a football management game. Crisp square clusters, hard edges, no gradients, glow, antialiasing, realistic metal or text. Palette navy #101827 #17253B #233A50 #31596A, muted blue #446C7A, cream #FFF4D2, gold #F5CE65. One small empty square board-game stop tile on transparent background, logical48x40. Warm cream stone inset with navy outline and bevel, stepped rectangular corners and a short dark bottom shadow, one tiny golden corner rivet. Dark navy flat center large enough for a crest/lock/pawn. No symbols, text or scene. Flat2D chunky pixel sprite."
+      ]
+    ],
+    "Replace the elaborate goal with an EXTREMELY SIMPLE top-down 2D pixel football goal sprite. Transparent background. A plain rectangular outline only: straight bright cream vertical bar at the RIGHT opening; thin cream horizontal top and bottom bars; thin muted navy back bar at LEFT; just three faint horizontal net threads and one vertical net thread. No perspective, trapezoid, bevel, polygon shading, diagonal planes, heavy outline, corner blocks, depth shading or drop shadow. Intentional 8x24 logical-pixel sprite, enlarged nearest-neighbour. Palette only #FFF4D2 #A8C8BF #31596A. The opening on the RIGHT must extend the full height. Much simpler than reference, practical small game sprite."
+  ]
+}

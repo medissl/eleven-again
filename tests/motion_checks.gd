@@ -27,15 +27,15 @@ func run() -> void:
 	hover.position = button.get_global_rect().get_center()
 	viewport.push_input(hover)
 	await frames(12)
-	check(button.scale.x > 1 and button.scale.x < 1.02,"Hover eases without changing the layout slot")
-	var resting := button.scale.x
+	check(button.scale == Vector2.ONE and button.self_modulate.r > 1,"Hover animates brightness while keeping pixel scale and layout stable")
+	var resting := button.self_modulate.r
 	var down := InputEventMouseButton.new()
 	down.position = hover.position
 	down.button_index = MOUSE_BUTTON_LEFT
 	down.pressed = true
 	viewport.push_input(down)
 	await frames(6)
-	check(button.scale.x < resting,"Press compresses immediately with a short ease")
+	check(button.self_modulate.r < resting and button.scale == Vector2.ONE,"Press changes the palette immediately without resampling pixel artwork")
 	var cancel := InputEventMouseButton.new()
 	cancel.position = Vector2.ZERO
 	cancel.button_index = MOUSE_BUTTON_LEFT

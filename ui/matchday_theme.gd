@@ -1,29 +1,34 @@
 extends RefCounted
 const BASE := "res://assets/ui/matchday/"
-const COLOURS := {"forest":"080E19","surface":"101D2E","raised":"1A2D45","ivory":"F2F7FD","muted":"A0B2C9","amber":"49D6F5","brass":"49D6F5","paper":"101D2E","ink":"F2F7FD","divider":"29405A","border":"466883","coral":"F17D91","success":"74D7BD"}
+const COLOURS := {"forest":"101827","surface":"17253B","raised":"233A50","ivory":"FFF4D2","muted":"A8C8BF","amber":"F5CE65","brass":"F5CE65","paper":"17253B","ink":"FFF4D2","divider":"31596A","border":"446C7A","coral":"D45A5A","success":"55AA5B"}
+
+static func frame(ink: Color = Color("FFF4D2")) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color.TRANSPARENT
+	style.border_color = ink
+	style.set_border_width_all(2)
+	style.anti_aliasing = false
+	return style
 
 static func box(id: String) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color=Color("1A2D45") if "raised" in id or "hover" in id else Color("101D2E")
+	style.bg_color=Color(COLOURS.raised) if "raised" in id or "hover" in id else Color(COLOURS.surface)
 	if id == "focus": style.bg_color=Color(0,0,0,0)
-	style.border_color=Color("49D6F5") if "primary" in id or id == "focus" else Color("29405A")
+	style.border_color=Color(COLOURS.ivory) if "primary" in id or id == "focus" else Color(COLOURS.divider)
 	style.set_border_width_all(1)
-	style.set_corner_radius_all(4)
+	style.set_corner_radius_all(0)
 	for side in 4:
 		style.set_content_margin(side,16 if side in [SIDE_LEFT,SIDE_RIGHT] else 8)
 	return style
 
 static func build() -> Theme:
 	var theme := Theme.new()
-	theme.default_font = load(BASE+"fonts/SourceSans3-Regular.ttf")
+	theme.default_font = preload("res://ui/typography.gd").face()
 	theme.default_font_size = 18
-	var strong: Font = load(BASE+"fonts/SourceSans3-Semibold.ttf")
+	var strong: Font = preload("res://ui/typography.gd").face("Bold")
 	for role in ["Heading","Team","Score","Section","BodyStrong","Goal"]:
 		theme.set_type_variation(role,"Label")
-		var file := "BarlowSemiCondensed-Bold.ttf" if role in ["Heading","Score"] else "BarlowSemiCondensed-SemiBold.ttf"
-		if role == "BodyStrong": file = "SourceSans3-Semibold.ttf"
-		if role == "Goal": file = "BarlowCondensed-BoldItalic.ttf"
-		theme.set_font("font",role,load(BASE+"fonts/"+file))
+		theme.set_font("font",role,strong)
 		theme.set_font_size("font_size",role,{"Heading":34,"Team":26,"Score":48,"Section":24,"BodyStrong":18,"Goal":94}[role])
 	for key in COLOURS: theme.set_color(key,"Palette",Color(COLOURS[key]))
 	for role in ["Label","Button","LineEdit","OptionButton","CheckButton","TooltipLabel"]: theme.set_color("font_color",role,Color(COLOURS.ivory))
@@ -45,7 +50,7 @@ static func build() -> Theme:
 	for role in ["HSeparator","VSeparator"]:
 		var line := StyleBoxLine.new()
 		line.color = Color(COLOURS.divider)
-		line.thickness = 1
+		line.thickness = 2
 		line.vertical = role == "VSeparator"
 		theme.set_stylebox("separator",role,line)
 	theme.set_stylebox("panel","PanelContainer",StyleBoxEmpty.new())
@@ -56,7 +61,7 @@ static func build() -> Theme:
 		track.content_margin_bottom = 2
 		theme.set_stylebox(id,"HSlider",track)
 	for id in ["grabber","grabber_highlight","grabber_disabled"]:
-		theme.set_icon(id,"HSlider",load(BASE+"components/slider-thumb.svg"))
+		theme.set_icon(id,"HSlider",preload("res://ui/pixel_art.gd").texture(BASE+"components/slider-thumb.svg",Vector2i(16,16)))
 	theme.set_stylebox("focus","HSlider",box("focus"))
 	theme.set_stylebox("panel","TooltipPanel",box("panel"))
 	preload("res://ui/typography.gd").apply(theme)
@@ -67,9 +72,9 @@ static func build() -> Theme:
 			skin.bg_color = Color(0,0,0,0)
 			skin.content_margin_left = 16
 			skin.content_margin_right = 16
-			if state == "focus":
-				skin.border_color = Color("84EBFF")
-				skin.set_border_width_all(1)
+			skin.content_margin_top = 8
+			skin.content_margin_bottom = 8
 			theme.set_stylebox(state,role,skin)
-		for state in ["font_color","font_hover_color","font_pressed_color","font_focus_color"]: theme.set_color(state,role,Color("F2F7FD"))
+		for state in ["font_color","font_hover_color","font_pressed_color","font_focus_color"]: theme.set_color(state,role,Color("101827") if role == "Primary" else Color(COLOURS.ivory))
+		for state in ["icon_normal_color","icon_hover_color","icon_pressed_color","icon_focus_color"]: theme.set_color(state,role,Color("101827") if role == "Primary" else Color(COLOURS.ivory))
 	return theme

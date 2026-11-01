@@ -1,8 +1,20 @@
 # Eleven Again — project design direction
 
-Runtime continuation (30 October): [neon-matchday checkpoint](reports/neon-matchday.md). The approved visual system is integrated into the actual campaign. Latest Squad reference governs the country/OVR/tactic rail, card pitch, bottom bench and reserve drawer/drag UX. New generated long tunnel and matching field replace the line-drawn walkout. Goal/confetti is superseded by the user's actual buffered replay request. Verification limits and next steps are recorded in the report.
+**Master implementation commission (1 November):** "docs/ELEVEN_AGAIN_CODEX_MASTER_BRIEF.md" is the latest adopted phased specification. Read "docs/ELEVEN_AGAIN_DESIGN.md" for current architecture/adaptations and "docs/ELEVEN_AGAIN_BALANCE.md" for measured versus proposed numbers. The master commissioning scope supersedes the visual-only limit below; existing pixel style and targeted visual feedback remain applicable. Finish current baseline verification before new-system integration.
 
-## Current direction — 30 October 2026
+## Current direction — 1 November 2026
+
+The user replaced neon/glass, then chalk, with **retro-modern pixel football across the whole game**. The sections below dated30October and earlier are visual history. Preserve their functional/data contracts, not their withdrawn materials or font choices. Read [current native evidence and limits](reports/arcade-presentation.md) before continuing visual work.
+
+Use the shared32-colour artwork palette in `assets/ui/arcade/palette.json`: navy support surfaces, saturated grass, warm cream text, gold primary/focus cues, coral alerts and distinct purple Legends. Backgrounds use a640×360 base; the match field renders on its own pixel grid while names, HUD and data remain readable native text. Decoration has no gameplay authority. Keep full pitch markings, equal player bodies, both kit indicators, portraits and card statistics.
+
+Use **Pixel Operator** regular/bold and the same family's mono-bold numeric face throughout. This replaces the first Pixelify trial after the user disliked its small text and numbers. Disable font antialiasing/subpixel positioning and use nearest texture filtering. Frames use hard square edges and restrained colour changes; hover/press feedback does not rescale settled pixel artwork. Retain short scene movement, single active outgoing/incoming text layers, keyboard focus, reduced motion and skippable presentation.
+
+Generated assets supply logo, stadium, road board, pawn, locks, tunnel, reveal field, trophy and40 original crests. Small functional event/trait symbols and flags are admitted to crisp pixel textures; factual flag and kit colours remain intact. The same opening stadium stays behind management screens with a dedicated **background-only blur**, explicitly requested by the user; cards and text stay sharp. No bloom, glass sampling, glossy foil or CRT filter.
+
+The final user scope is **presentation and audio only**. Preserve the existing mechanics, AI, controls, saves, acquisition transactions and180-second regulation. The slower recruitment walkout keeps position/nation/playstyle/crowd beats and a single Confirm; the road discloses current/next opponents only. Human visual approval and sustained match performance remain playtest gates.
+
+## Historical direction — 30 October 2026
 
 The user approved the **neon/glass football direction** after requesting FC Mobile's complete graphics/styling throughout. Use [v6's native reference and contract](outputs/fc-mobile-ui-v6/README.md): floodlit arena, actual glass blur, clipped luminous edges, one Saira family, textured card pitches and original club crests. Their targeted card follow-up adds shared metallic frames, larger two-column stats and white ability icons with hover/focus details. Portraits and numerical card rules remain settled. Production integration is tracked in `tasks/todo.md` 6.6b–f; [evidence and limits](reports/fc-mobile-ui-v6.md).
 

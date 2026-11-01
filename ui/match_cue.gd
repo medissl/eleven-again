@@ -7,7 +7,7 @@ var duration := 0.0
 var reduced := false
 var blocked := false
 var priority := 0
-var accent := Color("49D6F5")
+var accent := Color("F5CE65")
 var activation_count := 0
 func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
@@ -16,14 +16,14 @@ func _ready() -> void:
 		label.theme_type_variation = role
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.mouse_filter = MOUSE_FILTER_IGNORE
-		label.add_theme_color_override("font_color",Color("F2F7FD"))
+		label.add_theme_color_override("font_color",Color("FFF4D2"))
 		label.add_theme_font_size_override("font_size",48 if role == "Goal" else 18)
 		add_child(label)
 	title = get_child(0)
 	detail = get_child(1)
 	hide()
 
-func present(headline: String, copy: String = "", seconds: float = 1.65, importance: int = 1, ink: Color = Color("49D6F5")) -> void:
+func present(headline: String, copy: String = "", seconds: float = 1.65, importance: int = 1, ink: Color = Color("F5CE65")) -> void:
 	if visible and elapsed < duration*0.5 and importance < priority: return
 	accent = ink
 	title.text = headline
@@ -70,5 +70,5 @@ func _draw() -> void:
 	var y := size.y*0.67
 	var width := minf(size.x-40,580)
 	var left := (size.x-width)/2
-	draw_colored_polygon(PackedVector2Array([Vector2(left+18,y-5),Vector2(left+width,y-5),Vector2(left+width-18,y+102),Vector2(left,y+102)]),Color("080E19ED"))
+	draw_colored_polygon(PackedVector2Array([Vector2(left+18,y-5),Vector2(left+width,y-5),Vector2(left+width-18,y+102),Vector2(left,y+102)]),Color("101827ED"))
 	draw_line(Vector2(left+18,y-5),Vector2(left+width,y-5),accent,2,true)

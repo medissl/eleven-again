@@ -1,23 +1,26 @@
 extends RefCounted
-## One licensed family, real tabular figures and deliberately limited weights.
+## One CC0 pixel family. Mono numerals keep clocks and ratings steady.
 static var faces := {}
-static func face(weight: String = "Medium", italic: bool = false) -> FontVariation:
-	var key := weight+str(italic)
+static func face(weight: String = "Medium", _italic: bool = false) -> FontVariation:
+	var key := "Mono-Bold" if weight == "Score" else "Bold" if weight in ["Bold","SemiBold"] else "Regular"
 	if not faces.has(key):
-		var file: FontFile = load("res://assets/ui/premium/fonts/Saira-"+("Italic" if italic else "Upright")+".res")
-		file.fallbacks = [load("res://assets/ui/matchday/fonts/SourceSans3-Regular.ttf")]
+		var file: FontFile = load("res://assets/ui/arcade/fonts/PixelOperator"+("" if key == "Regular" else "Mono-Bold" if key == "Mono-Bold" else "-Bold")+".ttf")
+		file.antialiasing = TextServer.FONT_ANTIALIASING_NONE
+		file.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED
+		var symbols: FontFile=load("res://assets/ui/matchday/fonts/SourceSans3-Regular.ttf")
+		symbols.antialiasing=TextServer.FONT_ANTIALIASING_NONE
+		symbols.subpixel_positioning=TextServer.SUBPIXEL_POSITIONING_DISABLED
+		file.fallbacks=[symbols] # Only missing prime/arrow symbols; all ordinary text remains Pixel Operator.
 		var font := FontVariation.new()
 		font.base_font = file
-		var server := TextServerManager.get_primary_interface()
-		font.variation_opentype = {server.name_to_tag("wght"):float({"Medium":500,"SemiBold":600,"Bold":800}[weight]),server.name_to_tag("wdth"):90.0}
-		font.opentype_features = {server.name_to_tag("tnum"):1,server.name_to_tag("pnum"):0}
+		font.variation_opentype = {}
 		faces[key] = font
 	return faces[key]
 
 static func apply(theme: Theme) -> void:
 	theme.default_font = face()
-	for role in ["Heading","Team","Score","Section","BodyStrong","Goal"]:
-		theme.set_font("font",role,face("SemiBold" if role in ["BodyStrong","Section"] else "Bold",role in ["Heading","Goal"]))
+	for role in ["Heading","Team","Section","BodyStrong","Goal"]: theme.set_font("font",role,face("Bold"))
+	theme.set_font("font","Score",face("Score"))
 	for role in ["Button","Primary","Quiet","Tab","OptionButton","CheckButton"]: theme.set_font("font",role,face("SemiBold"))
 	for role in ["Label","TooltipLabel","LineEdit"]: theme.set_font("font",role,face())
 	theme.set_font("normal_font","RichTextLabel",face())

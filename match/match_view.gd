@@ -18,6 +18,10 @@ var player_positions: Array[Vector2] = []
 var ball := Vector2.ZERO
 var hud
 var font: Font
+var type_layer: Node2D
+var world: Node2D
+var world_viewport: SubViewport
+var world_image: TextureRect
 var turf: Texture2D
 static var shared_turf: Texture2D
 var name_rects: Array[Rect2] = []
@@ -56,6 +60,8 @@ var replays_enabled := true
 var card_library: RefCounted
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_make_pixel_layer()
 	get_tree().node_added.connect(_motion_added)
 	if audio_enabled: audio=preload("res://ui/audio.gd").obtain(self)
 	theme = MatchTheme
@@ -125,26 +131,20 @@ func _make_turf() -> void:
 	if shared_turf != null:
 		turf = shared_turf
 		return
-	var noise := FastNoiseLite.new()
-	noise.seed = 71
-	noise.frequency = 0.24
-	var detail := FastNoiseLite.new()
-	detail.seed = 73
-	detail.frequency = 1.1
-	var image := Image.create(384, 256, false, Image.FORMAT_RGB8)
-	for y in 256:
-		for x in 384:
-			var grain := noise.get_noise_2d(x, y)
-			var fleck := detail.get_noise_2d(x,y)
-			image.set_pixel(x, y, Color(0.085+grain*0.026+fleck*0.006,0.215+grain*0.045+fleck*0.012,0.09+grain*0.021+fleck*0.005))
+	var image := Image.create(64,64,false,Image.FORMAT_RGB8)
+	for y in 64:
+		for x in 64:
+			var fleck := posmod(x*73+y*151+x*y*3,97)
+			image.set_pixel(x,y,Color("3F8050") if fleck == 0 else Color("335A41"))
 	turf = ImageTexture.create_from_image(image)
 	shared_turf = turf
 
 func _layout() -> void:
+	_layout_pixel_layer()
 	if not is_instance_valid(hud): return
 	var divider := size.x - 270
 	var top: float = 86 + (hud.ui_scale - 1) * 50
-	var available := Rect2(24, top, divider - 48, size.y - top - 22)
+	var available := Rect2(40, top, divider - 80, size.y - top - 22)
 	var factor := minf(available.size.x / 105, available.size.y / 68)
 	pitch = Rect2(available.get_center() - Vector2(105, 68) * factor / 2, Vector2(105, 68) * factor)
 	hud.arrange(pitch, divider)
@@ -414,38 +414,42 @@ func _scale() -> float:
 	return pitch.size.x / 105
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), Color("080E19"))
+	if is_instance_valid(world): world.queue_redraw()
+	if is_instance_valid(type_layer): type_layer.queue_redraw()
+
+func _paint_pitch() -> void:
+	world.draw_rect(Rect2(Vector2.ZERO, size), Color("101827"))
 	if pitch.size.x <= 0: return
-	draw_rect(pitch.grow(9), Color("0D2030"))
-	draw_rect(pitch.grow(8), Color("49D6F545"), false, 1)
-	draw_texture_rect(turf, pitch, true)
+	world.draw_rect(pitch.grow(9), Color("263A2D"))
+	world.draw_rect(pitch.grow(8), Color("B8C4AA45"), false, 1)
+	world.draw_texture_rect(turf, pitch, true)
 	for stripe in 10:
 		if stripe % 2 == 0:
-			draw_rect(Rect2(pitch.position + Vector2(pitch.size.x * stripe / 10, 0), Vector2(pitch.size.x / 10, pitch.size.y)), Color(0.6, 0.7, 0.35, 0.045))
+			world.draw_rect(Rect2(pitch.position + Vector2(pitch.size.x * stripe / 10, 0), Vector2(pitch.size.x / 10, pitch.size.y)), Color("3F8050",0.32))
 	# Subtle floodlight falloff lives below every white field marking and every body.
 	for edge in 12:
 		var alpha := (1-edge/12.0)*0.018
-		draw_rect(Rect2(pitch.position+Vector2(edge,edge),pitch.size-Vector2(edge*2,edge*2)),Color(0.01,0.035,0.075,alpha),false,1)
+		world.draw_rect(Rect2(pitch.position+Vector2(edge,edge),pitch.size-Vector2(edge*2,edge*2)),Color(0.01,0.035,0.075,alpha),false,1)
 	var line := Color("DBE8DD")
-	draw_rect(pitch, line, false, 1.4)
-	draw_line(_field(Vector2(52.5, 0)), _field(Vector2(52.5, 68)), line, 1.4)
-	draw_arc(_field(Vector2(52.5, 34)), 9.15 * _scale(), 0, TAU, 64, line, 1.4, true)
-	draw_circle(_field(Vector2(52.5, 34)), 2.2, line)
+	world.draw_rect(pitch, line, false, 1.4)
+	world.draw_line(_field(Vector2(52.5, 0)), _field(Vector2(52.5, 68)), line, 1.4)
+	world.draw_arc(_field(Vector2(52.5, 34)), 9.15 * _scale(), 0, TAU, 64, line, 1.4, true)
+	world.draw_circle(_field(Vector2(52.5, 34)), 2.2, line)
 	for end in 2:
 		var x := 0.0 if end == 0 else 88.5
-		draw_rect(Rect2(_field(Vector2(x, 13.84)), Vector2(16.5, 40.32) * _scale()), line, false, 1.4)
+		world.draw_rect(Rect2(_field(Vector2(x, 13.84)), Vector2(16.5, 40.32) * _scale()), line, false, 1.4)
 		x = 0.0 if end == 0 else 99.5
-		draw_rect(Rect2(_field(Vector2(x, 24.84)), Vector2(5.5, 18.32) * _scale()), line, false, 1.4)
+		world.draw_rect(Rect2(_field(Vector2(x, 24.84)), Vector2(5.5, 18.32) * _scale()), line, false, 1.4)
 		var spot := Vector2(11 if end == 0 else 94, 34)
-		draw_circle(_field(spot), 2, line)
-		draw_arc(_field(spot), 9.15 * _scale(), -0.93 if end == 0 else PI - 0.93, 0.93 if end == 0 else PI + 0.93, 32, line, 1.4, true)
+		world.draw_circle(_field(spot), 2, line)
+		world.draw_arc(_field(spot), 9.15 * _scale(), -0.93 if end == 0 else PI - 0.93, 0.93 if end == 0 else PI + 0.93, 32, line, 1.4, true)
 		_draw_goal(end)
 	for point in [Vector2(0,0),Vector2(105,0),Vector2(105,68),Vector2(0,68)]:
 		var start := 0.0 if point == Vector2.ZERO else (PI / 2 if point.y == 0 else (PI if point.x > 0 else PI * 1.5))
-		draw_arc(_field(point), _scale(), start, start + PI / 2, 12, line, 1.1, true)
+		world.draw_arc(_field(point), _scale(), start, start + PI / 2, 12, line, 1.1, true)
 	if not hud.reduced_motion and sim.ticks-impact_tick >= 0 and sim.ticks-impact_tick < 10:
 		var phase := (sim.ticks-impact_tick)/10.0
-		draw_arc(_field(impact_position),7+phase*9,0,TAU,24,Color(CREAM,0.3*(1-phase)),1.2,true)
+		world.draw_arc(_field(impact_position),7+phase*9,0,TAU,24,Color(CREAM,0.3*(1-phase)),1.2,true)
 	if _has_ball_trail() and not hud.reduced_motion:
 		var points := PackedVector2Array()
 		var colors := PackedColorArray()
@@ -453,19 +457,11 @@ func _draw() -> void:
 			var weight := float(index)/maxi(1,ball_trail.size()-1)
 			points.append(_field(ball_trail[index]))
 			colors.append(Color(_ball_ink(),weight*0.62))
-		if points.size() > 1: draw_polyline_colors(points,colors,2.8,true)
+		if points.size() > 1: world.draw_polyline_colors(points,colors,2.8,true)
 	for i in 22:
 		if i != sim.owner and i != selected: _draw_player(i)
 	if sim.owner >= 0 and sim.owner != selected: _draw_player(sim.owner)
 	if selected >= 0: _draw_player(selected)
-	name_rects.clear()
-	var priorities: Array[int] = []
-	for index in [sim.owner, selected]:
-		if index >= 0 and not priorities.has(index): priorities.append(index)
-	for i in 22:
-		if not priorities.has(i): priorities.append(i)
-	for index in priorities: _draw_name(index)
-	_draw_traits()
 	_draw_ball()
 
 func _draw_traits() -> void:
@@ -487,19 +483,19 @@ func _draw_traits() -> void:
 		var alpha := 0.85 if state.state == "active" else clampf(1-age/36.0,0,1)*0.6
 		if hud.effects_enabled and not hud.reduced_motion:
 			var pulse := 1.0+sin((sim.active_ticks-state.started)*0.12)*0.08
-			draw_arc(position,20*pulse,0,TAU,32,Color(tint,alpha*0.5),2,true)
-			if state.state == "success": draw_arc(position,23,0,TAU,32,Color(tint,alpha),1,true)
+			type_layer.draw_arc(position,20*pulse,0,TAU,32,Color(tint,alpha*0.5),2,true)
+			if state.state == "success": type_layer.draw_arc(position,23,0,TAU,32,Color(tint,alpha),1,true)
 		# Quiet icons retain identity off-ball; only three recent labels compete for attention.
 		var icon := position+Vector2(0,-21)
 		var glyph: Texture2D = preload("res://ui/matchday_icons.gd").signature_icon(state.trait)
-		draw_texture_rect(glyph,Rect2(icon-Vector2(8,8),Vector2(16,16)),false,Color(CREAM,alpha))
+		type_layer.draw_texture_rect(glyph,Rect2(icon-Vector2(8,8),Vector2(16,16)),false,Color(CREAM,alpha))
 		if labels < 3 and sim.ticks-state.get("visual_tick",sim.ticks) < 72:
 			var title: String = state.trait.replace("_"," ").to_upper()
 			if state.state in ["failed","partial"]: title += "  "+str(state.state).to_upper()
 			var width := font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,11).x
 			var origin := Vector2(clampf(position.x-width/2,pitch.position.x+2,pitch.end.x-width-2),maxf(pitch.position.y+12,position.y-32))
-			draw_string_outline(font,origin,title,HORIZONTAL_ALIGNMENT_LEFT,-1,11,3,Color("0c2117"))
-			draw_string(font,origin,title,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color(CREAM,alpha))
+			type_layer.draw_string_outline(font,origin,title,HORIZONTAL_ALIGNMENT_LEFT,-1,11,3,Color("0c2117"))
+			type_layer.draw_string(font,origin,title,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color(CREAM,alpha))
 			labels += 1
 
 func _draw_ball() -> void:
@@ -513,20 +509,20 @@ func _draw_ball() -> void:
 		touch = (sim.players[sim.owner].position - sim.players[sim.owner].previous).normalized() * sin(phase) * 1.8
 	var center := ground + touch - Vector2(0, bounce)
 	center.y -= sim.ball_height*5
-	draw_set_transform(ground + Vector2(0, 4), 0, Vector2(1.35, 0.5))
-	draw_circle(Vector2.ZERO, 4.7, Color(0.01,0.03,0.02,0.75*opacity))
-	draw_set_transform(Vector2.ZERO)
-	draw_circle(center, 6.6, Color(Color("102118"),opacity))
-	draw_circle(center, 5.7, Color(Color("f9f7e9"),opacity))
+	world.draw_set_transform(ground + Vector2(0, 4), 0, Vector2(1.35, 0.5))
+	world.draw_circle(Vector2.ZERO, 4.7, Color(0.01,0.03,0.02,0.75*opacity))
+	world.draw_set_transform(Vector2.ZERO)
+	world.draw_circle(center, 6.6, Color(Color("102118"),opacity))
+	world.draw_circle(center, 5.7, Color(Color("f9f7e9"),opacity))
 	if hud.effects_enabled and _ball_ink() != CREAM:
-		draw_arc(center,6.5,0,TAU,20,Color(_ball_ink(),0.85*opacity),1.3,true)
+		world.draw_arc(center,6.5,0,TAU,20,Color(_ball_ink(),0.85*opacity),1.3,true)
 	var patch := PackedVector2Array()
 	for i in 5: patch.append(center + Vector2.from_angle(ball_roll + i * TAU / 5) * 2.0)
-	draw_colored_polygon(patch, Color(Color("203c2a"),opacity))
+	world.draw_colored_polygon(patch, Color(Color("203c2a"),opacity))
 	for i in 3:
 		var angle := ball_roll + i * TAU / 3
-		draw_colored_polygon(PackedVector2Array([center + Vector2.from_angle(angle) * 3.2, center + Vector2.from_angle(angle - 0.3) * 4.8, center + Vector2.from_angle(angle + 0.3) * 4.8]), Color(Color("203c2a"),opacity))
-	draw_circle(center + Vector2(-1.6, -2.0), 0.9, Color(1,1,1,0.8*opacity))
+		world.draw_colored_polygon(PackedVector2Array([center + Vector2.from_angle(angle) * 3.2, center + Vector2.from_angle(angle - 0.3) * 4.8, center + Vector2.from_angle(angle + 0.3) * 4.8]), Color(Color("203c2a"),opacity))
+	world.draw_circle(center + Vector2(-1.6, -2.0), 0.9, Color(1,1,1,0.8*opacity))
 
 func _has_ball_trail() -> bool:
 	return sim.ball_state == Match.BallState.FLIGHT or (sim.ball_state == Match.BallState.LOOSE and sim.ball_velocity.length() > 2) or (sim.ball_state == Match.BallState.CONTROLLED and sim.owner >= 0 and sim.players[sim.owner].velocity.length() > 1.5)
@@ -538,7 +534,7 @@ func _ball_ink() -> Color:
 	return CREAM
 
 func _draw_goal(end: int) -> void:
-	var depth := 2.5 * _scale()
+	var depth := minf(3.2 * _scale(),pitch.position.x-4.0)
 	var mouth_x := pitch.position.x if end == 0 else pitch.end.x
 	var net_x := mouth_x - depth if end == 0 else mouth_x
 	var top := _field(Vector2(0, 30.34)).y
@@ -550,19 +546,9 @@ func _draw_goal(end: int) -> void:
 		var scoring_team: int = hud.goal_event.get("team",sim.players[hud.goal_cue_actor].team)
 		if (end == 1) == (sim.direction(scoring_team) > 0):
 			recoil = sin(age * 0.3) * exp(-age / 25.0) * 2.0
-	draw_rect(Rect2(net.position + Vector2(1, 3), net.size), Color(0.01,0.035,0.02,0.8))
-	draw_rect(net, Color("203328"))
-	var mesh := Color(0.77,0.83,0.75,0.52)
-	for y in range(0, int(net.size.y) + 1, 5):
-		draw_line(net.position + Vector2(recoil if end == 0 else 0.0, y), Vector2(net.end.x + (recoil if end == 1 else 0.0), net.position.y + y), mesh, 0.8, true)
-	for x in range(0, int(depth) + 1, 5):
-		draw_line(net.position + Vector2(x, 0), Vector2(net.position.x + x, net.end.y), mesh, 0.8, true)
-	draw_rect(net, Color("a8b4a4"), false, 1.3)
-	# The bright mouth posts sit on the actual goal line; net depth is purely presentation.
-	for y in [top, bottom]:
-		draw_line(Vector2(net.position.x, y), Vector2(net.end.x, y), CREAM, 2.5, true)
-		draw_circle(Vector2(mouth_x, y), 2.3, Color.WHITE)
-	draw_line(Vector2(mouth_x, top), Vector2(mouth_x, bottom), Color(0.96,0.97,0.9,0.7), 2, true)
+	var sprite: Texture2D=preload("res://assets/ui/arcade/goal.png") if end == 0 else preload("res://assets/ui/arcade/goal_flipped.png")
+	# The sprite's bright mouth remains aligned to the real goal line.
+	world.draw_texture_rect(sprite,Rect2(net.position,net.size+Vector2(recoil,0)),false)
 
 func _draw_player(index: int) -> void:
 	if not sim.players[index].active: return
@@ -572,34 +558,27 @@ func _draw_player(index: int) -> void:
 	var color := Color(team_kits[0] if index < 11 else team_kits[1],opacity)
 	if selected == index or sim.owner == index:
 		var transfer := 0.0 if hud.reduced_motion else 3*clampf(1-(sim.ticks-owner_tick)/10.0,0,1)
-		draw_arc(point, 17.0 if selected == index else 16.0+transfer, 0, TAU, 36, Color(AMBER,opacity), 2.0 if selected == index else 1.3, true)
+		world.draw_arc(point, 17.0 if selected == index else 16.0+transfer, 0, TAU, 36, Color(AMBER,opacity), 2.0 if selected == index else 1.3, true)
 	if hud.effects_enabled and index == hud.goal_cue_actor and sim.ticks - hud.goal_cue_tick >= 0 and sim.ticks - hud.goal_cue_tick < 150:
-		draw_arc(point, 18 + (0 if hud.reduced_motion else sin((sim.ticks - hud.goal_cue_tick) * 0.15)), 0, TAU, 36, Color(AMBER,opacity), 1.5, true)
-	draw_circle(point + Vector2(1, 2.5), 13.8, Color(0.02,0.05,0.025,0.85*opacity))
-	draw_circle(point, 13.2, Color(Color("102315"),opacity))
-	draw_circle(point, 12.3, Color(CREAM,opacity))
-	draw_circle(point, 11.1, color)
+		world.draw_arc(point, 18 + (0 if hud.reduced_motion else sin((sim.ticks - hud.goal_cue_tick) * 0.15)), 0, TAU, 36, Color(AMBER,opacity), 1.5, true)
+	world.draw_circle(point + Vector2(1, 2.5), 13.8, Color(0.02,0.05,0.025,0.85*opacity))
+	world.draw_circle(point, 13.2, Color(Color("102315"),opacity))
+	world.draw_circle(point, 12.3, Color(CREAM,opacity))
+	world.draw_circle(point, 11.1, color)
 	if is_keeper:
-		draw_circle(point, 10.3, Color(Color("247f53"),opacity))
+		world.draw_circle(point, 10.3, Color(Color("247f53"),opacity))
 	if index >= 11:
-		draw_arc(point, 9, PI * 0.10, PI * 0.90, 14, Color(Color("9d4937"),opacity), 1.2, true)
-	var number := str(index % 11 + 1)
-	var number_pos := point + Vector2(-font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x / 2, 5)
-	var light_number: bool = is_keeper or team_kits[0 if index < 11 else 1].get_luminance() < 0.45
-	if light_number:
-		draw_string_outline(font,number_pos,number,HORIZONTAL_ALIGNMENT_LEFT,-1,14,1,Color(Color("27432d"),opacity))
-	draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM if light_number else Color("102315"),opacity))
-
+		world.draw_arc(point, 9, PI * 0.10, PI * 0.90, 14, Color(Color("9d4937"),opacity), 1.2, true)
 func _draw_name(index: int) -> void:
 	if not sim.players[index].active: return
 	var point := _field(player_positions[index])
-	var pixels: int = roundi(14 * hud.ui_scale)
+	var pixels: int = roundi(18 * hud.ui_scale)
 	var metrics: Dictionary = name_metrics.get(index,{})
 	if metrics.get("source","") != sim.players[index].name or metrics.get("pixels",0) != pixels:
 		var surname: String = preload("res://ui/player_card.gd").split_name(sim.players[index].name)[1]
-		while font.get_string_size(surname,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x > 120*hud.ui_scale and surname.length() > 2:
+		while preload("res://ui/typography.gd").face("Bold").get_string_size(surname,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x > 120*hud.ui_scale and surname.length() > 2:
 			surname = surname.left(surname.length()-2)+"…"
-		metrics = {"source":sim.players[index].name,"pixels":pixels,"text":surname,"width":font.get_string_size(surname,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x}
+		metrics = {"source":sim.players[index].name,"pixels":pixels,"text":surname,"width":preload("res://ui/typography.gd").face("Bold").get_string_size(surname,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x}
 		name_metrics[index] = metrics
 	var player_name: String = metrics.text
 	var width: float = metrics.width
@@ -616,5 +595,66 @@ func _draw_name(index: int) -> void:
 	label_alpha[index] = 1.0 if important else lerpf(label_alpha[index], target, minf(get_process_delta_time() * 8, 1))
 	if not blocked or important: name_rects.append(rect)
 	var opacity := label_alpha[index]*_actor_opacity()
-	draw_string_outline(font,pos,player_name,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels,1,Color(0.04,0.08,0.04,opacity))
-	draw_string(font, pos, player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels, Color(CREAM, opacity))
+	type_layer.draw_rect(Rect2(pos+Vector2(-3,-13),Vector2(width+6,18)),Color("101827",opacity*0.84))
+	type_layer.draw_string(preload("res://ui/typography.gd").face("Bold"),pos,player_name,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels,Color(CREAM,opacity))
+
+func _paint_names() -> void:
+	_draw_traits()
+	for index in 22:
+		if sim.players[index].active: _draw_number(index)
+	name_rects.clear()
+	var priorities: Array[int] = []
+	for index in [sim.owner, selected]:
+		if index >= 0 and not priorities.has(index): priorities.append(index)
+	for i in 22:
+		if not priorities.has(i): priorities.append(i)
+	for index in priorities: _draw_name(index)
+
+func _draw_number(index: int) -> void:
+	var point := _field(player_positions[index])
+	var opacity := _actor_opacity()
+	var is_keeper: bool = sim.players[index].role == "GK"
+	var number := str(index % 11 + 1)
+	var number_pos := point + Vector2(-font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x / 2, 5)
+	var light_number: bool = is_keeper or team_kits[0 if index < 11 else 1].get_luminance() < 0.45
+	if light_number:
+		type_layer.draw_string_outline(font,number_pos,number,HORIZONTAL_ALIGNMENT_LEFT,-1,14,1,Color(Color("27432d"),opacity))
+	type_layer.draw_string(font, number_pos, number, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(CREAM if light_number else Color("102315"),opacity))
+
+class PixelNames:
+	extends Node2D
+	var host: Control
+	func _draw() -> void: host._paint_names()
+
+class PixelWorld:
+	extends Node2D
+	var host: Control
+	func _draw() -> void: host._paint_pitch()
+
+func _make_pixel_layer() -> void:
+	world_viewport = SubViewport.new()
+	world_viewport.disable_3d = true
+	world_viewport.transparent_bg = false
+	world_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	add_child(world_viewport)
+	world = PixelWorld.new()
+	world.host = self
+	world.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	world_viewport.add_child(world)
+	world_image = TextureRect.new()
+	world_image.texture = world_viewport.get_texture()
+	world_image.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	world_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	world_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(world_image)
+	type_layer = PixelNames.new()
+	type_layer.host = self
+	add_child(type_layer)
+	_layout_pixel_layer()
+
+func _layout_pixel_layer() -> void:
+	if not is_instance_valid(world_viewport): return
+	var step := maxi(1,roundi(size.y/360.0))
+	world_viewport.size = Vector2i(size/step)
+	world_viewport.canvas_transform = Transform2D(0,Vector2.ONE/step,0,Vector2.ZERO)
+	world_image.size = size

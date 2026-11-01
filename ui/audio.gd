@@ -1,7 +1,7 @@
 extends Node
 ## One bounded mixer per app. Match sound consumes events; it never owns football.
 const ROOT := "res://assets/audio/"
-const FILES := {"click":"ui_click.ogg","hover":"ui_hover.ogg","confirm":"ui_confirm.ogg","back":"ui_back.ogg","shuffle":"card_shuffle.ogg","place":"card_place.ogg","slide":"card_slide.ogg","kick":"football_kick.mp3","dribble":"football_kick.mp3","shot":"football_kick.mp3","save":"shot.ogg","tackle":"grass_contact.ogg","contact":"contact.ogg","whistle":"whistle_referee.mp3","goal":"stadium_goal.mp3"}
+const FILES := {"click":"arcade/click.wav","hover":"arcade/hover.wav","confirm":"arcade/confirm.wav","back":"arcade/back.wav","shuffle":"arcade/shuffle.wav","place":"arcade/place.wav","slide":"arcade/slide.wav","kick":"arcade/kick.wav","dribble":"arcade/dribble.wav","shot":"arcade/shot.wav","save":"arcade/save.wav","tackle":"arcade/tackle.wav","contact":"arcade/contact.wav","whistle":"whistle_referee.mp3","goal":"stadium_goal.mp3"}
 var streams := {}
 var voices: Array[AudioStreamPlayer] = []
 var menu: AudioStreamPlayer
@@ -43,7 +43,10 @@ func stream(file: String, looping: bool = false) -> AudioStream:
 		else: sound=AudioStreamOggVorbis.load_from_file(path)
 		if sound == null: push_error("Unable to decode audio: "+path); return null
 		if looping:
-			if sound is AudioStreamWAV: sound.loop_mode=AudioStreamWAV.LOOP_FORWARD
+			if sound is AudioStreamWAV:
+				sound.loop_begin=0
+				sound.loop_end=roundi(sound.get_length()*sound.mix_rate)
+				sound.loop_mode=AudioStreamWAV.LOOP_FORWARD
 			else: sound.loop=true
 		streams[file] = sound
 	return streams[file]
@@ -57,7 +60,7 @@ func layer(file: String) -> AudioStreamPlayer:
 
 func _ready() -> void:
 	get_tree().node_added.connect(_node_added)
-	menu = layer("menu.ogg")
+	menu = layer("arcade/menu.wav")
 	bed = layer("stadium_bed.mp3")
 	hype = layer("stadium_hype.mp3")
 	walkout = layer("walkout.mp3")

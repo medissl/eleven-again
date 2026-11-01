@@ -53,8 +53,9 @@ func filter(parent: Node, title: String, entries: Array, action: Callable) -> vo
 	parent.add_child(node)
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	theme = ThemeData
-	color = Color("0c2117")
+	color = Color("101827")
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var margins := MarginContainer.new()
 	margins.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

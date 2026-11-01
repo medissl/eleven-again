@@ -49,6 +49,7 @@ class Feedback:
 	var down := false
 	var base_scale := Vector2.ONE
 	var base_tint := Color.WHITE
+	var press_layout_down := false
 	func _ready() -> void:
 		add_to_group("motion_feedback")
 		base_scale = control.scale
@@ -73,6 +74,7 @@ class Feedback:
 		refresh(true)
 	func refresh(immediate: bool = false) -> void:
 		if not is_inside_tree() or get_viewport() == null: return
+		press_layout()
 		if tween != null: tween.kill()
 		var disabled: bool = control is BaseButton and control.disabled
 		var keyboard: bool = get_viewport().get_meta("keyboard_navigation",false)
@@ -87,14 +89,31 @@ class Feedback:
 		amount = value
 		if control.get_meta("dealing",false): return
 		var reduced_now: bool = reduced.call()
-		var zoom := 1.0 if reduced_now else 1.0-0.018*value if down else 1.0+0.012*value
+		var zoom := 1.0 # Stable pixel clusters; surface/palette animation supplies feedback.
 		control.scale = base_scale*zoom
 		control.self_modulate = base_tint*Color(1.0+0.07*value,1.0+0.07*value,1.0+0.07*value,1)
 		if control.has_meta("motion_surface"):
 			var surface: Control = control.get_meta("motion_surface")
 			surface.activity = value
+			surface.pressed_surface = down
+			surface.keyboard_focus = control.has_focus() and get_viewport().get_meta("keyboard_navigation",false)
 			surface.queue_redraw()
 		control.queue_redraw()
+	func press_layout() -> void:
+		if not control.has_meta("motion_surface") or not control is Button or down == press_layout_down: return
+		press_layout_down=down
+		var style: StyleBox = control.get_theme_stylebox("pressed").duplicate()
+		style.content_margin_top=10 if down else 8
+		style.content_margin_bottom=6 if down else 8
+		control.add_theme_stylebox_override("pressed",style)
+		for child in control.get_children():
+			if not child is Control or child == control.get_meta("motion_surface"): continue
+			if down:
+				child.set_meta("press_origin",child.position)
+				child.position.y+=2
+			elif child.has_meta("press_origin"):
+				child.position=child.get_meta("press_origin")
+				child.remove_meta("press_origin")
 
 class Swap:
 	extends RefCounted

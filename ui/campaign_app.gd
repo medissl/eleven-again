@@ -43,6 +43,7 @@ var walkout: Control
 var arena_transition: Tween
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	theme = Parts.ThemeData
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	session = Session.new(save_root) if session == null else session
@@ -57,20 +58,20 @@ func _ready() -> void:
 	canvas.size = Vector2(1280,720)
 	add_child(canvas)
 	arena = TextureRect.new()
-	arena.texture = preload("res://assets/ui/premium/arena.png")
+	arena.texture = preload("res://assets/ui/arcade/background.png")
+	var background_material := ShaderMaterial.new()
+	background_material.shader = preload("res://assets/ui/arcade/background.gdshader")
+	arena.material = background_material
 	arena.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	arena.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	arena.size = Vector2(1280,720)
 	arena.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	canvas.add_child(arena)
 	arena_shade = ColorRect.new()
-	arena_shade.color = Color(0.02,0.05,0.09,0.6)
+	arena_shade.color = Color(0.06,0.10,0.08,0.08)
 	arena_shade.size = Vector2(1280,720)
 	arena_shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	canvas.add_child(arena_shade)
-	var arena_copy := BackBufferCopy.new()
-	arena_copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
-	canvas.add_child(arena_copy)
 	resized.connect(layout_canvas)
 	layout_canvas()
 	render("main")
@@ -111,7 +112,7 @@ func render(next: String) -> void:
 	if is_instance_valid(arena_shade):
 		if arena_transition != null: arena_transition.kill()
 		arena_transition=create_tween()
-		arena_transition.tween_property(arena_shade,"color:a",0.25 if next == "main" else 0.65,0.0 if preferences.data.motion else 0.22)
+		arena_transition.tween_property(arena_shade,"color:a",0.08 if next == "main" else 0.25,0.0 if preferences.data.motion else 0.22)
 	if page == "offer" and next != "offer" and not pinned_card.is_empty() and not session.profile.discoveries.has(pinned_card): pinned_card = ""
 	if next == "discovered": next = "collection"
 	var focus_name := ""
@@ -387,12 +388,9 @@ func settings() -> void:
 	var focus_name := str(focused.name) if focused != null and is_instance_valid(modal) else ""
 	if not is_instance_valid(settings_cover) or modal != settings_cover:
 		var cover := ColorRect.new()
-		cover.color = Color(Parts.ThemeData.get_color("forest","Palette"),0.55)
+		cover.color = Parts.ThemeData.get_color("forest","Palette")
 		open_modal(cover)
 		settings_cover = cover
-		var copy := BackBufferCopy.new()
-		copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
-		cover.add_child(copy)
 		var surface := preload("res://ui/glass_panel.gd").new()
 		cover.add_child(surface)
 		surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -401,17 +399,17 @@ func settings() -> void:
 		surface.offset_right = -24
 		surface.offset_bottom = -24
 		var title: Label = text(cover,"Settings",34,"Heading")
-		title.position = Vector2(32,100)
+		title.position = Vector2(48,104)
 		var back: Button = button(cover,"Back","CloseSettings",func(): close_modal(); apply_preferences())
-		back.position = Vector2(1112,100)
+		back.position = Vector2(1088,104)
 		back.size = Vector2(136,44)
 		for index in 4:
 			var id: String = ["display","audio","controls","accessibility"][index]
 			var item: Button = button(cover,id.capitalize(),"Settings"+id.capitalize(),func(): settings_section=id; settings(),settings_section == id)
-			item.icon = load("res://assets/ui/matchday/icons/"+id+".svg")
+			item.icon = preload("res://ui/matchday_icons.gd").texture("icons/"+id)
 			item.add_theme_constant_override("icon_max_width",24)
-			item.position = Vector2(32,206+index*62)
-			item.size = Vector2(244,48)
+			item.position = Vector2(48,206+index*64)
+			item.size = Vector2(240,48)
 	for id in ["display","audio","controls","accessibility"]:
 		var tab: Button = settings_cover.find_child("Settings"+str(id).capitalize(),true,false)
 		tab.theme_type_variation = "Primary" if settings_section == id else "Button"
@@ -453,8 +451,7 @@ func settings() -> void:
 			var caption: String = {"motion":"Reduced motion","effects":"Celebration effects","fullscreen":"Fullscreen"}[field]
 			text(row,caption,19).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			var toggle: Button = button(row,"On" if preferences.data[field] else "Off",field,func(): change_preference(field,not preferences.data[field]))
-			toggle.icon = load("res://assets/ui/matchday/components/toggle-"+("on" if preferences.data[field] else "off")+".svg")
-			toggle.add_theme_constant_override("icon_max_width",48)
+			toggle.theme_type_variation = "Primary" if preferences.data[field] else "Button"
 			toggle.custom_minimum_size = Vector2(152,44)
 			toggle.tooltip_text = caption
 		text(content,"The interface uses its standard size.",18,"Label",Color("A5B09F"))
@@ -474,7 +471,12 @@ func record_file(record: Dictionary) -> void:
 
 func audio_credits() -> void:
 	var box := panel("Audio credits",Rect2(240,124,800,500))
-	var credits := text(box,"Menu Music — wipics (CC0)\nhttps://opengameart.org/content/menu-music-1\n\nInterface / Impact / Card Sounds — Kenney (CC0)\nhttps://kenney.nl/assets\n\nFree Crowd Cheering Sounds — Gregor Quendel (CC BY 4.0)\nhttps://opengameart.org/content/free-crowd-cheering-sounds\nhttps://creativecommons.org/licenses/by/4.0/\n\nReferee whistle — Rosa-Orenes256 (CC0)\nhttps://freesound.org/s/538422/\nFootball kick — bittermelonheart (CC0)\nhttps://freesound.org/s/555042/\n\nRenamed files; playback gains / pitch / sequencing adjusted.",16)
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size=Vector2(736,320)
+	scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
+	box.add_child(scroll)
+	var content := Parts.column(scroll,12)
+	var credits := text(content,"Arcade menu music / interface cues — Eleven Again original synthesis\nFootball / impact / card shuffle recordings — sources below\n\nInterface / Impact / Card Sounds — Kenney (CC0)\nhttps://kenney.nl/assets\n\nFree Crowd Cheering Sounds — Gregor Quendel (CC BY 4.0)\nhttps://opengameart.org/content/free-crowd-cheering-sounds\nhttps://creativecommons.org/licenses/by/4.0/\n\nReferee whistle — Rosa-Orenes256 (CC0)\nhttps://freesound.org/s/538422/\nFootball kick — bittermelonheart (CC0)\nhttps://freesound.org/s/555042/\n\nRenamed files; playback gains / pitch / sequencing adjusted.",16)
 	credits.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button(box,"Back","CloseAudioCredits",settings)
 	Parts.focus_loop(modal)

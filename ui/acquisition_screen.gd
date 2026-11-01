@@ -30,7 +30,7 @@ func _ready() -> void:
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	put(app.text(self,"Transfer market" if market else "Choose one player",34,"Heading"),Rect2(0,0,1216,44))
-	put(app.text(self,"Two signings" if market else "Free signing",18,"Label",Color("A0B2C9")),Rect2(0,54,1216,30))
+	put(app.text(self,"Two signings" if market else "Free signing",18,"Label",Color("A8C8BF")),Rect2(0,54,1216,30))
 	card_area = ScrollContainer.new()
 	card_area.name = "CandidateScroll"
 	card_area.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED

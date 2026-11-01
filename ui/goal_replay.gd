@@ -52,7 +52,7 @@ func _ready() -> void:
 	skip.tooltip_text = "Click, Space or Escape"
 	add_child(skip)
 	veil = ColorRect.new()
-	veil.color = Color("080E19")
+	veil.color = Color("101827")
 	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(veil)

@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "date": "2026-11-01",
+  "task_tracker": "tasks/todo.md",
+  "master_spec": "docs/ELEVEN_AGAIN_CODEX_MASTER_BRIEF.md",
+  "master_spec_sha256": "024C92290B0E5CEF4FCFBF83BC4850F2FFD0EC93256C764E7167BF208D2DCF6C",
+  "branch": "codex/flow-match-repair",
+  "last_git_checkpoint": "bcf4a4e",
+  "working_tree_status": "baseline_verified_local_checkpoint_in_progress",
+  "phase": "1",
+  "phase_status": "baseline_passed_event_analytics_in_progress",
+  "verified_new_work": [
+    "complete_spec_read_and_copied_with_matching_hash",
+    "tools/audit_master_brief.ps1",
+    "reports/master-brief-audit.json",
+    "1356_unique_cards_300_acquisition_36_traits_no_invalid_stats_or_missing_portrait_pngs",
+    "six_pack_weight_sums_and_independent_probability_arithmetic"
+  ],
+  "prepared_not_live": "content/campaign/master_balance_v1.json",
+  "latest_unverified_changes": [],
+  "blocker": null,
+  "resume_order": [
+    "Inspect_git_status_and_preserve_unrelated_work",
+    "Read_master_spec_and_design_balance_audit_then_latest_tracker",
+    "Run_Godot_import_and_campaign_dependency_parse",
+    "Run_tests/pixel_polish_checks.gd_check_real_rendered_text_moves_with_button_face_at_four_sizes",
+    "Run_motion_flow_watchability_audio_Squad_replay_affected_native_checks_at_720_and_1080",
+    "Inspect_native_settings_origin_squad_pitch_goal_and_results_images_fix_material_spacing_defects",
+    "Run_existing_model_domain_and_fresh_process_Continue_gates",
+    "Review_explicit_diff_stage_only_owned_changes_make_local_commit_no_push",
+    "Begin_master_phase1_event_analytics_and_modifier_attribution_without_new_RNG_draws",
+    "Prove_seed_and_render_mode_parity_before_new_pack_or_campaign_migration"
+  ],
+  "preserve": [
+    "200_historical_cards_and_portraits",
+    "native_OVR_and_keeper_stats",
+    "180_active_regulation_seconds",
+    "circle_markers_physical_ball_and_laws",
+    "crowd_audio",
+    "campaign_v1_and_campaign_road_v2_saves",
+    "journal_backup_corrupt_file_preservation"
+  ],
+  "filesystem_snapshot": "outputs/continuation-2026-11-01.zip"
+}

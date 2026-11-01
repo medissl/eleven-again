@@ -28,6 +28,7 @@ var unavailable: Array = []
 var opponent_mode := false
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	theme = ThemeData
 	color = ThemeData.get_color("forest","Palette")
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

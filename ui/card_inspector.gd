@@ -139,7 +139,7 @@ func build_comparison() -> void:
 		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		canvas.add_child(view)
 	var symbol := TextureRect.new()
-	symbol.texture = load("res://assets/ui/matchday/icons/compare.svg")
+	symbol.texture = preload("res://ui/matchday_icons.gd").texture("icons/compare")
 	symbol.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	symbol.position = Vector2(606,266)
 	symbol.size = Vector2(48,48)

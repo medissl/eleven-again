@@ -1,0 +1,217 @@
+{
+  "schema": 1,
+  "date": "2026-11-01",
+  "kind": "static_source_audit_not_engine_simulation",
+  "brief_sha256": "024C92290B0E5CEF4FCFBF83BC4850F2FFD0EC93256C764E7167BF208D2DCF6C",
+  "datasets": [
+    {
+      "path": "content/player_catalogue.json",
+      "sha256": "2495EBB245FEEAA5E3F0D581A63604FCC2A368980396764BE137DC663A16CCE3",
+      "cards": 200,
+      "unique_people": 200,
+      "tiers": {
+        "bronze": 0,
+        "silver": 0,
+        "gold": 21,
+        "legend": 179
+      },
+      "roles": {
+        "CB": 20,
+        "AM": 20,
+        "LW": 20,
+        "LB": 20,
+        "RW": 20,
+        "RB": 20,
+        "GK": 20,
+        "CM": 20,
+        "DM": 20,
+        "ST": 20
+      },
+      "minimum_ovr": 94.0,
+      "maximum_ovr": 119.0,
+      "invalid_stats": [],
+      "missing_portrait_files": []
+    },
+    {
+      "path": "content/campaign/country_starters.json",
+      "sha256": "75D74713E51DB10F52C070544C722D951A98970B70FFAA1D796C0B7D957CD97C",
+      "cards": 96,
+      "unique_people": 96,
+      "tiers": {
+        "bronze": 96,
+        "silver": 0,
+        "gold": 0,
+        "legend": 0
+      },
+      "roles": {
+        "CB": 12,
+        "AM": 6,
+        "ST": 12,
+        "LW": 12,
+        "LB": 6,
+        "RW": 6,
+        "RB": 6,
+        "GK": 12,
+        "CM": 12,
+        "DM": 12
+      },
+      "minimum_ovr": 59.0,
+      "maximum_ovr": 64.0,
+      "invalid_stats": [],
+      "missing_portrait_files": []
+    },
+    {
+      "path": "content/campaign/enemy_rosters.json",
+      "sha256": "2DAF2BEA207D96935889AB1CC8E455DA9A2EFB517DBF70E7EF442AB24679BF6A",
+      "cards": 960,
+      "unique_people": 384,
+      "tiers": {
+        "bronze": 346,
+        "silver": 426,
+        "gold": 188,
+        "legend": 0
+      },
+      "roles": {
+        "CB": 180,
+        "AM": 81,
+        "ST": 130,
+        "LW": 60,
+        "LB": 60,
+        "RW": 60,
+        "RB": 60,
+        "GK": 120,
+        "CM": 138,
+        "DM": 71
+      },
+      "minimum_ovr": 57.0,
+      "maximum_ovr": 94.0,
+      "invalid_stats": [],
+      "missing_portrait_files": []
+    },
+    {
+      "path": "content/campaign/fictional_recruits.json",
+      "sha256": "CF46DD1937BCA2AF4BB042BB01D5A7173A1CBB140623F3D884889829EBE840C5",
+      "cards": 100,
+      "unique_people": 100,
+      "tiers": {
+        "bronze": 20,
+        "silver": 60,
+        "gold": 20,
+        "legend": 0
+      },
+      "roles": {
+        "CB": 10,
+        "AM": 10,
+        "LW": 10,
+        "LB": 10,
+        "RW": 10,
+        "RB": 10,
+        "GK": 10,
+        "CM": 10,
+        "DM": 10,
+        "ST": 10
+      },
+      "minimum_ovr": 65.0,
+      "maximum_ovr": 92.0,
+      "invalid_stats": [],
+      "missing_portrait_files": []
+    }
+  ],
+  "total_authored_cards": 1356,
+  "unique_card_ids": 1356,
+  "duplicate_card_ids": [],
+  "acquisition_pool_cards": 300,
+  "origins": 6,
+  "legacy_clubs": 24,
+  "new_rival_aliases": 16,
+  "trait_definitions": 36,
+  "current_rules": {
+    "starting_cash": 8000000,
+    "total_win_prizes": 84000000.0,
+    "starting_squad": 16,
+    "squad_cap": 18,
+    "regulation_seconds": 180,
+    "target_wins": 12,
+    "defeat_limit": 3,
+    "free_offer_slots": 5,
+    "market_slots": 8,
+    "recruit_after": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      9,
+      10,
+      11
+    ],
+    "market_after": [
+      3,
+      7,
+      11
+    ],
+    "coaching_after": [
+      4,
+      8
+    ]
+  },
+  "initial_target_arithmetic": {
+    "packs": [
+      {
+        "kind": "standard",
+        "act": 1,
+        "weight_sum": 10000.0,
+        "legend_per_card": 0.002,
+        "at_least_one_legend_in_four": 0.007976031983999987
+      },
+      {
+        "kind": "standard",
+        "act": 2,
+        "weight_sum": 10000.0,
+        "legend_per_card": 0.015,
+        "at_least_one_legend_in_four": 0.05866344937500001
+      },
+      {
+        "kind": "standard",
+        "act": 3,
+        "weight_sum": 10000.0,
+        "legend_per_card": 0.04,
+        "at_least_one_legend_in_four": 0.15065344000000014
+      },
+      {
+        "kind": "elite",
+        "act": 1,
+        "weight_sum": 10000.0,
+        "legend_per_card": 0.01,
+        "at_least_one_legend_in_four": 0.039403990000000055
+      },
+      {
+        "kind": "elite",
+        "act": 2,
+        "weight_sum": 10000.0,
+        "legend_per_card": 0.05,
+        "at_least_one_legend_in_four": 0.18549375000000012
+      },
+      {
+        "kind": "elite",
+        "act": 3,
+        "weight_sum": 10000.0,
+        "legend_per_card": 0.08,
+        "at_least_one_legend_in_four": 0.2836070399999999
+      }
+    ],
+    "six_earned_legend_offered": 0.37092266455592604,
+    "plus_act_three_elite": 0.5493334255923069,
+    "perfect_coins": 1840,
+    "prefinal_coins": 1630,
+    "legacy_total": 2820,
+    "perfect_clear_marks": 565,
+    "independent_run_clear": 0.2252398010842473,
+    "informed_plus_05": 0.3563953095416298,
+    "informed_plus_10": 0.5209543643246396,
+    "calibrated_in_engine": false
+  },
+  "native_baseline_status": "latest_button_margin_patch_unverified_due_automatic_approval_review_usage_limit",
+  "mutates_runtime": false
+}

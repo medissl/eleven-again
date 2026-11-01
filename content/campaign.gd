@@ -186,6 +186,8 @@ func metadata(card_id: String) -> Dictionary:
 	return info
 
 func badge_path(club_id: String) -> String:
+	var pixel := "res://assets/ui/arcade/badges/"+club_id+".png"
+	if club_id.is_valid_identifier() and ResourceLoader.exists(pixel): return pixel
 	if clubs.has(club_id) and clubs[club_id].has("legacy_source"): return "res://assets/badges/road/"+club_id+".svg"
 	return "res://assets/badges/campaign/"+club_id+".svg" if clubs.has(club_id) and club_id.is_valid_identifier() else ""
 

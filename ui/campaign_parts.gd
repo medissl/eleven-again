@@ -1,9 +1,9 @@
 extends RefCounted
 static var ThemeData: Theme = preload("res://ui/matchday_theme.gd").build()
 const CardView = preload("res://ui/player_card.gd")
-const INK := Color("F2F7FD")
-const IVORY := Color("F2F7FD")
-const BRASS := Color("49D6F5")
+const INK := Color("FFF4D2")
+const IVORY := Color("FFF4D2")
+const BRASS := Color("F5CE65")
 
 class Paper:
 	extends PanelContainer
@@ -13,13 +13,19 @@ class Paper:
 		add_theme_stylebox_override("panel",box)
 		resized.connect(queue_redraw)
 	func _draw() -> void:
-		var polygon := PackedVector2Array([Vector2(1,1),Vector2(size.x-22,1),Vector2(size.x-1,22),size-Vector2.ONE,Vector2(1,size.y-1),Vector2(1,1)])
-		draw_colored_polygon(polygon,Color("101D2E"))
-		draw_polyline(polygon,BRASS,2,true)
-		draw_rect(Rect2(10,10,size.x-20,size.y-20),Color(0.45,0.40,0.25,0.22),false,1)
-		draw_arc(size/2, minf(size.x,size.y)*0.24,0,TAU,80,Color(0.45,0.40,0.25,0.12),1,true)
-		# Native paper rules/grain remain quiet behind live text.
-		for y in range(18,int(size.y)-12,19): draw_line(Vector2(12,y),Vector2(size.x-12,y),Color(0.45,0.40,0.25,0.025),1)
+		draw_rect(Rect2(Vector2.ZERO,size),Color("101827"))
+		draw_style_box(preload("res://ui/pixel_skin.gd").surface("panel"),Rect2(Vector2.ZERO,size))
+
+static func brand(parent: Node, extent: Vector2 = Vector2(190,48)) -> TextureRect:
+	var node := TextureRect.new()
+	node.texture = preload("res://assets/ui/arcade/logo.png")
+	node.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	node.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	node.custom_minimum_size = extent
+	node.size = extent
+	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(node)
+	return node
 
 class Mark:
 	extends Control
@@ -38,7 +44,7 @@ class Mark:
 					draw_line(point-Vector2(3,3),point+Vector2(3,3),INK,1.5,true)
 					draw_line(point-Vector2(3,-3),point+Vector2(3,-3),INK,1.5,true)
 		elif kind == "menu":
-			draw_texture_rect(load("res://assets/ui/matchday/icons/menu.svg"),Rect2(2,2,24,24),false,ink)
+			draw_texture_rect(preload("res://ui/matchday_icons.gd").texture("icons/menu"),Rect2(2,2,24,24),false,ink)
 		elif kind == "arrow":
 			draw_line(Vector2(2,14),Vector2(28,14),ink,2,true)
 			draw_polyline(PackedVector2Array([Vector2(19,5),Vector2(28,14),Vector2(19,23)]),ink,2,true)
@@ -96,7 +102,7 @@ static func row(parent: Node, separation: int = 18) -> HBoxContainer:
 
 static func badge(parent: Node, library: RefCounted, club: String, pixels: int) -> TextureRect:
 	var node := TextureRect.new()
-	node.texture = load(library.badge_path(club))
+	node.texture = preload("res://ui/pixel_art.gd").texture(library.badge_path(club),Vector2i(32,32))
 	node.custom_minimum_size = Vector2.ONE*pixels
 	node.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	node.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED

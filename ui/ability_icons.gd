@@ -43,8 +43,13 @@ static var textures := {}
 static func texture(trait_id: String) -> Texture2D:
 	if not PATHS.has(trait_id): return null
 	if not textures.has(trait_id):
-		var svg: String = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke="#F2F7FD" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+str(PATHS[trait_id])+'</g></svg>'
+		var svg: String = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><g fill="none" stroke="#FFF4D2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+str(PATHS[trait_id])+'</g></svg>'
 		var pixels := Image.new()
-		assert(pixels.load_svg_from_string(svg,2.0) == OK)
+		assert(pixels.load_svg_from_string(svg,1.0) == OK)
+		pixels.resize(24,24,Image.INTERPOLATE_NEAREST)
+		for y in 24:
+			for x in 24:
+				var c := pixels.get_pixel(x,y)
+				pixels.set_pixel(x,y,Color(Color("FFF4D2"),1.0 if c.a >= 0.4 else 0.0))
 		textures[trait_id] = ImageTexture.create_from_image(pixels)
 	return textures[trait_id]

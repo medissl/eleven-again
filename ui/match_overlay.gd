@@ -19,12 +19,10 @@ class Icon:
 	var ink := Color("efe9d9")
 	func _draw() -> void:
 		if kind == "kit":
-			draw_set_transform(size/2,0,Vector2.ONE*size.y/34)
-			var points := PackedVector2Array([Vector2(-7,-12),Vector2(-17,-5),Vector2(-13,3),Vector2(-8,0),Vector2(-8,15),Vector2(8,15),Vector2(8,0),Vector2(13,3),Vector2(17,-5),Vector2(7,-12),Vector2(3,-8),Vector2(-3,-8)])
-			draw_colored_polygon(points,ink)
+			var icon := preload("res://ui/pixel_art.gd").texture("res://assets/ui/arcade/kit.svg",Vector2i(16,16))
 			if ink.get_luminance() < 0.45:
-				points.append(points[0])
-				draw_polyline(points,Color("F1ECDD99"),0.7,true)
+				for offset in [Vector2(-1,0),Vector2(1,0),Vector2(0,-1),Vector2(0,1)]: draw_texture_rect(icon,Rect2(offset,size),false,Color("FFF4D2"))
+			draw_texture_rect(icon,Rect2(Vector2.ZERO,size),false,ink)
 		else:
 			var id: String = {"resume":"play","continue_half":"play","continue_result":"forward","details":"records","log":"history","campaign_settings":"settings","restart":"restore","new":"new-run","save_exit":"save","quit":"exit"}.get(kind,kind)
 			draw_texture_rect(preload("res://ui/matchday_icons.gd").texture("icons/"+id),Rect2(0,0,24,24),false,ink)
@@ -32,9 +30,6 @@ class Icon:
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	color = Color(MatchTheme.get_color("forest","Palette"),0.94)
-	var copy := BackBufferCopy.new()
-	copy.copy_mode = BackBufferCopy.COPY_MODE_VIEWPORT
-	add_child(copy)
 	var glass := preload("res://ui/glass_panel.gd").new()
 	add_child(glass)
 	glass.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -129,7 +124,7 @@ func _button(parent: Node, action: String, text: String, primary: bool = false) 
 	button.pressed.connect(func(): command.emit(action))
 	parent.add_child(button)
 	if action in ["resume", "menu", "details", "log", "settings", "campaign_settings", "save_exit", "restart", "new", "quit"]:
-		for state in ["normal", "hover", "pressed"]:
+		for state in ["normal", "hover", "pressed", "disabled", "focus"]:
 			var style: StyleBox = MatchTheme.get_stylebox(state, button.theme_type_variation).duplicate()
 			style.content_margin_left = 46
 			button.add_theme_stylebox_override(state, style)

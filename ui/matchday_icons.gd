@@ -6,7 +6,7 @@ static var textures := {}
 static var traits := {}
 
 static func texture(id: String) -> Texture2D:
-	if not textures.has(id): textures[id] = load(BASE+id+".svg")
+	if not textures.has(id): textures[id] = preload("res://ui/pixel_art.gd").texture(BASE+id+".svg")
 	return textures[id]
 
 static func event(kind: String) -> Texture2D:

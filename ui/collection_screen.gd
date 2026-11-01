@@ -43,7 +43,7 @@ func build_chrome() -> void:
 	body = Control.new()
 	body.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(body)
-	label("ELEVEN AGAIN",Rect2(32,20,600,32),23,"Team")
+	Parts.brand(body).position = Vector2(32,12)
 	button("Back","CollectionBack",Rect2(1136,16,112,44),func(): closed.emit(); queue_free())
 	label("Collection",Rect2(32,100,600,48),34,"Heading")
 	discovery_label = label("",Rect2(32,152,600,28),18)
@@ -86,23 +86,11 @@ func refresh() -> void:
 		var tile: Control
 		if known: tile = Parts.card(grid,library,card.card_id,128,1.0,true)
 		else:
-			tile = Button.new()
+			tile = Parts.CardView.new()
 			tile.custom_minimum_size = Vector2(128,179.2)
+			tile.size = tile.custom_minimum_size
 			grid.add_child(tile)
-			for image in [["components/card-back.svg",Rect2(0,0,128,179.2)],["components/portrait-anonymous.svg",Rect2(26,24,76,76)]]:
-				var art := TextureRect.new()
-				art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-				art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-				art.texture = load("res://assets/ui/matchday/"+image[0])
-				art.position = image[1].position
-				art.size = image[1].size
-				art.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				tile.add_child(art)
-			var caption := Parts.label(tile,"Undiscovered",13)
-			caption.position = Vector2(8,144)
-			caption.size = Vector2(112,24)
-			caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			tile.bind(null,{},false)
 		tile.name = "KnownEdition_"+card.card_id if known else "UnknownEdition_"+str(index)
 		tile.position = Vector2(32+(index%6)*204,248+int(index/6)*196)
 		(tile as BaseButton).pressed.connect(func(): open_file(card.card_id if known else ""))

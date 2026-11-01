@@ -19,6 +19,7 @@ var reveal_flash := 0.0
 var legend_reveal := false
 
 func _init() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	set_process(false)
 	ready.connect(layout_card)
 	theme = MatchTheme
@@ -47,9 +48,9 @@ func bind(card: Resource, metadata: Dictionary = {}, known: bool = true, is_owne
 	content.size = Vector2(300,420)
 	add_child(content)
 	var tier: String = definition.tier() if definition != null else "unknown"
-	face = Color("0C1929")
+	face = Color("101827")
 	accent = Color(FrameStyle.PALETTES[tier][0])
-	ink = Color("F2F7FD")
+	ink = Color("FFF4D2")
 	put("%d" % definition.rating() if definition != null else "?",Rect2(23,12,86,69),58,"Score")
 	put(definition.primary_role if definition != null else "—",Rect2(25,76,65,28),24,"Score")
 	put(str(info.get("version_label","FICTIONAL")) if definition != null else "",Rect2(112,19,160,26),12,"Label",HORIZONTAL_ALIGNMENT_RIGHT)
@@ -88,7 +89,7 @@ func bind(card: Resource, metadata: Dictionary = {}, known: bool = true, is_owne
 	for index in 6:
 		var x := 24+int(index/3)*136
 		var y := 311+(index%3)*33
-		put(keys[index],Rect2(x,y,40,34),16,"BodyStrong")
+		put(keys[index],Rect2(x,y,40,34),20,"BodyStrong")
 		var value: String = "—"
 		if definition != null:
 			value = str(int(definition.attributes[keys[index]] if keys[index] in CardData.STATS else definition.keeper_attributes[keys[index]]))

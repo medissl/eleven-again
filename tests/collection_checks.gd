@@ -18,7 +18,7 @@ func run() -> void:
 		for card in album.library.recruits: assert(not node.text.contains(card.display_name))
 	for tile in album.tiles:
 		assert(tile.name.begins_with("UnknownEdition_") and tile.tooltip_text == album.tiles[0].tooltip_text)
-		assert(tile.find_child("Portrait",true,false) == null,"Hidden versions cannot retain a real portrait")
+		assert(tile.definition == null and tile.info.is_empty() and tile.portrait.texture == null,"Hidden versions cannot retain identity, metadata or portrait pixels")
 	album.query = album.library.recruits[0].display_name
 	assert(album.visible_cards().is_empty(),"Searching for a hidden identity cannot leak existence/count")
 	album.role = "GK"

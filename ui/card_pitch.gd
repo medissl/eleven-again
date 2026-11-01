@@ -13,11 +13,11 @@ func project(point: Vector2) -> Vector2:
 	return Vector2(size.x/2+(point.x/68.0-0.5)*lerpf(size.x*0.79,size.x*0.99,depth),depth*size.y)
 func marking(points: Array) -> void:
 	var path := PackedVector2Array()
-	for point in points: path.append(project(point))
-	draw_polyline(path,Color(0.77,0.86,0.87,0.7),1.2,true)
+	for point in points: path.append(project(point).snapped(Vector2(2,2)))
+	draw_polyline(path,Color("E1E8CF"),2.0,false)
 func _draw() -> void:
 	var edge := PackedVector2Array([project(Vector2(0,0)),project(Vector2(68,0)),project(Vector2(68,105)),project(Vector2(0,105))])
-	draw_colored_polygon(edge,Color("769C93"),PackedVector2Array([Vector2.ZERO,Vector2(3,0),Vector2(3,3),Vector2(0,3)]),turf)
+	draw_colored_polygon(edge,Color.WHITE,PackedVector2Array([Vector2.ZERO,Vector2(3,0),Vector2(3,3),Vector2(0,3)]),turf)
 	marking([Vector2(0,0),Vector2(68,0),Vector2(68,105),Vector2(0,105),Vector2(0,0)])
 	marking([Vector2(0,52.5),Vector2(68,52.5)])
 	var circle: Array = []

@@ -25,7 +25,7 @@ static func build(app) -> void:
 		if revealed:
 			var fixture: Dictionary = data.fixtures[index]
 			var club: Dictionary = app.library.clubs[fixture.club_id]
-			stop.crest = load(app.library.badge_path(club.id))
+			stop.crest = preload("res://ui/pixel_art.gd").texture(app.library.badge_path(club.id),Vector2i(32,32))
 			stop.tooltip_text = "Current match" if index == current else "Next opponent"
 		else: stop.tooltip_text = "Completed" if stop.completed else "Locked"
 		stop.pressed.connect(func(): app.road_stage=index; app.render("board"))
@@ -45,7 +45,7 @@ static func build(app) -> void:
 	var rival: Control = Lobby.panel(app.screen,Rect2(840,174,408,438))
 	Lobby.copy(app,rival,"CURRENT MATCH" if selected == current else "NEXT OPPONENT",Rect2(24,22,360,26),16,"Section")
 	var crest := TextureRect.new()
-	crest.texture = load(app.library.badge_path(club.id))
+	crest.texture = preload("res://ui/pixel_art.gd").texture(app.library.badge_path(club.id),Vector2i(32,32))
 	crest.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	crest.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	crest.position = Vector2(132,64)
@@ -86,77 +86,49 @@ class Stop:
 	func _init() -> void:
 		set_meta("game_control",true)
 		for state in ["normal","hover","pressed","disabled","focus"]: add_theme_stylebox_override(state,StyleBoxEmpty.new())
-	func _draw() -> void:
-		var hot: bool = not disabled and (is_hovered() or (has_focus() and get_viewport().get_meta("keyboard_navigation",false)))
-		draw_set_transform(Vector2(44,42),0,Vector2(1,0.48))
-		draw_circle(Vector2(0,8),35,Color("030A12"))
-		draw_circle(Vector2.ZERO,34,Color("132C3A") if not disabled else Color("101D27"))
-		draw_arc(Vector2.ZERO,33,0,TAU,48,Color("8BEDFF") if selected or hot else Color("3E7487"),2,true)
-		if current: draw_arc(Vector2.ZERO,38,0,TAU,48,Color("DECA8C"),2,true)
-		draw_set_transform(Vector2.ZERO)
+	func _ready() -> void:
 		if crest != null:
-			draw_texture_rect(crest,Rect2(24,4,40,46),false)
-		elif completed:
-			draw_polyline(PackedVector2Array([Vector2(35,37),Vector2(42,44),Vector2(56,28)]),Color("72CBBE"),3,true)
+			var image := TextureRect.new()
+			image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+			image.texture=crest; image.position=Vector2(28,12); image.size=Vector2(32,36)
+			image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			image.mouse_filter=MOUSE_FILTER_IGNORE; add_child(image)
+		elif not completed:
+			var image := TextureRect.new()
+			image.texture=preload("res://assets/ui/arcade/lock.png"); image.position=Vector2(32,16); image.size=Vector2(24,30)
+			image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			image.mouse_filter=MOUSE_FILTER_IGNORE; image.modulate=Color(1,1,1,0.85)
+			add_child(image)
 		else:
-			draw_arc(Vector2(44,25),7,PI,TAU,16,Color("6C8799"),2,true)
-			draw_rect(Rect2(34,25,20,16),Color("243E4D"))
-			draw_circle(Vector2(44,31),2,Color("9AB3BE"))
+			var check := Label.new()
+			check.text="✓"; check.position=Vector2(30,12); check.add_theme_font_size_override("font_size",26)
+			check.mouse_filter=MOUSE_FILTER_IGNORE; add_child(check)
+	func _draw() -> void:
+		var hot: bool=not disabled and (is_hovered() or (has_focus() and get_viewport().get_meta("keyboard_navigation",false)))
+		draw_texture_rect(preload("res://assets/ui/arcade/node.png"),Rect2(12,8,64,52),false,Color.WHITE if selected or hot or current else Color(0.65,0.70,0.75,1))
+
 class Pawn:
 	extends Control
-	func _init() -> void: mouse_filter=MOUSE_FILTER_IGNORE
-	func _draw() -> void:
-		draw_set_transform(Vector2(0,4),0,Vector2(1,0.4))
-		draw_circle(Vector2.ZERO,17,Color(0,0,0,0.6))
-		draw_set_transform(Vector2.ZERO)
-		draw_colored_polygon(PackedVector2Array([Vector2(-12,-4),Vector2(-6,-14),Vector2(-4,-31),Vector2(4,-31),Vector2(6,-14),Vector2(12,-4)]),Color("C7A761"))
-		draw_colored_polygon(PackedVector2Array([Vector2(-9,-5),Vector2(-3,-19),Vector2(-2,-32),Vector2(2,-32),Vector2(2,-4)]),Color("F2E4B5"))
-		draw_circle(Vector2(0,-37),9,Color("C7A761"))
-		draw_arc(Vector2(0,-37),8,PI,TAU,24,Color("F8EDD1"),2,true)
-		draw_line(Vector2(-12,-4),Vector2(12,-4),Color("F8EDD1"),2,true)
+	func _ready() -> void:
+		mouse_filter=MOUSE_FILTER_IGNORE
+		var image := TextureRect.new()
+		image.texture=preload("res://assets/ui/arcade/pawn.png")
+		image.position=Vector2(-24,-60); image.size=Vector2(48,64)
+		image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		image.mouse_filter=MOUSE_FILTER_IGNORE
+		add_child(image)
 class Board:
 	extends Control
 	var current := 0
 	func _init() -> void: mouse_filter=MOUSE_FILTER_IGNORE
 	func _draw() -> void:
-		var corners := PackedVector2Array([Vector2(124,164),Vector2(680,164),Vector2(800,600),Vector2(28,600)])
-		for depth in range(7,0,-1):
-			draw_set_transform(Vector2(0,depth*2))
-			draw_colored_polygon(corners,Color("07131C"))
-		draw_set_transform(Vector2.ZERO)
-		draw_colored_polygon(corners,Color("10262E"))
-		draw_polyline(PackedVector2Array([corners[0],corners[1],corners[2],corners[3],corners[0]]),Color("457682"),1.5,true)
-		for row in 14:
-			var y := 178+row*29
-			var t := (y-164)/436.0
-			draw_line(Vector2(lerpf(124,28,t),y),Vector2(lerpf(680,800,t),y),Color(0.2,0.5,0.55,0.045),1,true)
-		# Football miniatures frame the road: floodlights, flags and training cones, never trees.
-		for point in [Vector2(145,236),Vector2(648,208),Vector2(70,475),Vector2(760,548)]:
-			draw_line(point,point-Vector2(0,56),Color("496775"),3,true)
-			draw_rect(Rect2(point-Vector2(13,63),Vector2(26,12)),Color("9EDAE2"))
-			for lamp in 4: draw_circle(point+Vector2(-9+lamp*6,-57),1.6,Color.WHITE)
-			draw_colored_polygon(PackedVector2Array([point-Vector2(10,52),point+Vector2(-38,12),point+Vector2(38,12)]),Color(0.25,0.75,0.9,0.035))
+		draw_texture_rect(preload("res://assets/ui/arcade/board.png"),Rect2(16,156,800,448),false)
+		# Only live route connections are geometry; all board/lock/pawn illustration is generated artwork.
 		for index in 11:
-			var point := Vector2(95+fposmod(index*137,650),225+fposmod(index*89,330))
-			var near_path := false
-			for centre in CENTRES: near_path = near_path or point.distance_to(centre) < 58
-			if near_path: continue
-			draw_colored_polygon(PackedVector2Array([point+Vector2(-5,3),point+Vector2(0,-11),point+Vector2(5,3)]),Color("9B624A"))
-			draw_line(point+Vector2(-2,-3),point+Vector2(2,-3),Color("E8DDD0"),2,true)
-		# A small practice ground and seating give the board a football setting.
-		var field := PackedVector2Array([Vector2(354,318),Vector2(452,318),Vector2(466,358),Vector2(340,358),Vector2(354,318)])
-		draw_colored_polygon(field,Color("173D3B"))
-		draw_polyline(field,Color("608982"),1,true)
-		draw_line(Vector2(402,318),Vector2(402,358),Color("608982"),1,true)
-		for point in [Vector2(96,310),Vector2(664,332),Vector2(310,476)]:
-			for row in 3:
-				draw_rect(Rect2(point+Vector2(-26+row*3,-row*5),Vector2(52-row*6,4)),Color("355564"))
-			for seat in 6: draw_rect(Rect2(point+Vector2(-22+seat*8,-9),Vector2(4,3)),Color("6A8791"))
-		for index in 11:
-			var from: Vector2 = CENTRES[index]
-			var to: Vector2 = CENTRES[index+1]
-			var length := from.distance_to(to)
-			var direction := from.direction_to(to)
-			for step in range(30,int(length)-28,16):
-				var point := from+direction*step
-				draw_line(point,point+direction*8,Color("9ABFC6") if index <= current else Color("35505C"),3,true)
+			var from: Vector2=CENTRES[index]
+			var to: Vector2=CENTRES[index+1]
+			var length:=from.distance_to(to)
+			var direction:=from.direction_to(to)
+			for step in range(32,int(length)-30,14):
+				var point:=(from+direction*step).snapped(Vector2(2,2))
+				draw_line(point,point+direction*7,Color("F5CE65") if index <= current else Color("A8C8BF"),4,false)

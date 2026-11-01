@@ -16,3 +16,7 @@ Licences permit reuse and adaptation; this game does not imply the artists endor
 - Card handling: Kenney Casino Audio 1.1, CC0, https://kenney.nl/assets/casino-audio . card-shuffle.ogg, card-place-2.ogg, card-slide-1.ogg; original licence included.
 - Walkout music: Hyperton by Sudocolon, CC0, https://opengameart.org/content/hyperton . Original Hyperton.mp3 renamed walkout.mp3. The earlier dklon recordings remain as unused source variants; runtime uses the real referee recording above.
 Vendored licence text is retained with line endings/trailing whitespace normalized; audio payload bytes are unchanged.
+
+## Arcade presentation — 1 November 2026
+
+Runtime menu music and short interface/card/football effects use original project-authored pulse/triangle/noise synthesis in `arcade/`, reproducible with `tools/make_arcade_audio.gd`. No third-party samples were used in these generated WAV files. Earlier menu/cue recordings remain historical assets; the restored real referee whistle, unchanged crowd and walkout recordings retain the source credits above; earlier football/impact/card recordings remain credited historical variants. Music and effects preferences still control the separate layers.
